@@ -13,13 +13,16 @@ body {
     position: relative;
     background: linear-gradient(135deg, #ac232d 0%, #7e161d 100%);
     color: white;
-    padding: 80px 20px 100px;
+    padding: 60px 20px 100px;
+    /* Reduced top padding */
     /* Extra padding at bottom for curve/overlap */
     text-align: center;
     clip-path: ellipse(150% 100% at 50% 0%);
     /* Subtle curve at bottom */
     margin-bottom: 0;
     /* Calendar will sit right below */
+    margin-top: -10px;
+    /* Pull up to hide any gap from menu shadow */
 }
 
 .hero-content {

@@ -1,8 +1,10 @@
 /* Announcements / Duyurular - Minimalist Card Design */
 #duyuru-listesi {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    /* Slightly narrower cols */
+    gap: 20px;
+    /* Reduced gap */
     /* Increased gap for cleaner look */
     list-style: none;
     padding: 20px 0;
@@ -14,11 +16,13 @@
     /* Subtle border */
     border-radius: 4px;
     /* Minimal radius */
-    padding: 25px;
+    padding: 15px;
+    /* Reduced padding */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 200px;
+    min-height: 140px;
+    /* Reduced min-height */
     /* Ensuring consistent height */
     transition: border-color 0.3s ease;
 }
@@ -35,14 +39,17 @@
 
 .announcement-title {
     font-family: 'Segoe UI', 'Roboto', sans-serif;
-    font-size: 20px;
+    font-size: 16px;
+    /* Reduced font size */
     /* Larger title */
-    font-weight: 800;
+    font-weight: 700;
+    /* Bold */
     /* Bold */
     color: #111;
     /* Darker black */
     line-height: 1.3;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    /* Reduced margin */
     text-decoration: none !important;
     display: block;
 }
