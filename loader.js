@@ -88,8 +88,8 @@
             document.body.innerHTML = '';
             document.body.appendChild(doc.body);
 
-            // 4. HEADER'I OLUSTUR (Yeni Eklendi)
-            headerOlustur();
+            // 4. HEADER ve TAKVIMI OLUSTUR (Birlestirildi)
+            headerVeTakvimOlustur();
 
             // 5. Scriptleri calistir
             var scripts = doc.querySelectorAll('script');
@@ -103,9 +103,8 @@
             // 6. DUYURULARI CEK VE GOSTER
             duyurulariCek();
 
-            // 7. TAKVIMI OLUSTUR
-            // DOM tamamen olustuktan biraz sonra calistiralim ki elementler yerlessin
-            setTimeout(takvimOlustur, 500);
+            // 7. Render Calendar Data (Veriyi cekip render et)
+            setTimeout(takvimVerisiniCek, 500);
 
             // Yukleme ekranini kaldir
             var loading = document.getElementById('yukleniyor');
@@ -118,26 +117,37 @@
             document.body.innerHTML = '<h1>Hata Olustu</h1><p>' + err + '</p>';
         });
 
-    // --- HEADER FONKSIYONU ---
-    function headerOlustur() {
-        console.log("Modern Header olusturuluyor...");
-        var headerHTML = `
-        <div class="header-right-col" style="display: flex; flex-direction: column; align-items: flex-end; margin-left: auto; width: 100%;">
-            <div class="menu_ust d-none d-lg-block" style="width: 100%; display: flex; justify-content: flex-end; background: #fafafa; border-bottom: 1px solid #eee;">
+    // --- HEADER VE TAKVIM OLUSTURMA ---
+    function headerVeTakvimOlustur() {
+        console.log("Modern Header ve Takvim olusturuluyor...");
+
+        // 1. Menu Ust (Social & Links) - Mobil uyumluluk icin d-none kaldirildi
+        var menuUstHTML = `
+            <div class="menu_ust" style="width: 100%; display: flex; justify-content: flex-end; background: #fafafa; border-bottom: 1px solid #eee;">
                 <div class="container" style="display: flex; justify-content: flex-end; align-items: center; max-width: 1200px;">
-                    <div class="d-none d-md-block float-right ml-3 social-icons">
+                    <div class="float-right ml-3 social-icons" style="margin-right: auto; margin-left:10px;">
                         <a href="https://www.instagram.com/hacettepe_isletme/" target="_blank"><i class="fab fa-instagram"></i></a>
                         <a href="https://www.linkedin.com/company/hacettepe-university-department-of-business-administration/" target="_blank"><i class="fab fa-linkedin"></i></a>
                     </div>
-                    <div class="float-right d-none d-md-block top-links" style="margin-left: 20px;">
-                        <a href="https://hacettepe.edu.tr" target="_blank">Hacettepe Üniversitesi</a> <span style="color:#ddd;">|</span>
+                    <div class="float-right top-links" style="margin-left: 20px;">
+                        <a href="https://hacettepe.edu.tr" target="_blank">Hacettepe</a> <span style="color:#ddd;">|</span>
                         <a href="https://bilsis.hacettepe.edu.tr" target="_blank">BİLSİS</a> <span style="color:#ddd;">|</span>
                         <a href="https://isletme.hacettepe.edu.tr/en">EN</a>
                     </div>
                 </div>
-            </div>
-            <div class="menu_genel d-none d-lg-block" style="width: 100%; border-bottom: 1px solid #eee;">
+            </div>`;
+
+        // 2. Takvim HTML (Arada)
+        var calendarHTML = `
+            <div id="calendar-container">
+                <div id="calendar-strip"></div>
+            </div>`;
+
+        // 3. Menu Genel (Navigasyon) - Mobil icin basit bir stil eklendi
+        var menuGenelHTML = `
+            <div class="menu_genel" style="width: 100%; border-bottom: 1px solid #eee;">
                 <div class="hi-nav-container">
+                    <button class="mobile-menu-toggle d-lg-none" onclick="document.querySelector('.hi-main-nav').classList.toggle('active')" style="display: none; width:100%; padding:10px; background:#ac232d; color:white; border:none;">MENÜ</button>
                     <nav class="hi-main-nav">
                         <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/tr" class="hi-nav-link">Ana Sayfa</a></div>
                         <div class="hi-nav-item">
@@ -196,89 +206,38 @@
                         </div>
                     </nav>
                 </div>
-            </div>
+            </div>`;
+
+        var fullHeaderHTML = `
+        <div class="header-right-col" style="display: flex; flex-direction: column; width: 100%;">
+            ${menuUstHTML}
+            ${calendarHTML}
+            ${menuGenelHTML}
         </div>`;
 
-        // Varsa eski headeri gizle (index.html icindeki)
+        // Varsa eski headeri gizle
         var oldHeader = document.querySelector('.header');
         if (oldHeader) oldHeader.style.display = 'none';
 
         // Yeni headeri body'nin en basina ekle
-        document.body.insertAdjacentHTML('afterbegin', headerHTML);
+        document.body.insertAdjacentHTML('afterbegin', fullHeaderHTML);
+
+        // Mobile menu toggle style
+        var style = document.createElement('style');
+        style.innerHTML = `
+            @media (max-width: 991px) {
+                .mobile-menu-toggle { display: block !important; }
+                .hi-main-nav { display: none; flex-direction: column; width: 100%; }
+                .hi-main-nav.active { display: flex; }
+                .hi-nav-container { flex-direction: column; }
+                .hi-nav-item { width: 100%; border-bottom: 1px solid #eee; }
+                .hi-nav-link { padding: 15px; }
+            }
+        `;
+        document.head.appendChild(style);
     }
 
-    // --- TAKVIM FONKSIYONLARI ---
-    function takvimOlustur() {
-        console.log("Takvim olusturuluyor...");
-
-        // Eklenecek hedef elementi bul (Sirayla dene)
-        var hedefElement = null;
-        var eklemeYontemi = 'after'; // after, before, append
-
-        // 1. Slider Bolumu (resimler classi)
-        var slider = document.querySelector('.resimler');
-        if (slider) {
-            hedefElement = slider;
-            eklemeYontemi = 'after';
-            console.log("Hedef bulundu: .resimler");
-        }
-        // 2. Swiper Container
-        else if (document.querySelector('.swiper-container')) {
-            hedefElement = document.querySelector('.swiper-container');
-            eklemeYontemi = 'after';
-            console.log("Hedef bulundu: .swiper-container");
-        }
-        // 3. Header Alti (ust classi)
-        else if (document.querySelector('.ust')) {
-            hedefElement = document.querySelector('.ust');
-            eklemeYontemi = 'after'; // Headerdan hemen sonra
-            console.log("Hedef bulundu: .ust");
-        }
-        // 4. Container (Ana icerik)
-        else if (document.querySelector('.container')) {
-            hedefElement = document.querySelector('.container');
-            eklemeYontemi = 'before'; // Containerdan once
-            console.log("Hedef bulundu: .container");
-        }
-        // 5. Hero Section (Homepage Only)
-        else if (document.querySelector('.hero-section')) {
-            hedefElement = document.querySelector('.hero-section');
-            eklemeYontemi = 'after';
-            console.log("Hedef bulundu: .hero-section");
-        }
-        // 6. Body (Son care)
-        else {
-            hedefElement = document.body;
-            eklemeYontemi = 'prepend';
-            console.log("Hedef bulunamadi, body'ye ekleniyor");
-        }
-
-        var calendarHTML = `
-            <div id="calendar-container">
-                <div id="calendar-strip"></div>
-            </div>
-        `;
-
-        var calendarDiv = document.createElement('div');
-        calendarDiv.innerHTML = calendarHTML;
-
-        // Ekleme mantigi
-        if (eklemeYontemi === 'after' && hedefElement.nextSibling) {
-            hedefElement.parentNode.insertBefore(calendarDiv, hedefElement.nextSibling);
-        } else if (eklemeYontemi === 'after') {
-            hedefElement.parentNode.appendChild(calendarDiv);
-        } else if (eklemeYontemi === 'before') {
-            hedefElement.parentNode.insertBefore(calendarDiv, hedefElement);
-        } else if (eklemeYontemi === 'prepend') {
-            // Eger modern header eklendiyse, onun arkasina atalim
-            var modernHeader = document.querySelector('.header-right-col');
-            if (modernHeader && modernHeader.nextSibling) {
-                document.body.insertBefore(calendarDiv, modernHeader.nextSibling);
-            } else {
-                document.body.insertBefore(calendarDiv, document.body.firstChild);
-            }
-        }
-
+    function takvimVerisiniCek() {
         // Veriyi Cek
         fetch(baseUrl + '/akademik_takvim.json' + cacheBuster)
             .then(res => res.json())

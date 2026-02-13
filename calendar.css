@@ -1,6 +1,7 @@
 /* Calendar Container */
 #calendar-container {
-    margin-top: 20px;
+    /* margin-top: 20px; Removed to fit between menus */
+    margin: 0;
     /* Space from header */
     width: 100%;
     background-color: #000;
