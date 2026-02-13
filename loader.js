@@ -3,6 +3,22 @@
 (function () {
     console.log("Loader baslatildi...");
 
+    // 1. Hatali Scroll Eventlerini Engelle (main.js hatasi icin)
+    window.addEventListener('error', function (e) {
+        if (e.message && e.message.includes("reading 'top'")) {
+            e.preventDefault();
+            e.stopPropagation();
+            return true;
+        }
+        if (e.message && e.message.includes("Cannot read properties of undefined")) {
+            // Scroll ile ilgili diger olasi hatalari da yut
+            if (e.filename && e.filename.includes("main.js")) {
+                e.preventDefault();
+                return true;
+            }
+        }
+    }, true);
+
     // GitHub Pages URL'nizi buraya yazacaksiniz (Otomatik bulmaya calisiyoruz)
     var scriptSrc = document.currentScript.src;
     var baseUrl = scriptSrc.substring(0, scriptSrc.lastIndexOf('/'));
@@ -73,6 +89,8 @@
                     duyuruSatirlari = anaIcerik.querySelectorAll('ul li');
                 }
 
+                console.log("Bulunan duyuru satiri sayisi: " + duyuruSatirlari.length);
+
                 var listeHTML = '';
                 var sayac = 0;
 
@@ -104,7 +122,7 @@
                         }
                     });
                 } else {
-                    duyuruSatirlari.forEach(satir => {
+                    duyuruSatirlari.forEach((satir, index) => {
                         if (sayac >= 12) return;
 
                         var link = satir.querySelector('a');
@@ -116,8 +134,11 @@
                         // Bu yuzden link.innerText yerine satir.innerText kullaniyoruz.
                         var satirMetni = satir.innerText.trim();
 
-                        // Linkin metnini satir metninden cikarip sadece geriye kalan metne (tarihe) odaklanalim mi?
-                        // Hayir, direkt regex en saglami.
+                        // DEBUG ICIN LOGLAMA
+                        if (index < 3) { // Ilk 3 duyuru icin log basalim
+                            console.log("Duyuru " + index + " Metni:", satirMetni);
+                            console.log("Duyuru " + index + " HTML:", satir.innerHTML);
+                        }
 
                         var tarih = "";
                         // 1. Once kesin format YYYY-MM-DD
@@ -137,7 +158,11 @@
                             tarih = urlTarihBul(url);
                         }
 
+                        // Basligi temizlemek icin tarihten oncesini alabiliriz ama riskli, simdilik oldugu gibi alalim.
                         var baslik = link.innerText.trim();
+
+                        // Baslik cok uzunsa ve icinde tarih varsa tarihi kesip atalim mi? 
+                        // Simdilik kalsin, kullanici istemezse temizleriz.
 
                         listeHTML += olusturDuyuruHTML(tarih, baslik, url);
                         sayac++;
@@ -161,7 +186,7 @@
         var badgeText = 'Duyuru';
         var lowerBaslik = baslik.toLocaleLowerCase('tr-TR');
 
-        // Basliktan tarih kismini temizleyelim
+        // Basliktan tarih kismini temizleyelim (Opsiyonel - Gorunum Guzellestirme)
         // Ornek: "... 2026-02-13 11:00:00" kismini silelim
         baslik = baslik.replace(/\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}/, '').trim();
         // Veya parantez icindeki tarihleri de silelim: (2026-02-13)
@@ -196,6 +221,8 @@
         html += '<a href="' + url + '" target="_blank">' + baslik + '</a>';
 
         var gosterilecekBadge = true;
+
+        // Eger Tarih VARSA ve kategori SADECE "Duyuru" ise badge gosterme (Yer kaplamasin)
         if (tarih && badgeText === 'Duyuru') {
             gosterilecekBadge = false;
         }
