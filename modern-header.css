@@ -1,0 +1,142 @@
+/* Modern Header & Navigation CSS */
+
+/* Top Bar (Social & Links) */
+.menu_ust {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    padding: 10px 0;
+    font-size: 13px;
+    color: #666;
+}
+
+.menu_ust a {
+    color: #555;
+    text-decoration: none;
+    margin-left: 15px;
+    transition: color 0.2s;
+}
+
+.menu_ust a:hover {
+    color: #ac232d;
+    /* Hacettepe Red */
+}
+
+.menu_ust i {
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+/* Main Navigation Bar */
+.menu_genel {
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: relative;
+    z-index: 1000;
+}
+
+.hi-nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    display: flex;
+    justify-content: flex-end;
+    /* Align to right as per request */
+}
+
+.hi-main-nav {
+    display: flex;
+    align-items: center;
+}
+
+.hi-nav-item {
+    position: relative;
+}
+
+.hi-nav-link {
+    display: block;
+    padding: 20px 15px;
+    color: #333;
+    font-weight: 600;
+    text-decoration: none;
+    font-family: 'Open Sans', 'Segoe UI', sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.hi-nav-link:hover,
+.hi-nav-item:hover .hi-nav-link {
+    color: #ac232d;
+    background-color: #fcfcfc;
+}
+
+.hi-nav-link i {
+    font-size: 10px;
+    margin-left: 5px;
+    color: #999;
+}
+
+/* Dropdown Menu */
+.hi-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    border-top: 3px solid #ac232d;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    min-width: 260px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    z-index: 1001;
+    border-radius: 0 0 4px 4px;
+    padding: 10px 0;
+}
+
+.hi-nav-item:hover .hi-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-header {
+    padding: 10px 20px;
+    font-size: 11px;
+    color: #999;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 10px 20px;
+    color: #444;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.2s, color 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.dropdown-item:hover {
+    background-color: #f9f9f9;
+    color: #ac232d;
+    border-left-color: #ac232d;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background-color: #eee;
+    margin: 8px 0;
+}
+
+/* Responsive (Mobile) */
+@media (max-width: 991px) {
+
+    .menu_ust,
+    .menu_genel {
+        display: none !important;
+        /* Hide custom menu on mobile for now, revert to system or burger */
+    }
+}
