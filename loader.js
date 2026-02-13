@@ -20,6 +20,12 @@
 
     console.log("Base URL tespit edildi: " + baseUrl);
 
+    // Calendar CSS yukle
+    var cssLink = document.createElement("link");
+    cssLink.rel = "stylesheet";
+    cssLink.href = baseUrl + "/calendar.css";
+    document.head.appendChild(cssLink);
+
     // index.html icerigini cek
     fetch(baseUrl + '/index.html')
         .then(function (response) {
@@ -55,6 +61,9 @@
             // 5. DUYURULARI CEK VE GOSTER
             duyurulariCek();
 
+            // 6. TAKVIMI OLUSTUR
+            takvimOlustur();
+
             // Yukleme ekranini kaldir
             var loading = document.getElementById('yukleniyor');
             if (loading) loading.style.display = 'none';
@@ -65,6 +74,110 @@
             console.error("Site yuklenirken hata olustu:", err);
             document.body.innerHTML = '<h1>Hata Olustu</h1><p>' + err + '</p>';
         });
+
+    // --- TAKVIM FONKSIYONLARI ---
+    function takvimOlustur() {
+        console.log("Takvim olusturuluyor...");
+
+        // Takvim kapsayicisini ekle (Slider'dan hemen once veya sonra)
+        // Mevcut yapida .resimler classi slider'i tutuyor. Biz onun altina ekleyelim.
+        var sliderBolumu = document.querySelector('.resimler');
+        if (!sliderBolumu) {
+            console.log("Slider bloku bulunamadi, takvim eklenemiyor.");
+            return;
+        }
+
+        var calendarHTML = `
+            <div id="calendar-container">
+                <div id="calendar-strip"></div>
+            </div>
+        `;
+
+        // Elementi olustur ve ekle
+        var calendarDiv = document.createElement('div');
+        calendarDiv.innerHTML = calendarHTML;
+        sliderBolumu.parentNode.insertBefore(calendarDiv, sliderBolumu.nextSibling);
+
+        // Veriyi Cek
+        fetch(baseUrl + '/akademik_takvim.json')
+            .then(res => res.json())
+            .then(events => {
+                renderCalendar(events);
+            })
+            .catch(err => console.log("Takvim verisi cekilemedi:", err));
+    }
+
+    function renderCalendar(events) {
+        var strip = document.getElementById('calendar-strip');
+        if (!strip) return;
+
+        var bugun = new Date(); // Simdiki zaman
+        // Test icin tarihi manuel ayarlayabilirsiniz: new Date("2025-09-18");
+
+        var gunlerHTML = '';
+        var ayIsimleri = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+        var gunIsimleri = ["Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"];
+        var gunIsimleriEN = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+        var currentMonth = bugun.getMonth();
+
+        for (var i = 0; i < 30; i++) {
+            var tempDate = new Date(bugun);
+            tempDate.setDate(bugun.getDate() + i);
+
+            var dayMonth = tempDate.getMonth();
+            var dayDate = tempDate.getDate();
+            var dayIndex = tempDate.getDay();
+
+            // Ay degisimi kontrolu
+            if (dayMonth !== currentMonth) {
+                gunlerHTML += `
+                    <div class="month-separator">
+                        <span class="month-label">› ${ayIsimleri[dayMonth]}</span>
+                    </div>
+                `;
+                currentMonth = dayMonth;
+            }
+
+            // O gune ait etkinlik var mi?
+            var gununEtkinlikleri = events.filter(e => {
+                var start = new Date(e.startDate);
+                var end = new Date(e.endDate);
+                // Saatleri sifirla
+                start.setHours(0, 0, 0, 0);
+                end.setHours(23, 59, 59, 999);
+                tempDate.setHours(12, 0, 0, 0); // Garanti olsun diye oglen vakti
+
+                return tempDate >= start && tempDate <= end;
+            });
+
+            var hasEvent = gununEtkinlikleri.length > 0;
+            var eventClass = hasEvent ? 'has-event' : '';
+
+            var tooltipHTML = '';
+            if (hasEvent) {
+                var eventTitles = gununEtkinlikleri.map(e => e.title).join('<br><br>');
+                var dateStr = `${dayDate} ${ayIsimleri[dayMonth]} ${tempDate.getFullYear()}`;
+                tooltipHTML = `
+                    <div class="event-tooltip">
+                        <span class="tooltip-date">${dateStr}</span>
+                        <span class="tooltip-title">${eventTitles}</span>
+                    </div>
+                `;
+            }
+
+            gunlerHTML += `
+                <div class="calendar-day ${eventClass}">
+                    <span class="day-number">${dayDate}</span>
+                    <span class="day-name">${gunIsimleriEN[dayIndex]}</span> <!-- EN kisa ad -->
+                    <div class="event-dot"></div>
+                    ${tooltipHTML}
+                </div>
+            `;
+        }
+
+        strip.innerHTML = gunlerHTML;
+    }
 
     // DUYURU CEKME FONKSIYONU
     function duyurulariCek() {
