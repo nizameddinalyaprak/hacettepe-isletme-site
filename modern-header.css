@@ -2,7 +2,7 @@
 
 /* Top Bar (Social & Links) */
 .menu_ust {
-    background-color: #f8f9fa;
+    background-color: #616060;
     border-bottom: 1px solid #eee;
     /* Restore subtle border */
     padding: 8px 0;
@@ -46,8 +46,9 @@
     margin: 0 auto;
     padding: 0 15px;
     display: flex;
-    justify-content: flex-end;
-    /* Align to right as per request */
+    justify-content: space-between;
+    align-items: center;
+    /* Logo Solda, Menu Sagda */
 }
 
 .hi-main-nav {
@@ -139,12 +140,105 @@
     margin: 8px 0;
 }
 
+/* Logo Setup (Matches legacy_style.css but with external fallback for local preview) */
+.logo {
+    background: url("https://upload.wikimedia.org/wikipedia/tr/b/b2/Hacettepe_%C3%9Cniversitesi_Logosu.png") left center no-repeat;
+    background-size: contain;
+    /* legacy_style.css icinde: background-size: auto 60px; */
+}
+
+/* Responsive (Mobile) */
 /* Responsive (Mobile) */
 @media (max-width: 991px) {
 
-    .menu_ust,
-    .menu_genel {
+    /* Top Bar Mobile */
+    .menu_ust .container {
+        /* Ikonlar gidince sadece linkler kaliyor, onlari ortalayalim veya saga yaslayalim */
+        flex-direction: row !important;
+        justify-content: center !important;
+        padding: 5px 10px;
+    }
+
+    .menu_ust .top-links {
+        margin-right: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    .menu_ust .social-icons {
         display: none !important;
-        /* Hide custom menu on mobile for now, revert to system or burger */
+        /* Kullanici istegi: mobilde tamamen gizlensin */
+    }
+
+    /* Main Menu Mobile */
+    .menu_genel {
+        display: block !important;
+        padding: 0;
+    }
+
+    .hi-nav-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 15px;
+    }
+
+    /* Hamburger Button */
+    .mobile-menu-toggle {
+        display: block !important;
+        /* Width auto ve margin loader.js icinde inline verildi */
+        cursor: pointer;
+    }
+
+    /* Navigation Links (Hidden by default) */
+    .hi-main-nav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        order: 3;
+        /* Logo ve Button'dan sonra gelsin */
+        background-color: #f9f9f9;
+        border-top: 1px solid #ddd;
+        margin-top: 10px;
+    }
+
+    .hi-main-nav.active {
+        display: flex;
+    }
+
+    .hi-nav-item {
+        width: 100%;
+        border-bottom: 1px solid #eee;
+    }
+
+    .hi-nav-link {
+        padding: 10px 20px;
+    }
+
+    /* Dropdowns in Mobile - Always visible or simplified */
+    .hi-dropdown-menu {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        border-top: none;
+        background-color: #f0f0f0;
+        display: none;
+        /* Hidden by default to save space */
+        padding-left: 20px;
+    }
+
+    /* Toggle dropdowns on click (using :focus-within or just expand all for now) */
+    /* Let's make them visible when active for simplicity or just hidden */
+    .hi-nav-item:hover .hi-dropdown-menu {
+        display: block;
+    }
+}
+
+/* Helper for Desktop */
+@media (min-width: 992px) {
+    .mobile-menu-toggle {
+        display: none !important;
     }
 }

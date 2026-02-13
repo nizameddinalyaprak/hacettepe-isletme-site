@@ -29,7 +29,7 @@
 
     console.log("Base URL tespit edildi: " + baseUrl);
 
-    var cacheBuster = '?v=' + new Date().getTime();
+    var cacheBuster = '?v=1.0'; // Versiyonu manuel guncelleyerek cache kontrolu saglayalim
 
     // --- STIL DOSYALARINI YUKLE ---
 
@@ -66,15 +66,41 @@
     }
 
     // --- HTML ICERIGINI CEK ---
-    fetch(baseUrl + '/index.html' + cacheBuster)
-        .then(function (response) {
-            return response.text();
-        })
-        .then(function (html) {
-            // HTML'i parse et
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(html, 'text/html');
+    // --- HTML ICERIGINI CEK ---
+    // --- HTML ICERIGINI CEK ---
+    if (window.OFFLINE_MODE) {
+        console.log("Offline Modu Aktif: HTML cekme atlaniyor.");
+        // Offline modda zaten sayfa icerigi yuklu oldugu icin dogrudan baslatiyoruz.
+        // Ancak CSS'leri beklemek iyi olabilir, timeout ile yapalim.
+        setTimeout(function () {
+            baslat(document);
+        }, 100);
+    } else {
+        fetch(baseUrl + '/index.html' + cacheBuster)
+            .then(function (response) {
+                return response.text();
+            })
+            .then(function (html) {
+                // HTML'i parse et
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc);
+            })
+            .catch(function (err) {
+                console.error("Site yuklenirken hata olustu:", err);
+                // Offline modda hata ekrani gostermeyelim, belki preview_static.html'dir ama flag unutulmustur.
+                if (!window.location.protocol.includes('file')) {
+                    document.body.innerHTML = '<h1>Hata Olustu</h1><p>' + err + '</p>';
+                }
+            });
+    }
 
+    function baslat(doc) {
+        // Eger disaridan gelen bir doc ise (fetch edildiyse), body'yi degistir.
+        // Degilse (Offline mod), mevcut body uzerinde calis.
+        var isFetced = !window.OFFLINE_MODE;
+
+        if (isFetced) {
             // 1. Basligi guncelle
             if (doc.title) document.title = doc.title;
 
@@ -121,9 +147,9 @@
             }
 
             // Body uzerindeki padding/marginleri sifirla
-            doc.body.style.padding = "0 !important";
-            doc.body.style.margin = "0 !important";
-            doc.body.style.border = "none !important";
+            document.body.style.padding = "0 !important";
+            document.body.style.margin = "0 !important";
+            document.body.style.border = "none !important";
 
             // Eski script etiketlerini temizle (ozellikle eski slider vs varsa)
             var oldScripts = doc.querySelectorAll('script');
@@ -134,10 +160,12 @@
 
             document.body.innerHTML = '';
             document.body.appendChild(doc.body);
+        }
 
-            // 4. HEADER ve TAKVIMI OLUSTUR (Birlestirildi)
-            headerVeTakvimOlustur();
+        // 4. HEADER ve TAKVIMI OLUSTUR (Birlestirildi)
+        headerVeTakvimOlustur();
 
+        if (isFetced) {
             // 5. Scriptleri calistir
             var scripts = doc.querySelectorAll('script');
             scripts.forEach(function (oldScript) {
@@ -146,23 +174,20 @@
                 else newScript.textContent = oldScript.textContent;
                 document.body.appendChild(newScript);
             });
+        }
 
-            // 6. DUYURULARI CEK VE GOSTER
-            duyurulariCek();
+        // 6. DUYURULARI CEK VE GOSTER
+        duyurulariCek();
 
-            // 7. Render Calendar Data (Veriyi cekip render et)
-            setTimeout(takvimVerisiniCek, 500);
+        // 7. Render Calendar Data (Veriyi cekip render et)
+        setTimeout(takvimVerisiniCek, 500);
 
-            // Yukleme ekranini kaldir
-            var loading = document.getElementById('yukleniyor');
-            if (loading) loading.style.display = 'none';
+        // Yukleme ekranini kaldir
+        var loading = document.getElementById('yukleniyor');
+        if (loading) loading.style.display = 'none';
 
-            console.log("Site basariyla yuklendi!");
-        })
-        .catch(function (err) {
-            console.error("Site yuklenirken hata olustu:", err);
-            document.body.innerHTML = '<h1>Hata Olustu</h1><p>' + err + '</p>';
-        });
+        console.log("Site basariyla yuklendi!");
+    }
 
     // --- HEADER VE TAKVIM OLUSTURMA ---
     function headerVeTakvimOlustur() {
@@ -171,15 +196,20 @@
         // 1. Menu Ust (Social & Links) - Mobil uyumluluk icin d-none kaldirildi
         var menuUstHTML = `
             <div class="menu_ust" style="width: 100%; display: flex; justify-content: flex-end; background: #fafafa; border-bottom: none;">
-                <div class="container" style="display: flex; justify-content: flex-end; align-items: center; max-width: 1200px;">
-                    <div class="float-right ml-3 social-icons" style="margin-right: auto; margin-left:10px;">
-                        <a href="https://www.instagram.com/hacettepe_isletme/" target="_blank"><i class="fab fa-instagram"></i></a>
-                        <a href="https://www.linkedin.com/company/hacettepe-university-department-of-business-administration/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <div class="container" style="display: flex; justify-content: flex-end; align-items: center; max-width: 1200px; padding: 3px 30px;">
+                    <!-- Sol Taraf: Linkler (Hacettepe | Bilsis | EN) -->
+                    <div class="top-links" style="display: flex; align-items: center;">
+                        <a href="https://hacettepe.edu.tr" target="_blank" style="color:#666; text-decoration:none; font-size:13px;">Hacettepe</a>
+                        <span style="color:#ddd; margin: 0 10px;">|</span>
+                        <a href="https://bilsis.hacettepe.edu.tr" target="_blank" style="color:#666; text-decoration:none; font-size:13px;">BİLSİS</a>
+                        <span style="color:#ddd; margin: 0 10px;">|</span>
+                        <a href="https://isletme.hacettepe.edu.tr/en" style="color:#666; text-decoration:none; font-size:13px;">EN</a>
                     </div>
-                    <div class="float-right top-links" style="margin-left: 20px;">
-                        <a href="https://hacettepe.edu.tr" target="_blank">Hacettepe</a> <span style="color:#ddd;">|</span>
-                        <a href="https://bilsis.hacettepe.edu.tr" target="_blank">BİLSİS</a> <span style="color:#ddd;">|</span>
-                        <a href="https://isletme.hacettepe.edu.tr/en">EN</a>
+                    
+                    <!-- Sag Taraf: Sosyal Medya İkonları -->
+                    <div class="social-icons" style="display: flex; align-items: center;">
+                        <a href="https://www.instagram.com/hacettepe_isletme/" target="_blank" style="margin-left: 20px; color:#ac232d;"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/company/hacettepe-university-department-of-business-administration/" target="_blank" style="margin-left: 15px; color:#ac232d;"><i class="fab fa-linkedin"></i></a>
                     </div>
                 </div>
             </div>`;
@@ -191,10 +221,23 @@
             </div>`;
 
         // 3. Menu Genel (Navigasyon) - Mobil icin basit bir stil eklendi
+        // 3. Menu Genel (Navigasyon) - Logo ve Bolum Ismi Eklendi
         var menuGenelHTML = `
             <div class="menu_genel" style="width: 100%; border-bottom: none;">
                 <div class="hi-nav-container">
-                    <button class="mobile-menu-toggle d-lg-none" onclick="document.querySelector('.hi-main-nav').classList.toggle('active')" style="display: none; width:100%; padding:10px; background:#ac232d; color:white; border:none;">MENÜ</button>
+                    
+                    <!-- LOGO VE BASLIK ALANI (SOL UST) -->
+                    <a href="https://isletme.hacettepe.edu.tr/tr" class="hi-brand-logo" style="display: flex; align-items: center; text-decoration: none; margin-right: auto; padding: 10px 0;">
+                        <!-- Logo: legacy_style.css icindeki .logo sinifi kullaniliyor. -->
+                        <div class="logo" style="width: 60px; height: 60px; margin-right: 15px;"></div>
+                        <div class="hi-brand-text" style="display: flex; flex-direction: column; justify-content: center;">
+                            <span style="font-family: 'Segoe UI', sans-serif; font-weight: 700; font-size: 18px; color: #222; line-height: 1.1; letter-spacing: -0.5px;">HACETTEPE ÜNİVERSİTESİ</span>
+                            <span style="font-family: 'Segoe UI', sans-serif; font-weight: 300; font-size: 16px; color: #555; line-height: 1.1;">İŞLETME BÖLÜMÜ</span>
+                        </div>
+                    </a>
+
+                    <button class="mobile-menu-toggle d-lg-none" onclick="document.querySelector('.hi-main-nav').classList.toggle('active')" style="display: none; width:auto; padding:10px 15px; background:#ac232d; color:white; border:none; border-radius:4px; margin-left:15px;"><i class="fas fa-bars"></i></button>
+                    
                     <nav class="hi-main-nav">
                         <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/tr" class="hi-nav-link">Ana Sayfa</a></div>
                         <div class="hi-nav-item">
@@ -332,15 +375,22 @@
 
             // Ay degisimi kontrolu
             var monthLabelHTML = '';
-            if (dayMonth !== currentMonth || i === 0) { // Ilk gun veya ay degisince
+            var isMonthStart = false;
+
+            if (dayMonth !== currentMonth) { // Ay degisti
                 currentMonth = dayMonth;
-                // Eger ay degisirse, o gunun uzerine ay ismini yaziniz
-                if (i !== 0 || dayDate === 1) { // Bugun ayin 1'i degilse ve dongunun basiysa bazen yazmayabiliriz, ama burada mantik: ay degistigi an yaz.
+                isMonthStart = true;
+                if (i !== 0 || dayDate === 1) {
                     monthLabelHTML = `<span class="month-label-floating">${ayIsimleri[dayMonth]}</span>`;
                 }
-                // Bugun baslangic gunu ise ve ayin ortasiysa bile hangi ayda oldugumuzu gosterelim mi?
-                if (i === 0) monthLabelHTML = `<span class="month-label-floating">${ayIsimleri[dayMonth]}</span>`;
+            } else if (i === 0) { // Ilk gun (Bugun)
+                // Bugun ayin 1'i ise veya baslangic oldugu icin label koyalim
+                monthLabelHTML = `<span class="month-label-floating">${ayIsimleri[dayMonth]}</span>`;
             }
+
+            // Gorsel ayirici cizgi icin class (Sadece gercekten ay degistiginde veya ayin 1'iyse)
+            // Ama listenin en basina (bugun) cizgi cekmek cirkin olabilir, sadece i > 0 ise ekleyelim.
+            var monthStartClass = (isMonthStart && i > 0) ? 'month-start' : '';
 
             var gununEtkinlikleri = events.filter(e => {
                 var start = new Date(e.startDate);
@@ -365,7 +415,7 @@
             }
 
             gunlerHTML += `
-                <div id="${dayId}" class="calendar-day ${eventClass}">
+                <div id="${dayId}" class="calendar-day ${eventClass} ${monthStartClass}">
                     ${monthLabelHTML}
                     <span class="day-number">${dayDate}</span>
                     <span class="day-name">${gunIsimleriEN[dayIndex]}</span>
