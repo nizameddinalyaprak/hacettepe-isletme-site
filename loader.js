@@ -543,56 +543,38 @@
     }
 
     function olusturDuyuruHTML(tarih, baslik, url) {
-        var badgeClass = 'badge-genel';
-        var badgeText = 'Duyuru';
+        // Kategori belirleme (Basit text olarak)
+        var category = "Diğer";
         var lowerBaslik = baslik.toLocaleLowerCase('tr-TR');
 
         // Tarih Temizligi
         baslik = baslik.replace(/\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}/, '').trim();
         baslik = baslik.replace(/\(\d{4}-\d{2}-\d{2}\)/, '').trim();
-        // Regex ile bulunan tarihleri de basliktan temizleyelim (DD.MM.YYYY veya YYYY-MM-DD)
         baslik = baslik.replace(/\d{2}[./]\d{2}[./]\d{4}/, '').trim();
 
-        if (lowerBaslik.includes('önemli') || lowerBaslik.includes('onemli')) {
-            badgeClass = 'badge-onemli';
-            badgeText = 'ÖNEMLİ';
-        } else if (lowerBaslik.includes('doktora')) {
-            badgeClass = 'badge-doktora';
-            badgeText = 'Doktora';
-        } else if (lowerBaslik.includes('tezsiz')) {
-            badgeClass = 'badge-tezsiz';
-            badgeText = 'Tezsiz YL';
-        } else if (lowerBaslik.includes('tezli')) {
-            badgeClass = 'badge-tezli';
-            badgeText = 'Tezli YL';
-        } else if (lowerBaslik.includes('lisans') && !lowerBaslik.includes('lisansüstü')) {
-            badgeClass = 'badge-lisans';
-            badgeText = 'Lisans';
-        } else if (lowerBaslik.includes('sınav') || lowerBaslik.includes('sinav')) {
-            badgeClass = 'badge-genel';
-            badgeText = 'Sınav';
-        } else if (lowerBaslik.includes('genel')) {
-            badgeClass = 'badge-genel';
-            badgeText = 'GENEL';
-        }
+        if (lowerBaslik.includes('önemli') || lowerBaslik.includes('onemli')) category = "Önemli";
+        else if (lowerBaslik.includes('doktora')) category = "Doktora";
+        else if (lowerBaslik.includes('tezsiz')) category = "Tezsiz YL";
+        else if (lowerBaslik.includes('tezli')) category = "Tezli YL";
+        else if (lowerBaslik.includes('lisans') && !lowerBaslik.includes('lisansüstü')) category = "Lisans";
+        else if (lowerBaslik.includes('sınav') || lowerBaslik.includes('sinav')) category = "Sınav";
+        else if (lowerBaslik.includes('genel')) category = "Genel";
+        else if (lowerBaslik.includes('etkinlik')) category = "Etkinlik";
+        else if (lowerBaslik.includes('haber')) category = "Haber";
 
         var html = '<li>';
 
+        // Title
+        html += '<a href="' + url + '" target="_blank" class="announcement-title">' + baslik + '</a>';
+
+        // Footer (Date | Category)
+        html += '<div class="announcement-footer">';
         if (tarih) {
-            html += '<span class="badge badge-tarih">' + tarih + '</span>';
+            html += '<span class="announcement-date">' + tarih + '</span>';
+            html += '<span class="separator">|</span>';
         }
-
-        html += '<a href="' + url + '" target="_blank">' + baslik + '</a>';
-
-        var gosterilecekBadge = true;
-
-        if (tarih && badgeText === 'Duyuru') {
-            gosterilecekBadge = false;
-        }
-
-        if (gosterilecekBadge) {
-            html += '<span class="badge ' + badgeClass + '">' + badgeText + '</span>';
-        }
+        html += '<span class="announcement-category">' + category + '</span>';
+        html += '</div>';
 
         html += '</li>';
         return html;
