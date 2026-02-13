@@ -112,11 +112,23 @@
     color: #fff;
     padding: 15px;
     border-radius: 8px;
-    width: 280px;
-    /* Slightly wider */
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.8);
+    width: auto;
+    /* Dynamic width */
+    min-width: 200px;
+    /* Minimum width */
+    max-width: 400px;
+    /* Maximum width */
+    height: auto;
+    /* Allow content to grow */
+    white-space: normal;
+    /* Normal wrapping */
+    word-wrap: break-word;
+    /* Break long words if necessary */
+    line-height: normal;
+    /* Reset line height */
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.9);
     /* Stronger shadow */
-    z-index: 9999;
+    z-index: 99999;
     /* Very high z-index */
     opacity: 0;
     visibility: hidden;
