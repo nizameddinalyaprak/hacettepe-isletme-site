@@ -123,7 +123,7 @@
 
         // 1. Menu Ust (Social & Links) - Mobil uyumluluk icin d-none kaldirildi
         var menuUstHTML = `
-            <div class="menu_ust" style="width: 100%; display: flex; justify-content: flex-end; background: #fafafa; border-bottom: 1px solid #eee;">
+            <div class="menu_ust" style="width: 100%; display: flex; justify-content: flex-end; background: #fafafa; border-bottom: none;">
                 <div class="container" style="display: flex; justify-content: flex-end; align-items: center; max-width: 1200px;">
                     <div class="float-right ml-3 social-icons" style="margin-right: auto; margin-left:10px;">
                         <a href="https://www.instagram.com/hacettepe_isletme/" target="_blank"><i class="fab fa-instagram"></i></a>
@@ -145,7 +145,7 @@
 
         // 3. Menu Genel (Navigasyon) - Mobil icin basit bir stil eklendi
         var menuGenelHTML = `
-            <div class="menu_genel" style="width: 100%; border-bottom: 1px solid #eee;">
+            <div class="menu_genel" style="width: 100%; border-bottom: none;">
                 <div class="hi-nav-container">
                     <button class="mobile-menu-toggle d-lg-none" onclick="document.querySelector('.hi-main-nav').classList.toggle('active')" style="display: none; width:100%; padding:10px; background:#ac232d; color:white; border:none;">MENÜ</button>
                     <nav class="hi-main-nav">

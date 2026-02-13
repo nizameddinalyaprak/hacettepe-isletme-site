@@ -3,7 +3,7 @@
 /* Top Bar (Social & Links) */
 .menu_ust {
     background-color: #f8f9fa;
-    border-bottom: none;
+    border-bottom: none !important;
     /* Remove border to merge with calendar */
     padding: 0;
     /* Zero padding */
