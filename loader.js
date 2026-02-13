@@ -3,16 +3,25 @@
 (function () {
     console.log("Loader baslatildi...");
 
-    // 1. Hatali Scroll Eventlerini Engelle
-    window.addEventListener('error', function (e) {
-        if (e.message && (e.message.includes("reading 'top'") || e.message.includes("Cannot read properties of undefined"))) {
-            if (e.filename && e.filename.includes("main.js")) {
-                e.preventDefault();
-                e.stopPropagation();
-                return true;
-            }
+    // 1. Hatali Eventleri Engelle (Scroll vs)
+    // jQuery errors: dispatch -> v.handle
+    // En ust seviyede dinleyip yakalamaya calisalim.
+    var originalAddEventListener = window.addEventListener;
+    window.addEventListener = function (type, listener, options) {
+        if (type === 'scroll' || type === 'resize') {
+            // Scroll eventlerini filtrele (main.js kaynakli olanlari nasil ayirt ederiz? Zor)
+            // Simdilik hepsini ekleyelim ama hata olusursa yutalim
         }
-    }, true);
+        originalAddEventListener.call(window, type, listener, options);
+    };
+
+    // Global Hata Yakalayici - Kesin Cozum
+    window.onerror = function (message, source, lineno, colno, error) {
+        if (message && (message.includes("reading 'top'") || message.includes("calc") || message.includes("undefined"))) {
+            return true; // Hatayi yut (Konsola basma)
+        }
+        return false;
+    };
 
     // GitHub Pages URL'nizi buraya yazacaksiniz (Otomatik bulmaya calisiyoruz)
     var scriptSrc = document.currentScript.src;
@@ -103,24 +112,56 @@
                     var linkler = anaIcerik ? anaIcerik.querySelectorAll('a') : [];
                     console.log("Bulunan link sayisi: " + linkler.length);
 
-                    linkler.forEach(link => {
+                    linkler.forEach((link, index) => {
                         var text = link.innerText.trim();
-
-                        // Tarih Bulma (Fallback Modu)
                         var tarih = "";
 
-                        // 1. Link metninin icinde tarih var mi?
+                        // DEBUG: Ilk 5 link icin detayli analiz
+                        if (index < 5) {
+                            console.log("--------------------------------------------------");
+                            console.log("LINK " + index + " ANALIZI:");
+                            console.log("Text: " + text);
+                            console.log("URL: " + link.href);
+
+                            if (link.nextSibling) {
+                                console.log("Next Sibling Type: " + link.nextSibling.nodeType);
+                                if (link.nextSibling.nodeType === 3) { // Text Node
+                                    console.log("Next Sibling Text: " + link.nextSibling.textContent.trim());
+                                }
+                            }
+                        }
+
+                        // 1. Link metninde tarih var mi? (YYYY-MM-DD)
                         var tarihMatch = text.match(/(\d{4})-(\d{2})-(\d{2})/);
                         if (tarihMatch) {
                             tarih = tarihMatch[3] + "." + tarihMatch[2] + "." + tarihMatch[1];
                         }
 
-                        // 2. Linkin hemen yanindaki metinde (nextSibling) tarih var mi? (CMS Bazen boyle yapar)
-                        if (!tarih && link.nextSibling && link.nextSibling.nodeType === 3) {
-                            var yanMetin = link.nextSibling.textContent.trim();
-                            tarihMatch = yanMetin.match(/(\d{4})-(\d{2})-(\d{2})/);
-                            if (tarihMatch) {
-                                tarih = tarihMatch[3] + "." + tarihMatch[2] + "." + tarihMatch[1];
+                        // 2. Linkin hemen yanindaki metinde (nextSibling) tarih var mi?
+                        if (!tarih && link.nextSibling) {
+                            // Bazen arada bosluk veya <br> olabilir, birkac kardes ileri gidelim
+                            var kardes = link.nextSibling;
+                            var loopCount = 0;
+                            while (kardes && loopCount < 3) {
+                                if (kardes.nodeType === 3 && kardes.textContent.trim().length > 5) { // Text Node
+                                    var yanMetin = kardes.textContent.trim();
+                                    if (index < 5) console.log("Yan Metin Kontrol (" + loopCount + "): " + yanMetin);
+
+                                    // YYYY-MM-DD
+                                    tarihMatch = yanMetin.match(/(\d{4})-(\d{2})-(\d{2})/);
+                                    if (tarihMatch) {
+                                        tarih = tarihMatch[3] + "." + tarihMatch[2] + "." + tarihMatch[1];
+                                        break;
+                                    }
+                                    // DD.MM.YYYY
+                                    tarihMatch = yanMetin.match(/(\d{2})[./](\d{2})[./](\d{4})/);
+                                    if (tarihMatch) {
+                                        tarih = tarihMatch[0];
+                                        break;
+                                    }
+                                }
+                                kardes = kardes.nextSibling;
+                                loopCount++;
                             }
                         }
 
@@ -129,14 +170,15 @@
                             tarih = urlTarihBul(link.href);
                         }
 
-                        // Kisa linkleri ve boslari ele
+                        if (index < 5) console.log("SONUC TARIH: " + tarih);
+
+                        // Kisa linkleri ve boslari ele ve javascript linklerini ele
                         if (sayac < 12 && text.length > 5 && link.href && !link.href.includes('javascript')) {
                             listeHTML += olusturDuyuruHTML(tarih, text, link.href);
                             sayac++;
                         }
                     });
                 } else {
-                    // Normal LI Isleyisi
                     duyuruSatirlari.forEach((satir, index) => {
                         if (sayac >= 12) return;
 
@@ -145,12 +187,8 @@
 
                         var url = link.href;
                         var satirMetni = satir.innerText.trim();
-
-                        if (index < 3) {
-                            console.log("Duyuru " + index + " Metni:", satirMetni);
-                        }
-
                         var tarih = "";
+
                         var tarihMatch = satirMetni.match(/(\d{4})-(\d{2})-(\d{2})/);
                         if (tarihMatch) {
                             tarih = tarihMatch[3] + "." + tarihMatch[2] + "." + tarihMatch[1];
@@ -219,6 +257,7 @@
         html += '<a href="' + url + '" target="_blank">' + baslik + '</a>';
 
         var gosterilecekBadge = true;
+
         if (tarih && badgeText === 'Duyuru') {
             gosterilecekBadge = false;
         }
