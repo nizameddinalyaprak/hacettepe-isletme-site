@@ -285,6 +285,13 @@
     }
 
     function takvimVerisiniCek() {
+        // --- OFFLINE MOD DESTEGI ---
+        if (window.OFFLINE_CALENDAR_DATA) {
+            console.log("Offline Takvim verisi kullaniliyor.");
+            renderCalendar(window.OFFLINE_CALENDAR_DATA);
+            return;
+        }
+
         // Veriyi Cek
         fetch(baseUrl + '/akademik_takvim.json' + cacheBuster)
             .then(res => res.json())
@@ -323,29 +330,48 @@
             var dayDate = tempDate.getDate();
             var dayIndex = tempDate.getDay();
 
-            if (dayMonth !== currentMonth) {
-                // Ay degisimi algilandi, bunu gunun icine etiket olarak ekleyecegiz
+            // Ay degisimi kontrolu
+            var monthLabelHTML = '';
+            if (dayMonth !== currentMonth || i === 0) { // Ilk gun veya ay degisince
                 currentMonth = dayMonth;
-                var monthName = ayIsimleri[dayMonth];
-                // Ekstra HTML
-                gunlerHTML += `
-                <div id="${dayId}" class="calendar-day ${eventClass}">
-                    <span class="month-label-floating">${monthName}</span>
-                    <span class="day-number">${dayDate}</span>
-                    <span class="day-name">${gunIsimleriEN[dayIndex]}</span>
-                    <div class="event-dot"></div>
-                </div>
-                `;
-            } else {
-                // Standart gun
-                gunlerHTML += `
-                <div id="${dayId}" class="calendar-day ${eventClass}">
-                    <span class="day-number">${dayDate}</span>
-                    <span class="day-name">${gunIsimleriEN[dayIndex]}</span>
-                    <div class="event-dot"></div>
-                </div>
-                `;
+                // Eger ay degisirse, o gunun uzerine ay ismini yaziniz
+                if (i !== 0 || dayDate === 1) { // Bugun ayin 1'i degilse ve dongunun basiysa bazen yazmayabiliriz, ama burada mantik: ay degistigi an yaz.
+                    monthLabelHTML = `<span class="month-label-floating">${ayIsimleri[dayMonth]}</span>`;
+                }
+                // Bugun baslangic gunu ise ve ayin ortasiysa bile hangi ayda oldugumuzu gosterelim mi?
+                if (i === 0) monthLabelHTML = `<span class="month-label-floating">${ayIsimleri[dayMonth]}</span>`;
             }
+
+            var gununEtkinlikleri = events.filter(e => {
+                var start = new Date(e.startDate);
+                var end = new Date(e.endDate);
+                start.setHours(0, 0, 0, 0);
+                end.setHours(23, 59, 59, 999);
+                tempDate.setHours(12, 0, 0, 0);
+                return tempDate >= start && tempDate <= end;
+            });
+
+            var hasEvent = gununEtkinlikleri.length > 0;
+            var eventClass = hasEvent ? 'has-event' : '';
+            var dayId = 'day-' + i;
+
+            // Veriyi sakla
+            if (hasEvent) {
+                daysData.push({
+                    id: dayId,
+                    dateStr: `${dayDate} ${ayIsimleri[dayMonth]} ${tempDate.getFullYear()}`,
+                    events: gununEtkinlikleri
+                });
+            }
+
+            gunlerHTML += `
+                <div id="${dayId}" class="calendar-day ${eventClass}">
+                    ${monthLabelHTML}
+                    <span class="day-number">${dayDate}</span>
+                    <span class="day-name">${gunIsimleriEN[dayIndex]}</span>
+                    <div class="event-dot"></div>
+                </div>
+            `;
         }
 
         strip.innerHTML = gunlerHTML;
@@ -398,6 +424,37 @@
     // DUYURU CEKME FONKSIYONU
     function duyurulariCek() {
         console.log("Duyurular cekiliyor...");
+
+        // --- OFFLINE MOD DESTEGI ---
+        if (window.OFFLINE_ANNOUNCEMENTS) {
+            console.log("Offline Duyuru verisi kullaniliyor.");
+            var listeHTML = "";
+            var sayac = 0;
+            window.OFFLINE_ANNOUNCEMENTS.forEach(d => {
+                if (sayac < 12) {
+                    // Basitce kategori belirle
+                    var category = "Genel";
+                    var lowerBaslik = d.title.toLowerCase();
+                    if (lowerBaslik.includes("önemli")) category = "Önemli";
+                    else if (lowerBaslik.includes("tez")) category = "Lisansüstü";
+
+                    var html = '<li>';
+                    html += '<a href="' + d.url + '" target="_blank" class="announcement-title">' + d.title + '</a>';
+                    html += '<div class="announcement-footer">';
+                    html += '<span class="announcement-date">' + d.date + '</span>';
+                    html += '<span class="separator">|</span>';
+                    html += '<span class="announcement-category">' + category + '</span>';
+                    html += '</div></li>';
+
+                    listeHTML += html;
+                    sayac++;
+                }
+            });
+            var hedefListe = document.getElementById('duyuru-listesi');
+            if (hedefListe) hedefListe.innerHTML = listeHTML;
+            return;
+        }
+
         var duyuruURL = '/tr/duyurular' + cacheBuster; // Cache buster ekle
 
         fetch(duyuruURL)

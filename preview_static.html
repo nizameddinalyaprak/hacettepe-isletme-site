@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacettepe İşletme - Static Preview</title>
+
+    <!-- OFFLINE DATA ENJEKSIYONU -->
+    <script>
+        // Akademik Takvim Verisi (Web sunucusu olmadan calismasi icin buraya gomuldu)
+        window.OFFLINE_CALENDAR_DATA = [
+            {
+                "startDate": "2025-08-11",
+                "endDate": "2025-08-11",
+                "title": "Güz Yarıyılı Yandal/Çift Anadal Kontenjanlarının Açıklanması",
+                "type": "academic"
+            },
+            {
+                "startDate": "2025-08-29",
+                "endDate": "2025-08-29",
+                "title": "Güz Yarıyılı Yandal/Çift Anadal Son Başvuru Tarihi",
+                "type": "academic"
+            },
+            {
+                "startDate": "2025-09-15",
+                "endDate": "2025-09-19",
+                "title": "Yeni Kazanan Öğrencilerin Oryantasyon Dersi",
+                "type": "academic"
+            },
+            {
+                "startDate": "2025-09-16",
+                "endDate": "2025-09-16",
+                "title": "Güz Yarıyılı Yandal/Çift Anadal Değerlendirme ve Sonuçların İlanı",
+                "type": "academic"
+            },
+            {
+                "startDate": "2025-09-17",
+                "endDate": "2025-09-19",
+                "title": "Yeni Kazanan Öğrencilerin Üniversiteye Kayıtları",
+                "type": "academic"
+            },
+            {
+                "startDate": "2025-09-22",
+                "endDate": "2025-09-28",
+                "title": "Mezuniyetine En Fazla Üç Dersi Kalan Öğrencilerin Sınavları",
+                "type": "exam"
+            },
+            {
+                "startDate": "2025-09-22",
+                "endDate": "2025-09-22",
+                "title": "Tüm Programlarda Ders Başlangıç Tarihi",
+                "type": "term"
+            },
+            {
+                "startDate": "2025-12-28",
+                "endDate": "2025-12-28",
+                "title": "Tüm Programlarda Ders Bitiş Tarihi",
+                "type": "term"
+            },
+            {
+                "startDate": "2025-10-01",
+                "endDate": "2025-10-03",
+                "title": "Ekle-Sil Haftası",
+                "type": "academic"
+            },
+            {
+                "startDate": "2025-10-03",
+                "endDate": "2025-10-03",
+                "title": "Öğrenci Katkı Payı/Öğrenim Ücretlerinin ödenmesinin son günü",
+                "type": "deadline"
+            },
+            {
+                "startDate": "2025-10-14",
+                "endDate": "2025-10-14",
+                "title": "Erasmus giden öğrencilerin geç ders kayıt son tarihi",
+                "type": "deadline"
+            },
+            {
+                "startDate": "2025-10-28",
+                "endDate": "2025-10-29",
+                "title": "Cumhuriyet Bayramı",
+                "type": "holiday"
+            },
+            {
+                "startDate": "2026-01-01",
+                "endDate": "2026-01-01",
+                "title": "Yılbaşı",
+                "type": "holiday"
+            },
+            {
+                "startDate": "2026-01-05",
+                "endDate": "2026-01-18",
+                "title": "Önlisans ve Lisans Programlarında Yarıyıl Genel Sınavları",
+                "type": "exam"
+            },
+            {
+                "startDate": "2026-01-05",
+                "endDate": "2026-01-21",
+                "title": "Yarıyıl Genel Sınav Sonuçları Elektronik Ortamda İletilmesi",
+                "type": "admin"
+            },
+            {
+                "startDate": "2026-01-19",
+                "endDate": "2026-02-10",
+                "title": "Yarıyıl Tatili",
+                "type": "holiday"
+            },
+            {
+                "startDate": "2026-01-19",
+                "endDate": "2026-01-19",
+                "title": "Bahar Yarıyılı Yandal/Çift Anadal Kontenjanlarının Açıklanması",
+                "type": "academic"
+            },
+            {
+                "startDate": "2026-01-26",
+                "endDate": "2026-02-01",
+                "title": "Bütünleme Sınavları",
+                "type": "exam"
+            },
+            {
+                "startDate": "2026-01-26",
+                "endDate": "2026-02-04",
+                "title": "Bütünleme Sınav Sonuçlarının Elektronik Ortamda İletilmesi",
+                "type": "admin"
+            },
+            {
+                "startDate": "2026-02-06",
+                "endDate": "2026-02-06",
+                "title": "Bahar Yarıyılı Yandal/Çift Anadal Son Başvuru Tarihi",
+                "type": "deadline"
+            },
+            {
+                "startDate": "2026-02-11",
+                "endDate": "2026-02-13",
+                "title": "Ders Programlarının Yapılması",
+                "type": "academic"
+            },
+            {
+                "startDate": "2026-02-16",
+                "endDate": "2026-02-22",
+                "title": "Mezuniyetine En Fazla Üç Dersi Kalan Öğrencilerin Sınavları",
+                "type": "exam"
+            },
+            {
+                "startDate": "2026-02-16",
+                "endDate": "2026-02-16",
+                "title": "Tüm Programlarda Ders Başlangıç Tarihi",
+                "type": "term"
+            },
+            {
+                "startDate": "2026-05-24",
+                "endDate": "2026-05-24",
+                "title": "Tüm Programlarda Ders Bitiş Tarihi",
+                "type": "term"
+            },
+            {
+                "startDate": "2026-02-20",
+                "endDate": "2026-02-20",
+                "title": "Bahar Yarıyılı Yandal/Çift Anadal Değerlendirme ve Sonuçların İlanı",
+                "type": "academic"
+            },
+            {
+                "startDate": "2026-02-25",
+                "endDate": "2026-02-27",
+                "title": "Ekle-Sil Haftası",
+                "type": "academic"
+            },
+            {
+                "startDate": "2026-02-27",
+                "endDate": "2026-02-27",
+                "title": "Öğrenci Katkı Payı/Öğrenim Ücretlerinin ödenmesinin son günü",
+                "type": "deadline"
+            },
+            {
+                "startDate": "2026-03-10",
+                "endDate": "2026-03-10",
+                "title": "Erasmus giden öğrencilerin geç ders kayıt son tarihi",
+                "type": "deadline"
+            },
+            {
+                "startDate": "2026-03-19",
+                "endDate": "2026-03-22",
+                "title": "Ramazan Bayramı",
+                "type": "holiday"
+            },
+            {
+                "startDate": "2026-04-23",
+                "endDate": "2026-04-23",
+                "title": "Ulusal Egemenlik ve Çocuk Bayramı",
+                "type": "holiday"
+            },
+            {
+                "startDate": "2026-05-01",
+                "endDate": "2026-05-01",
+                "title": "Emek ve Dayanışma Günü",
+                "type": "holiday"
+            },
+            {
+                "startDate": "2026-05-19",
+                "endDate": "2026-05-19",
+                "title": "Atatürk'ü Anma Gençlik ve Spor Bayramı",
+                "type": "holiday"
+            },
+            {
+                "startDate": "2026-05-26",
+                "endDate": "2026-05-30",
+                "title": "Kurban Bayramı",
+                "type": "holiday"
+            },
+            {
+                "startDate": "2026-06-01",
+                "endDate": "2026-06-14",
+                "title": "Önlisans ve Lisans Programlarında Yarıyıl Genel Sınavları",
+                "type": "exam"
+            },
+            {
+                "startDate": "2026-06-01",
+                "endDate": "2026-06-17",
+                "title": "Yarıyıl Genel Sınav Sonuçlarının Elektronik Ortamda İletilmesi",
+                "type": "admin"
+            },
+            {
+                "startDate": "2026-06-15",
+                "endDate": "2026-09-01",
+                "title": "Yaz Tatili",
+                "type": "holiday"
+            },
+            {
+                "startDate": "2026-06-22",
+                "endDate": "2026-06-28",
+                "title": "Bütünleme Sınavları",
+                "type": "exam"
+            },
+            {
+                "startDate": "2026-06-22",
+                "endDate": "2026-07-01",
+                "title": "Bütünleme Sınav Sonuçlarının Elektronik Ortamda İletilmesi",
+                "type": "admin"
+            },
+            {
+                "startDate": "2026-07-13",
+                "endDate": "2026-07-17",
+                "title": "Mezuniyetine En Fazla Üç Dersi Kalan Öğrencilerin Sınavları",
+                "type": "exam"
+            },
+            {
+                "startDate": "2026-07-15",
+                "endDate": "2026-07-15",
+                "title": "Demokrasi ve Milli Birlik Günü",
+                "type": "holiday"
+            },
+            {
+                "startDate": "2026-08-30",
+                "endDate": "2026-08-30",
+                "title": "Zafer Bayramı",
+                "type": "holiday"
+            },
+            {
+                "startDate": "2026-10-28",
+                "endDate": "2026-10-29",
+                "title": "Cumhuriyet Bayramı",
+                "type": "holiday"
+            }
+        ];
+
+        // Ornek Duyurular (Preview icin)
+        window.OFFLINE_ANNOUNCEMENTS = [
+            { title: "2025-2026 Bahar Yarıyılı Ders Programı", date: "14.02.2026", url: "#" },
+            { title: "Mezuniyet Töreni Hakkında Önemli Duyuru", date: "10.02.2026", url: "#" },
+            { title: "Erasmus Başvuruları Başladı", date: "05.02.2026", url: "#" },
+            { title: "Staj Değerlendirme Sonuçları", date: "01.02.2026", url: "#" }
+        ];
+    </script>
+
+    <script src="loader.js"></script>
+</head>
+
+<body>
+    <!-- Icerik loader.js tarafindan index.html'den doldurulacak -->
+    <!-- Ancak offline modda index.html'i de fetch edemeyiz. Bu yuzden buraya manuel gomuyoruz -->
+
+    <div id="offline-content" style="display:none;">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <!-- Background Video -->
+            <video autoplay muted loop playsinline class="hero-video">
+                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
+                    type="video/mp4">
+            </video>
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+                <h1 class="hero-title">Hacettepe İşletme</h1>
+                <p class="hero-subtitle">Eleştirel Düşünen, Yenilikçi Liderler Yetiştiriyoruz.</p>
+                <a href="https://isletme.hacettepe.edu.tr/tr/menu/bolum_hakkinda-75" class="hero-btn">Bölümü Keşfet</a>
+            </div>
+        </div>
+
+        <!-- Calendar will be injected here by loader.js -->
+
+        <!-- Main Content Area -->
+        <div class="container main-content">
+
+            <!-- Quick Links -->
+            <div class="section-header">
+                <h2 class="section-title">Hızlı Erişim</h2>
+            </div>
+
+            <div class="quick-links-grid">
+                <a href="https://isletme.hacettepe.edu.tr/tr/menu/lisans_programi-91" class="quick-link-card">
+                    <i class="fas fa-graduation-cap quick-link-icon"></i>
+                    <span class="quick-link-title">Lisans Programı</span>
+                </a>
+                <a href="https://isletme.hacettepe.edu.tr/tr/menu/tezli_yuksek_lisans-117" class="quick-link-card">
+                    <i class="fas fa-user-graduate quick-link-icon"></i>
+                    <span class="quick-link-title">Yüksek Lisans</span>
+                </a>
+                <a href="https://isletme.hacettepe.edu.tr/tr/menu/doktora-215" class="quick-link-card">
+                    <i class="fas fa-book-reader quick-link-icon"></i>
+                    <span class="quick-link-title">Doktora Programı</span>
+                </a>
+                <a href="https://isletme.hacettepe.edu.tr/tr/menu/akademik_kadro-19" class="quick-link-card">
+                    <i class="fas fa-chalkboard-teacher quick-link-icon"></i>
+                    <span class="quick-link-title">Akademik Kadro</span>
+                </a>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 40px 0;">
+
+            <!-- Announcements Section -->
+            <div class="section-header">
+                <h2 class="section-title">Güncel Duyurular</h2>
+            </div>
+
+            <p style="color: #666; margin-bottom: 20px;">Bölümümüzden en son haberler, etkinlikler ve akademik
+                duyurular.
+            </p>
+
+            <ul id="duyuru-listesi">
+                <li>
+                    <div style="text-align: center; padding: 40px; color: #888;">
+                        <i class="fas fa-circle-notch fa-spin fa-2x"></i><br><br>
+                        Duyurular Yükleniyor...
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <script>
+        // Loader.js index.html fetch edemeyecek, bu yuzden DOMContentLoaded oldugunda
+        // manuel olarak body'yi dolduralim (Eger loader.js hata verirse diye)
+        // Not: loader.js fetch hatasi alinca hata mesaji basacak, biz onu ezip icerigi gosterelim.
+
+        // Loader.js'in fetch kismini bypass etmek zor oldugu icin,
+        // Bu preview_static.html dosyasini aslinda index.html gibi davranacak sekilde ayarladik
+        // Ama loader.js fetch yapmaya calisacak.
+
+        // En temiz cozum:
+        // Loader.js icindeki fetch kismini da modifiye edip 
+        // "Eger window.OFFLINE_CONTENT varsa onu kullan" demek lazim.
+
+        // Simdilik basit bir hack:
+        window.onload = function () {
+            // Loader js calistiktan sonra
+            setTimeout(function () {
+                var err = document.querySelector('h1');
+                if (err && err.innerText.includes('Hata')) {
+                    console.log("Offline mode: Hata ekrani temizleniyor, statik icerik yukleniyor.");
+                    document.body.innerHTML = '';
+                    var content = document.getElementById('offline-content').innerHTML;
+                    document.body.innerHTML = content;
+
+                    // Header ve Takvimi tekrar tetikle
+                    // loader.js icindeki fonksiyonlar global degil, o yuzden ulasamayabiliriz.
+                    // Bu yuzden loader.js'i modifiye etmemiz en dogrusuydu ve ettik.
+                }
+            }, 1000);
+        };
+    </script>
+</body>
+
+</html>

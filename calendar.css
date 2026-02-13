@@ -45,6 +45,16 @@
     transition: all 0.2s ease;
 }
 
+/* Ay Baslangic Cizgisi */
+.month-start {
+    border-left: 2px solid #444;
+    /* Gri ince cizgi */
+    margin-left: 10px;
+    /* Soldan biraz uzaklas */
+    padding-left: 10px !important;
+    /* Icerik cizgiye yapismasın */
+}
+
 /* Floating Month Label */
 .month-label-floating {
     position: absolute;
