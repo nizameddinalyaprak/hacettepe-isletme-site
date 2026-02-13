@@ -6,8 +6,8 @@
     width: 100%;
     background-color: #000;
     color: #fff;
-    padding: 0;
-    /* No padding */
+    padding: 5px 0;
+    /* Comfortable padding */
     font-family: 'Open Sans', sans-serif;
     overflow: visible;
     /* Tooltip needs to be seen */
@@ -20,9 +20,7 @@
     position: relative;
     border-bottom: 2px solid #333;
     margin-bottom: 0;
-    /* Ensure no bottom margin */
     margin-top: 0;
-    line-height: 1;
 }
 
 #calendar-container::-webkit-scrollbar {

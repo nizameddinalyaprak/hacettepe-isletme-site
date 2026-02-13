@@ -3,12 +3,11 @@
 /* Top Bar (Social & Links) */
 .menu_ust {
     background-color: #f8f9fa;
-    border-bottom: none !important;
-    /* Remove border to merge with calendar */
-    padding: 0;
-    /* Zero padding */
+    border-bottom: 1px solid #eee;
+    /* Restore subtle border */
+    padding: 8px 0;
+    /* Comfortable padding */
     line-height: normal;
-    /* Tighter line height */
     font-size: 13px;
     color: #666;
     margin-bottom: 0;
