@@ -34,19 +34,21 @@
 
     console.log("Base URL tespit edildi: " + baseUrl);
 
+    var cacheBuster = '?v=' + new Date().getTime();
+
     // Calendar CSS yukle
     var cssLink = document.createElement("link");
     cssLink.rel = "stylesheet";
-    cssLink.href = baseUrl + "/calendar.css";
+    cssLink.href = baseUrl + "/calendar.css" + cacheBuster;
     document.head.appendChild(cssLink);
 
     // Modern Header Yükle
     var headerScript = document.createElement("script");
-    headerScript.src = baseUrl + "/modern-header.js";
+    headerScript.src = baseUrl + "/modern-header.js" + cacheBuster;
     document.head.appendChild(headerScript);
 
     // index.html icerigini cek
-    fetch(baseUrl + '/index.html')
+    fetch(baseUrl + '/index.html' + cacheBuster)
         .then(function (response) {
             return response.text();
         })
@@ -155,7 +157,7 @@
         }
 
         // Veriyi Cek
-        fetch(baseUrl + '/akademik_takvim.json')
+        fetch(baseUrl + '/akademik_takvim.json' + cacheBuster)
             .then(res => res.json())
             .then(events => {
                 renderCalendar(events);
