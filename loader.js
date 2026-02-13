@@ -102,7 +102,7 @@
                     return "";
                 }
 
-                // Kategori Filtreleme Listesi
+                // Kategori Filtreleme Listesi (Text Bazli)
                 var haricTutulacakBasliklar = [
                     "Duyurular",
                     "Tezli Yüksek Lisans Programları",
@@ -115,6 +115,27 @@
                     "Tümü"
                 ];
 
+                // Kategori Filtreleme Listesi (URL Bazli - User Provided)
+                var haricTutulacakURLler = [
+                    "duyurular-1",
+                    "tezli_yuksek_lisans_programlar-33",
+                    "lisans_programi-35",
+                    "tezsiz_yuksek_lisans_programla-37",
+                    "doktora_programi-39"
+                ];
+
+                // Helper: Filtreleme Kontrolu
+                function filtreyeTakilirMi(text, href) {
+                    if (!href) return true;
+                    // Text kontrolu
+                    if (haricTutulacakBasliklar.includes(text.trim())) return true;
+                    // URL kontrolu
+                    for (var i = 0; i < haricTutulacakURLler.length; i++) {
+                        if (href.includes(haricTutulacakURLler[i])) return true;
+                    }
+                    return false;
+                }
+
                 // Eger LI bulunamadiysa (Fallback)
                 if (!duyuruSatirlari || duyuruSatirlari.length === 0) {
                     console.log("LI yapisi bulunamadi, dogrudan A linkleri taraniyor...");
@@ -126,10 +147,7 @@
                         var text = link.innerText.trim();
 
                         // Ozel Filtreler
-                        if (haricTutulacakBasliklar.includes(text)) return;
-                        var kucukText = text.toLowerCase();
-                        // "Programı" ile bitiyorsa (Kategori olma ihtimali yuksek) ama tarih yoksa ele
-                        // if(kucukText.includes("programı") || kucukText.includes("programi")) 
+                        if (filtreyeTakilirMi(text, link.href)) return;
 
                         var tarih = "";
 
@@ -169,12 +187,7 @@
                             tarih = urlTarihBul(link.href);
                         }
 
-                        // Eger tarih yoksa bu muhtemelen bir kategori basligidir, gizle
-                        // ("Duyuru" gibi kisa kelimeler degilse bile, tarihli olmayanlari gostermeyelim mi?
-                        // Kullanici sadece duyuru istiyordu. Tarihsiz duyuru pek olmaz.)
-                        // Sadece cok bariz uzun metinleri (duyuru basligi gibi) tarih olmasa da gosterelim mi?
-                        // Hayir, temiz bir liste icin tarih olmasi guvenli.
-                        // Ama bazi duyurularda tarih olmayabilir. O yuzden sadece kisa olanlari eleyelim.
+                        // Eger tarih yoksa ve kisa metinse ele (Guvenlik onlemi)
                         if (!tarih && text.length < 20) {
                             return;
                         }
@@ -194,7 +207,7 @@
                         if (!link) return;
 
                         var text = link.innerText.trim();
-                        if (haricTutulacakBasliklar.includes(text)) return;
+                        if (filtreyeTakilirMi(text, link.href)) return;
 
                         var url = link.href;
                         var satirMetni = satir.innerText.trim();
