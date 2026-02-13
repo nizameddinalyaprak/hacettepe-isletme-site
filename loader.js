@@ -124,12 +124,9 @@
                     "doktora_programi-39"
                 ];
 
-                // Helper: Filtreleme Kontrolu
                 function filtreyeTakilirMi(text, href) {
                     if (!href) return true;
-                    // Text kontrolu
                     if (haricTutulacakBasliklar.includes(text.trim())) return true;
-                    // URL kontrolu
                     for (var i = 0; i < haricTutulacakURLler.length; i++) {
                         if (href.includes(haricTutulacakURLler[i])) return true;
                     }
@@ -148,6 +145,17 @@
 
                         // Ozel Filtreler
                         if (filtreyeTakilirMi(text, link.href)) return;
+
+                        // -- DEBUG LOGLARI --
+                        if (index < 5) { // Sadece ilk 5 gercek duyurusun HTML yapisini goster
+                            console.log("=========================================");
+                            console.log("DUYURU ADAYI " + index + ": " + text);
+                            console.log("URL: " + link.href);
+                            console.log("PARENT ELEMENT TAG: " + link.parentElement.tagName);
+                            console.log("PARENT ELEMENT INNER HTML: " + link.parentElement.innerHTML.trim().replace(/\n/g, ""));
+                            console.log("PARENT ELEMENT INNER TEXT: " + link.parentElement.innerText.trim());
+                            console.log("=========================================");
+                        }
 
                         var tarih = "";
 
@@ -182,7 +190,24 @@
                             }
                         }
 
-                        // 3. URL'den tarih
+                        // 3. Parent element icinde herhangi bir yerde tarih var mi?
+                        if (!tarih && link.parentElement) {
+                            var parentText = link.parentElement.innerText;
+                            // YYYY-MM-DD
+                            tarihMatch = parentText.match(/(\d{4})-(\d{2})-(\d{2})/);
+                            if (tarihMatch) {
+                                tarih = tarihMatch[3] + "." + tarihMatch[2] + "." + tarihMatch[1];
+                            }
+                            // DD.MM.YYYY
+                            if (!tarih) {
+                                tarihMatch = parentText.match(/(\d{2})[./](\d{2})[./](\d{4})/);
+                                if (tarihMatch) {
+                                    tarih = tarihMatch[0];
+                                }
+                            }
+                        }
+
+                        // 4. URL'den tarih
                         if (!tarih) {
                             tarih = urlTarihBul(link.href);
                         }
@@ -199,7 +224,6 @@
                         }
                     });
                 } else {
-                    // Normal LI Isleyisi (Burasi da ayni filtreleri kullansin)
                     duyuruSatirlari.forEach((satir, index) => {
                         if (sayac >= 12) return;
 
@@ -251,6 +275,8 @@
         // Tarih Temizligi
         baslik = baslik.replace(/\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}/, '').trim();
         baslik = baslik.replace(/\(\d{4}-\d{2}-\d{2}\)/, '').trim();
+        // Regex ile bulunan tarihleri de basliktan temizleyelim (DD.MM.YYYY veya YYYY-MM-DD)
+        baslik = baslik.replace(/\d{2}[./]\d{2}[./]\d{4}/, '').trim();
 
         if (lowerBaslik.includes('önemli') || lowerBaslik.includes('onemli')) {
             badgeClass = 'badge-onemli';
