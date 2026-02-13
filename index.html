@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacettepe İşletme - Yeni Tasarım</title>
+    <!-- Örnek Stil (CSS) -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .header {
+            background: #ac232d;
+            /* Hacettepe Kırmızısı */
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #ac232d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #8a1c24;
+        }
+
+        /* Duyuru Listesi Stili */
+        #duyuru-listesi {
+            list-style: none;
+            padding: 0;
+        }
+
+        #duyuru-listesi li {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        #duyuru-listesi a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        #duyuru-listesi span.tarih {
+            color: #888;
+            font-size: 0.9em;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>Hacettepe Üniversitesi İşletme Bölümü</h1>
+        <p>Yeni Nesil Web Sitesi Tasarımı</p>
+    </div>
+
+    <div class="container">
+        <h2>Hoş Geldiniz!</h2>
+        <p>Bu site, GitHub üzerinden yönetilen modern bir arayüze sahiptir.</p>
+
+        <hr>
+
+        <h3>📢 Güncel Duyurular</h3>
+        <p>Aşağıdaki duyurular, CMS'den otomatik olarak çekilmektedir:</p>
+        <ul id="duyuru-listesi">
+            <li>Yükleniyor...</li>
+        </ul>
+    </div>
+
+</body>
+
+</html>
