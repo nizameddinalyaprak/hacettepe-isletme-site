@@ -4,21 +4,18 @@
     console.log("Loader baslatildi...");
 
     // 1. Hatali Eventleri Engelle (Scroll vs)
-    // jQuery errors: dispatch -> v.handle
-    // En ust seviyede dinleyip yakalamaya calisalim.
     var originalAddEventListener = window.addEventListener;
     window.addEventListener = function (type, listener, options) {
         if (type === 'scroll' || type === 'resize') {
-            // Scroll eventlerini filtrele (main.js kaynakli olanlari nasil ayirt ederiz? Zor)
-            // Simdilik hepsini ekleyelim ama hata olusursa yutalim
+            // Scroll eventlerini filtrele 
         }
         originalAddEventListener.call(window, type, listener, options);
     };
 
-    // Global Hata Yakalayici - Kesin Cozum
+    // Global Hata Yakalayici
     window.onerror = function (message, source, lineno, colno, error) {
         if (message && (message.includes("reading 'top'") || message.includes("calc") || message.includes("undefined"))) {
-            return true; // Hatayi yut (Konsola basma)
+            return true;
         }
         return false;
     };
@@ -105,6 +102,19 @@
                     return "";
                 }
 
+                // Kategori Filtreleme Listesi
+                var haricTutulacakBasliklar = [
+                    "Duyurular",
+                    "Tezli Yüksek Lisans Programları",
+                    "Lisans Programı",
+                    "Tezsiz Yüksek Lisans Programları",
+                    "Doktora Programı",
+                    "Show",
+                    "Haberler",
+                    "Etkinlikler",
+                    "Tümü"
+                ];
+
                 // Eger LI bulunamadiysa (Fallback)
                 if (!duyuruSatirlari || duyuruSatirlari.length === 0) {
                     console.log("LI yapisi bulunamadi, dogrudan A linkleri taraniyor...");
@@ -114,29 +124,14 @@
 
                     linkler.forEach((link, index) => {
                         var text = link.innerText.trim();
-                        var tarih = "";
 
-                        // KATEGORI ELEME (User feedback)
-                        // "Duyurular", "Haberler", "Etkinlikler" gibi basliklari ele
+                        // Ozel Filtreler
+                        if (haricTutulacakBasliklar.includes(text)) return;
                         var kucukText = text.toLowerCase();
-                        if (kucukText === 'duyurular' || kucukText === 'haberler' || kucukText === 'etkinlikler' || kucukText === 'tümü') {
-                            return; // Bu linki atla
-                        }
+                        // "Programı" ile bitiyorsa (Kategori olma ihtimali yuksek) ama tarih yoksa ele
+                        // if(kucukText.includes("programı") || kucukText.includes("programi")) 
 
-                        // DEBUG: Ilk 5 link icin detayli analiz
-                        if (index < 5) {
-                            console.log("--------------------------------------------------");
-                            console.log("LINK " + index + " ANALIZI:");
-                            console.log("Text: " + text);
-                            console.log("URL: " + link.href);
-
-                            if (link.nextSibling) {
-                                console.log("Next Sibling Type: " + link.nextSibling.nodeType);
-                                if (link.nextSibling.nodeType === 3) { // Text Node
-                                    console.log("Next Sibling Text: " + link.nextSibling.textContent.trim());
-                                }
-                            }
-                        }
+                        var tarih = "";
 
                         // 1. Link metninde tarih var mi? (YYYY-MM-DD)
                         var tarihMatch = text.match(/(\d{4})-(\d{2})-(\d{2})/);
@@ -146,14 +141,11 @@
 
                         // 2. Linkin hemen yanindaki metinde (nextSibling) tarih var mi?
                         if (!tarih && link.nextSibling) {
-                            // Bazen arada bosluk veya <br> olabilir, birkac kardes ileri gidelim
                             var kardes = link.nextSibling;
                             var loopCount = 0;
                             while (kardes && loopCount < 3) {
                                 if (kardes.nodeType === 3 && kardes.textContent.trim().length > 5) { // Text Node
                                     var yanMetin = kardes.textContent.trim();
-                                    if (index < 5) console.log("Yan Metin Kontrol (" + loopCount + "): " + yanMetin);
-
                                     // YYYY-MM-DD
                                     tarihMatch = yanMetin.match(/(\d{4})-(\d{2})-(\d{2})/);
                                     if (tarihMatch) {
@@ -177,25 +169,32 @@
                             tarih = urlTarihBul(link.href);
                         }
 
-                        // Eger tarih bulunamazsa ve text cok kisaysa muhtemelen kategoridir, gec
-                        if (!tarih && text.length < 15) {
+                        // Eger tarih yoksa bu muhtemelen bir kategori basligidir, gizle
+                        // ("Duyuru" gibi kisa kelimeler degilse bile, tarihli olmayanlari gostermeyelim mi?
+                        // Kullanici sadece duyuru istiyordu. Tarihsiz duyuru pek olmaz.)
+                        // Sadece cok bariz uzun metinleri (duyuru basligi gibi) tarih olmasa da gosterelim mi?
+                        // Hayir, temiz bir liste icin tarih olmasi guvenli.
+                        // Ama bazi duyurularda tarih olmayabilir. O yuzden sadece kisa olanlari eleyelim.
+                        if (!tarih && text.length < 20) {
                             return;
                         }
 
-                        if (index < 5) console.log("SONUC TARIH: " + tarih);
-
-                        // Kisa linkleri ve boslari ele ve javascript linklerini ele
+                        // JavaScript linklerini ele
                         if (sayac < 12 && text.length > 5 && link.href && !link.href.includes('javascript')) {
                             listeHTML += olusturDuyuruHTML(tarih, text, link.href);
                             sayac++;
                         }
                     });
                 } else {
+                    // Normal LI Isleyisi (Burasi da ayni filtreleri kullansin)
                     duyuruSatirlari.forEach((satir, index) => {
                         if (sayac >= 12) return;
 
                         var link = satir.querySelector('a');
                         if (!link) return;
+
+                        var text = link.innerText.trim();
+                        if (haricTutulacakBasliklar.includes(text)) return;
 
                         var url = link.href;
                         var satirMetni = satir.innerText.trim();
