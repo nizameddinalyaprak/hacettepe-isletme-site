@@ -3,13 +3,15 @@
 /* Top Bar (Social & Links) */
 .menu_ust {
     background-color: #f8f9fa;
-    border-bottom: 1px solid #e9ecef;
-    padding: 2px 0;
-    /* Minimal padding */
-    line-height: 1;
+    border-bottom: none;
+    /* Remove border to merge with calendar */
+    padding: 0;
+    /* Zero padding */
+    line-height: normal;
     /* Tighter line height */
     font-size: 13px;
     color: #666;
+    margin-bottom: 0;
 }
 
 .menu_ust a {
