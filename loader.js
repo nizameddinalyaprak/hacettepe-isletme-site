@@ -76,9 +76,8 @@
                 var listeHTML = '';
                 var sayac = 0;
 
-                // --- URL'den Tarih Cikarma Fonksiyonu ---
+                // URL'den Tarih Cikarma (Yedek)
                 function urlTarihBul(url) {
-                    // ornek: /tr/duyuru/2026/02/13/baslik
                     var match = url.match(/\/(\d{4})\/(\d{1,2})\/(\d{1,2})\//);
                     if (match) return match[3] + "." + match[2] + "." + match[1];
                     return "";
@@ -88,8 +87,22 @@
                     var linkler = anaIcerik ? anaIcerik.querySelectorAll('a') : [];
                     linkler.forEach(link => {
                         var text = link.innerText.trim();
-                        if (sayac < 12 && text.length > 10 && link.href) {
-                            var tarih = urlTarihBul(link.href);
+                        // Link metninde tarih varsa ayikla
+                        // Ornek: "Ders İptal Duyurusu ... 2026-02-13 11:00:00"
+
+                        var tarih = "";
+                        // YYYY-MM-DD formatini ara
+                        var tarihMatch = text.match(/(\d{4})-(\d{2})-(\d{2})/);
+
+                        if (tarihMatch) {
+                            tarih = tarihMatch[3] + "." + tarihMatch[2] + "." + tarihMatch[1];
+                            // Tarihi basliktan temizlemek isterseniz:
+                            // text = text.replace(tarihMatch[0], '').replace(/\d{2}:\d{2}:\d{2}/, '').trim();
+                        } else {
+                            tarih = urlTarihBul(link.href);
+                        }
+
+                        if (sayac < 12 && text.length > 5 && link.href) {
                             listeHTML += olusturDuyuruHTML(tarih, text, link.href);
                             sayac++;
                         }
@@ -101,32 +114,31 @@
                         var link = satir.querySelector('a');
                         if (!link) return;
 
-                        var baslik = link.innerText.trim();
                         var url = link.href;
+                        // Metni satir bazinda alalim cunku tarih genelde listenin sonunda metin olarak duruyor olabilir.
+                        // CMS yapisi: <li> <a href>Baslik</a> Tarih </li> seklinde olabilir.
+                        var satirMetni = satir.innerText.trim();
 
-                        // Tarih Bulma Stratejisi
                         var tarih = "";
-                        var textContent = satir.innerText;
+                        var tarihMatch = satirMetni.match(/(\d{4})-(\d{2})-(\d{2})/);
 
-                        // 1. Span icinde tarih var mi?
-                        var tarihSpan = satir.querySelector('span');
-                        if (tarihSpan) {
-                            var spanText = tarihSpan.innerText.trim();
-                            if (spanText.match(/(\d{2}[./]\d{2}[./]\d{4})/)) {
-                                tarih = spanText;
-                            }
+                        if (tarihMatch) {
+                            tarih = tarihMatch[3] + "." + tarihMatch[2] + "." + tarihMatch[1];
+                        } else {
+                            // Linkin kendi icine de bakalim
+                            tarihMatch = link.innerText.match(/(\d{4})-(\d{2})-(\d{2})/);
+                            if (tarihMatch) tarih = tarihMatch[3] + "." + tarihMatch[2] + "." + tarihMatch[1];
                         }
 
-                        // 2. Satir metninde tarih var mi?
-                        if (!tarih) {
-                            var tarihMatch = textContent.match(/(\d{2}[./]\d{2}[./]\d{4})/);
-                            if (tarihMatch) tarih = tarihMatch[0];
-                        }
-
-                        // 3. URL'den tarih cikar
                         if (!tarih) {
                             tarih = urlTarihBul(url);
                         }
+
+                        // Basligi temizlemek icin tarihten oncesini alabiliriz ama riskli, simdilik oldugu gibi alalim.
+                        var baslik = link.innerText.trim();
+
+                        // Baslik cok uzunsa ve icinde tarih varsa tarihi kesip atalim mi? 
+                        // Simdilik kalsin, kullanici istemezse temizleriz.
 
                         listeHTML += olusturDuyuruHTML(tarih, baslik, url);
                         sayac++;
@@ -146,11 +158,13 @@
     }
 
     function olusturDuyuruHTML(tarih, baslik, url) {
-        // Kategori Belirleme (Siralama Onemli!)
-        // Ozel > Genel seklinde siralanmali
         var badgeClass = 'badge-genel';
         var badgeText = 'Duyuru';
-        var lowerBaslik = baslik.toLocaleLowerCase('tr-TR'); // Turkce karakter sorunu icin
+        var lowerBaslik = baslik.toLocaleLowerCase('tr-TR');
+
+        // Basliktan tarih kismini temizleyelim (Opsiyonel - Gorunum Guzellestirme)
+        // Ornek: "... 2026-02-13 11:00:00" kismini silelim
+        baslik = baslik.replace(/\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}/, '').trim();
 
         if (lowerBaslik.includes('önemli') || lowerBaslik.includes('onemli')) {
             badgeClass = 'badge-onemli';
@@ -165,7 +179,6 @@
             badgeClass = 'badge-tezli';
             badgeText = 'Tezli YL';
         } else if (lowerBaslik.includes('lisans') && !lowerBaslik.includes('lisansüstü')) {
-            // "lisansüstü" icinde gecen "lisans" kelimesini yakalamamasi icin
             badgeClass = 'badge-lisans';
             badgeText = 'Lisans';
         } else if (lowerBaslik.includes('sınav') || lowerBaslik.includes('sinav')) {
@@ -173,22 +186,15 @@
             badgeText = 'Sınav';
         }
 
-        // HTML Olustur
         var html = '<li>';
 
-        // 1. Tarih
         if (tarih) {
             html += '<span class="badge badge-tarih">' + tarih + '</span>';
         }
 
-        // 2. Link
         html += '<a href="' + url + '" target="_blank">' + baslik + '</a>';
 
-        // 3. Rozet
-        // Eger ozel bir kategori yakaladiysa veya tarih yoksa "Duyuru" yazisi yerine kategori yazsin
         var gosterilecekBadge = true;
-
-        // Eger Tarih VARSA ve kategori SADECE "Duyuru" ise badge gosterme (Yer kaplamasin)
         if (tarih && badgeText === 'Duyuru') {
             gosterilecekBadge = false;
         }
