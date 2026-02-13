@@ -85,6 +85,32 @@
             });
 
             // 3. Body icerigini degistir
+            // ONCE: Gereksiz/Eski Elementleri Temizle (DOM Cerrahi Mudahale)
+            var ghostHeader = doc.querySelector('.header');
+            if (ghostHeader) ghostHeader.remove();
+
+            var ghostTopBar = doc.querySelector('.top-bar');
+            if (ghostTopBar) ghostTopBar.remove();
+
+            var t3Wrapper = doc.querySelector('.t3-wrapper');
+            if (t3Wrapper) {
+                t3Wrapper.style.paddingTop = '0px';
+                t3Wrapper.style.marginTop = '0px';
+                t3Wrapper.style.border = 'none';
+            }
+
+            // Body uzerindeki padding/marginleri sifirla
+            doc.body.style.padding = "0 !important";
+            doc.body.style.margin = "0 !important";
+            doc.body.style.border = "none !important";
+
+            // Eski script etiketlerini temizle (ozellikle eski slider vs varsa)
+            var oldScripts = doc.querySelectorAll('script');
+            oldScripts.forEach(s => {
+                if (s.src && (s.src.includes('jquery') || s.src.includes('bootstrap'))) return; // Temel libler kalsin
+                // Digerlerini pasifize etme potansiyeli? Simdilik kalsin, sadece gorunur elementleri ucuralim.
+            });
+
             document.body.innerHTML = '';
             document.body.appendChild(doc.body);
 
