@@ -116,6 +116,13 @@
                         var text = link.innerText.trim();
                         var tarih = "";
 
+                        // KATEGORI ELEME (User feedback)
+                        // "Duyurular", "Haberler", "Etkinlikler" gibi basliklari ele
+                        var kucukText = text.toLowerCase();
+                        if (kucukText === 'duyurular' || kucukText === 'haberler' || kucukText === 'etkinlikler' || kucukText === 'tümü') {
+                            return; // Bu linki atla
+                        }
+
                         // DEBUG: Ilk 5 link icin detayli analiz
                         if (index < 5) {
                             console.log("--------------------------------------------------");
@@ -168,6 +175,11 @@
                         // 3. URL'den tarih
                         if (!tarih) {
                             tarih = urlTarihBul(link.href);
+                        }
+
+                        // Eger tarih bulunamazsa ve text cok kisaysa muhtemelen kategoridir, gec
+                        if (!tarih && text.length < 15) {
+                            return;
                         }
 
                         if (index < 5) console.log("SONUC TARIH: " + tarih);
