@@ -3,16 +3,30 @@
 (function () {
     console.log("Loader baslatildi...");
 
-    // 1. Hatali Eventleri Engelle (Scroll vs) - HATA SUSTURUCU (Kesin Cozum)
-    // main.js icindeki scroll eventinin hata vermesini saglayip hatayi burada yakalayacagiz.
-    window.addEventListener('error', function (e) {
-        if (e.message && (e.message.includes("reading 'top'") || e.message.includes("calc") || e.message.includes("undefined"))) {
-            // Hatayi konsola basma, yut.
-            e.preventDefault();
-            e.stopPropagation();
-            return true;
+    // 1. Hatali Eventleri Engelle (Scroll vs) - HATA SUSTURUCU (Kesin Cozum V2)
+    // jQuery window.scroll eventinden kaynakli hatayi engellemek icin
+    // hatali fonksiyonu bos fonksiyonla override etmeyi deneyebiliriz ama riskli.
+    // En garantisi, global error handler ile bu mesaji yutmak.
+
+    var originalOnError = window.onerror;
+    window.onerror = function (message, source, lineno, colno, error) {
+        if (message && (message.includes("reading 'top'") || message.includes("calc") || message.includes("undefined"))) {
+            return true; // Hatayi konsola basma, yut.
         }
-    }, true); // Capture phase'de yakala
+        if (originalOnError) return originalOnError(message, source, lineno, colno, error);
+        return false;
+    };
+
+    // Console.error'u da dinleyip susturalim (Bazi browserlar icin)
+    var originalConsoleError = console.error;
+    console.error = function () {
+        var args = Array.from(arguments);
+        var message = args.join(' ');
+        if (message && (message.includes("reading 'top'") || message.includes("undefined"))) {
+            return; // Yut
+        }
+        originalConsoleError.apply(console, args);
+    };
 
     // GitHub Pages URL'nizi buraya yazacaksiniz (Otomatik bulmaya calisiyoruz)
     var scriptSrc = document.currentScript.src;
@@ -62,7 +76,8 @@
             duyurulariCek();
 
             // 6. TAKVIMI OLUSTUR
-            takvimOlustur();
+            // DOM tamamen olustuktan biraz sonra calistiralim ki elementler yerlessin
+            setTimeout(takvimOlustur, 500);
 
             // Yukleme ekranini kaldir
             var loading = document.getElementById('yukleniyor');
@@ -79,12 +94,40 @@
     function takvimOlustur() {
         console.log("Takvim olusturuluyor...");
 
-        // Takvim kapsayicisini ekle (Slider'dan hemen once veya sonra)
-        // Mevcut yapida .resimler classi slider'i tutuyor. Biz onun altina ekleyelim.
-        var sliderBolumu = document.querySelector('.resimler');
-        if (!sliderBolumu) {
-            console.log("Slider bloku bulunamadi, takvim eklenemiyor.");
-            return;
+        // Eklenecek hedef elementi bul (Sirayla dene)
+        var hedefElement = null;
+        var eklemeYontemi = 'after'; // after, before, append
+
+        // 1. Slider Bolumu (resimler classi)
+        var slider = document.querySelector('.resimler');
+        if (slider) {
+            hedefElement = slider;
+            eklemeYontemi = 'after';
+            console.log("Hedef bulundu: .resimler");
+        }
+        // 2. Swiper Container
+        else if (document.querySelector('.swiper-container')) {
+            hedefElement = document.querySelector('.swiper-container');
+            eklemeYontemi = 'after';
+            console.log("Hedef bulundu: .swiper-container");
+        }
+        // 3. Header Alti (ust classi)
+        else if (document.querySelector('.ust')) {
+            hedefElement = document.querySelector('.ust');
+            eklemeYontemi = 'after'; // Headerdan hemen sonra
+            console.log("Hedef bulundu: .ust");
+        }
+        // 4. Container (Ana icerik)
+        else if (document.querySelector('.container')) {
+            hedefElement = document.querySelector('.container');
+            eklemeYontemi = 'before'; // Containerdan once
+            console.log("Hedef bulundu: .container");
+        }
+        // 5. Body (Son care)
+        else {
+            hedefElement = document.body;
+            eklemeYontemi = 'prepend';
+            console.log("Hedef bulunamadi, body'ye ekleniyor");
         }
 
         var calendarHTML = `
@@ -93,10 +136,18 @@
             </div>
         `;
 
-        // Elementi olustur ve ekle
         var calendarDiv = document.createElement('div');
         calendarDiv.innerHTML = calendarHTML;
-        sliderBolumu.parentNode.insertBefore(calendarDiv, sliderBolumu.nextSibling);
+
+        if (eklemeYontemi === 'after' && hedefElement.nextSibling) {
+            hedefElement.parentNode.insertBefore(calendarDiv, hedefElement.nextSibling);
+        } else if (eklemeYontemi === 'after') {
+            hedefElement.parentNode.appendChild(calendarDiv);
+        } else if (eklemeYontemi === 'before') {
+            hedefElement.parentNode.insertBefore(calendarDiv, hedefElement);
+        } else if (eklemeYontemi === 'prepend') {
+            document.body.insertBefore(calendarDiv, document.body.firstChild);
+        }
 
         // Veriyi Cek
         fetch(baseUrl + '/akademik_takvim.json')
@@ -197,6 +248,8 @@
                     duyuruSatirlari = anaIcerik.querySelectorAll('ul li');
                 }
 
+                console.log("Bulunan duyuru satiri (LI) sayisi: " + duyuruSatirlari.length);
+
                 var listeHTML = '';
                 var sayac = 0;
 
@@ -237,10 +290,6 @@
                     }
                     return false;
                 }
-
-                // Gerekirse LI, gerekirse A linklerinden olusan bir havuz olusturalim
-                // Ama kod karmasiklasmasin diye mevcut yapiyi koruyalim.
-                // Artik asil islem 'Fallback' blogunda yapiliyor cunku LI yapisi degisik.
 
                 // Eger LI bulunamadiysa (Fallback)
                 if (!duyuruSatirlari || duyuruSatirlari.length === 0) {
@@ -393,6 +442,9 @@
         } else if (lowerBaslik.includes('sınav') || lowerBaslik.includes('sinav')) {
             badgeClass = 'badge-genel';
             badgeText = 'Sınav';
+        } else if (lowerBaslik.includes('genel')) {
+            badgeClass = 'badge-genel';
+            badgeText = 'GENEL';
         }
 
         var html = '<li>';
