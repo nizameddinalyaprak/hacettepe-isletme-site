@@ -1,5 +1,7 @@
 /* Calendar Container */
 #calendar-container {
+    margin-top: 20px;
+    /* Space from header */
     width: 100%;
     background-color: #000;
     color: #fff;
@@ -112,30 +114,29 @@
     color: #fff;
     padding: 15px;
     border-radius: 8px;
-    width: auto;
-    /* Dynamic width */
-    min-width: 200px;
-    /* Minimum width */
-    max-width: 400px;
-    /* Maximum width */
+    width: 320px;
+    /* Fixed wider width to ensure readability */
     height: auto;
-    /* Allow content to grow */
+    min-height: 50px;
+
+    /* Typography */
+    font-size: 14px;
+    line-height: 1.5;
     white-space: normal;
-    /* Normal wrapping */
-    word-wrap: break-word;
-    /* Break long words if necessary */
-    line-height: normal;
-    /* Reset line height */
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.9);
-    /* Stronger shadow */
-    z-index: 99999;
-    /* Very high z-index */
+    text-align: left;
+    /* Easier to read */
+
+    /* Positioning & Layering */
+    z-index: 2147483647;
+    /* Max Z-Index */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.95);
+    border: 1px solid #555;
+
+    /* Animation */
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+    transition: opacity 0.2s, visibility 0.2s;
     pointer-events: none;
-    border: 1px solid #444;
-    text-align: center;
 }
 
 /* Arrow for tooltip (pointing down now) */

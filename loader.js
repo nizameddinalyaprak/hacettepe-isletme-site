@@ -45,7 +45,13 @@
     headerCssLink.href = baseUrl + "/modern-header.css" + cacheBuster;
     document.head.appendChild(headerCssLink);
 
-    // 3. Font Awesome (Eger yoksa)
+    // 3. Announcements CSS
+    var annCssLink = document.createElement("link");
+    annCssLink.rel = "stylesheet";
+    annCssLink.href = baseUrl + "/announcements.css" + cacheBuster;
+    document.head.appendChild(annCssLink);
+
+    // 4. Font Awesome (Eger yoksa)
     if (!document.querySelector('link[href*="font-awesome"]')) {
         var fa = document.createElement('link');
         fa.rel = 'stylesheet';

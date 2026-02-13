@@ -1,0 +1,122 @@
+/* Announcements / Duyurular - Modern Card Design */
+#duyuru-listesi {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    list-style: none;
+    padding: 20px 0;
+}
+
+#duyuru-listesi li {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #f0f0f0;
+    position: relative;
+    overflow: hidden;
+}
+
+#duyuru-listesi li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-color: #ac232d;
+}
+
+/* Sol kenar çizgisi */
+#duyuru-listesi li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: #ac232d;
+    /* Default Hacettepe Red */
+}
+
+.announcement-date {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.announcement-date i {
+    margin-right: 5px;
+    font-size: 12px;
+}
+
+.announcement-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.4;
+    margin-bottom: 15px;
+    text-decoration: none !important;
+    display: block;
+}
+
+.announcement-title:hover {
+    color: #ac232d;
+}
+
+.announcement-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid #f9f9f9;
+}
+
+.announcement-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Badge Renkleri */
+.badge-onemli {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.badge-lisans {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.badge-doktora {
+    background: #f3e8ff;
+    color: #9333ea;
+}
+
+.badge-tezsiz {
+    background: #ffedd5;
+    color: #ea580c;
+}
+
+.badge-tezli {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.badge-genel {
+    background: #f3f4f6;
+    color: #4b5563;
+}
+
+.badge-tarih {
+    display: none;
+}
+
+/* Eskisini gizle */
