@@ -4,143 +4,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hacettepe İşletme - Yeni Tasarım</title>
-    <!-- Örnek Stil (CSS) -->
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #f4f4f4;
-        }
-
-        .header {
-            background: #ac232d;
-            /* Hacettepe Kırmızısı */
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background: #ac232d;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-
-        .btn:hover {
-            background: #8a1c24;
-        }
-
-        /* Duyuru Listesi Stili */
-        #duyuru-listesi {
-            list-style: none;
-            padding: 0;
-        }
-
-        #duyuru-listesi li {
-            padding: 12px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: background 0.2s;
-        }
-
-        #duyuru-listesi li:hover {
-            background-color: #fafafa;
-        }
-
-        #duyuru-listesi a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 600;
-            flex: 1;
-            margin-right: 10px;
-        }
-
-        /* Etiketler (Badges) */
-        .badge {
-            display: inline-block;
-            padding: 4px 8px;
-            font-size: 12px;
-            font-weight: bold;
-            color: white;
-            border-radius: 4px;
-            margin-left: 8px;
-            white-space: nowrap;
-        }
-
-        .badge-tarih {
-            background-color: #6c757d;
-            margin-right: 10px;
-            margin-left: 0;
-        }
-
-        .badge-onemli {
-            background-color: #dc3545;
-        }
-
-        /* Kirmizi */
-        .badge-lisans {
-            background-color: #007bff;
-        }
-
-        /* Mavi */
-        .badge-tezsiz {
-            background-color: #fd7e14;
-        }
-
-        /* Turuncu */
-        .badge-tezli {
-            background-color: #28a745;
-        }
-
-        /* Yesil */
-        .badge-doktora {
-            background-color: #6f42c1;
-        }
-
-        /* Mor */
-        .badge-genel {
-            background-color: #17a2b8;
-        }
-
-        /* Turkuaz */
-    </style>
+    <title>Hacettepe İşletme - Geleceği Yöneten Liderler</title>
+    <!-- Styles will be injected by loader.js -->
 </head>
 
 <body>
 
-    <div class="header">
-        <h1>Hacettepe Üniversitesi İşletme Bölümü</h1>
-        <p>Yeni Nesil Web Sitesi Tasarımı</p>
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Hacettepe İşletme</h1>
+            <p class="hero-subtitle">Eleştirel Düşünen, Yenilikçi Liderler Yetiştiriyoruz.</p>
+            <a href="https://isletme.hacettepe.edu.tr/tr/menu/bolum_hakkinda-75" class="hero-btn">Bölümü Keşfet</a>
+        </div>
     </div>
 
-    <div class="container">
-        <h2>Hoş Geldiniz!</h2>
-        <p>Bu site, GitHub üzerinden yönetilen modern bir arayüze sahiptir.</p>
+    <!-- Calendar will be injected here by loader.js -->
 
-        <hr>
+    <!-- Main Content Area -->
+    <div class="container main-content">
 
-        <h3>📢 Güncel Duyurular</h3>
-        <p>Aşağıdaki duyurular, CMS'den otomatik olarak çekilmektedir:</p>
+        <!-- Quick Links -->
+        <div class="section-header">
+            <h2 class="section-title">Hızlı Erişim</h2>
+        </div>
+
+        <div class="quick-links-grid">
+            <a href="https://isletme.hacettepe.edu.tr/tr/menu/lisans_programi-91" class="quick-link-card">
+                <i class="fas fa-graduation-cap quick-link-icon"></i>
+                <span class="quick-link-title">Lisans Programı</span>
+            </a>
+            <a href="https://isletme.hacettepe.edu.tr/tr/menu/tezli_yuksek_lisans-117" class="quick-link-card">
+                <i class="fas fa-user-graduate quick-link-icon"></i>
+                <span class="quick-link-title">Yüksek Lisans</span>
+            </a>
+            <a href="https://isletme.hacettepe.edu.tr/tr/menu/doktora-215" class="quick-link-card">
+                <i class="fas fa-book-reader quick-link-icon"></i>
+                <span class="quick-link-title">Doktora Programı</span>
+            </a>
+            <a href="https://isletme.hacettepe.edu.tr/tr/menu/akademik_kadro-19" class="quick-link-card">
+                <i class="fas fa-chalkboard-teacher quick-link-icon"></i>
+                <span class="quick-link-title">Akademik Kadro</span>
+            </a>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 40px 0;">
+
+        <!-- Announcements Section -->
+        <div class="section-header">
+            <h2 class="section-title">Güncel Duyurular</h2>
+        </div>
+
+        <p style="color: #666; margin-bottom: 20px;">Bölümümüzden en son haberler, etkinlikler ve akademik duyurular.
+        </p>
+
         <ul id="duyuru-listesi">
-            <li>Yükleniyor...</li>
+            <li>
+                <div style="text-align: center; padding: 40px; color: #888;">
+                    <i class="fas fa-circle-notch fa-spin fa-2x"></i><br><br>
+                    Duyurular Yükleniyor...
+                </div>
+            </li>
         </ul>
+
     </div>
 
 </body>

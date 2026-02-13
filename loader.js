@@ -51,7 +51,13 @@
     annCssLink.href = baseUrl + "/announcements.css" + cacheBuster;
     document.head.appendChild(annCssLink);
 
-    // 4. Font Awesome (Eger yoksa)
+    // 4. Homepage CSS
+    var homeCssLink = document.createElement("link");
+    homeCssLink.rel = "stylesheet";
+    homeCssLink.href = baseUrl + "/homepage.css" + cacheBuster;
+    document.head.appendChild(homeCssLink);
+
+    // 5. Font Awesome (Eger yoksa)
     if (!document.querySelector('link[href*="font-awesome"]')) {
         var fa = document.createElement('link');
         fa.rel = 'stylesheet';
@@ -234,7 +240,13 @@
             eklemeYontemi = 'before'; // Containerdan once
             console.log("Hedef bulundu: .container");
         }
-        // 5. Body (Son care)
+        // 5. Hero Section (Homepage Only)
+        else if (document.querySelector('.hero-section')) {
+            hedefElement = document.querySelector('.hero-section');
+            eklemeYontemi = 'after';
+            console.log("Hedef bulundu: .hero-section");
+        }
+        // 6. Body (Son care)
         else {
             hedefElement = document.body;
             eklemeYontemi = 'prepend';
@@ -250,9 +262,7 @@
         var calendarDiv = document.createElement('div');
         calendarDiv.innerHTML = calendarHTML;
 
-        // Eger header eklediysek, takvimi headerdan SONRA, containerden ONCE ekleyelim
-        // Ancak yukaridaki mantik container'dan once ekliyor zaten.
-
+        // Ekleme mantigi
         if (eklemeYontemi === 'after' && hedefElement.nextSibling) {
             hedefElement.parentNode.insertBefore(calendarDiv, hedefElement.nextSibling);
         } else if (eklemeYontemi === 'after') {
