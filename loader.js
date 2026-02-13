@@ -236,7 +236,9 @@
                         </div>
                     </a>
 
-                    <button class="mobile-menu-toggle d-lg-none" onclick="document.querySelector('.hi-main-nav').classList.toggle('active')" style="display: none; width:auto; padding:10px 15px; background:#ac232d; color:white; border:none; border-radius:4px; margin-left:15px;"><i class="fas fa-bars"></i></button>
+                    <button class="mobile-menu-toggle d-lg-none" onclick="document.querySelector('.hi-main-nav').classList.toggle('active')">
+                        <i class="fas fa-bars"></i> MENÜ
+                    </button>
                     
                     <nav class="hi-main-nav">
                         <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/tr" class="hi-nav-link">Ana Sayfa</a></div>

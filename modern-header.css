@@ -192,8 +192,24 @@
     /* Hamburger Button */
     .mobile-menu-toggle {
         display: block !important;
-        /* Width auto ve margin loader.js icinde inline verildi */
+        width: 100% !important;
+        background-color: #ac232d;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        text-align: left;
+        /* Icon ve yazi sola yasli */
+        font-weight: bold;
+        font-size: 16px;
+        margin-top: 15px;
+        /* Logodan ayirmak icin */
+        border-radius: 3px;
         cursor: pointer;
+    }
+
+    .mobile-menu-toggle i {
+        margin-right: 10px;
+        /* Ikon ile metin arasi bosluk */
     }
 
     /* Navigation Links (Hidden by default) */
