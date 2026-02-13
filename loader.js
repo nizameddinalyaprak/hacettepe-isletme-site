@@ -162,15 +162,22 @@
         var strip = document.getElementById('calendar-strip');
         if (!strip) return;
 
-        var bugun = new Date(); // Simdiki zaman
-        // Test icin tarihi manuel ayarlayabilirsiniz: new Date("2025-09-18");
+        // Global Tooltip Olustur (Eger yoksa)
+        var globalTooltip = document.getElementById('global-calendar-tooltip');
+        if (!globalTooltip) {
+            globalTooltip = document.createElement('div');
+            globalTooltip.id = 'global-calendar-tooltip';
+            globalTooltip.className = 'event-tooltip';
+            document.body.appendChild(globalTooltip);
+        }
 
+        var bugun = new Date();
         var gunlerHTML = '';
         var ayIsimleri = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
-        var gunIsimleri = ["Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"];
         var gunIsimleriEN = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
         var currentMonth = bugun.getMonth();
+        var daysData = []; // Event listener eklemek icin datayi tutalim
 
         for (var i = 0; i < 30; i++) {
             var tempDate = new Date(bugun);
@@ -180,54 +187,70 @@
             var dayDate = tempDate.getDate();
             var dayIndex = tempDate.getDay();
 
-            // Ay degisimi kontrolu
             if (dayMonth !== currentMonth) {
-                gunlerHTML += `
-                    <div class="month-separator">
-                        <span class="month-label">› ${ayIsimleri[dayMonth]}</span>
-                    </div>
-                `;
+                gunlerHTML += `<div class="month-separator"><span class="month-label">› ${ayIsimleri[dayMonth]}</span></div>`;
                 currentMonth = dayMonth;
             }
 
-            // O gune ait etkinlik var mi?
             var gununEtkinlikleri = events.filter(e => {
                 var start = new Date(e.startDate);
                 var end = new Date(e.endDate);
-                // Saatleri sifirla
                 start.setHours(0, 0, 0, 0);
                 end.setHours(23, 59, 59, 999);
-                tempDate.setHours(12, 0, 0, 0); // Garanti olsun diye oglen vakti
-
+                tempDate.setHours(12, 0, 0, 0);
                 return tempDate >= start && tempDate <= end;
             });
 
             var hasEvent = gununEtkinlikleri.length > 0;
             var eventClass = hasEvent ? 'has-event' : '';
+            var dayId = 'day-' + i;
 
-            var tooltipHTML = '';
+            // Veriyi sakla
             if (hasEvent) {
-                var eventTitles = gununEtkinlikleri.map(e => e.title).join('<br><br>');
-                var dateStr = `${dayDate} ${ayIsimleri[dayMonth]} ${tempDate.getFullYear()}`;
-                tooltipHTML = `
-                    <div class="event-tooltip">
-                        <span class="tooltip-date">${dateStr}</span>
-                        <span class="tooltip-title">${eventTitles}</span>
-                    </div>
-                `;
+                daysData.push({
+                    id: dayId,
+                    dateStr: `${dayDate} ${ayIsimleri[dayMonth]} ${tempDate.getFullYear()}`,
+                    events: gununEtkinlikleri
+                });
             }
 
             gunlerHTML += `
-                <div class="calendar-day ${eventClass}">
+                <div id="${dayId}" class="calendar-day ${eventClass}">
                     <span class="day-number">${dayDate}</span>
-                    <span class="day-name">${gunIsimleriEN[dayIndex]}</span> <!-- EN kisa ad -->
+                    <span class="day-name">${gunIsimleriEN[dayIndex]}</span>
                     <div class="event-dot"></div>
-                    ${tooltipHTML}
                 </div>
             `;
         }
 
         strip.innerHTML = gunlerHTML;
+
+        // Event Listenerlari Ekle (Mouse Over)
+        daysData.forEach(function (data) {
+            var el = document.getElementById(data.id);
+            if (el) {
+                el.addEventListener('mouseenter', function () {
+                    var rect = el.getBoundingClientRect();
+                    var eventTitles = data.events.map(function (e) { return e.title; }).join('<br><br>');
+
+                    globalTooltip.innerHTML = '<span class="tooltip-date">' + data.dateStr + '</span><span class="tooltip-title">' + eventTitles + '</span>';
+                    globalTooltip.style.opacity = '1';
+                    globalTooltip.style.visibility = 'visible';
+
+                    // Pozisyonlama (Sayfanin scroll durumuna gore)
+                    var topPos = rect.top + window.scrollY - globalTooltip.offsetHeight - 10;
+                    var leftPos = rect.left + window.scrollX + (rect.width / 2) - (globalTooltip.offsetWidth / 2);
+
+                    globalTooltip.style.top = topPos + 'px';
+                    globalTooltip.style.left = leftPos + 'px';
+                });
+
+                el.addEventListener('mouseleave', function () {
+                    globalTooltip.style.opacity = '0';
+                    globalTooltip.style.visibility = 'hidden';
+                });
+            }
+        });
     }
 
     // DUYURU CEKME FONKSIYONU
