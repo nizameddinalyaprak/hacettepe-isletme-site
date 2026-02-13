@@ -3,22 +3,16 @@
 (function () {
     console.log("Loader baslatildi...");
 
-    // 1. Hatali Eventleri Engelle (Scroll vs)
-    var originalAddEventListener = window.addEventListener;
-    window.addEventListener = function (type, listener, options) {
-        if (type === 'scroll' || type === 'resize') {
-            // Scroll eventlerini filtrele 
-        }
-        originalAddEventListener.call(window, type, listener, options);
-    };
-
-    // Global Hata Yakalayici
-    window.onerror = function (message, source, lineno, colno, error) {
-        if (message && (message.includes("reading 'top'") || message.includes("calc") || message.includes("undefined"))) {
+    // 1. Hatali Eventleri Engelle (Scroll vs) - HATA SUSTURUCU (Kesin Cozum)
+    // main.js icindeki scroll eventinin hata vermesini saglayip hatayi burada yakalayacagiz.
+    window.addEventListener('error', function (e) {
+        if (e.message && (e.message.includes("reading 'top'") || e.message.includes("calc") || e.message.includes("undefined"))) {
+            // Hatayi konsola basma, yut.
+            e.preventDefault();
+            e.stopPropagation();
             return true;
         }
-        return false;
-    };
+    }, true); // Capture phase'de yakala
 
     // GitHub Pages URL'nizi buraya yazacaksiniz (Otomatik bulmaya calisiyoruz)
     var scriptSrc = document.currentScript.src;
@@ -90,8 +84,6 @@
                     duyuruSatirlari = anaIcerik.querySelectorAll('ul li');
                 }
 
-                console.log("Bulunan duyuru satiri (LI) sayisi: " + duyuruSatirlari.length);
-
                 var listeHTML = '';
                 var sayac = 0;
 
@@ -133,29 +125,21 @@
                     return false;
                 }
 
+                // Gerekirse LI, gerekirse A linklerinden olusan bir havuz olusturalim
+                // Ama kod karmasiklasmasin diye mevcut yapiyi koruyalim.
+                // Artik asil islem 'Fallback' blogunda yapiliyor cunku LI yapisi degisik.
+
                 // Eger LI bulunamadiysa (Fallback)
                 if (!duyuruSatirlari || duyuruSatirlari.length === 0) {
-                    console.log("LI yapisi bulunamadi, dogrudan A linkleri taraniyor...");
+                    // console.log("LI yapisi bulunamadi, dogrudan A linkleri taraniyor...");
 
                     var linkler = anaIcerik ? anaIcerik.querySelectorAll('a') : [];
-                    console.log("Bulunan link sayisi: " + linkler.length);
 
                     linkler.forEach((link, index) => {
                         var text = link.innerText.trim();
 
                         // Ozel Filtreler
                         if (filtreyeTakilirMi(text, link.href)) return;
-
-                        // -- DEBUG LOGLARI --
-                        if (index < 5) { // Sadece ilk 5 gercek duyurusun HTML yapisini goster
-                            console.log("=========================================");
-                            console.log("DUYURU ADAYI " + index + ": " + text);
-                            console.log("URL: " + link.href);
-                            console.log("PARENT ELEMENT TAG: " + link.parentElement.tagName);
-                            console.log("PARENT ELEMENT INNER HTML: " + link.parentElement.innerHTML.trim().replace(/\n/g, ""));
-                            console.log("PARENT ELEMENT INNER TEXT: " + link.parentElement.innerText.trim());
-                            console.log("=========================================");
-                        }
 
                         var tarih = "";
 
