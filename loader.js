@@ -367,17 +367,29 @@
                     globalTooltip.style.opacity = '1';
                     globalTooltip.style.visibility = 'visible';
 
-                    // Pozisyonlama (Sayfanin scroll durumuna gore)
-                    var topPos = rect.top + window.scrollY - globalTooltip.offsetHeight - 10;
-                    var leftPos = rect.left + window.scrollX + (rect.width / 2) - (globalTooltip.offsetWidth / 2);
+                    // Pozisyonlama (Fixed: Mouse/Element konumuna gore viewport bazli)
+                    // Elementin viewporta gore konumu
+                    var rect = el.getBoundingClientRect();
+
+                    // Tooltip'i elementin hemen ustune koyalim
+                    var topPos = rect.top - globalTooltip.offsetHeight - 10;
+                    var leftPos = rect.left + (rect.width / 2) - (globalTooltip.offsetWidth / 2);
 
                     // Eger ekranin cok sagina tasiyorsa duzelt
                     if (leftPos + globalTooltip.offsetWidth > window.innerWidth) {
                         leftPos = window.innerWidth - globalTooltip.offsetWidth - 10;
                     }
+                    // Eger ekranin cok soluna tasiyorsa
+                    if (leftPos < 10) leftPos = 10;
+
+                    // Eger ekranin ustunden tasiyorsa (cok yukarda), alta al
+                    if (topPos < 10) {
+                        topPos = rect.bottom + 10;
+                    }
 
                     globalTooltip.style.top = topPos + 'px';
                     globalTooltip.style.left = leftPos + 'px';
+                    globalTooltip.style.transform = 'none'; // CSS transform'u iptal et
                 });
 
                 el.addEventListener('mouseleave', function () {

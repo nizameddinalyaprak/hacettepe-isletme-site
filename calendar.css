@@ -103,19 +103,19 @@
 
 /* Tooltip / Popup */
 .event-tooltip {
-    position: absolute;
-    bottom: 100%;
-    /* Position ABOVE the day */
-    margin-bottom: 15px;
-    /* Add some space */
+    position: fixed;
+    /* Fixed to viewport to avoid scrolling issues */
+    bottom: auto;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    background-color: #222;
-    color: #fff;
+    transform: translate(-50%, -50%);
+    /* Centered by default, JS will override */
+
+    background-color: #222 !important;
+    color: #fff !important;
     padding: 15px;
     border-radius: 8px;
     width: 320px;
-    /* Fixed wider width to ensure readability */
     height: auto;
     min-height: 50px;
 
@@ -124,13 +124,11 @@
     line-height: 1.5;
     white-space: normal;
     text-align: left;
-    /* Easier to read */
 
     /* Positioning & Layering */
-    z-index: 2147483647;
-    /* Max Z-Index */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.95);
-    border: 1px solid #555;
+    z-index: 2147483647 !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.95);
+    border: 1px solid #444;
 
     /* Animation */
     opacity: 0;
