@@ -2,23 +2,17 @@
 #calendar-container {
     /* YUKSEKLIK AYARI: Buradaki padding degerleri ile oynayabilirsiniz */
     /* padding: [UST] [SAG] [ALT] [SOL] */
-    padding: 10px 0 5px 0;
-    /* Ust kismi biraz uzattik (10px) */
+    padding: 18px 0 5px 0;
+    /* Ust kismi actik (18px) - Ay ismi sigsin */
     margin: 0;
-    /* Space from header */
     width: 100%;
     background-color: #000;
     color: #fff;
-    /* Comfortable padding */
     font-family: 'Open Sans', sans-serif;
     overflow: visible;
-    /* Tooltip needs to be seen */
     overflow-x: auto;
-    /* Allow horizontal scroll if needed */
     scrollbar-width: none;
-    /* Firefox: Hide Scrollbar */
     -ms-overflow-style: none;
-    /* IE/Edge: Hide Scrollbar */
     position: relative;
     border-bottom: 2px solid #333;
     margin-bottom: 0;
@@ -27,17 +21,14 @@
 
 #calendar-container::-webkit-scrollbar {
     display: none;
-    /* Chrome/Safari: Hide Scrollbar */
 }
 
 /* Flex Container for Days */
 #calendar-strip {
     display: flex;
     justify-content: space-between;
-    /* Distribute evenly */
     align-items: flex-start;
     padding: 0 20px;
-    /* Reduced padding */
     position: relative;
 }
 
@@ -48,21 +39,36 @@
     align-items: center;
     cursor: pointer;
     position: relative;
+    /* Floating label icin sart */
     padding: 5px;
     min-width: 40px;
     transition: all 0.2s ease;
 }
 
+/* Floating Month Label */
+.month-label-floating {
+    position: absolute;
+    top: -18px;
+    /* Kutunun en tepesine */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    font-weight: 700;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
 .calendar-day:hover .day-number {
     color: #3498db;
-    /* Blue highlight */
     transform: scale(1.1);
 }
 
 .day-number {
     font-size: 24px;
     font-weight: 400;
-    /* Bold degil artik (Normal) */
+    /* Normal */
     margin-bottom: 5px;
     color: #e0e0e0;
 }
@@ -73,31 +79,13 @@
     text-transform: uppercase;
 }
 
-/* Month Separator */
+/* Month Separator - Removed */
 .month-separator {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    /* Yukari hizala */
-    padding: 0 10px;
-    border-left: 1px solid #333;
-    margin-left: 5px;
-    padding-left: 10px;
-    height: 100%;
-    padding-top: 0;
-    /* En tepeye */
+    display: none;
 }
 
 .month-label {
-    font-size: 12px;
-    /* Kucultuldu */
-    font-weight: 600;
-    color: #888;
-    /* Daha silik */
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-top: -2px;
-    /* Hafif yukari cekme */
+    display: none;
 }
 
 /* Event Indicator (Dot) */

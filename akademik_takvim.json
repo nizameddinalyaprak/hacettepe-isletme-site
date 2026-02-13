@@ -37,8 +37,14 @@
     },
     {
         "startDate": "2025-09-22",
+        "endDate": "2025-09-22",
+        "title": "Tüm Programlarda Ders Başlangıç Tarihi",
+        "type": "term"
+    },
+    {
+        "startDate": "2025-12-28",
         "endDate": "2025-12-28",
-        "title": "Tüm Programlarda Ders Başlangıç ve Bitiş Tarihleri",
+        "title": "Tüm Programlarda Ders Bitiş Tarihi",
         "type": "term"
     },
     {
@@ -127,8 +133,14 @@
     },
     {
         "startDate": "2026-02-16",
+        "endDate": "2026-02-16",
+        "title": "Tüm Programlarda Ders Başlangıç Tarihi",
+        "type": "term"
+    },
+    {
+        "startDate": "2026-05-24",
         "endDate": "2026-05-24",
-        "title": "Tüm Programlarda Ders Başlangıç ve Bitiş Tarihleri",
+        "title": "Tüm Programlarda Ders Bitiş Tarihi",
         "type": "term"
     },
     {

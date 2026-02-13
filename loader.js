@@ -324,39 +324,28 @@
             var dayIndex = tempDate.getDay();
 
             if (dayMonth !== currentMonth) {
-                gunlerHTML += `<div class="month-separator"><span class="month-label">› ${ayIsimleri[dayMonth]}</span></div>`;
+                // Ay degisimi algilandi, bunu gunun icine etiket olarak ekleyecegiz
                 currentMonth = dayMonth;
-            }
-
-            var gununEtkinlikleri = events.filter(e => {
-                var start = new Date(e.startDate);
-                var end = new Date(e.endDate);
-                start.setHours(0, 0, 0, 0);
-                end.setHours(23, 59, 59, 999);
-                tempDate.setHours(12, 0, 0, 0);
-                return tempDate >= start && tempDate <= end;
-            });
-
-            var hasEvent = gununEtkinlikleri.length > 0;
-            var eventClass = hasEvent ? 'has-event' : '';
-            var dayId = 'day-' + i;
-
-            // Veriyi sakla
-            if (hasEvent) {
-                daysData.push({
-                    id: dayId,
-                    dateStr: `${dayDate} ${ayIsimleri[dayMonth]} ${tempDate.getFullYear()}`,
-                    events: gununEtkinlikleri
-                });
-            }
-
-            gunlerHTML += `
+                var monthName = ayIsimleri[dayMonth];
+                // Ekstra HTML
+                gunlerHTML += `
+                <div id="${dayId}" class="calendar-day ${eventClass}">
+                    <span class="month-label-floating">${monthName}</span>
+                    <span class="day-number">${dayDate}</span>
+                    <span class="day-name">${gunIsimleriEN[dayIndex]}</span>
+                    <div class="event-dot"></div>
+                </div>
+                `;
+            } else {
+                // Standart gun
+                gunlerHTML += `
                 <div id="${dayId}" class="calendar-day ${eventClass}">
                     <span class="day-number">${dayDate}</span>
                     <span class="day-name">${gunIsimleriEN[dayIndex]}</span>
                     <div class="event-dot"></div>
                 </div>
-            `;
+                `;
+            }
         }
 
         strip.innerHTML = gunlerHTML;
