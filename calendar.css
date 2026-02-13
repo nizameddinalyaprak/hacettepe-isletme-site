@@ -1,12 +1,14 @@
 /* Calendar Container */
 #calendar-container {
-    /* margin-top: 20px; Removed to fit between menus */
+    /* YUKSEKLIK AYARI: Buradaki padding degerleri ile oynayabilirsiniz */
+    /* padding: [UST] [SAG] [ALT] [SOL] */
+    padding: 10px 0 5px 0;
+    /* Ust kismi biraz uzattik (10px) */
     margin: 0;
     /* Space from header */
     width: 100%;
     background-color: #000;
     color: #fff;
-    padding: 5px 0;
     /* Comfortable padding */
     font-family: 'Open Sans', sans-serif;
     overflow: visible;
@@ -59,7 +61,8 @@
 
 .day-number {
     font-size: 24px;
-    font-weight: 700;
+    font-weight: 400;
+    /* Bold degil artik (Normal) */
     margin-bottom: 5px;
     color: #e0e0e0;
 }
@@ -74,18 +77,27 @@
 .month-separator {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    /* Yukari hizala */
     padding: 0 10px;
-    border-left: 1px solid #444;
-    margin-left: 10px;
-    padding-left: 15px;
+    border-left: 1px solid #333;
+    margin-left: 5px;
+    padding-left: 10px;
+    height: 100%;
+    padding-top: 0;
+    /* En tepeye */
 }
 
 .month-label {
-    font-size: 18px;
-    font-weight: 300;
-    color: #aaa;
+    font-size: 12px;
+    /* Kucultuldu */
+    font-weight: 600;
+    color: #888;
+    /* Daha silik */
     letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: -2px;
+    /* Hafif yukari cekme */
 }
 
 /* Event Indicator (Dot) */
