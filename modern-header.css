@@ -144,7 +144,13 @@
 .logo {
     background: url("https://upload.wikimedia.org/wikipedia/tr/b/b2/Hacettepe_%C3%9Cniversitesi_Logosu.png") left center no-repeat;
     background-size: contain;
+    transition: all 0.3s ease;
     /* legacy_style.css icinde: background-size: auto 60px; */
+}
+
+.logo.logo-scrolled {
+    width: 50px !important;
+    height: 50px !important;
 }
 
 /* Responsive (Mobile) */
