@@ -84,6 +84,27 @@
                 document.head.appendChild(style);
             });
 
+            // ⚡ KRITIK MUDAHALE: CMS'in kendi stil ve scriptlerini engelle
+            // 1. CSS Dosyalari: style.css (Ana suclu), animate.css (Gereksiz hareketler)
+            var blockedCssPatterns = ['templates/template3//css/style.css', 'templates/template3/css/style.css', 'animate.css'];
+            var legacyStyles = document.querySelectorAll('link[rel="stylesheet"]');
+            legacyStyles.forEach(function (link) {
+                if (link.href && blockedCssPatterns.some(pattern => link.href.includes(pattern))) {
+                    console.warn("ZARARLI CMS STILI SILINDI: " + link.href);
+                    link.remove();
+                }
+            });
+
+            // 2. JS Dosyalari: main.js (DOM'u elliyor olabilir)
+            var blockedJsPatterns = ['templates/template3//js/main.js', 'templates/template3/js/main.js'];
+            var legacyScripts = document.querySelectorAll('script');
+            legacyScripts.forEach(function (script) {
+                if (script.src && blockedJsPatterns.some(pattern => script.src.includes(pattern))) {
+                    console.warn("ZARARLI CMS SCRIPTI SILINDI: " + script.src);
+                    script.remove();
+                }
+            });
+
             // 3. Body icerigini degistir
             // ONCE: Gereksiz/Eski Elementleri Temizle (DOM Cerrahi Mudahale)
             var ghostHeader = doc.querySelector('.header');
