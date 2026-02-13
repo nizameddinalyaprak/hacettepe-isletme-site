@@ -87,17 +87,13 @@
                     var linkler = anaIcerik ? anaIcerik.querySelectorAll('a') : [];
                     linkler.forEach(link => {
                         var text = link.innerText.trim();
-                        // Link metninde tarih varsa ayikla
-                        // Ornek: "Ders İptal Duyurusu ... 2026-02-13 11:00:00"
-
                         var tarih = "";
+
                         // YYYY-MM-DD formatini ara
                         var tarihMatch = text.match(/(\d{4})-(\d{2})-(\d{2})/);
 
                         if (tarihMatch) {
                             tarih = tarihMatch[3] + "." + tarihMatch[2] + "." + tarihMatch[1];
-                            // Tarihi basliktan temizlemek isterseniz:
-                            // text = text.replace(tarihMatch[0], '').replace(/\d{2}:\d{2}:\d{2}/, '').trim();
                         } else {
                             tarih = urlTarihBul(link.href);
                         }
@@ -115,30 +111,33 @@
                         if (!link) return;
 
                         var url = link.href;
-                        // Metni satir bazinda alalim cunku tarih genelde listenin sonunda metin olarak duruyor olabilir.
-                        // CMS yapisi: <li> <a href>Baslik</a> Tarih </li> seklinde olabilir.
+                        // Onemli Detay: Bazen tarih linkin icinde degil, 
+                        // linkten sonra gelen salt metin (text node) icinde olabilir.
+                        // Bu yuzden link.innerText yerine satir.innerText kullaniyoruz.
                         var satirMetni = satir.innerText.trim();
 
-                        var tarih = "";
-                        var tarihMatch = satirMetni.match(/(\d{4})-(\d{2})-(\d{2})/);
+                        // Linkin metnini satir metninden cikarip sadece geriye kalan metne (tarihe) odaklanalim mi?
+                        // Hayir, direkt regex en saglami.
 
+                        var tarih = "";
+                        // 1. Once kesin format YYYY-MM-DD
+                        var tarihMatch = satirMetni.match(/(\d{4})-(\d{2})-(\d{2})/);
                         if (tarihMatch) {
                             tarih = tarihMatch[3] + "." + tarihMatch[2] + "." + tarihMatch[1];
-                        } else {
-                            // Linkin kendi icine de bakalim
-                            tarihMatch = link.innerText.match(/(\d{4})-(\d{2})-(\d{2})/);
-                            if (tarihMatch) tarih = tarihMatch[3] + "." + tarihMatch[2] + "." + tarihMatch[1];
                         }
 
+                        // 2. Bulamazsa DD.MM.YYYY
+                        if (!tarih) {
+                            tarihMatch = satirMetni.match(/(\d{2})\.(\d{2})\.(\d{4})/);
+                            if (tarihMatch) tarih = tarihMatch[0];
+                        }
+
+                        // 3. Hala yoksa URL'den
                         if (!tarih) {
                             tarih = urlTarihBul(url);
                         }
 
-                        // Basligi temizlemek icin tarihten oncesini alabiliriz ama riskli, simdilik oldugu gibi alalim.
                         var baslik = link.innerText.trim();
-
-                        // Baslik cok uzunsa ve icinde tarih varsa tarihi kesip atalim mi? 
-                        // Simdilik kalsin, kullanici istemezse temizleriz.
 
                         listeHTML += olusturDuyuruHTML(tarih, baslik, url);
                         sayac++;
@@ -162,9 +161,11 @@
         var badgeText = 'Duyuru';
         var lowerBaslik = baslik.toLocaleLowerCase('tr-TR');
 
-        // Basliktan tarih kismini temizleyelim (Opsiyonel - Gorunum Guzellestirme)
+        // Basliktan tarih kismini temizleyelim
         // Ornek: "... 2026-02-13 11:00:00" kismini silelim
         baslik = baslik.replace(/\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}/, '').trim();
+        // Veya parantez icindeki tarihleri de silelim: (2026-02-13)
+        baslik = baslik.replace(/\(\d{4}-\d{2}-\d{2}\)/, '').trim();
 
         if (lowerBaslik.includes('önemli') || lowerBaslik.includes('onemli')) {
             badgeClass = 'badge-onemli';
