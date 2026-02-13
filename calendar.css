@@ -5,16 +5,29 @@
     color: #fff;
     padding: 20px 0;
     font-family: 'Open Sans', sans-serif;
-    overflow: hidden; /* No scrollbar */
+    overflow: visible;
+    /* Tooltip needs to be seen */
+    overflow-x: auto;
+    /* Allow horizontal scroll if needed */
+    scrollbar-width: none;
+    /* Firefox: Hide Scrollbar */
+    -ms-overflow-style: none;
+    /* IE/Edge: Hide Scrollbar */
     position: relative;
     border-bottom: 2px solid #333;
     margin-bottom: 30px;
 }
 
+#calendar-container::-webkit-scrollbar {
+    display: none;
+    /* Chrome/Safari: Hide Scrollbar */
+}
+
 /* Flex Container for Days */
 #calendar-strip {
     display: flex;
-    justify-content: space-between; /* Distribute evenly */
+    justify-content: space-between;
+    /* Distribute evenly */
     align-items: flex-start;
     padding: 0 40px;
     position: relative;
@@ -33,7 +46,8 @@
 }
 
 .calendar-day:hover .day-number {
-    color: #3498db; /* Blue highlight */
+    color: #3498db;
+    /* Blue highlight */
     transform: scale(1.1);
 }
 
@@ -72,10 +86,12 @@
 .event-dot {
     width: 6px;
     height: 6px;
-    background-color: #e74c3c; /* Red for event */
+    background-color: #e74c3c;
+    /* Red for event */
     border-radius: 50%;
     margin-top: 5px;
-    opacity: 0; /* Hidden by default */
+    opacity: 0;
+    /* Hidden by default */
     transition: opacity 0.2s;
 }
 
@@ -86,16 +102,22 @@
 /* Tooltip / Popup */
 .event-tooltip {
     position: absolute;
-    bottom: -10px; /* Position above the day */
+    bottom: 100%;
+    /* Position ABOVE the day */
+    margin-bottom: 15px;
+    /* Add some space */
     left: 50%;
-    transform: translateX(-50%) translateY(100%);
+    transform: translateX(-50%);
     background-color: #222;
     color: #fff;
     padding: 15px;
     border-radius: 8px;
-    width: 250px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    z-index: 100;
+    width: 280px;
+    /* Slightly wider */
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.8);
+    /* Stronger shadow */
+    z-index: 9999;
+    /* Very high z-index */
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
@@ -104,22 +126,25 @@
     text-align: center;
 }
 
-/* Arrow for tooltip */
+/* Arrow for tooltip (pointing down now) */
 .event-tooltip::after {
     content: '';
     position: absolute;
-    top: -6px;
+    bottom: -6px;
+    /* Position at bottom */
     left: 50%;
     margin-left: -6px;
     border-width: 6px;
     border-style: solid;
-    border-color: transparent transparent #222 transparent;
+    border-color: #222 transparent transparent transparent;
+    /* Point down */
 }
 
 .calendar-day:hover .event-tooltip {
     opacity: 1;
     visibility: visible;
-    transform: translateX(-50%) translateY(110%); /* Slide down slightly */
+    transform: translateX(-50%) translateY(-5px);
+    /* Slide up slightly */
 }
 
 /* Tooltip Content */
