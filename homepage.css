@@ -21,8 +21,10 @@ body {
     /* Subtle curve at bottom */
     margin-bottom: 0;
     /* Calendar will sit right below */
-    margin-top: -10px;
-    /* Pull up to hide any gap from menu shadow */
+    margin-top: -20px;
+    /* Pull up STRONGLY to hide any gap */
+    padding-top: 80px;
+    /* Compensate for the pull-up */
 }
 
 .hero-content {

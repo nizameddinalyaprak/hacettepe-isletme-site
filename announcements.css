@@ -16,14 +16,13 @@
     /* Subtle border */
     border-radius: 4px;
     /* Minimal radius */
-    padding: 15px;
-    /* Reduced padding */
+    padding: 12px;
+    /* Ultra reduced padding */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 140px;
-    /* Reduced min-height */
-    /* Ensuring consistent height */
+    min-height: 110px;
+    /* Ultra reduced min-height */
     transition: border-color 0.3s ease;
 }
 
@@ -39,17 +38,15 @@
 
 .announcement-title {
     font-family: 'Segoe UI', 'Roboto', sans-serif;
-    font-size: 16px;
-    /* Reduced font size */
-    /* Larger title */
+    font-size: 15px;
+    /* Ultra reduced font size */
     font-weight: 700;
-    /* Bold */
     /* Bold */
     color: #111;
     /* Darker black */
-    line-height: 1.3;
-    margin-bottom: 10px;
-    /* Reduced margin */
+    line-height: 1.25;
+    margin-bottom: 8px;
+    /* Ultra reduced margin */
     text-decoration: none !important;
     display: block;
 }
