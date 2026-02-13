@@ -40,6 +40,11 @@
     cssLink.href = baseUrl + "/calendar.css";
     document.head.appendChild(cssLink);
 
+    // Modern Header Yükle
+    var headerScript = document.createElement("script");
+    headerScript.src = baseUrl + "/modern-header.js";
+    document.head.appendChild(headerScript);
+
     // index.html icerigini cek
     fetch(baseUrl + '/index.html')
         .then(function (response) {
