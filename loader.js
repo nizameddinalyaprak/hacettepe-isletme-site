@@ -1393,7 +1393,7 @@
                  ${new Date().getFullYear()} <strong>Hacettepe Üniversitesi İşletme Bölümü</strong>. Nizameddin Alyaprak Tarafından Tasarlanmıştır.
             </div>
             <div class="footer-bottom-links">
-                <a href="https://hacettepe.edu.tr/tr/menu/kisisel_verilerin_korunmasi-10" target="_blank">KVKK ve Gizlilik</a>
+                <a href="https://www.hacettepe.edu.tr/hakkinda/KVKK" target="_blank">KVKK ve Gizlilik</a>
             </div>
         </div>
     </footer>`;
