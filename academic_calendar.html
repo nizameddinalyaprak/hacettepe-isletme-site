@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacettepe İşletme - Akademik Takvimler</title>
+    <script src="loader.js"></script>
+    <style>
+        :root {
+            --hacettepe-red: #ac232d;
+            --hacettepe-dark: #7e161d;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-600: #475569;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+        }
+
+        body {
+            background-color: var(--slate-50);
+            margin: 0;
+            padding: 0;
+        }
+
+        .page-hero {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 100px 20px 140px;
+            text-align: center;
+            clip-path: ellipse(150% 100% at 50% 0%);
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -0.02em;
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .calendar-portal {
+            max-width: 1000px;
+            margin: -80px auto 100px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .calendar-card {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--slate-100);
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .calendar-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 30px 60px rgba(172, 35, 45, 0.12);
+            border-color: var(--hacettepe-red);
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--slate-50);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: var(--hacettepe-red);
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-card:hover .card-icon {
+            background: var(--hacettepe-red);
+            color: white;
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .calendar-card h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--slate-800);
+            margin: 0 0 15px;
+        }
+
+        .calendar-card p {
+            font-size: 1rem;
+            color: var(--slate-600);
+            line-height: 1.6;
+            margin-bottom: 30px;
+            min-height: 3em;
+        }
+
+        .card-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background: var(--slate-100);
+            color: var(--slate-800);
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-card:hover .card-btn {
+            background: var(--hacettepe-red);
+            color: white;
+        }
+
+        .external-hint {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--slate-600);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .calendar-portal {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page-hero">
+        <h1 class="page-title">Akademik Takvimler</h1>
+        <p class="page-subtitle">Hacettepe Üniversitesi İşletme Bölümü güncel akademik takvim portalı</p>
+    </div>
+
+    <div class="calendar-portal">
+        <!-- Lisans Takvimi -->
+        <a href="https://oidb.hacettepe.edu.tr/" target="_blank" class="calendar-card">
+            <div class="card-icon">
+                <i class="fas fa-user-graduate"></i>
+            </div>
+            <h3>Lisans Akademik Takvimi</h3>
+            <p>Lisans programı takvimlerine Öğrenci İşleri Daire Başkanlığı (OİDB) üzerinden ulaşabilirsiniz.</p>
+            <div class="card-btn">
+                OİDB Takvimine Git <i class="fas fa-external-link-alt"></i>
+            </div>
+        </a>
+
+        <!-- Lisansüstü Takvimi -->
+        <a href="https://sosyalbilimler.hacettepe.edu.tr/tr/menu/akademik_takvim-16" target="_blank"
+            class="calendar-card">
+            <div class="card-icon">
+                <i class="fas fa-university"></i>
+            </div>
+            <h3>Lisansüstü Akademik Takvimi</h3>
+            <p>Yüksek Lisans ve Doktora takvimleri için Sosyal Bilimler Enstitüsü (SBE) sayfasını ziyaret edin.</p>
+            <div class="card-btn">
+                SBE Takvimine Git <i class="fas fa-external-link-alt"></i>
+            </div>
+        </a>
+    </div>
+
+    <div class="external-hint">
+        <p><i class="fas fa-info-circle"></i> Akademik takvimler üniversite genelinde güncellendiği için resmi enstitü
+            ve başkanlık sayfalarına yönlendirme yapılmaktadır.</p>
+    </div>
+
+</body>
+
+</html>

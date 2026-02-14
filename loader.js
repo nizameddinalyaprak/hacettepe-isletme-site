@@ -105,6 +105,7 @@
     var isThesisGraduatePage = path.includes('tezli_yuksek_lisans-117') || path.includes('graduate_thesis.html') || search.includes('page=graduate_thesis');
     var isNonThesisGraduatePage = path.includes('tezsiz_yuksek_lisans-213') || path.includes('graduate_non_thesis.html') || search.includes('page=graduate_non_thesis');
     var isPhDPage = path.includes('doktora-215') || path.includes('phd.html') || search.includes('page=phd');
+    var isAcademicCalendarPage = path.includes('akademik_takvimler-119') || path.includes('academic_calendar.html') || search.includes('page=academic_calendar');
     var isAdminStaffPage = path.includes('idari_personel') || path.includes('administrative_staff.html') || search.includes('page=admin') || search.includes('page=idari_personel');
 
     // Eger URL'de 'preview_subpage' varsa kesinlikle alt sayfadir (Test icin)
@@ -126,6 +127,7 @@
     if (path.endsWith('graduate_thesis.html') && isThesisGraduatePage) isStandalone = true;
     if (path.endsWith('graduate_non_thesis.html') && isNonThesisGraduatePage) isStandalone = true;
     if (path.endsWith('phd.html') && isPhDPage) isStandalone = true;
+    if (path.endsWith('academic_calendar.html') && isAcademicCalendarPage) isStandalone = true;
 
     // --- HTML ICERIGINI CEK (SADECE ANASAYFA VEYA OZEL SAYFALAR ISE) ---
     if (window.OFFLINE_MODE || isStandalone) {
@@ -261,6 +263,15 @@
                 baslat(doc, true);
             })
             .catch(function (err) { console.error("Doktora yuklenirken hata:", err); });
+    } else if (isAcademicCalendarPage) {
+        fetch(baseUrl + '/academic_calendar.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+            .catch(function (err) { console.error("Akademik takvim yuklenirken hata:", err); });
     } else {
         // ALT SAYFA: Mevcut icerigi koru, sadece susle
         // console.log("Alt Sayfa Modu: Mevcut icerik korunaraj modernlestirilecek.");
