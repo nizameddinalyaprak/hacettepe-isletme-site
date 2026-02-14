@@ -3,6 +3,14 @@
 (function () {
     console.log("Loader baslatildi...");
 
+    // 0. FAILSAFE: Eger loader bir sebepten cokerse, 2.5 saniye sonra sayfayi zorla goster.
+    setTimeout(function () {
+        document.body.style.visibility = 'visible';
+        document.body.style.opacity = '1';
+        document.documentElement.classList.remove('hi-loading');
+        console.log("Failsafe: Sayfa zorla görünür yapıldı.");
+    }, 2500);
+
     // 1. Hatali Eventleri Engelle (Scroll vs) - HATA SUSTURUCU (Kesin Cozum V2)
     var originalOnError = window.onerror;
     window.onerror = function (message, source, lineno, colno, error) {
