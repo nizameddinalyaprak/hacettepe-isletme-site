@@ -44,20 +44,15 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
-            /* Animation Initial State */
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .staff-item.visible {
+            /* Animation Initial State - SET TO VISIBLE BY DEFAULT */
             opacity: 1;
             transform: translateY(0);
         }
 
         .staff-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(172, 35, 45, 0.08);
-            border-color: #fca5a5;
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(172, 35, 45, 0.12);
+            border-color: #ac232d;
         }
 
         /* Left Side: Info */
@@ -358,30 +353,6 @@
         </div>
     </div>
 
-    <!-- Scroll Animation Script -->
-    <script>
-        (function () {
-            var observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
-
-            var observer = new IntersectionObserver(function (entries, observer) {
-                entries.forEach(function (entry) {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target); // Animasyon tek seferlik olsun
-                    }
-                });
-            }, observerOptions);
-
-            var items = document.querySelectorAll('.staff-item');
-            items.forEach(function (item) {
-                observer.observe(item);
-            });
-        })();
-    </script>
 </body>
 
 </html>

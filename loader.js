@@ -99,8 +99,8 @@
     // 2. Ozel Sayfa Tespiti (Hem URL path hem de Query String icinde aranir)
     var isAboutPage = path.includes('bolum_hakkinda-75') || path.includes('about.html') || search.includes('page=about') || search.includes('page=bolum_hakkinda');
     var isManagementPage = path.includes('yonetim-77') || path.includes('management.html') || search.includes('page=management') || search.includes('page=yonetim');
-    var isAcademicStaffPage = path.includes('ogretim_uyelerigorevlileri') || path.includes('academic_staff.html') || search.includes('page=academic') || search.includes('page=ogretim_uyelerigorevlileri');
-    var isResearchStaffPage = path.includes('arastirma_gorevlileri') || path.includes('research_assistants.html') || search.includes('page=research') || search.includes('page=arastirma_gorevlileri');
+    var isAcademicStaffPage = path.includes('ogretim_uyelerigorevlileri') || path.includes('academic_staff.html') || search.includes('page=academic') || search.includes('page=ogretim_uyelerigorevlileri') || path.includes('ogretim-uyeleri-ve-gorevlileri') || path.includes('211');
+    var isResearchStaffPage = path.includes('arastirma_gorevlileri') || path.includes('research_assistants.html') || search.includes('page=research') || search.includes('page=arastirma_gorevlileri') || path.includes('69');
     var isAdminStaffPage = path.includes('idari_personel') || path.includes('administrative_staff.html') || search.includes('page=admin') || search.includes('page=idari_personel');
 
     // Eger URL'de 'preview_subpage' varsa kesinlikle alt sayfadir (Test icin)
@@ -355,6 +355,11 @@
         // Yukleme ekrani temizle
         var loading = document.getElementById('yukleniyor');
         if (loading) loading.style.display = 'none';
+
+        // EK GUVENLIK: Body'nin gorunur oldugundan emin ol
+        document.body.style.visibility = 'visible';
+        document.body.style.opacity = '1';
+        document.documentElement.classList.remove('hi-loading');
     }
 
     function temizleVeModernlestir(doc, isFetchedContent) {
