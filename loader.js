@@ -401,90 +401,133 @@
             })
             .catch(function (err) { console.error("Etkinlikler yuklenirken hata:", err); });
     } else if (isAnnouncementsPage) {
-        // --- OZEL DURUM: Duyurular Sayfasi (Veriyi ana kaynaktan cek ve Template'e Gonder) ---
-        console.log("isAnnouncementsPage: Tespit edildi. Veri cekiliyor...");
+        // --- OZEL DURUM: Duyurular Sayfasi ---
+        var annState = { data: [], currentPage: 1, itemsPerPage: 15, currentFilter: 'all' };
 
         function loadAnnouncementsPage() {
             var sourceURL = '/tr/duyurular' + cacheBuster;
-
             fetch(sourceURL)
                 .then(res => res.text())
                 .then(html => {
                     var parser = new DOMParser();
                     var sourceDoc = parser.parseFromString(html, 'text/html');
                     var anaIcerik = sourceDoc.querySelector('.col-lg-9') || sourceDoc.querySelector('.icerik');
-                    var extractedData = [];
+                    var items = anaIcerik ? (anaIcerik.querySelectorAll('ul li').length > 0 ? anaIcerik.querySelectorAll('ul li') : anaIcerik.querySelectorAll('a')) : [];
 
-                    if (anaIcerik) {
-                        var items = anaIcerik.querySelectorAll('ul li');
-                        if (items.length === 0) {
-                            console.log("isAnnouncementsPage: LI bulunamadi, A etiketleri taranıyor...");
-                            items = anaIcerik.querySelectorAll('a');
-                        }
+                    annState.data = [];
+                    items.forEach(function (node) {
+                        var link = node.tagName === 'A' ? node : node.querySelector('a');
+                        if (!link) return;
+                        var title = link.textContent.trim();
+                        var url = link.getAttribute('href');
+                        if (!url || url.includes('javascript') || title.length < 5) return;
 
-                        console.log("isAnnouncementsPage: Bulunan eleman sayısı:", items.length);
+                        var date = "";
+                        var m = node.textContent.trim().match(/(\d{4})-(\d{2})-(\d{2})/) || node.textContent.trim().match(/(\d{2})\.(\d{2})\.(\d{4})/);
+                        if (m) date = m[0];
 
-                        items.forEach(function (node) {
-                            var link = node.tagName === 'A' ? node : node.querySelector('a');
-                            if (!link) return;
-
-                            var title = link.textContent.trim();
-                            var url = link.getAttribute('href');
-                            if (!url || url.includes('javascript')) return;
-
-                            // Temizleme ve Filtreleme
-                            if (title.length < 5) return;
-
-                            var textForDate = node.textContent.trim();
-                            var date = "";
-                            var m = textForDate.match(/(\d{4})-(\d{2})-(\d{2})/) || textForDate.match(/(\d{2})\.(\d{2})\.(\d{4})/);
-                            if (m) date = m[0];
-
-                            var tags = [];
-                            var spans = link.querySelectorAll('span');
-                            spans.forEach(function (s) {
-                                tags.push(s.textContent.trim());
-                                title = title.replace(s.textContent.trim(), "").trim();
-                            });
-
-                            extractedData.push({
-                                title: title,
-                                url: url,
-                                date: date,
-                                tags: tags.length > 0 ? tags : ["Genel"]
-                            });
+                        var tags = [];
+                        link.querySelectorAll('span').forEach(function (s) {
+                            tags.push(s.textContent.trim());
+                            title = title.replace(s.textContent.trim(), "").trim();
                         });
-                    }
+                        annState.data.push({ title: title, url: url, date: date, tags: tags.length > 0 ? tags : ["Genel"] });
+                    });
 
-                    window.cmsAnnouncements = extractedData;
-                    console.log("isAnnouncementsPage: Toplam ayıklanan veri:", extractedData.length);
-
-                    // Sablonu Yukle
                     return fetch(baseUrl + '/announcements.html' + cacheBuster);
                 })
-                .then(function (response) { return response.text(); })
-                .then(function (html) {
+                .then(res => res.text())
+                .then(html => {
                     var parser = new DOMParser();
                     var doc = parser.parseFromString(html, 'text/html');
                     baslat(doc, true);
-
-                    // Veriyi render et
-                    if (window.renderAnnouncements) {
-                        window.renderAnnouncements(window.cmsAnnouncements);
-                    }
+                    setupAnnUI();
                 })
-                .catch(function (err) {
-                    console.error("isAnnouncementsPage: HATA:", err);
-                    // Fail-safe: loader'i yine de baslat ki sayfa bos kalmasin
-                    baslat(document, false);
-                });
+                .catch(err => { console.error("Duyuru yukleme hatasi:", err); baslat(document, false); });
         }
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', loadAnnouncementsPage);
-        } else {
-            loadAnnouncementsPage();
+        function setupAnnUI() {
+            // Filter listeners
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.onclick = function () {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    annState.currentFilter = btn.getAttribute('data-filter');
+                    annState.currentPage = 1;
+                    updateAnnDisplay();
+                };
+            });
+            updateAnnDisplay();
         }
+
+        function updateAnnDisplay() {
+            var filtered = annState.data.filter(item => {
+                if (annState.currentFilter === 'all') return true;
+                return item.tags.some(t => t.toUpperCase().includes(annState.currentFilter.toUpperCase()));
+            });
+
+            var totalPages = Math.ceil(filtered.length / annState.itemsPerPage);
+            var start = (annState.currentPage - 1) * annState.itemsPerPage;
+            var paginated = filtered.slice(start, start + annState.itemsPerPage);
+
+            var listEl = document.getElementById('ann-display-list');
+            if (!listEl) return;
+
+            if (paginated.length === 0) {
+                listEl.innerHTML = '<div style="text-align:center; padding:40px; color:#64748b;">Duyuru bulunamadı.</div>';
+            } else {
+                listEl.innerHTML = paginated.map(item => {
+                    var tagsHTML = item.tags.map(tag => {
+                        var cls = 'tag-genel';
+                        var t = tag.toUpperCase();
+                        if (t.includes('ÖNEMLİ')) cls = 'tag-onemli';
+                        else if (t.includes('LİSANS')) cls = 'tag-lisans';
+                        else if (t.includes('TEZLİ')) cls = 'tag-tezli-yl';
+                        else if (t.includes('TEZSİZ')) cls = 'tag-tezsiz-yl';
+                        else if (t.includes('DOKTORA')) cls = 'tag-doktora';
+                        return `<span class="ann-tag ${cls}">${tag}</span>`;
+                    }).join('');
+
+                    return `<a href="${item.url}" class="ann-card">
+                        <div class="ann-card-left">
+                            <div class="ann-card-title">${item.title}</div>
+                            <div class="ann-card-meta">
+                                <span><i class="far fa-calendar-alt"></i> ${item.date}</span>
+                                <div style="display:flex; gap:5px;">${tagsHTML}</div>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right" style="color:#cbd5e1;"></i>
+                    </a>`;
+                }).join('');
+            }
+            renderAnnPagination(totalPages);
+        }
+
+        function renderAnnPagination(total) {
+            var pagEl = document.getElementById('ann-pagination');
+            if (!pagEl || total <= 1) { if (pagEl) pagEl.innerHTML = ''; return; }
+
+            var html = `<button class="page-btn" id="ann-prev" ${annState.currentPage === 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i></button>`;
+            for (var i = 1; i <= total; i++) {
+                if (i === 1 || i === total || (i >= annState.currentPage - 2 && i <= annState.currentPage + 2)) {
+                    html += `<button class="page-btn ${i === annState.currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
+                } else if (i === annState.currentPage - 3 || i === annState.currentPage + 3) {
+                    html += `<span style="color:#cbd5e1">...</span>`;
+                }
+            }
+            html += `<button class="page-btn" id="ann-next" ${annState.currentPage === total ? 'disabled' : ''}><i class="fas fa-chevron-right"></i></button>`;
+            pagEl.innerHTML = html;
+
+            pagEl.querySelectorAll('[data-page]').forEach(btn => {
+                btn.onclick = function () { annState.currentPage = parseInt(btn.dataset.page); updateAnnDisplay(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+            });
+            var prev = document.getElementById('ann-prev'), next = document.getElementById('ann-next');
+            if (prev) prev.onclick = function () { if (annState.currentPage > 1) { annState.currentPage--; updateAnnDisplay(); window.scrollTo({ top: 0, behavior: 'smooth' }); } };
+            if (next) next.onclick = function () { if (annState.currentPage < total) { annState.currentPage++; updateAnnDisplay(); window.scrollTo({ top: 0, behavior: 'smooth' }); } };
+        }
+
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadAnnouncementsPage);
+        else loadAnnouncementsPage();
 
     } else if (isBachelorProgramPage) {
         fetch(baseUrl + '/bachelor_program.html' + cacheBuster)
