@@ -37,7 +37,7 @@
 
 
 
-    var cacheBuster = '?v=1.0'; // Versiyonu manuel guncelleyerek cache kontrolu saglayalim
+    var cacheBuster = '?v=1.1'; // Cache busting icin versiyon guncellendi
 
     // --- STIL DOSYALARINI YUKLE ---
 
@@ -99,7 +99,7 @@
     // 2. Ozel Sayfa Tespiti (Hem URL path hem de Query String icinde aranir)
     var isAboutPage = path.includes('bolum_hakkinda-75') || path.includes('about.html') || search.includes('page=about') || search.includes('page=bolum_hakkinda');
     var isManagementPage = path.includes('yonetim-77') || path.includes('management.html') || search.includes('page=management') || search.includes('page=yonetim');
-    var isAcademicStaffPage = path.includes('ogretim_uyelerigorevlileri-211') || path.includes('academic_staff.html') || search.includes('page=academic') || search.includes('page=ogretim_uyelerigorevlileri');
+    var isAcademicStaffPage = path.includes('ogretim_uyelerigorevlileri') || path.includes('academic_staff.html') || search.includes('page=academic') || search.includes('page=ogretim_uyelerigorevlileri');
     var isResearchStaffPage = path.includes('arastirma_gorevlileri') || path.includes('research_assistants.html') || search.includes('page=research') || search.includes('page=arastirma_gorevlileri');
     var isAdminStaffPage = path.includes('idari_personel') || path.includes('administrative_staff.html') || search.includes('page=admin') || search.includes('page=idari_personel');
 
