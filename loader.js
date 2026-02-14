@@ -114,6 +114,9 @@
     var isGraduateThesisProgramPage = path.includes('tezli_yuksek_lisans_programlari-93') || path.includes('graduate_thesis_program.html') || search.includes('page=graduate_thesis_program');
     var isGraduateNonThesisProgramPage = path.includes('tezsiz_yuksek_lisans_programlari-95') || path.includes('graduate_nonthesis_program.html') || search.includes('page=graduate_nonthesis_program');
     var isBachelorProgramPage = path.includes('lisans_programi-91') || path.includes('bachelor_program.html') || search.includes('page=bachelor_program');
+    var isErasmusPage = path.includes('erasmus-103') || path.includes('erasmus_program.html') || search.includes('page=erasmus');
+    var isFarabiPage = path.includes('farabi-105') || path.includes('farabi_program.html') || search.includes('page=farabi');
+    var isMevlanaPage = path.includes('mevlana-107') || path.includes('mevlana_program.html') || search.includes('page=mevlana');
     var isAcademicCalendarPage = path.includes('akademik_takvimler-119') || path.includes('academic_calendar.html') || search.includes('page=academic_calendar');
     var isAdminStaffPage = path.includes('idari_personel') || path.includes('administrative_staff.html') || search.includes('page=admin') || search.includes('page=idari_personel');
 
@@ -141,6 +144,9 @@
     if (path.endsWith('graduate_thesis_program.html') && isGraduateThesisProgramPage) isStandalone = true;
     if (path.endsWith('graduate_nonthesis_program.html') && isGraduateNonThesisProgramPage) isStandalone = true;
     if (path.endsWith('bachelor_program.html') && isBachelorProgramPage) isStandalone = true;
+    if (path.endsWith('erasmus_program.html') && isErasmusPage) isStandalone = true;
+    if (path.endsWith('farabi_program.html') && isFarabiPage) isStandalone = true;
+    if (path.endsWith('mevlana_program.html') && isMevlanaPage) isStandalone = true;
     if (path.endsWith('academic_calendar.html') && isAcademicCalendarPage) isStandalone = true;
 
     // --- HTML ICERIGINI CEK (SADECE ANASAYFA VEYA OZEL SAYFALAR ISE) ---
@@ -321,6 +327,33 @@
                 baslat(doc, true);
             })
             .catch(function (err) { console.error("Tezsiz YL Programi yuklenirken hata:", err); });
+    } else if (isErasmusPage) {
+        fetch(baseUrl + '/erasmus_program.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+            .catch(function (err) { console.error("Erasmus yuklenirken hata:", err); });
+    } else if (isFarabiPage) {
+        fetch(baseUrl + '/farabi_program.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+            .catch(function (err) { console.error("Farabi yuklenirken hata:", err); });
+    } else if (isMevlanaPage) {
+        fetch(baseUrl + '/mevlana_program.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+            .catch(function (err) { console.error("Mevlana yuklenirken hata:", err); });
     } else if (isBachelorProgramPage) {
         fetch(baseUrl + '/bachelor_program.html' + cacheBuster)
             .then(function (response) { return response.text(); })
