@@ -401,22 +401,37 @@
             })
             .catch(function (err) { console.error("Etkinlikler yuklenirken hata:", err); });
     } else if (isAnnouncementsPage) {
-        // --- OZEL DURUM: Duyurular Sayfasi (CMS Verisini Ayikla ve Template'e Gonder) ---
-        function extractAndLoad() {
-            var extractedData = [];
-            var rows = document.querySelectorAll('#duyurular_1 tbody tr');
+        // --- OZEL DURUM: Duyurular Sayfasi (Veriyi ana kaynaktan cek ve Template'e Gonder) ---
+        console.log("isAnnouncementsPage: Tespit edildi. Veri cekiliyor...");
 
-            // console.log("Duyuru satirlari tespit edildi:", rows.length);
+        function loadAnnouncementsPage() {
+            var sourceURL = '/tr/duyurular' + cacheBuster;
 
-            if (rows.length > 0) {
-                rows.forEach(function (row) {
-                    var link = row.querySelector('a');
-                    var dateEl = row.querySelector('.tarih');
-                    if (link) {
+            fetch(sourceURL)
+                .then(res => res.text())
+                .then(html => {
+                    var parser = new DOMParser();
+                    var sourceDoc = parser.parseFromString(html, 'text/html');
+                    var anaIcerik = sourceDoc.querySelector('.col-lg-9') || sourceDoc.querySelector('.icerik');
+                    var items = anaIcerik ? anaIcerik.querySelectorAll('ul li') : [];
+
+                    console.log("isAnnouncementsPage: Kaynak sayfadan LI sayisi:", items.length);
+
+                    var extractedData = [];
+                    items.forEach(function (li) {
+                        var link = li.querySelector('a');
+                        if (!link) return;
+
                         var title = link.textContent.trim();
                         var url = link.getAttribute('href');
-                        var date = dateEl ? dateEl.textContent.trim().split(' ')[0] : "";
+                        var text = li.textContent.trim();
 
+                        // Tarih ayikla (Standard logic)
+                        var date = "";
+                        var m = text.match(/(\d{4})-(\d{2})-(\d{2})/) || text.match(/(\d{2})\.(\d{2})\.(\d{4})/);
+                        if (m) date = m[0];
+
+                        // Etiketleri ayikla
                         var tags = [];
                         var spans = link.querySelectorAll('span');
                         spans.forEach(function (s) {
@@ -430,28 +445,36 @@
                             date: date,
                             tags: tags.length > 0 ? tags : ["Genel"]
                         });
-                    }
-                });
-            }
+                    });
 
-            window.cmsAnnouncements = extractedData;
+                    window.cmsAnnouncements = extractedData;
+                    console.log("isAnnouncementsPage: Ayiklanan veri adedi:", extractedData.length);
 
-            fetch(baseUrl + '/announcements.html' + cacheBuster)
+                    // Sablonu Yukle
+                    return fetch(baseUrl + '/announcements.html' + cacheBuster);
+                })
                 .then(function (response) { return response.text(); })
                 .then(function (html) {
                     var parser = new DOMParser();
                     var doc = parser.parseFromString(html, 'text/html');
                     baslat(doc, true);
-                    if (window.renderAnnouncements) window.renderAnnouncements(extractedData);
+
+                    // Veriyi render et
+                    if (window.renderAnnouncements) {
+                        window.renderAnnouncements(window.cmsAnnouncements);
+                    }
                 })
-                .catch(function (err) { console.error("Duyurular yuklenirken hata:", err); });
+                .catch(function (err) {
+                    console.error("isAnnouncementsPage: HATA:", err);
+                    // Fail-safe: loader'i yine de baslat ki sayfa bos kalmasin
+                    baslat(document, false);
+                });
         }
 
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', extractAndLoad);
+            document.addEventListener('DOMContentLoaded', loadAnnouncementsPage);
         } else {
-            // Eger CMS tablosu henuz render edilmediyse (jQuery ile geliyorsa), kisa bir gecikme ekleyelim
-            setTimeout(extractAndLoad, 100);
+            loadAnnouncementsPage();
         }
 
     } else if (isBachelorProgramPage) {
