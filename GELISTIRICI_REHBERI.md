@@ -46,11 +46,11 @@ Projeyi geliştirirken takip etmeniz gereken döngü şudur:
 
 1.  **Düzenle:** Kendi bilgisayarınızda (veya bu ortamda) dosyalarda (`css`, `js`, `html`) değişiklik yapın.
 2.  **Commit & Push:** Değişiklikleri GitHub'a gönderin.
-    *   `git add .`
-    *   `git commit -m "..."`
-    *   `git push`
+git add .
+git commit -m "..."
+git push
 3.  **Bekle (30-60sn):** GitHub Pages'in build alması yaklaşık 30-60 saniye sürer.
-4.  **Test Et:** Tarayıcıda siteyi (https://isletme.hacettepe.edu.tr/tr) yenileyin.
+4.  **Test Et:** Tarayıcıda siteyi (https://isletme.hacettepe.edu.tr/tr/denemesayfasi-1240) yenileyin.
     *   *İpucu:* Cache sorunu yaşamamak için URL sonuna `?v=2` gibi parametreler ekleyin veya Gizli Sekme kullanın.
 
 ---

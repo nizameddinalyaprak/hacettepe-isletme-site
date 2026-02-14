@@ -74,105 +74,77 @@
     // --- HTML ICERIGINI CEK ---
     // --- HTML ICERIGINI CEK ---
     // --- HTML ICERIGINI CEK ---
+    // --- SAYFA TURU TESPITI ---
+    // Anasayfa mi yoksa alt sayfa mi?
+    var path = window.location.pathname;
+    // Anasayfa olabilecek URL desenleri:
+    var isHomePage = path.endsWith('/tr') || path.endsWith('/tr/') || path.endsWith('index.html') || path.endsWith('index.php') || path === '/' || path.includes('preview.html');
+    // Eger URL'de 'preview_subpage' varsa kesinlikle alt sayfadir (Test icin)
+    if (path.includes('preview_subpage')) isHomePage = false;
+
+    console.log("Mevcut Sayfa Yolu: " + path);
+    console.log("Anasayfa Tespiti: " + isHomePage);
+
+    // --- HTML ICERIGINI CEK (SADECE ANASAYFA ISE) ---
     if (window.OFFLINE_MODE) {
         console.log("Offline Modu Aktif: HTML cekme atlaniyor.");
-        // Offline modda zaten sayfa icerigi yuklu oldugu icin dogrudan baslatiyoruz.
-        // Ancak CSS'leri beklemek iyi olabilir, timeout ile yapalim.
         setTimeout(function () {
-            baslat(document);
+            baslat(document, false); // Offline mod = subpage gibi davran (mevcut body'yi kullan)
         }, 100);
-    } else {
+    } else if (isHomePage) {
+        // ANASAYFA: index.html'i cek ve body'yi degistir
         fetch(baseUrl + '/index.html' + cacheBuster)
             .then(function (response) {
                 return response.text();
             })
             .then(function (html) {
-                // HTML'i parse et
                 var parser = new DOMParser();
                 var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc);
+                baslat(doc, true); // true = Disaridan HTML geldi
             })
             .catch(function (err) {
                 console.error("Site yuklenirken hata olustu:", err);
-                // Offline modda hata ekrani gostermeyelim, belki preview_static.html'dir ama flag unutulmustur.
                 if (!window.location.protocol.includes('file')) {
                     document.body.innerHTML = '<h1>Hata Olustu</h1><p>' + err + '</p>';
                 }
             });
+    } else {
+        // ALT SAYFA: Mevcut icerigi koru, sadece susle
+        console.log("Alt Sayfa Modu: Mevcut icerik korunaraj modernlestirilecek.");
+        // DOMContentLoaded beklemeye gerek yok, script zaten body sonunda calisiyor varsayiyoruz.
+        // Ama garanti olsun diye:
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () {
+                baslat(document, false);
+            });
+        } else {
+            baslat(document, false); // false = Mevcut document kullaniliyor
+        }
     }
 
-    function baslat(doc) {
-        // Eger disaridan gelen bir doc ise (fetch edildiyse), body'yi degistir.
-        // Degilse (Offline mod), mevcut body uzerinde calis.
-        var isFetced = !window.OFFLINE_MODE;
-
-        if (isFetced) {
-            // 1. Basligi guncelle
-            if (doc.title) document.title = doc.title;
-
-            // 2. Stilleri ekle
+    function baslat(doc, isFetchedContent) {
+        // 1. Ortak İslemler: Stilleri Ekle
+        if (isFetchedContent) {
+            // Disaridan gelen doc icindeki stilleri al
             var styles = doc.querySelectorAll('style, link[rel="stylesheet"]');
             styles.forEach(function (style) {
                 document.head.appendChild(style);
             });
-
-            // ⚡ KRITIK MUDAHALE: CMS'in kendi stil ve scriptlerini engelle
-            // 1. CSS Dosyalari: style.css (Ana suclu), animate.css (Gereksiz hareketler)
-            var blockedCssPatterns = ['templates/template3//css/style.css', 'templates/template3/css/style.css', 'animate.css'];
-            var legacyStyles = document.querySelectorAll('link[rel="stylesheet"]');
-            legacyStyles.forEach(function (link) {
-                if (link.href && blockedCssPatterns.some(pattern => link.href.includes(pattern))) {
-                    console.warn("ZARARLI CMS STILI SILINDI: " + link.href);
-                    link.remove();
-                }
-            });
-
-            // 2. JS Dosyalari: main.js (DOM'u elliyor olabilir)
-            var blockedJsPatterns = ['templates/template3//js/main.js', 'templates/template3/js/main.js'];
-            var legacyScripts = document.querySelectorAll('script');
-            legacyScripts.forEach(function (script) {
-                if (script.src && blockedJsPatterns.some(pattern => script.src.includes(pattern))) {
-                    console.warn("ZARARLI CMS SCRIPTI SILINDI: " + script.src);
-                    script.remove();
-                }
-            });
-
-            // 3. Body icerigini degistir
-            // ONCE: Gereksiz/Eski Elementleri Temizle (DOM Cerrahi Mudahale)
-            var ghostHeader = doc.querySelector('.header');
-            if (ghostHeader) ghostHeader.remove();
-
-            var ghostTopBar = doc.querySelector('.top-bar');
-            if (ghostTopBar) ghostTopBar.remove();
-
-            var t3Wrapper = doc.querySelector('.t3-wrapper');
-            if (t3Wrapper) {
-                t3Wrapper.style.paddingTop = '0px';
-                t3Wrapper.style.marginTop = '0px';
-                t3Wrapper.style.border = 'none';
-            }
-
-            // Body uzerindeki padding/marginleri sifirla
-            document.body.style.padding = "0 !important";
-            document.body.style.margin = "0 !important";
-            document.body.style.border = "none !important";
-
-            // Eski script etiketlerini temizle (ozellikle eski slider vs varsa)
-            var oldScripts = doc.querySelectorAll('script');
-            oldScripts.forEach(s => {
-                if (s.src && (s.src.includes('jquery') || s.src.includes('bootstrap'))) return; // Temel libler kalsin
-                // Digerlerini pasifize etme potansiyeli? Simdilik kalsin, sadece gorunur elementleri ucuralim.
-            });
-
-            document.body.innerHTML = '';
-            document.body.appendChild(doc.body);
         }
 
-        // 4. HEADER ve TAKVIMI OLUSTUR (Birlestirildi)
-        headerVeTakvimOlustur();
+        // 2. KRITIK MUDAHALE: Eski CMS stillerini ve scriptlerini temizle (Her iki durumda da)
+        temizleVeModernlestir(document, isFetchedContent);
 
-        if (isFetced) {
-            // 5. Scriptleri calistir
+        // 3. Body Icerigi Yonetimi
+        if (isFetchedContent) {
+            // --- SENARYO A: ANASAYFA (Body degisimi) ---
+            document.body.innerHTML = '';
+            document.body.appendChild(doc.body);
+
+            // 3.5 Medya Yollarini Duzelt (GitHub/Local BaseURL ekle)
+            rewriteMediaPaths(document.body, baseUrl);
+
+            // Scriptleri yeniden calistir
             var scripts = doc.querySelectorAll('script');
             scripts.forEach(function (oldScript) {
                 var newScript = document.createElement('script');
@@ -180,22 +152,139 @@
                 else newScript.textContent = oldScript.textContent;
                 document.body.appendChild(newScript);
             });
+        } else {
+            // --- SENARYO B: ALT SAYFA (Icerik sarmalama) ---
+            // CMS icerigi genellikle '.item-page', '.blog' veya benzeri bir div icindedir.
+            // Biz bu icerigi alip kendi container'imiza koyacagiz.
+
+            // Hedef Icerik Bulucu
+            var contentSelectors = ['.item-page', '.blog', '[itemprop="articleBody"]', '.t3-content'];
+            var mainContent = null;
+
+            for (var i = 0; i < contentSelectors.length; i++) {
+                mainContent = document.querySelector(contentSelectors[i]);
+                if (mainContent) break;
+            }
+
+            // Eger spesifik bir icerik divi bulamazsak, body'nin icindeki her seyi (scriptler haric) alalim
+            if (!mainContent) {
+                console.warn("CMS icerik divi bulunamadi, tum body sarmalaniyor.");
+                // Body'deki tum cocuklari bir diziye al
+                var children = Array.from(document.body.children);
+                // Container olustur
+                mainContent = document.createElement('div');
+                // Script, Style ve Loader haric her seyi container'a tasi (Genel temizlik)
+                children.forEach(function (child) {
+                    if (child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE' && child.tagName !== 'LINK') {
+                        mainContent.appendChild(child);
+                    }
+                });
+                document.body.innerHTML = ''; // Temizle
+                document.body.appendChild(mainContent); // Container'i ekle
+            }
+
+            // Simdi bu mainContent'i guzellestirelim
+            mainContent.classList.add('container', 'main-content');
+            mainContent.style.marginTop = '40px';
+            mainContent.style.marginBottom = '60px';
+            mainContent.style.backgroundColor = '#fff';
+            mainContent.style.padding = '40px';
+            mainContent.style.borderRadius = '16px';
+            mainContent.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
+            mainContent.style.border = '1px solid #edf2f9';
+
+            // Font ayarlari (CMS'den gelen kalitesiz fontlari ezmek icin)
+            mainContent.style.fontFamily = "'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+            mainContent.style.fontSize = "16px";
+            mainContent.style.lineHeight = "1.7";
+            mainContent.style.color = "#333";
+
+            // H elementlerini duzelt
+            var headings = mainContent.querySelectorAll('h1, h2, h3');
+            headings.forEach(function (h) {
+                h.style.fontFamily = "system-ui, -apple-system, sans-serif";
+                h.style.fontWeight = "700";
+                h.style.color = "#ac232d";
+                h.style.marginTop = "30px";
+                h.style.marginBottom = "20px";
+            });
+
+            // Linkleri duzelt
+            var links = mainContent.querySelectorAll('a');
+            links.forEach(function (a) {
+                if (!a.classList.contains('btn')) {
+                    a.style.color = "#ac232d";
+                    a.style.fontWeight = "500";
+                    a.style.textDecoration = "underline";
+                }
+            });
+
+            // Eger container zaten body'de degilse (querySelector ile bulduysak)
+            if (mainContent.parentNode !== document.body) {
+                // Once body'yi temizle (Header/Footer haric - ama onlar zaten henuz eklenmedi)
+                // document.body.innerHTML = ''; // Tehlikeli olabilir, onceki scriptleri silebilir
+
+                // Daha guvenli: Sadece gorunur elementleri gizle/sil
+                var bodyChildren = Array.from(document.body.children);
+                bodyChildren.forEach(c => {
+                    if (c !== mainContent && c.tagName !== 'SCRIPT') c.style.display = 'none';
+                });
+                document.body.appendChild(mainContent);
+                mainContent.style.display = 'block';
+            }
         }
 
-        // 6. DUYURULARI CEK VE GOSTER
-        duyurulariCek();
+        // 4. Header ve Footer (Ortak)
+        headerVeTakvimOlustur();
+        duyurulariCek(); // Duyurular alt sayfalarda da gozuksun mu? Genelde alt sayfalarda sidebar olabilir.
+        // Istege bagli: Alt sayfalarda duyuru listesi olmasin derseniz if(isFetchedContent) icine alin.
 
-        // 7. Footer Olustur
         footerOlustur();
 
-        // 8. Render Calendar Data (Veriyi cekip render et)
+        // 5. Takvim Verisi
         setTimeout(takvimVerisiniCek, 500);
 
-        // Yukleme ekranini kaldir
+        // Yukleme ekrani temizle
         var loading = document.getElementById('yukleniyor');
         if (loading) loading.style.display = 'none';
+    }
 
-        console.log("Site basariyla yuklendi!");
+    function temizleVeModernlestir(doc, isFetchedContent) {
+        // CMS'in kendi stil ve scriptlerini engelle
+        var blockedCssPatterns = ['templates/template3//css/style.css', 'templates/template3/css/style.css', 'animate.css'];
+        var legacyStyles = document.querySelectorAll('link[rel="stylesheet"]');
+        legacyStyles.forEach(function (link) {
+            if (link.href && blockedCssPatterns.some(pattern => link.href.includes(pattern))) {
+                link.remove();
+            }
+        });
+
+        var blockedJsPatterns = ['templates/template3//js/main.js', 'templates/template3/js/main.js'];
+        var legacyScripts = document.querySelectorAll('script');
+        legacyScripts.forEach(function (script) {
+            if (script.src && blockedJsPatterns.some(pattern => script.src.includes(pattern))) {
+                script.remove();
+            }
+        });
+
+        // Eski Header/Top Bar Temizligi
+        var elementsToRemove = ['.header', '.top-bar', '#sp-header', '#sp-top-bar'];
+        elementsToRemove.forEach(sel => {
+            var el = doc.querySelector(sel);
+            if (el) el.remove();
+        });
+
+        // Wrapper temizligi
+        var t3Wrapper = doc.querySelector('.t3-wrapper');
+        if (t3Wrapper) {
+            t3Wrapper.style.padding = '0';
+            t3Wrapper.style.margin = '0';
+            t3Wrapper.style.border = 'none';
+            t3Wrapper.style.background = 'transparent';
+        }
+
+        document.body.style.padding = "0 !important";
+        document.body.style.margin = "0 !important";
     }
 
     // --- HEADER VE TAKVIM OLUSTURMA ---
@@ -851,4 +940,47 @@
 
         document.body.insertAdjacentHTML('beforeend', footerHTML);
     }
+    // --- YOL DUZELTME (Path Rewriting) ---
+    // CMS icine gomuldugunde relative path'leri (orn: "videos/hero.mp4")
+    // GitHub Pages veya Localhost URL'ine cevirir (orn: "https://username.github.io/repo/videos/hero.mp4")
+    function rewriteMediaPaths(container, baseUrl) {
+        if (!container) return;
+
+        console.log("Medya yollari duzeltiliyor... BaseURL: " + baseUrl);
+
+        // 1. Videolar (source tagleri)
+        var sources = container.querySelectorAll('source');
+        sources.forEach(function (source) {
+            var src = source.getAttribute('src');
+            if (src && !src.startsWith('http') && !src.startsWith('//') && !src.startsWith('data:')) {
+                // Eger basinda slash varsa kaldir (baseUrl sonuna ekleyecegiz)
+                if (src.startsWith('/')) src = src.substring(1);
+                source.src = baseUrl + '/' + src;
+                console.log("Video source duzeltildi: " + source.src);
+            }
+        });
+
+        // 2. Resimler (img tagleri)
+        var images = container.querySelectorAll('img');
+        images.forEach(function (img) {
+            var src = img.getAttribute('src');
+            // src varsa ve relative ise
+            if (src && !src.startsWith('http') && !src.startsWith('//') && !src.startsWith('data:')) {
+                if (src.startsWith('/')) src = src.substring(1);
+                img.src = baseUrl + '/' + src;
+                // console.log("Img src duzeltildi: " + img.src);
+            }
+        });
+
+        // 3. Videolar (video tag direkt src)
+        var videos = container.querySelectorAll('video');
+        videos.forEach(function (video) {
+            var src = video.getAttribute('src');
+            if (src && !src.startsWith('http') && !src.startsWith('//') && !src.startsWith('data:')) {
+                if (src.startsWith('/')) src = src.substring(1);
+                video.src = baseUrl + '/' + src;
+            }
+        });
+    }
+
 })();
