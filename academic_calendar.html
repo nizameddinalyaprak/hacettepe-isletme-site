@@ -141,51 +141,52 @@
             color: white;
         }
 
-        .archive-toggle {
+        /* REPLACING JS TOGGLE WITH NATIVE DETAILS/SUMMARY */
+        details.archive-wrapper {
+            width: 100%;
+        }
+
+        summary.archive-toggle {
             font-size: 0.9rem;
             color: var(--slate-600);
             cursor: pointer;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             padding: 10px 20px;
             border-radius: 12px;
             transition: all 0.2s;
             border: 1px solid transparent;
+            list-style: none;
+            /* Hide default arrow */
         }
 
-        .archive-toggle:hover {
+        summary.archive-toggle::-webkit-details-marker {
+            display: none;
+            /* Hide default arrow on Safari */
+        }
+
+        summary.archive-toggle:hover {
             background: var(--slate-100);
             color: var(--hacettepe-red);
         }
 
-        .archive-toggle i {
-            transition: transform 0.3s ease;
-        }
-
-        .archive-toggle.active i {
+        details.archive-wrapper[open] summary.archive-toggle i {
             transform: rotate(180deg);
         }
 
         .archive-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             background: white;
             border-radius: 16px;
             width: 100%;
             text-align: left;
-            opacity: 0;
-        }
-
-        .archive-content.open {
-            max-height: 600px;
-            opacity: 1;
             margin-top: 10px;
             padding: 20px;
             border: 1px solid var(--slate-100);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
             overflow-y: auto;
+            max-height: 400px;
         }
 
         .archive-list {
@@ -273,37 +274,33 @@
                 <a href="https://oidb.hacettepe.edu.tr/" target="_blank" class="card-btn">
                     Güncel Takvime Git <i class="fas fa-external-link-alt"></i>
                 </a>
-                <div class="archive-toggle" onclick="toggleArchive('lisansArchive', this)">
-                    <i class="fas fa-chevron-down"></i> Lisans Arşivi ve Diğer Takvimler
-                </div>
-                <div id="lisansArchive" class="archive-content">
-                    <ul class="archive-list">
-                        <li><a href="https://fs.hacettepe.edu.tr/oidb/dosyalar/akademik_takvimler/25-26/2025-2026_akademik_takvim_24042024_2025_69.pdf"
-                                target="_blank"><i class="fas fa-file-pdf"></i> 2025-2026 Akademik Takvim <span
-                                    class="badge-new">YENİ</span></a></li>
-                        <li><a href="https://fs.hacettepe.edu.tr/oidb/dosyalar/akademik_takvimler/25-26/2025-2026_Yatay_Gecis_Takvimi.pdf"
-                                target="_blank"><i class="fas fa-file-pdf"></i> 2025-2026 Yatay Geçiş Takvimi</a></li>
-                        <li><a href="https://fs.hacettepe.edu.tr/oidb/2025-2026muafiyet_yeni.pdf" target="_blank"><i
-                                    class="fas fa-file-pdf"></i> 2025-2026 Muafiyet Sınav Takvimi</a></li>
-                        <li><a href="https://fs.hacettepe.edu.tr/oidb/dosyalar/akademik_takvimler/24-25/2024-2025_akademik_takvim_24042024_2025_69.pdf"
-                                target="_blank"><i class="fas fa-file-pdf"></i> 2024-2025 Akademik Takvim</a></li>
-                        <li><a href="https://oidb.hacettepe.edu.tr/tr/akademik_takvim_20232024-405" target="_blank"><i
-                                    class="fas fa-link"></i> 2023-2024 Akademik Takvim</a></li>
-                        <li><a href="https://fs.hacettepe.edu.tr/oidb/dosyalar/duyurular/mezuniyet_toren_takvimi_guncel.pdf"
-                                target="_blank"><i class="fas fa-file-pdf"></i> 2024-2025 Mezuniyet Töreni Takvimi</a>
-                        </li>
-                        <li><a href="https://internationalstudent.hacettepe.edu.tr/tr/menu/basvuru_ve_kabul_takvimi-37"
-                                target="_blank"><i class="fas fa-link"></i> Uluslararası Öğrenci Kabul Takvimi</a></li>
-                        <li><a href="https://fs.hacettepe.edu.tr/tip/ekler/pdf/2025-2026Akademikkurul.pdf"
-                                target="_blank"><i class="fas fa-file-pdf"></i> Tıp Fakültesi Takvimi</a></li>
-                        <li><a href="https://fs.hacettepe.edu.tr/dishek/2019GUZ/2025%202026%20akademik%20takvim.pdf"
-                                target="_blank"><i class="fas fa-file-pdf"></i> Diş Hekimliği Takvimi</a></li>
-                        <li><a href="https://ydyo.hacettepe.edu.tr/tr/menu/20252026%C2%A0egitim_ogretim_yili_akade-275"
-                                target="_blank"><i class="fas fa-link"></i> YDYO Akademik Takvimi</a></li>
-                        <li><a href="https://isletme.hacettepe.edu.tr/tr/menu/akademik_takvim_arsivi-61"
-                                target="_blank"><i class="fas fa-archive"></i> Tüm OİDB Arşivi</a></li>
-                    </ul>
-                </div>
+                <details class="archive-wrapper">
+                    <summary class="archive-toggle">
+                        <i class="fas fa-chevron-down"></i> Lisans Arşivi ve Diğer Takvimler
+                    </summary>
+                    <div class="archive-content">
+                        <ul class="archive-list">
+                            <li><a href="https://fs.hacettepe.edu.tr/oidb/dosyalar/akademik_takvimler/25-26/2025-2026_akademik_takvim_24042024_2025_69.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2025-2026 Akademik Takvim <span
+                                        class="badge-new">YENİ</span></a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/oidb/dosyalar/akademik_takvimler/25-26/2025-2026_Yatay_Gecis_Takvimi.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2025-2026 Yatay Geçiş Takvimi</a>
+                            </li>
+                            <li><a href="https://fs.hacettepe.edu.tr/oidb/2025-2026muafiyet_yeni.pdf" target="_blank"><i
+                                        class="fas fa-file-pdf"></i> 2025-2026 Muafiyet Sınav Takvimi</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/oidb/dosyalar/akademik_takvimler/24-25/2024-2025_akademik_takvim_24042024_2025_69.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2024-2025 Akademik Takvim</a></li>
+                            <li><a href="https://oidb.hacettepe.edu.tr/tr/akademik_takvim_20232024-405"
+                                    target="_blank"><i class="fas fa-link"></i> 2023-2024 Akademik Takvim</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/oidb/dosyalar/duyurular/mezuniyet_toren_takvimi_guncel.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2024-2025 Mezuniyet Töreni
+                                    Takvimi</a>
+                            </li>
+                            <li><a href="https://isletme.hacettepe.edu.tr/tr/menu/akademik_takvim_arsivi-61"
+                                    target="_blank"><i class="fas fa-archive"></i> Tüm OİDB Arşivi</a></li>
+                        </ul>
+                    </div>
+                </details>
             </div>
         </div>
 
@@ -319,40 +316,42 @@
                     class="card-btn">
                     Güncel Takvime Git <i class="fas fa-external-link-alt"></i>
                 </a>
-                <div class="archive-toggle" onclick="toggleArchive('graduateArchive', this)">
-                    <i class="fas fa-chevron-down"></i> Lisansüstü Takvim Arşivi
-                </div>
-                <div id="graduateArchive" class="archive-content">
-                    <ul class="archive-list">
-                        <li><a href="https://fs.hacettepe.edu.tr/sosbil/duyurular/2024-2025/bahar-duyurusu/lisanustu-yedek-kay%C4%B1rvekesinkayit/2025-2026%20Guz_ve_Bahar_Akademik_Takvim.pdf"
-                                target="_blank"><i class="fas fa-file-pdf"></i> 2025-2026 Akademik Takvim <span
-                                    class="badge-new">YENİ</span></a></li>
-                        <li><a href="https://fs.hacettepe.edu.tr/sosbil/duyurular/2024-2025%20Akademik%20Takvim.pdf"
-                                target="_blank"><i class="fas fa-file-pdf"></i> 2024-2025 Akademik Takvim</a></li>
-                        <li><a href="https://fs.hacettepe.edu.tr/sosbil/duyurular/2023-2024%20Akademik%20Takvim.pdf"
-                                target="_blank"><i class="fas fa-file-pdf"></i> 2023-2024 Akademik Takvim</a></li>
-                        <li><a href="https://fs.hacettepe.edu.tr/sosbil/duyurular/2022-2023%20Bahar/2022_2023.xlsx"
-                                target="_blank"><i class="fas fa-file-excel"></i> 2022-2023 Akademik Takvim</a></li>
-                        <li><a href="https://fs.hacettepe.edu.tr/sosbil/duyurular/2020-2021%20G%C3%BCz/2021-2022%20Akademik%20Takvim.pdf"
-                                target="_blank"><i class="fas fa-file-pdf"></i> 2021-2022 Akademik Takvim</a></li>
-                        <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2020-2021OgretimYiliAkademikTakvimi.pdf"
-                                target="_blank"><i class="fas fa-file-pdf"></i> 2020-2021 Akademik Takvim</a></li>
-                        <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2019-2020%20Bahar%20yar%C4%B1y%C4%B1l%C4%B1%20akademik%20takvim%20g%C3%BCncellemesi.pdf"
-                                target="_blank"><i class="fas fa-file-pdf"></i> 2019-2020 Bahar (Güncel)</a></li>
-                        <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2019_2020_akademik%20takvim.pdf"
-                                target="_blank"><i class="fas fa-file-pdf"></i> 2019-2020 Güz-Bahar-Yaz</a></li>
-                        <li><a href="https://fs.hacettepe.edu.tr/sosbil/duyurular/2018-19_akademik_takvim.pdf"
-                                target="_blank"><i class="fas fa-file-pdf"></i> 2018-2019 Akademik Takvim</a></li>
-                        <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2017-18_akademiktakvim.pdf"
-                                target="_blank"><i class="fas fa-file-pdf"></i> 2017-2018 Akademik Takvim</a></li>
-                        <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2016_2017_guz_takvim.pdf"
-                                target="_blank"><i class="fas fa-file-pdf"></i> 2016-2017 Güz Takvimi</a></li>
-                        <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2016_2017_bahar_takvim.pdf"
-                                target="_blank"><i class="fas fa-file-pdf"></i> 2016-2017 Bahar Takvimi</a></li>
-                        <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2016_2017_yaz_takvim.pdf"
-                                target="_blank"><i class="fas fa-file-pdf"></i> 2016-2017 Yaz Takvimi</a></li>
-                    </ul>
-                </div>
+                <details class="archive-wrapper">
+                    <summary class="archive-toggle">
+                        <i class="fas fa-chevron-down"></i> Lisansüstü Takvim Arşivi
+                    </summary>
+                    <div class="archive-content">
+                        <ul class="archive-list">
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/duyurular/2024-2025/bahar-duyurusu/lisanustu-yedek-kay%C4%B1rvekesinkayit/2025-2026%20Guz_ve_Bahar_Akademik_Takvim.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2025-2026 Akademik Takvim <span
+                                        class="badge-new">YENİ</span></a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/duyurular/2024-2025%20Akademik%20Takvim.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2024-2025 Akademik Takvim</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/duyurular/2023-2024%20Akademik%20Takvim.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2023-2024 Akademik Takvim</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/duyurular/2022-2023%20Bahar/2022_2023.xlsx"
+                                    target="_blank"><i class="fas fa-file-excel"></i> 2022-2023 Akademik Takvim</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/duyurular/2020-2021%20G%C3%BCz/2021-2022%20Akademik%20Takvim.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2021-2022 Akademik Takvim</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2020-2021OgretimYiliAkademikTakvimi.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2020-2021 Akademik Takvim</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2019-2020%20Bahar%20yar%C4%B1y%C4%B1l%C4%B1%20akademik%20takvim%20g%C3%BCncellemesi.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2019-2020 Bahar (Güncel)</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2019_2020_akademik%20takvim.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2019-2020 Güz-Bahar-Yaz</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/duyurular/2018-19_akademik_takvim.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2018-2019 Akademik Takvim</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2017-18_akademiktakvim.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2017-2018 Akademik Takvim</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2016_2017_guz_takvim.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2016-2017 Güz Takvimi</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2016_2017_bahar_takvim.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2016-2017 Bahar Takvimi</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2016_2017_yaz_takvim.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2016-2017 Yaz Takvimi</a></li>
+                        </ul>
+                    </div>
+                </details>
             </div>
         </div>
     </div>
@@ -362,26 +361,6 @@
             ve başkanlık sayfaları en güncel kaynaklardır.</p>
     </div>
 
-    <script>
-        function toggleArchive(id, btn) {
-            const content = document.getElementById(id);
-            const isOpen = content.classList.contains('open');
-
-            // Close all first if you want accordion style
-            /*
-            document.querySelectorAll('.archive-content').forEach(el => el.classList.remove('open'));
-            document.querySelectorAll('.archive-toggle').forEach(el => el.classList.remove('active'));
-            */
-
-            if (!isOpen) {
-                content.classList.add('open');
-                btn.classList.add('active');
-            } else {
-                content.classList.remove('open');
-                btn.classList.remove('active');
-            }
-        }
-    </script>
 
 </body>
 
