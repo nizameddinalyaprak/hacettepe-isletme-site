@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacettepe İşletme - Tezsiz Yüksek Lisans / MBA Ders Programları</title>
+    <script src="loader.js"></script>
+    <style>
+        :root {
+            --hacettepe-red: #ac232d;
+            --hacettepe-dark: #7e161d;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-600: #475569;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+        }
+
+        .page-hero {
+            background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+            color: white;
+            padding: 80px 20px 100px;
+            text-align: center;
+            clip-path: ellipse(150% 100% at 50% 0%);
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -0.02em;
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: -60px auto 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .action-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--slate-100);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(172, 35, 45, 0.1);
+            border-color: var(--hacettepe-red);
+        }
+
+        .action-icon {
+            width: 54px;
+            height: 54px;
+            background: var(--slate-50);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--hacettepe-red);
+            transition: all 0.3s ease;
+        }
+
+        .action-card:hover .action-icon {
+            background: var(--hacettepe-red);
+            color: white;
+        }
+
+        .action-text h3 {
+            margin: 0;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--slate-800);
+        }
+
+        .action-text p {
+            margin: 4px 0 0;
+            font-size: 0.9rem;
+            color: var(--slate-600);
+        }
+
+        .schedule-container {
+            max-width: 1200px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            margin: 40px 0 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--slate-100);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .section-header h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--slate-800);
+            margin: 0;
+        }
+
+        .section-header h2 span {
+            color: var(--hacettepe-red);
+        }
+
+        .pdf-wrapper {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--slate-200);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+            position: relative;
+            margin-bottom: 60px;
+        }
+
+        .pdf-frame {
+            width: 100%;
+            height: 800px;
+            border: none;
+        }
+
+        .pdf-actions {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 5;
+        }
+
+        .mini-btn {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(4px);
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--slate-700);
+            transition: all 0.2s;
+            cursor: pointer;
+            border: 1px solid var(--slate-200);
+        }
+
+        .mini-btn:hover {
+            background: var(--hacettepe-red);
+            color: white;
+            border-color: var(--hacettepe-red);
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.25rem;
+            }
+
+            .pdf-frame {
+                height: 500px;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page-hero">
+        <h1 class="page-title">Tezsiz YL / MBA</h1>
+        <p class="page-subtitle">2025-2026 Akademik Yılı Bahar Dönemi</p>
+    </div>
+
+    <div class="dashboard">
+        <a href="#mba-section" class="action-card">
+            <div class="action-icon">
+                <i class="fas fa-briefcase"></i>
+            </div>
+            <div class="action-text">
+                <h3>MBA Programı</h3>
+                <p>İşletme Yönetimi (MBA)</p>
+            </div>
+        </a>
+
+        <a href="#tezsiz-section" class="action-card">
+            <div class="action-icon">
+                <i class="fas fa-user-graduate"></i>
+            </div>
+            <div class="action-text">
+                <h3>Tezsiz YL (Genel)</h3>
+                <p>Genel Tezsiz YL Programı</p>
+            </div>
+        </a>
+
+        <a href="https://sosyalbilimler.hacettepe.edu.tr" target="_blank" class="action-card">
+            <div class="action-icon">
+                <i class="fas fa-external-link-alt"></i>
+            </div>
+            <div class="action-text">
+                <h3>SBE Kayıt</h3>
+                <p>Enstitü duyuruları ve kayıt</p>
+            </div>
+        </a>
+    </div>
+
+    <div class="schedule-container">
+
+        <!-- MBA Section -->
+        <div id="mba-section" class="section-header">
+            <h2>MBA <span>Ders Programı</span></h2>
+            <a href="https://fs.hacettepe.edu.tr/isletme/dosyalar/Duyuru%20Dosyalar%C4%B1/DersProgramlari/2526/bahar/MBA_Ders_Program%C4%B1_08_02_2026.pdf"
+                target="_blank"
+                style="color: var(--hacettepe-red); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+                <i class="fas fa-download"></i> MBA PDF İndir
+            </a>
+        </div>
+        <div class="pdf-wrapper">
+            <div class="pdf-actions">
+                <div class="mini-btn" title="Tam Ekran" onclick="toggleFullScreen('pdfMBA')"><i
+                        class="fas fa-expand"></i></div>
+            </div>
+            <iframe id="pdfMBA"
+                src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Duyuru%20Dosyalar%C4%B1/DersProgramlari/2526/bahar/MBA_Ders_Program%C4%B1_08_02_2026.pdf"
+                class="pdf-frame"></iframe>
+        </div>
+
+        <!-- Tezsiz YL Section -->
+        <div id="tezsiz-section" class="section-header">
+            <h2>Tezsiz YL (Genel) <span>Ders Programı</span></h2>
+            <a href="https://fs.hacettepe.edu.tr/isletme/dosyalar/Duyuru%20Dosyalar%C4%B1/DersProgramlari/2526/bahar/Tezsiz_YL_Ders_Program%C4%B1_07_02_2026.pdf"
+                target="_blank"
+                style="color: var(--hacettepe-red); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+                <i class="fas fa-download"></i> Tezsiz YL PDF İndir
+            </a>
+        </div>
+        <div class="pdf-wrapper">
+            <div class="pdf-actions">
+                <div class="mini-btn" title="Tam Ekran" onclick="toggleFullScreen('pdfTezsiz')"><i
+                        class="fas fa-expand"></i></div>
+            </div>
+            <iframe id="pdfTezsiz"
+                src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Duyuru%20Dosyalar%C4%B1/DersProgramlari/2526/bahar/Tezsiz_YL_Ders_Program%C4%B1_07_02_2026.pdf"
+                class="pdf-frame"></iframe>
+        </div>
+
+    </div>
+
+    <script>
+        function toggleFullScreen(id) {
+            var el = document.getElementById(id);
+            if (el.requestFullscreen) {
+                el.requestFullscreen();
+            } else if (el.webkitRequestFullscreen) {
+                el.webkitRequestFullscreen();
+            } else if (el.msRequestFullscreen) {
+                el.msRequestFullscreen();
+            }
+        }
+    </script>
+</body>
+
+</html>

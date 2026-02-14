@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacettepe İşletme - Doktora Ders Programı</title>
+    <script src="loader.js"></script>
+    <style>
+        :root {
+            --hacettepe-red: #ac232d;
+            --hacettepe-dark: #7e161d;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-600: #475569;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+        }
+
+        .page-hero {
+            background: linear-gradient(135deg, #7e161d 0%, #ac232d 100%);
+            color: white;
+            padding: 80px 20px 100px;
+            text-align: center;
+            clip-path: ellipse(150% 100% at 50% 0%);
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -0.02em;
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: -60px auto 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .action-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--slate-100);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(172, 35, 45, 0.1);
+            border-color: var(--hacettepe-red);
+        }
+
+        .action-icon {
+            width: 54px;
+            height: 54px;
+            background: var(--slate-50);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--hacettepe-red);
+            transition: all 0.3s ease;
+        }
+
+        .action-card:hover .action-icon {
+            background: var(--hacettepe-red);
+            color: white;
+        }
+
+        .action-text h3 {
+            margin: 0;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--slate-800);
+        }
+
+        .action-text p {
+            margin: 4px 0 0;
+            font-size: 0.9rem;
+            color: var(--slate-600);
+        }
+
+        .schedule-container {
+            max-width: 1200px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+        }
+
+        .schedule-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .schedule-info h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--slate-800);
+            margin: 0;
+        }
+
+        .schedule-info span {
+            color: var(--hacettepe-red);
+            font-weight: 600;
+        }
+
+        .pdf-wrapper {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--slate-200);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+
+        .pdf-frame {
+            width: 100%;
+            height: 900px;
+            border: none;
+        }
+
+        .pdf-actions {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 5;
+        }
+
+        .mini-btn {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(4px);
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--slate-700);
+            transition: all 0.2s;
+            cursor: pointer;
+            border: 1px solid var(--slate-200);
+        }
+
+        .mini-btn:hover {
+            background: var(--hacettepe-red);
+            color: white;
+            border-color: var(--hacettepe-red);
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.25rem;
+            }
+
+            .pdf-frame {
+                height: 600px;
+            }
+
+            .schedule-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page-hero">
+        <h1 class="page-title">Doktora</h1>
+        <p class="page-subtitle">2025-2026 Akademik Yılı Bahar Dönemi</p>
+    </div>
+
+    <div class="dashboard">
+        <a href="https://fs.hacettepe.edu.tr/isletme/dosyalar/Duyuru%20Dosyalar%C4%B1/DersProgramlari/2526/bahar/Doktora_Ders_Program%C4%B1_07_02_2026.pdf"
+            target="_blank" class="action-card">
+            <div class="action-icon">
+                <i class="fas fa-file-pdf"></i>
+            </div>
+            <div class="action-text">
+                <h3>Programı İndir</h3>
+                <p>PDF formatında tam liste</p>
+            </div>
+        </a>
+
+        <a href="https://isletme.hacettepe.edu.tr/tr/menu/akademik_takvimler-119" class="action-card">
+            <div class="action-icon">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="action-text">
+                <h3>Akademik Takvim</h3>
+                <p>Önemli tarihler ve sınavlar</p>
+            </div>
+        </a>
+
+        <a href="https://sosyalbilimler.hacettepe.edu.tr" target="_blank" class="action-card">
+            <div class="action-icon">
+                <i class="fas fa-microscope"></i>
+            </div>
+            <div class="action-text">
+                <h3>SBE Doktora</h3>
+                <p>Doktora süreçleri ve formlar</p>
+            </div>
+        </a>
+    </div>
+
+    <div class="schedule-container">
+        <div class="schedule-header">
+            <div class="schedule-info">
+                <h2>Doktora Programı <span>Bahar 2026</span></h2>
+            </div>
+            <div class="last-update" style="font-size: 0.85rem; color: var(--slate-600);">
+                <i class="fas fa-clock"></i> Son Güncelleme: 07.02.2026
+            </div>
+        </div>
+
+        <div class="pdf-wrapper">
+            <div class="pdf-actions">
+                <div class="mini-btn" title="Tam Ekran" onclick="toggleFullScreen()"><i class="fas fa-expand"></i></div>
+                <div class="mini-btn" title="Yazdır" onclick="window.print()"><i class="fas fa-print"></i></div>
+            </div>
+            <iframe id="pdfFrame"
+                src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Duyuru%20Dosyalar%C4%B1/DersProgramlari/2526/bahar/Doktora_Ders_Program%C4%B1_07_02_2026.pdf"
+                class="pdf-frame">
+            </iframe>
+        </div>
+    </div>
+
+    <script>
+        function toggleFullScreen() {
+            var el = document.getElementById('pdfFrame');
+            if (el.requestFullscreen) {
+                el.requestFullscreen();
+            } else if (el.webkitRequestFullscreen) {
+                el.webkitRequestFullscreen();
+            } else if (el.msRequestFullscreen) {
+                el.msRequestFullscreen();
+            }
+        }
+    </script>
+</body>
+
+</html>
