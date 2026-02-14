@@ -1,6 +1,5 @@
 /* modern-header.js */
 (function () {
-    console.log("Modern Header yukleniyor...");
 
     var scriptSrc = document.currentScript.src;
     var baseUrl = scriptSrc.substring(0, scriptSrc.lastIndexOf('/'));

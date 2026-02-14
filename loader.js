@@ -12,7 +12,7 @@
         document.body.style.visibility = 'visible';
         document.body.style.opacity = '1';
         document.documentElement.classList.remove('hi-loading');
-        // console.log("Failsafe: Sayfa zorla görünür yapıldı.");
+        // ("Failsafe: Sayfa zorla görünür yapıldı.");
     }, 2500);
 
     // 1. Hatali Eventleri Engelle (Scroll vs) - HATA SUSTURUCU (Kesin Cozum V2)
@@ -24,7 +24,6 @@
         if (originalOnError) return originalOnError(message, source, lineno, colno, error);
         return false;
     };
-
     var originalConsoleError = console.error;
     console.error = function () {
         var args = Array.from(arguments);
@@ -129,9 +128,6 @@
     // Eger URL'de 'preview_subpage' varsa kesinlikle alt sayfadir (Test icin)
     if (path.includes('preview_subpage')) isHomePage = false;
 
-    //console.log("Mevcut Sayfa Yolu: " + path);
-    //console.log("Anasayfa Tespiti: " + isHomePage);
-    //console.log("Hakkinda Sayfasi Tespiti: " + isAboutPage);
 
     // --- STANDALONE MODE CHECK (Dosyanin kendisi acildiysa fetch yapma) ---
     // Ornegin: management.html dogrudan acildiysa, kendini fetch etmesin.
@@ -163,7 +159,7 @@
 
     // --- HTML ICERIGINI CEK (SADECE ANASAYFA VEYA OZEL SAYFALAR ISE) ---
     if (window.OFFLINE_MODE || isStandalone) {
-        // console.log("Offline/Standalone Modu Aktif: HTML cekme atlaniyor.");
+        // ("Offline/Standalone Modu Aktif: HTML cekme atlaniyor.");
         // Loader'in stil ve scriptleri enjekte etmesi icin baslat'i cagiriyoruz.
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', function () {
@@ -184,14 +180,13 @@
                 baslat(doc, true); // true = Disaridan HTML geldi
             })
             .catch(function (err) {
-                console.error("Site yuklenirken hata olustu:", err);
                 if (!window.location.protocol.includes('file')) {
                     document.body.innerHTML = '<h1>Hata Olustu</h1><p>' + err + '</p>';
                 }
             });
     } else if (isAboutPage) {
         // HAKKINDA SAYFASI: about.html'i cek ve body'yi degistir
-        // console.log("Hakkinda sayfasi yukleniyor...");
+        // ("Hakkinda sayfasi yukleniyor...");
         fetch(baseUrl + '/about.html' + cacheBuster)
             .then(function (response) {
                 return response.text();
@@ -202,7 +197,6 @@
                 baslat(doc, true); // true = Disaridan HTML geldi (Ayni anasayfa mantigiyla)
             })
             .catch(function (err) {
-                console.error("Hakkinda sayfasi yuklenirken hata:", err);
             });
     } else if (isManagementPage) {
         // YONETIM SAYFASI: management.html'i cek ve body'yi degistir
@@ -216,7 +210,6 @@
                 baslat(doc, true);
             })
             .catch(function (err) {
-                console.error("Yonetim sayfasi yuklenirken hata:", err);
                 document.body.innerHTML = '<div class="container" style="margin-top:150px; text-align:center;"><h3>Yükleme Hatası</h3><p>Yönetim sayfası yüklenemedi.<br><small>' + err + '</small></p></div>';
                 var antiFlicker = document.getElementById('anti-flicker-style');
                 if (antiFlicker) antiFlicker.remove();
@@ -237,7 +230,6 @@
                 baslat(doc, true);
             })
             .catch(function (err) {
-                console.error("Ogretim uyeleri sayfasi yuklenirken hata:", err);
                 document.body.innerHTML = '<div class="container" style="margin-top:150px; text-align:center;"><h3>Yükleme Hatası</h3><p>İçerik yüklenemedi. Lütfen internet bağlantınızı kontrol edin veya daha sonra tekrar deneyin.<br><small>' + err + '</small></p></div>';
                 var antiFlicker = document.getElementById('anti-flicker-style');
                 if (antiFlicker) antiFlicker.remove();
@@ -255,7 +247,6 @@
                 var doc = parser.parseFromString(html, 'text/html');
                 baslat(doc, true);
             })
-            .catch(function (err) { console.error("Arastirma gorevlileri yuklenirken hata:", err); });
     } else if (isAdminStaffPage) {
         // IDARI PERSONEL SAYFASI
         fetch(baseUrl + '/administrative_staff.html' + cacheBuster)
@@ -265,7 +256,6 @@
                 var doc = parser.parseFromString(html, 'text/html');
                 baslat(doc, true);
             })
-            .catch(function (err) { console.error("Idari personel yuklenirken hata:", err); });
     } else if (isUndergraduatePage) {
         // LISANS DERS PROGRAMI SAYFASI
         fetch(baseUrl + '/undergraduate.html' + cacheBuster)
@@ -275,7 +265,6 @@
                 var doc = parser.parseFromString(html, 'text/html');
                 baslat(doc, true);
             })
-            .catch(function (err) { console.error("Lisans programi yuklenirken hata:", err); });
     } else if (isThesisGraduatePage) {
         fetch(baseUrl + '/graduate_thesis.html' + cacheBuster)
             .then(function (response) { return response.text(); })
@@ -284,7 +273,6 @@
                 var doc = parser.parseFromString(html, 'text/html');
                 baslat(doc, true);
             })
-            .catch(function (err) { console.error("Tezli YL yuklenirken hata:", err); });
     } else if (isNonThesisGraduatePage) {
         fetch(baseUrl + '/graduate_non_thesis.html' + cacheBuster)
             .then(function (response) { return response.text(); })
@@ -293,7 +281,6 @@
                 var doc = parser.parseFromString(html, 'text/html');
                 baslat(doc, true);
             })
-            .catch(function (err) { console.error("Tezsiz YL yuklenirken hata:", err); });
     } else if (isPhDPage) {
         fetch(baseUrl + '/phd.html' + cacheBuster)
             .then(function (response) { return response.text(); })
@@ -302,7 +289,6 @@
                 var doc = parser.parseFromString(html, 'text/html');
                 baslat(doc, true);
             })
-            .catch(function (err) { console.error("Doktora yuklenirken hata:", err); });
     } else if (isPhDProgramPage) {
         fetch(baseUrl + '/phd_program.html' + cacheBuster)
             .then(function (response) { return response.text(); })
@@ -311,7 +297,6 @@
                 var doc = parser.parseFromString(html, 'text/html');
                 baslat(doc, true);
             })
-            .catch(function (err) { console.error("Doktora Programi yuklenirken hata:", err); });
     } else if (isMinorProgramPage) {
         fetch(baseUrl + '/minor_program.html' + cacheBuster)
             .then(function (response) { return response.text(); })
@@ -320,7 +305,6 @@
                 var doc = parser.parseFromString(html, 'text/html');
                 baslat(doc, true);
             })
-            .catch(function (err) { console.error("Yan Dal Programi yuklenirken hata:", err); });
     } else if (isGraduateThesisProgramPage) {
         fetch(baseUrl + '/graduate_thesis_program.html' + cacheBuster)
             .then(function (response) { return response.text(); })
@@ -329,7 +313,6 @@
                 var doc = parser.parseFromString(html, 'text/html');
                 baslat(doc, true);
             })
-            .catch(function (err) { console.error("Tezli YL Programi yuklenirken hata:", err); });
     } else if (isGraduateNonThesisProgramPage) {
         fetch(baseUrl + '/graduate_nonthesis_program.html' + cacheBuster)
             .then(function (response) { return response.text(); })
@@ -338,7 +321,6 @@
                 var doc = parser.parseFromString(html, 'text/html');
                 baslat(doc, true);
             })
-            .catch(function (err) { console.error("Tezsiz YL Programi yuklenirken hata:", err); });
     } else if (isErasmusPage) {
         fetch(baseUrl + '/erasmus_program.html' + cacheBuster)
             .then(function (response) { return response.text(); })
@@ -347,7 +329,6 @@
                 var doc = parser.parseFromString(html, 'text/html');
                 baslat(doc, true);
             })
-            .catch(function (err) { console.error("Erasmus yuklenirken hata:", err); });
     } else if (isFarabiPage) {
         fetch(baseUrl + '/farabi_program.html' + cacheBuster)
             .then(function (response) { return response.text(); })
@@ -356,7 +337,6 @@
                 var doc = parser.parseFromString(html, 'text/html');
                 baslat(doc, true);
             })
-            .catch(function (err) { console.error("Farabi yuklenirken hata:", err); });
     } else if (isMevlanaPage) {
         fetch(baseUrl + '/mevlana_program.html' + cacheBuster)
             .then(function (response) { return response.text(); })
@@ -365,7 +345,6 @@
                 var doc = parser.parseFromString(html, 'text/html');
                 baslat(doc, true);
             })
-            .catch(function (err) { console.error("Mevlana yuklenirken hata:", err); });
     } else if (isInternshipPage) {
         fetch(baseUrl + '/internship.html' + cacheBuster)
             .then(function (response) { return response.text(); })
@@ -374,7 +353,6 @@
                 var doc = parser.parseFromString(html, 'text/html');
                 baslat(doc, true);
             })
-            .catch(function (err) { console.error("Staj yuklenirken hata:", err); });
     } else if (isFAQPage) {
         fetch(baseUrl + '/faq.html' + cacheBuster)
             .then(function (response) { return response.text(); })
@@ -383,7 +361,6 @@
                 var doc = parser.parseFromString(html, 'text/html');
                 baslat(doc, true);
             })
-            .catch(function (err) { console.error("SSS yuklenirken hata:", err); });
     } else if (isRequiredFormsPage) {
         fetch(baseUrl + '/required_forms.html' + cacheBuster)
             .then(function (response) { return response.text(); })
@@ -392,7 +369,6 @@
                 var doc = parser.parseFromString(html, 'text/html');
                 baslat(doc, true);
             })
-            .catch(function (err) { console.error("Gerekli Formlar yuklenirken hata:", err); });
     } else if (isEventsPage) {
         fetch(baseUrl + '/events.html' + cacheBuster)
             .then(function (response) { return response.text(); })
@@ -401,7 +377,6 @@
                 var doc = parser.parseFromString(html, 'text/html');
                 baslat(doc, true);
             })
-            .catch(function (err) { console.error("Etkinlikler yuklenirken hata:", err); });
     } else if (isAnnouncementsPage) {
         // --- OZEL DURUM: Duyurular Sayfasi ---
         var annState = { data: [], currentPage: 1, itemsPerPage: 15, currentFilter: 'all' };
@@ -474,7 +449,6 @@
                     baslat(doc, true);
                     setupAnnUI();
                 })
-                .catch(err => { console.error("Duyuru yukleme hatasi:", err); baslat(document, false); });
         }
 
         function setupAnnUI() {
@@ -568,7 +542,6 @@
                 var doc = parser.parseFromString(html, 'text/html');
                 baslat(doc, true);
             })
-            .catch(function (err) { console.error("Iletisim sayfasi yuklenirken hata:", err); });
     } else if (isBachelorProgramPage) {
         fetch(baseUrl + '/bachelor_program.html' + cacheBuster)
             .then(function (response) { return response.text(); })
@@ -577,7 +550,6 @@
                 var doc = parser.parseFromString(html, 'text/html');
                 baslat(doc, true);
             })
-            .catch(function (err) { console.error("Lisans Programi yuklenirken hata:", err); });
     } else if (isAcademicCalendarPage) {
         fetch(baseUrl + '/academic_calendar.html' + cacheBuster)
             .then(function (response) { return response.text(); })
@@ -586,10 +558,9 @@
                 var doc = parser.parseFromString(html, 'text/html');
                 baslat(doc, true);
             })
-            .catch(function (err) { console.error("Akademik takvim yuklenirken hata:", err); });
     } else {
         // ALT SAYFA: Mevcut icerigi koru, sadece susle
-        // console.log("Alt Sayfa Modu: Mevcut icerik korunaraj modernlestirilecek.");
+        // ("Alt Sayfa Modu: Mevcut icerik korunaraj modernlestirilecek.");
         // DOMContentLoaded beklemeye gerek yok, script zaten body sonunda calisiyor varsayiyoruz.
         // Ama garanti olsun diye:
         if (document.readyState === 'loading') {
@@ -647,7 +618,6 @@
 
             // Eger spesifik bir icerik divi bulamazsak, body'nin icindeki her seyi (scriptler haric) alalim
             if (!mainContent) {
-                console.warn("CMS icerik divi bulunamadi, tum body sarmalaniyor.");
                 // Body'deki tum cocuklari bir diziye al
                 var children = Array.from(document.body.children);
                 // Container olustur
@@ -782,13 +752,13 @@
 
     // --- HEADER VE TAKVIM OLUSTURMA ---
     function headerVeTakvimOlustur() {
-        // console.log("Modern Header ve Takvim olusturuluyor...");
+        // ("Modern Header ve Takvim olusturuluyor...");
 
         // 1. Menu Ust (Social & Links) - Mobil uyumluluk icin d-none kaldirildi
         var menuUstHTML = `
             <div class="menu_ust" style="width: 100%; display: flex; justify-content: flex-end; background: #fafafa; border-bottom: none;">
                 <div class="container" style="display: flex; justify-content: flex-end; align-items: center; max-width: 1200px; padding: 3px 30px;">
-                    <!-- Sol Taraf: Linkler (Hacettepe | Bilsis | EN) -->
+                    
                     <div class="top-links" style="display: flex; align-items: center;">
                         <a href="https://hacettepe.edu.tr" target="_blank" style="color:#666; text-decoration:none; font-size:13px;">Hacettepe</a>
                         <span style="color:#ddd; margin: 0 10px;">|</span>
@@ -797,7 +767,7 @@
                         <a href="https://isletme.hacettepe.edu.tr/en" style="color:#666; text-decoration:none; font-size:13px;">EN</a>
                     </div>
 
-                    <!-- Sag Taraf: Sosyal Medya İkonları -->
+                    
                     <div class="social-icons" style="display: flex; align-items: center;">
                         <a href="https://www.instagram.com/hacettepe_isletme/" target="_blank" style="margin-left: 20px; color:#ac232d;"><i class="fab fa-instagram"></i></a>
                         <a href="https://www.linkedin.com/company/hacettepe-university-department-of-business-administration/" target="_blank" style="margin-left: 15px; color:#ac232d;"><i class="fab fa-linkedin"></i></a>
@@ -817,18 +787,18 @@
             <div class="menu_genel" style="width: 100%; border-bottom: none;">
                 <div class="hi-nav-container">
 
-                    <!-- LOGO VE BASLIK ALANI (SOL UST) -->
-                    <!-- LOGO VE BASLIK ALANI (SOL UST) -->
-                    <!-- Kullanicinin verdigi yapiya uygun (menu sinifi haric, layout bozmamasi icin) -->
+                    
+                    
+                    
                     <a href="https://isletme.hacettepe.edu.tr/tr" class="hi-brand-logo" style="text-decoration: none; margin-right: auto;">
                         <div class="logo">
                             <div class="logo_yazi">
-                                <!-- Normal Gorunum -->
+                                
                                 <div class="brand-normal">
                                     <div class="banner_uni">HACETTEPE ÜNİVERSİTESİ</div>
                                     <div class="banner_uni_bolum">İşletme Bölümü</div>
                                 </div>
-                                <!-- Sticky (Asagi Kayinca) Gorunum -->
+                                
                                 <div class="brand-sticky" style="display: none;">
                                     <span class="banner_uni" style="font-size: 20px;">HACETTEPE</span>
                                     <span class="banner_uni_bolum" style="font-size: 20px; margin-left: 6px; font-weight: 300; margin-top: 0; color: #222;">İŞLETME</span>
@@ -966,7 +936,6 @@
     function takvimVerisiniCek() {
         // --- OFFLINE MOD DESTEGI ---
         if (window.OFFLINE_CALENDAR_DATA) {
-            console.log("Offline Takvim verisi kullaniliyor.");
             renderCalendar(window.OFFLINE_CALENDAR_DATA);
             return;
         }
@@ -1109,11 +1078,9 @@
 
     // DUYURU CEKME FONKSIYONU
     function duyurulariCek() {
-        console.log("duyurulariCek: Baslatildi...");
 
         // --- OFFLINE MOD DESTEGI ---
         if (window.OFFLINE_ANNOUNCEMENTS) {
-            //console.log("Offline Duyuru verisi kullaniliyor.");
             var listeHTML = "";
             var sayac = 0;
             window.OFFLINE_ANNOUNCEMENTS.forEach(d => {
@@ -1145,11 +1112,9 @@
 
         fetch(duyuruURL)
             .then(res => {
-                console.log("duyurulariCek: Fetch sonucu:", res.status);
                 return res.text();
             })
             .then(html => {
-                console.log("duyurulariCek: HTML alindi (uzunluk):", html.length);
                 var parser = new DOMParser();
                 var doc = parser.parseFromString(html, 'text/html');
 
@@ -1158,9 +1123,7 @@
 
                 if (anaIcerik) {
                     duyuruSatirlari = anaIcerik.querySelectorAll('ul li');
-                    console.log("duyurulariCek: anaIcerik bulundu, LI sayisi:", duyuruSatirlari.length);
                 } else {
-                    console.warn("duyurulariCek: anaIcerik (.col-lg-9 veya .icerik) BULUNAMADI!");
                 }
 
 
@@ -1208,7 +1171,7 @@
 
                 // Eger LI bulunamadiysa (Fallback)
                 if (!duyuruSatirlari || duyuruSatirlari.length === 0) {
-                    // console.log("LI yapisi bulunamadi, dogrudan A linkleri taraniyor...");
+                    // ("LI yapisi bulunamadi, dogrudan A linkleri taraniyor...");
 
                     var linkler = anaIcerik ? anaIcerik.querySelectorAll('a') : [];
 
@@ -1317,16 +1280,13 @@
                 }
 
                 if (sayac === 0) {
-                    console.warn("duyurulariCek: Hic duyuru bulunamadi veya hepsi filtrelendi.");
                     listeHTML = '<li>Henüz duyuru bulunmamaktadır.</li>';
                 }
 
-                console.log("duyurulariCek: Toplam eklenen duyuru:", sayac);
                 var hedefListe = document.getElementById('duyuru-listesi');
                 if (hedefListe) hedefListe.innerHTML = listeHTML;
             })
             .catch(err => {
-                console.log("Duyuru cekme hatasi:", err);
                 var hedefListe = document.getElementById('duyuru-listesi');
                 if (hedefListe) hedefListe.innerHTML = '<li>Duyurular yüklenirken hata oluştu.</li>';
             });
@@ -1372,11 +1332,11 @@
 
     function footerOlustur() {
         var footerHTML = `
-    <!-- FOOTER BİLEŞENİ (PREMIUM DARK) -->
+    
     <footer id="section_hu_footer">
         <div class="footer-container">
 
-            <!-- 1. Marka ve İletişim -->
+            
             <div class="footer-brand">
                 <h4>HACETTEPE ÜNİVERSİTESİ</h4>
                 <h5>İŞLETME BÖLÜMÜ</h5>
@@ -1391,7 +1351,7 @@
                 </div>
             </div>
 
-            <!-- 2. Hızlı Erişim -->
+            
             <div class="footer-col">
                 <h3>Hızlı Erişim</h3>
                 <ul class="footer-links">
@@ -1404,7 +1364,7 @@
                 </ul>
             </div>
 
-            <!-- 3. Bağlantılar -->
+            
             <div class="footer-col">
                 <h3>Bağlantılar</h3>
                 <ul class="footer-links">
@@ -1416,7 +1376,7 @@
                 </ul>
             </div>
 
-            <!-- 4. Sosyal Medya -->
+            
             <div class="footer-col">
                 <h3>Takip Edin</h3>
                 <div class="footer-social-icons">
@@ -1427,7 +1387,7 @@
             </div>
         </div>
 
-        <!-- Copyright -->
+        
         <div class="footer-bottom">
             <div class="footer-copyright">
                  ${new Date().getFullYear()} <strong>Hacettepe Üniversitesi İşletme Bölümü</strong>. Nizameddin Alyaprak Tarafından Tasarlanmıştır.
