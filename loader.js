@@ -5,6 +5,10 @@
 
     // 0. FAILSAFE: Eger loader bir sebepten cokerse, 2.5 saniye sonra sayfayi zorla goster.
     setTimeout(function () {
+        var antiFlicker = document.getElementById('anti-flicker-style');
+        if (antiFlicker) antiFlicker.remove();
+        document.documentElement.style.visibility = 'visible';
+        document.documentElement.style.opacity = '1';
         document.body.style.visibility = 'visible';
         document.body.style.opacity = '1';
         document.documentElement.classList.remove('hi-loading');
@@ -105,6 +109,11 @@
     var isThesisGraduatePage = path.includes('tezli_yuksek_lisans-117') || path.includes('graduate_thesis.html') || search.includes('page=graduate_thesis');
     var isNonThesisGraduatePage = path.includes('tezsiz_yuksek_lisans-213') || path.includes('graduate_non_thesis.html') || search.includes('page=graduate_non_thesis');
     var isPhDPage = path.includes('doktora-215') || path.includes('phd.html') || search.includes('page=phd');
+    var isPhDProgramPage = path.includes('doktora_programi-97') || path.includes('phd_program.html') || search.includes('page=phd_program');
+    var isMinorProgramPage = path.includes('yan_dal_programi-99') || path.includes('minor_program.html') || search.includes('page=minor_program');
+    var isGraduateThesisProgramPage = path.includes('tezli_yuksek_lisans_programlari-93') || path.includes('graduate_thesis_program.html') || search.includes('page=graduate_thesis_program');
+    var isGraduateNonThesisProgramPage = path.includes('tezsiz_yuksek_lisans_programlari-95') || path.includes('graduate_nonthesis_program.html') || search.includes('page=graduate_nonthesis_program');
+    var isBachelorProgramPage = path.includes('lisans_programi-91') || path.includes('bachelor_program.html') || search.includes('page=bachelor_program');
     var isAcademicCalendarPage = path.includes('akademik_takvimler-119') || path.includes('academic_calendar.html') || search.includes('page=academic_calendar');
     var isAdminStaffPage = path.includes('idari_personel') || path.includes('administrative_staff.html') || search.includes('page=admin') || search.includes('page=idari_personel');
 
@@ -127,6 +136,11 @@
     if (path.endsWith('graduate_thesis.html') && isThesisGraduatePage) isStandalone = true;
     if (path.endsWith('graduate_non_thesis.html') && isNonThesisGraduatePage) isStandalone = true;
     if (path.endsWith('phd.html') && isPhDPage) isStandalone = true;
+    if (path.endsWith('phd_program.html') && isPhDProgramPage) isStandalone = true;
+    if (path.endsWith('minor_program.html') && isMinorProgramPage) isStandalone = true;
+    if (path.endsWith('graduate_thesis_program.html') && isGraduateThesisProgramPage) isStandalone = true;
+    if (path.endsWith('graduate_nonthesis_program.html') && isGraduateNonThesisProgramPage) isStandalone = true;
+    if (path.endsWith('bachelor_program.html') && isBachelorProgramPage) isStandalone = true;
     if (path.endsWith('academic_calendar.html') && isAcademicCalendarPage) isStandalone = true;
 
     // --- HTML ICERIGINI CEK (SADECE ANASAYFA VEYA OZEL SAYFALAR ISE) ---
@@ -186,6 +200,10 @@
             .catch(function (err) {
                 console.error("Yonetim sayfasi yuklenirken hata:", err);
                 document.body.innerHTML = '<div class="container" style="margin-top:150px; text-align:center;"><h3>Yükleme Hatası</h3><p>Yönetim sayfası yüklenemedi.<br><small>' + err + '</small></p></div>';
+                var antiFlicker = document.getElementById('anti-flicker-style');
+                if (antiFlicker) antiFlicker.remove();
+                document.documentElement.style.visibility = 'visible';
+                document.documentElement.style.opacity = '1';
                 document.body.style.visibility = 'visible';
                 document.body.style.opacity = '1';
             });
@@ -203,6 +221,10 @@
             .catch(function (err) {
                 console.error("Ogretim uyeleri sayfasi yuklenirken hata:", err);
                 document.body.innerHTML = '<div class="container" style="margin-top:150px; text-align:center;"><h3>Yükleme Hatası</h3><p>İçerik yüklenemedi. Lütfen internet bağlantınızı kontrol edin veya daha sonra tekrar deneyin.<br><small>' + err + '</small></p></div>';
+                var antiFlicker = document.getElementById('anti-flicker-style');
+                if (antiFlicker) antiFlicker.remove();
+                document.documentElement.style.visibility = 'visible';
+                document.documentElement.style.opacity = '1';
                 document.body.style.visibility = 'visible';
                 document.body.style.opacity = '1';
             });
@@ -263,6 +285,51 @@
                 baslat(doc, true);
             })
             .catch(function (err) { console.error("Doktora yuklenirken hata:", err); });
+    } else if (isPhDProgramPage) {
+        fetch(baseUrl + '/phd_program.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+            .catch(function (err) { console.error("Doktora Programi yuklenirken hata:", err); });
+    } else if (isMinorProgramPage) {
+        fetch(baseUrl + '/minor_program.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+            .catch(function (err) { console.error("Yan Dal Programi yuklenirken hata:", err); });
+    } else if (isGraduateThesisProgramPage) {
+        fetch(baseUrl + '/graduate_thesis_program.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+            .catch(function (err) { console.error("Tezli YL Programi yuklenirken hata:", err); });
+    } else if (isGraduateNonThesisProgramPage) {
+        fetch(baseUrl + '/graduate_nonthesis_program.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+            .catch(function (err) { console.error("Tezsiz YL Programi yuklenirken hata:", err); });
+    } else if (isBachelorProgramPage) {
+        fetch(baseUrl + '/bachelor_program.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+            .catch(function (err) { console.error("Lisans Programi yuklenirken hata:", err); });
     } else if (isAcademicCalendarPage) {
         fetch(baseUrl + '/academic_calendar.html' + cacheBuster)
             .then(function (response) { return response.text(); })
@@ -413,6 +480,10 @@
         if (loading) loading.style.display = 'none';
 
         // EK GUVENLIK: Body'nin gorunur oldugundan emin ol
+        var antiFlicker = document.getElementById('anti-flicker-style');
+        if (antiFlicker) antiFlicker.remove();
+        document.documentElement.style.visibility = 'visible';
+        document.documentElement.style.opacity = '1';
         document.body.style.visibility = 'visible';
         document.body.style.opacity = '1';
         document.documentElement.classList.remove('hi-loading');
