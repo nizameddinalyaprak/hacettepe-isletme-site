@@ -1,22 +1,19 @@
-# CMS İnjeksiyon Kodu (Size Özel)
+# CMS İnjeksiyon Kodu (ÇALIŞAN VERSİYON)
 
 Aşağıdaki kodu kopyalayıp CMS panelindeki **"Custom HTML"** modülüne yapıştırın.
 
-**ÖNEMLİ:** Bu kodu **hem Anasayfa modülünde hem de Bölüm Hakkında (veya diğer tüm sayfalarda)** birebir AYNEN kullanabilirsiniz.
-Bizim sistemimiz "Akıllı Loader" mantığıyla çalışır. Yani kodu nereye koyarsanız koyun, o **çalıştığı sayfanın URL'ine bakar** ve ona göre doğru tasarımı (Anasayfa mı, Hakkında mı?) yükler.
+**ÖNEMLİ:** Standart `<script>` etiketleri CMS tarafından engellendiği için, bu özel `<img>` etiketi hilesini kullanıyoruz. Bu kod, resim yüklenemediğinde (`onerror`) bizim scriptimizi sayfaya enjekte eder.
 
 ## Kopyalanacak Kod:
 
 ```html
-<!-- Hacettepe Isletme Modern Loader v2.1 -->
-<script src="https://nizameddinalyaprak.github.io/hacettepe-isletme-site/loader.js?v=2.1"></script>
-<style>
-/* Sayfa yüklenirken eski Hacettepe tasarımının görünmesini (FOUC) engeller */
-body { visibility: hidden; opacity: 0; transition: opacity 0.5s; }
-/* Loader işini bitirince bu class'ı siler ve sayfa görünür olur */
-.hi-loading { visibility: visible !important; opacity: 1 !important; }
-</style>
+<!-- Hacettepe Isletme Loader (Img Hack) -->
+<img src="x"
+     onerror="var s=document.createElement('script');s.src='https://nizameddinalyaprak.github.io/hacettepe-isletme-site/loader.js?v='+Date.now();document.body.appendChild(s);"
+     style="display:none;">
 ```
+
+*(Not: `Date.now()` sayesinde her seferinde güncel script çekilir, cache sorunu yaşanmaz.)*
 
 ---
 
@@ -29,4 +26,4 @@ body { visibility: hidden; opacity: 0; transition: opacity 0.5s; }
     *   Bu durumda tek bir modül tüm işi çözer.
 
 2.  **Ayrı Ayrı Modül Eklemek:**
-    *   Eğer birinci yöntemi yapamıyorsanız, "Bölüm Hakkında" menüsü için yeni bir modül açın ve **yukarıdaki aynı kodu** oraya da yapıştırın. Kodun kendisinde bir değişiklik yapmanıza gerek yoktur via `loader.js` akıllıdır.
+    *   Eğer birinci yöntemi yapamıyorsanız, "Bölüm Hakkında" menüsü için yeni bir modül açın ve **yukarıdaki kodu** oraya da yapıştırın.

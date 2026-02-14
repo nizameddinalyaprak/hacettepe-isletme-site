@@ -1,14 +1,14 @@
 /* loader.js - Site Yükleyici */
 
 (function () {
-    console.log("Loader baslatildi...");
+
 
     // 0. FAILSAFE: Eger loader bir sebepten cokerse, 2.5 saniye sonra sayfayi zorla goster.
     setTimeout(function () {
         document.body.style.visibility = 'visible';
         document.body.style.opacity = '1';
         document.documentElement.classList.remove('hi-loading');
-        console.log("Failsafe: Sayfa zorla görünür yapıldı.");
+        // console.log("Failsafe: Sayfa zorla görünür yapıldı.");
     }, 2500);
 
     // 1. Hatali Eventleri Engelle (Scroll vs) - HATA SUSTURUCU (Kesin Cozum V2)
@@ -35,7 +35,7 @@
     var scriptSrc = document.currentScript.src;
     var baseUrl = scriptSrc.substring(0, scriptSrc.lastIndexOf('/'));
 
-    console.log("Base URL tespit edildi: " + baseUrl);
+
 
     var cacheBuster = '?v=1.0'; // Versiyonu manuel guncelleyerek cache kontrolu saglayalim
 
@@ -91,6 +91,7 @@
 
     // Bolum Hakkinda Sayfasi Tespiti
     var isAboutPage = path.includes('bolum_hakkinda-75') || path.includes('about.html');
+    var isManagementPage = path.includes('yonetim-77') || path.includes('management.html');
 
     // Eger URL'de 'preview_subpage' varsa kesinlikle alt sayfadir (Test icin)
     if (path.includes('preview_subpage')) isHomePage = false;
@@ -101,7 +102,7 @@
 
     // --- HTML ICERIGINI CEK (SADECE ANASAYFA VEYA OZEL SAYFALAR ISE) ---
     if (window.OFFLINE_MODE) {
-        console.log("Offline Modu Aktif: HTML cekme atlaniyor.");
+        // console.log("Offline Modu Aktif: HTML cekme atlaniyor.");
         setTimeout(function () {
             baslat(document, false); // Offline mod = subpage gibi davran (mevcut body'yi kullan)
         }, 100);
@@ -124,7 +125,7 @@
             });
     } else if (isAboutPage) {
         // HAKKINDA SAYFASI: about.html'i cek ve body'yi degistir
-        console.log("Hakkinda sayfasi yukleniyor...");
+        // console.log("Hakkinda sayfasi yukleniyor...");
         fetch(baseUrl + '/about.html' + cacheBuster)
             .then(function (response) {
                 return response.text();
@@ -137,9 +138,23 @@
             .catch(function (err) {
                 console.error("Hakkinda sayfasi yuklenirken hata:", err);
             });
+    } else if (isManagementPage) {
+        // YONETIM SAYFASI: management.html'i cek ve body'yi degistir
+        fetch(baseUrl + '/management.html' + cacheBuster)
+            .then(function (response) {
+                return response.text();
+            })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+            .catch(function (err) {
+                // console.error("Yonetim sayfasi yuklenirken hata:", err);
+            });
     } else {
         // ALT SAYFA: Mevcut icerigi koru, sadece susle
-        console.log("Alt Sayfa Modu: Mevcut icerik korunaraj modernlestirilecek.");
+        // console.log("Alt Sayfa Modu: Mevcut icerik korunaraj modernlestirilecek.");
         // DOMContentLoaded beklemeye gerek yok, script zaten body sonunda calisiyor varsayiyoruz.
         // Ama garanti olsun diye:
         if (document.readyState === 'loading') {
@@ -320,7 +335,7 @@
 
     // --- HEADER VE TAKVIM OLUSTURMA ---
     function headerVeTakvimOlustur() {
-        console.log("Modern Header ve Takvim olusturuluyor...");
+        // console.log("Modern Header ve Takvim olusturuluyor...");
 
         // 1. Menu Ust (Social & Links) - Mobil uyumluluk icin d-none kaldirildi
         var menuUstHTML = `
@@ -519,7 +534,7 @@
             .then(events => {
                 renderCalendar(events);
             })
-            .catch(err => console.log("Takvim verisi cekilemedi:", err));
+            .catch(err => { });
     }
 
     function renderCalendar(events) {
@@ -651,7 +666,7 @@
 
     // DUYURU CEKME FONKSIYONU
     function duyurulariCek() {
-        console.log("Duyurular cekiliyor...");
+        // console.log("Duyurular cekiliyor...");
 
         // --- OFFLINE MOD DESTEGI ---
         if (window.OFFLINE_ANNOUNCEMENTS) {
@@ -698,7 +713,7 @@
                     duyuruSatirlari = anaIcerik.querySelectorAll('ul li');
                 }
 
-                console.log("Bulunan duyuru satiri (LI) sayisi: " + duyuruSatirlari.length);
+
 
                 var listeHTML = '';
                 var sayac = 0;
