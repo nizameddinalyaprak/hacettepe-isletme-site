@@ -121,6 +121,7 @@
     var isFAQPage = path.includes('lisans_programi_ogrencileri_icin_si-121') || path.includes('faq.html') || search.includes('page=faq');
     var isRequiredFormsPage = path.includes('gerekli_formlar_ve_belgeler-173') || path.includes('required_forms.html') || search.includes('page=required_forms');
     var isEventsPage = path.includes('etkinlikler-171') || path.includes('events.html') || search.includes('page=events');
+    var isAnnouncementsPage = path.includes('duyurular') || path.includes('duyurudeneme') || path.includes('announcements.html') || search.includes('page=announcements');
     var isAcademicCalendarPage = path.includes('akademik_takvimler-119') || path.includes('academic_calendar.html') || search.includes('page=academic_calendar');
     var isAdminStaffPage = path.includes('idari_personel') || path.includes('administrative_staff.html') || search.includes('page=admin') || search.includes('page=idari_personel');
 
@@ -155,6 +156,7 @@
     if (path.endsWith('faq.html') && isFAQPage) isStandalone = true;
     if (path.endsWith('required_forms.html') && isRequiredFormsPage) isStandalone = true;
     if (path.endsWith('events.html') && isEventsPage) isStandalone = true;
+    if (path.endsWith('announcements.html') && isAnnouncementsPage) isStandalone = true;
     if (path.endsWith('academic_calendar.html') && isAcademicCalendarPage) isStandalone = true;
 
     // --- HTML ICERIGINI CEK (SADECE ANASAYFA VEYA OZEL SAYFALAR ISE) ---
@@ -398,6 +400,52 @@
                 baslat(doc, true);
             })
             .catch(function (err) { console.error("Etkinlikler yuklenirken hata:", err); });
+    } else if (isAnnouncementsPage) {
+        // --- OZEL DURUM: Duyurular Sayfasi (CMS Verisini Ayikla ve Template'e Gonder) ---
+        var extractedData = [];
+        var rows = document.querySelectorAll('#duyurular_1 tbody tr');
+
+        if (rows.length > 0) {
+            rows.forEach(function (row) {
+                var link = row.querySelector('a');
+                var dateEl = row.querySelector('.tarih');
+                if (link) {
+                    var title = link.textContent.trim();
+                    var url = link.getAttribute('href');
+                    var date = dateEl ? dateEl.textContent.trim().split(' ')[0] : "";
+
+                    // Etiketleri (Labels) ayikla
+                    var tags = [];
+                    var spans = link.querySelectorAll('span');
+                    spans.forEach(function (s) {
+                        tags.push(s.textContent.trim());
+                        title = title.replace(s.textContent.trim(), "").trim(); // Basliktan etiket metnini temizle
+                    });
+
+                    extractedData.push({
+                        title: title,
+                        url: url,
+                        date: date,
+                        tags: tags.length > 0 ? tags : ["Genel"]
+                    });
+                }
+            });
+        }
+
+        window.cmsAnnouncements = extractedData;
+
+        fetch(baseUrl + '/announcements.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+
+                // Template icindeki render fonksiyonunu cagir (Eger baslat hemen bitirdiyse)
+                if (window.renderAnnouncements) window.renderAnnouncements(extractedData);
+            })
+            .catch(function (err) { console.error("Duyurular yuklenirken hata:", err); });
+
     } else if (isBachelorProgramPage) {
         fetch(baseUrl + '/bachelor_program.html' + cacheBuster)
             .then(function (response) { return response.text(); })
