@@ -57,6 +57,12 @@
     homeCssLink.href = baseUrl + "/homepage.css" + cacheBuster;
     document.head.appendChild(homeCssLink);
 
+    // 5. Footer CSS
+    var footerCssLink = document.createElement("link");
+    footerCssLink.rel = "stylesheet";
+    footerCssLink.href = baseUrl + "/footer.css" + cacheBuster;
+    document.head.appendChild(footerCssLink);
+
     // 5. Font Awesome (Eger yoksa)
     if (!document.querySelector('link[href*="font-awesome"]')) {
         var fa = document.createElement('link');
@@ -179,7 +185,10 @@
         // 6. DUYURULARI CEK VE GOSTER
         duyurulariCek();
 
-        // 7. Render Calendar Data (Veriyi cekip render et)
+        // 7. Footer Olustur
+        footerOlustur();
+
+        // 8. Render Calendar Data (Veriyi cekip render et)
         setTimeout(takvimVerisiniCek, 500);
 
         // Yukleme ekranini kaldir
@@ -205,7 +214,7 @@
                         <span style="color:#ddd; margin: 0 10px;">|</span>
                         <a href="https://isletme.hacettepe.edu.tr/en" style="color:#666; text-decoration:none; font-size:13px;">EN</a>
                     </div>
-                    
+
                     <!-- Sag Taraf: Sosyal Medya İkonları -->
                     <div class="social-icons" style="display: flex; align-items: center;">
                         <a href="https://www.instagram.com/hacettepe_isletme/" target="_blank" style="margin-left: 20px; color:#ac232d;"><i class="fab fa-instagram"></i></a>
@@ -225,7 +234,7 @@
         var menuGenelHTML = `
             <div class="menu_genel" style="width: 100%; border-bottom: none;">
                 <div class="hi-nav-container">
-                    
+
                     <!-- LOGO VE BASLIK ALANI (SOL UST) -->
                     <!-- LOGO VE BASLIK ALANI (SOL UST) -->
                     <!-- Kullanicinin verdigi yapiya uygun (menu sinifi haric, layout bozmamasi icin) -->
@@ -249,7 +258,7 @@
                     <button class="mobile-menu-toggle d-lg-none" onclick="document.querySelector('.hi-main-nav').classList.toggle('active')">
                         <i class="fas fa-bars"></i> MENÜ
                     </button>
-                    
+
                     <nav class="hi-main-nav">
                         <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/tr" class="hi-nav-link">Ana Sayfa</a></div>
                         <div class="hi-nav-item">
@@ -328,7 +337,7 @@
         var menuElement = document.querySelector('.menu_genel');
         if (menuElement) {
             window.addEventListener('scroll', function () {
-                // Toplam yukseklik (topbar + calendar) yaklasik 60-80px. 
+                // Toplam yukseklik (topbar + calendar) yaklasik 60-80px.
                 // Biraz pay birakarak 60px diyelim.
                 if (window.scrollY > 60) {
                     menuElement.classList.add('sticky-active');
@@ -770,5 +779,76 @@
 
         html += '</li>';
         return html;
+    }
+
+    function footerOlustur() {
+        var footerHTML = `
+    <!-- FOOTER BİLEŞENİ (PREMIUM DARK) -->
+    <footer id="section_hu_footer">
+        <div class="footer-container">
+
+            <!-- 1. Marka ve İletişim -->
+            <div class="footer-brand">
+                <h4>HACETTEPE ÜNİVERSİTESİ</h4>
+                <h5>İŞLETME BÖLÜMÜ</h5>
+
+                <div class="footer-address">
+                    Beytepe Yerleşkesi, 06800<br>
+                    Çankaya / ANKARA
+                </div>
+
+                <div class="footer-contact">
+                    <a href="tel:+903122976351"><i class="fas fa-phone"></i> +90 (312) 297 63 51 - 112</a>
+                </div>
+            </div>
+
+            <!-- 2. Hızlı Erişim -->
+            <div class="footer-col">
+                <h3>Hızlı Erişim</h3>
+                <ul class="footer-links">
+                    <li><a href="https://isletme.hacettepe.edu.tr/tr/menu/lisans_programi-91">Lisans Programı</a></li>
+                    <li><a href="https://isletme.hacettepe.edu.tr/tr/menu/tezli_yuksek_lisans_programlari-93">Tezli Yüksek Lisans</a></li>
+                    <li><a href="https://isletme.hacettepe.edu.tr/tr/menu/tezsiz_yuksek_lisans_programlari-95">Tezsiz Yüksek Lisans</a></li>
+                    <li><a href="https://isletme.hacettepe.edu.tr/tr/menu/doktora_programi-97">Doktora Programı</a></li>
+                    <li><a href="https://bilsis.hacettepe.edu.tr" target="_blank">BİLSİS</a></li>
+                    <li><a href="https://isletme.hacettepe.edu.tr/tr/menu/akademik_takvimler-119">Akademik Takvim</a></li>
+                </ul>
+            </div>
+
+            <!-- 3. Bağlantılar -->
+            <div class="footer-col">
+                <h3>Bağlantılar</h3>
+                <ul class="footer-links">
+                    <li><a href="https://hacettepe.edu.tr" target="_blank">Hacettepe Üniversitesi</a></li>
+                    <li><a href="https://sosyalbilimler.hacettepe.edu.tr" target="_blank">Sosyal Bilimler Ens.</a></li>
+                    <li><a href="https://oidb.hacettepe.edu.tr/" target="_blank">Öğrenci İşleri</a></li>
+                    <li><a href="https://sksdb.hacettepe.edu.tr/bidbnew/index.php" target="_blank">SKS Daire Bşk.</a></li>
+                    <li><a href="https://library.hacettepe.edu.tr/" target="_blank">Kütüphane</a></li>
+                </ul>
+            </div>
+
+            <!-- 4. Sosyal Medya -->
+            <div class="footer-col">
+                <h3>Takip Edin</h3>
+                <div class="footer-social-icons">
+                    <a href="https://www.instagram.com/hacettepe_isletme/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/hacettepe-university-department-of-business-administration/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://twitter.com/Hacettepe1967" target="_blank"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copyright -->
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                 ${new Date().getFullYear()} <strong>Hacettepe Üniversitesi İşletme Bölümü</strong>. Nizameddin Alyaprak Tarafından Tasarlanmıştır.
+            </div>
+            <div class="footer-bottom-links">
+                <a href="#">Gizlilik</a>
+            </div>
+        </div>
+    </footer>`;
+
+        document.body.insertAdjacentHTML('beforeend', footerHTML);
     }
 })();
