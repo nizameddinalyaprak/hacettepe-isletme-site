@@ -409,7 +409,7 @@
         var bugun = new Date();
         var gunlerHTML = '';
         var ayIsimleri = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
-        var gunIsimleriEN = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        var gunIsimleriEN = ["Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"];
 
         var currentMonth = bugun.getMonth();
         var daysData = []; // Event listener eklemek icin datayi tutalim

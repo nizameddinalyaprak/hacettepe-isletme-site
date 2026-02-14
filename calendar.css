@@ -64,7 +64,7 @@
     transform: translateX(-50%);
     font-size: 10px;
     font-weight: 700;
-    color: #888;
+    color: #cdcaca;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     white-space: nowrap;
@@ -84,7 +84,7 @@
 }
 
 .day-name {
-    font-size: 12px;
+    font-size: 8px;
     color: #888;
     text-transform: uppercase;
 }
