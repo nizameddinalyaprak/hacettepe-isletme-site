@@ -366,6 +366,14 @@
         });
 
         // Mobile menu toggle style (modern-header.css dosyasina tasindi, burasi temizlendi)
+
+        // --- PRELOADER REMOVAL ---
+        // CMS injection kodu ile eklenen 'hi-loading' sinifini kaldirip icerigi gosteriyoruz.
+        document.documentElement.classList.remove('hi-loading');
+
+        // Eger CSS ile body gizlendiyse, manuel olarak gosterelim (guvenlik onlemi)
+        document.body.style.visibility = 'visible';
+        document.body.style.opacity = '1';
     }
 
     function takvimVerisiniCek() {
