@@ -227,12 +227,14 @@
                 <div class="hi-nav-container">
                     
                     <!-- LOGO VE BASLIK ALANI (SOL UST) -->
-                    <a href="https://isletme.hacettepe.edu.tr/tr" class="hi-brand-logo" style="display: flex; align-items: center; text-decoration: none; margin-right: auto; padding: 10px 0;">
-                        <!-- Logo: legacy_style.css icindeki .logo sinifi kullaniliyor. -->
-                        <div class="logo" style="width: 60px; height: 60px; margin-right: 15px;"></div>
-                        <div class="hi-brand-text" style="display: flex; flex-direction: column; justify-content: center;">
-                            <span style="font-family: 'Segoe UI', sans-serif; font-weight: 700; font-size: 18px; color: #222; line-height: 1.1; letter-spacing: -0.5px;">HACETTEPE ÜNİVERSİTESİ</span>
-                            <span style="font-family: 'Segoe UI', sans-serif; font-weight: 300; font-size: 16px; color: #555; line-height: 1.1;">İŞLETME BÖLÜMÜ</span>
+                    <!-- LOGO VE BASLIK ALANI (SOL UST) -->
+                    <!-- Kullanicinin verdigi yapiya uygun (menu sinifi haric, layout bozmamasi icin) -->
+                    <a href="https://isletme.hacettepe.edu.tr/tr" class="hi-brand-logo" style="text-decoration: none; margin-right: auto;">
+                        <div class="logo">
+                            <div class="logo_yazi">
+                                <div class="banner_uni">HACETTEPE ÜNİVERSİTESİ</div>
+                                <div class="banner_uni_bolum">İşletme Bölümü</div>
+                            </div>
                         </div>
                     </a>
 
@@ -314,19 +316,34 @@
         // Yeni headeri body'nin en basina ekle
         document.body.insertAdjacentHTML('afterbegin', fullHeaderHTML);
 
-        // Mobile menu toggle style
-        var style = document.createElement('style');
-        style.innerHTML = `
-            @media (max-width: 991px) {
-                .mobile-menu-toggle { display: block !important; }
-                .hi-main-nav { display: none; flex-direction: column; width: 100%; }
-                .hi-main-nav.active { display: flex; }
-                .hi-nav-container { flex-direction: column; }
-                .hi-nav-item { width: 100%; border-bottom: 1px solid #eee; }
-                .hi-nav-link { padding: 15px; }
+        // --- MOBIL MENU DROPDOWN TIKLAMA MANTIGI ---
+        // Mobilde hover sorunlu oldugu icin tiklama ile acilmasini sagliyoruz.
+        var navItems = document.querySelectorAll('.hi-nav-item');
+        navItems.forEach(function (item) {
+            var dropdown = item.querySelector('.hi-dropdown-menu');
+            var link = item.querySelector('.hi-nav-link');
+            if (dropdown && link) {
+                link.addEventListener('click', function (e) {
+                    // Sadece mobilde (991px ve alti) devreye girsin
+                    if (window.innerWidth < 992) {
+                        e.preventDefault(); // Linke gitmesin (Bölüm, Akademik vb.)
+
+                        // Opsiyonel: Diger acik menuleri kapatmak icin
+                        /*
+                        navItems.forEach(function(otherItem) {
+                             if (otherItem !== item) {
+                                 otherItem.classList.remove('dropdown-active');
+                             }
+                        });
+                        */
+
+                        item.classList.toggle('dropdown-active');
+                    }
+                });
             }
-        `;
-        document.head.appendChild(style);
+        });
+
+        // Mobile menu toggle style (modern-header.css dosyasina tasindi, burasi temizlendi)
     }
 
     function takvimVerisiniCek() {

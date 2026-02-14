@@ -101,12 +101,30 @@
     z-index: 1001;
     border-radius: 0 0 4px 4px;
     padding: 10px 0;
+    padding: 10px 0;
 }
 
-.hi-nav-item:hover .hi-dropdown-menu {
+/* Desktop Hover Effect */
+@media (min-width: 992px) {
+    .hi-nav-item:hover .hi-dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile/Click Toggle Effect */
+.hi-nav-item.dropdown-active .hi-dropdown-menu {
+    display: block;
+    /* Mobilde block olarak acilsin */
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: none;
+    position: static;
+    /* Mobilde akis icinde olsun */
+    box-shadow: none;
+    background-color: #f0f0f0;
+    padding-left: 20px;
 }
 
 .dropdown-header {
@@ -141,16 +159,48 @@
 }
 
 /* Logo Setup (Matches legacy_style.css but with external fallback for local preview) */
+/* Logo & Branding - Based on legacy_style.css structure */
 .logo {
+    position: relative;
     background: url("https://upload.wikimedia.org/wikipedia/tr/b/b2/Hacettepe_%C3%9Cniversitesi_Logosu.png") left center no-repeat;
-    background-size: contain;
+    background-size: auto 55px;
+    /* Logo icin soldan bosluk birakiyoruz */
+    padding-left: 65px;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
     transition: all 0.3s ease;
-    /* legacy_style.css icinde: background-size: auto 60px; */
+    text-decoration: none;
 }
 
 .logo.logo-scrolled {
-    width: 50px !important;
-    height: 50px !important;
+    background-size: auto 45px !important;
+    padding-left: 55px !important;
+    min-height: 50px !important;
+}
+
+.logo_yazi {
+    background: none !important;
+    /* Yokak logosunu engelle */
+    padding: 0 !important;
+}
+
+.banner_uni {
+    font-family: 'Open Sans', 'Segoe UI', sans-serif;
+    font-weight: 900;
+    font-size: 18px;
+    color: #ec1b23;
+    /* Hacettepe Kirmizisi */
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+.banner_uni_bolum {
+    font-family: 'Open Sans', 'Segoe UI', sans-serif;
+    font-size: 15px;
+    color: #555;
+    line-height: 1.1;
+    margin-top: 2px;
 }
 
 /* Responsive (Mobile) */
@@ -251,11 +301,7 @@
         padding-left: 20px;
     }
 
-    /* Toggle dropdowns on click (using :focus-within or just expand all for now) */
-    /* Let's make them visible when active for simplicity or just hidden */
-    .hi-nav-item:hover .hi-dropdown-menu {
-        display: block;
-    }
+    /* Toggle dropdowns on click handled by JS (.dropdown-active class) */
 }
 
 /* Helper for Desktop */
