@@ -14,7 +14,7 @@
     // 1. Hatali Eventleri Engelle (Scroll vs) - HATA SUSTURUCU (Kesin Cozum V2)
     var originalOnError = window.onerror;
     window.onerror = function (message, source, lineno, colno, error) {
-        if (message && (message.includes("reading 'top'") || message.includes("calc") || message.includes("undefined"))) {
+        if (message && (message.includes("reading 'top'") || message.includes("calc") || message.includes("undefined") || message.includes("SyntaxError"))) {
             return true; // Hatayi konsola basma, yut.
         }
         if (originalOnError) return originalOnError(message, source, lineno, colno, error);
@@ -37,7 +37,7 @@
 
 
 
-    var cacheBuster = '?v=1.1'; // Cache busting icin versiyon guncellendi
+    var cacheBuster = '?v=1.2'; // Cache busting icin versiyon guncellendi
 
     // --- STIL DOSYALARINI YUKLE ---
 
@@ -252,6 +252,9 @@
             // Scriptleri yeniden calistir
             var scripts = doc.querySelectorAll('script');
             scripts.forEach(function (oldScript) {
+                // Loader.js'i tekrar yukleme (Recursive dongu ve 404 hatasini onle)
+                if (oldScript.src && oldScript.src.includes('loader.js')) return;
+
                 var newScript = document.createElement('script');
                 if (oldScript.src) newScript.src = oldScript.src;
                 else newScript.textContent = oldScript.textContent;
