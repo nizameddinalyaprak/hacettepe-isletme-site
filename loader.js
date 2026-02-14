@@ -775,7 +775,7 @@
                                 <a href="https://isletme.hacettepe.edu.tr/tr/menu/etkinlikler-171" class="dropdown-item">Etkinlikler</a>
                             </div>
                         </div>
-                        <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/tr/duyurular" class="hi-nav-link">Duyurular</a></div>
+                        <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/tr/menu/duyurular-228" class="hi-nav-link">Duyurular</a></div>
                         <div class="hi-nav-item">
                             <a href="#" class="hi-nav-link">İLETİŞİM <i class="fas fa-chevron-down"></i></a>
                             <div class="hi-dropdown-menu">
