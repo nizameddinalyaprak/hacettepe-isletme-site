@@ -415,23 +415,52 @@
                     var items = anaIcerik ? (anaIcerik.querySelectorAll('ul li').length > 0 ? anaIcerik.querySelectorAll('ul li') : anaIcerik.querySelectorAll('a')) : [];
 
                     annState.data = [];
+                    var blackList = ["duyurular-1", "tezli_yuksek_lisans_programlar-33", "lisans_programi-35", "tezsiz_yuksek_lisans_programla-37", "doktora_programi-39", "/show/"];
+
                     items.forEach(function (node) {
                         var link = node.tagName === 'A' ? node : node.querySelector('a');
                         if (!link) return;
                         var title = link.textContent.trim();
-                        var url = link.getAttribute('href');
-                        if (!url || url.includes('javascript') || title.length < 5) return;
+                        var url = link.getAttribute('href') || "";
 
+                        // Exclusion check
+                        if (!url || url.includes('javascript') || title.length < 5) return;
+                        for (var j = 0; j < blackList.length; j++) {
+                            if (url.includes(blackList[j])) return;
+                        }
+
+                        // Date extraction (Standard + Secondary)
                         var date = "";
-                        var m = node.textContent.trim().match(/(\d{4})-(\d{2})-(\d{2})/) || node.textContent.trim().match(/(\d{2})\.(\d{2})\.(\d{4})/);
+                        var m = node.textContent.match(/(\d{4})-(\d{2})-(\d{2})/) || node.textContent.match(/(\d{2})\.(\d{2})\.(\d{4})/);
                         if (m) date = m[0];
 
+                        if (!date && url) { // Try to extract from URL if possible
+                            var urlMatch = url.match(/\/(\d{4})\/(\d{1,2})\/(\d{1,2})\//);
+                            if (urlMatch) date = urlMatch[3] + "." + urlMatch[2] + "." + urlMatch[1];
+                        }
+
+                        // Tags & Title Clean up
                         var tags = [];
                         link.querySelectorAll('span').forEach(function (s) {
-                            tags.push(s.textContent.trim());
-                            title = title.replace(s.textContent.trim(), "").trim();
+                            var t = s.textContent.trim();
+                            if (t) {
+                                tags.push(t);
+                                title = title.replace(t, "").trim();
+                            }
                         });
-                        annState.data.push({ title: title, url: url, date: date, tags: tags.length > 0 ? tags : ["Genel"] });
+
+                        // Fallback Categorization if no tags found
+                        if (tags.length === 0) {
+                            var lt = title.toLocaleLowerCase('tr-TR');
+                            if (lt.includes('onemli') || lt.includes('önemli')) tags.push('ÖNEMLİ');
+                            else if (lt.includes('lisans') && !lt.includes('lisansüstü')) tags.push('LİSANS');
+                            else if (lt.includes('tezli') && (lt.includes('yüksek') || lt.includes('yl'))) tags.push('TEZLİ YL');
+                            else if (lt.includes('tezsiz')) tags.push('TEZSİZ YL');
+                            else if (lt.includes('doktora')) tags.push('DOKTORA');
+                            else tags.push('Genel');
+                        }
+
+                        annState.data.push({ title: title, url: url, date: date, tags: tags });
                     });
 
                     return fetch(baseUrl + '/announcements.html' + cacheBuster);
