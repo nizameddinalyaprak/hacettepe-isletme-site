@@ -413,42 +413,51 @@
                     var parser = new DOMParser();
                     var sourceDoc = parser.parseFromString(html, 'text/html');
                     var anaIcerik = sourceDoc.querySelector('.col-lg-9') || sourceDoc.querySelector('.icerik');
-                    var items = anaIcerik ? anaIcerik.querySelectorAll('ul li') : [];
-
-                    console.log("isAnnouncementsPage: Kaynak sayfadan LI sayisi:", items.length);
-
                     var extractedData = [];
-                    items.forEach(function (li) {
-                        var link = li.querySelector('a');
-                        if (!link) return;
 
-                        var title = link.textContent.trim();
-                        var url = link.getAttribute('href');
-                        var text = li.textContent.trim();
+                    if (anaIcerik) {
+                        var items = anaIcerik.querySelectorAll('ul li');
+                        if (items.length === 0) {
+                            console.log("isAnnouncementsPage: LI bulunamadi, A etiketleri taranıyor...");
+                            items = anaIcerik.querySelectorAll('a');
+                        }
 
-                        // Tarih ayikla (Standard logic)
-                        var date = "";
-                        var m = text.match(/(\d{4})-(\d{2})-(\d{2})/) || text.match(/(\d{2})\.(\d{2})\.(\d{4})/);
-                        if (m) date = m[0];
+                        console.log("isAnnouncementsPage: Bulunan eleman sayısı:", items.length);
 
-                        // Etiketleri ayikla
-                        var tags = [];
-                        var spans = link.querySelectorAll('span');
-                        spans.forEach(function (s) {
-                            tags.push(s.textContent.trim());
-                            title = title.replace(s.textContent.trim(), "").trim();
+                        items.forEach(function (node) {
+                            var link = node.tagName === 'A' ? node : node.querySelector('a');
+                            if (!link) return;
+
+                            var title = link.textContent.trim();
+                            var url = link.getAttribute('href');
+                            if (!url || url.includes('javascript')) return;
+
+                            // Temizleme ve Filtreleme
+                            if (title.length < 5) return;
+
+                            var textForDate = node.textContent.trim();
+                            var date = "";
+                            var m = textForDate.match(/(\d{4})-(\d{2})-(\d{2})/) || textForDate.match(/(\d{2})\.(\d{2})\.(\d{4})/);
+                            if (m) date = m[0];
+
+                            var tags = [];
+                            var spans = link.querySelectorAll('span');
+                            spans.forEach(function (s) {
+                                tags.push(s.textContent.trim());
+                                title = title.replace(s.textContent.trim(), "").trim();
+                            });
+
+                            extractedData.push({
+                                title: title,
+                                url: url,
+                                date: date,
+                                tags: tags.length > 0 ? tags : ["Genel"]
+                            });
                         });
-
-                        extractedData.push({
-                            title: title,
-                            url: url,
-                            date: date,
-                            tags: tags.length > 0 ? tags : ["Genel"]
-                        });
-                    });
+                    }
 
                     window.cmsAnnouncements = extractedData;
-                    console.log("isAnnouncementsPage: Ayiklanan veri adedi:", extractedData.length);
+                    console.log("isAnnouncementsPage: Toplam ayıklanan veri:", extractedData.length);
 
                     // Sablonu Yukle
                     return fetch(baseUrl + '/announcements.html' + cacheBuster);
