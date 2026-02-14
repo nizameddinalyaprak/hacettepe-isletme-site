@@ -402,49 +402,57 @@
             .catch(function (err) { console.error("Etkinlikler yuklenirken hata:", err); });
     } else if (isAnnouncementsPage) {
         // --- OZEL DURUM: Duyurular Sayfasi (CMS Verisini Ayikla ve Template'e Gonder) ---
-        var extractedData = [];
-        var rows = document.querySelectorAll('#duyurular_1 tbody tr');
+        function extractAndLoad() {
+            var extractedData = [];
+            var rows = document.querySelectorAll('#duyurular_1 tbody tr');
 
-        if (rows.length > 0) {
-            rows.forEach(function (row) {
-                var link = row.querySelector('a');
-                var dateEl = row.querySelector('.tarih');
-                if (link) {
-                    var title = link.textContent.trim();
-                    var url = link.getAttribute('href');
-                    var date = dateEl ? dateEl.textContent.trim().split(' ')[0] : "";
+            // console.log("Duyuru satirlari tespit edildi:", rows.length);
 
-                    // Etiketleri (Labels) ayikla
-                    var tags = [];
-                    var spans = link.querySelectorAll('span');
-                    spans.forEach(function (s) {
-                        tags.push(s.textContent.trim());
-                        title = title.replace(s.textContent.trim(), "").trim(); // Basliktan etiket metnini temizle
-                    });
+            if (rows.length > 0) {
+                rows.forEach(function (row) {
+                    var link = row.querySelector('a');
+                    var dateEl = row.querySelector('.tarih');
+                    if (link) {
+                        var title = link.textContent.trim();
+                        var url = link.getAttribute('href');
+                        var date = dateEl ? dateEl.textContent.trim().split(' ')[0] : "";
 
-                    extractedData.push({
-                        title: title,
-                        url: url,
-                        date: date,
-                        tags: tags.length > 0 ? tags : ["Genel"]
-                    });
-                }
-            });
+                        var tags = [];
+                        var spans = link.querySelectorAll('span');
+                        spans.forEach(function (s) {
+                            tags.push(s.textContent.trim());
+                            title = title.replace(s.textContent.trim(), "").trim();
+                        });
+
+                        extractedData.push({
+                            title: title,
+                            url: url,
+                            date: date,
+                            tags: tags.length > 0 ? tags : ["Genel"]
+                        });
+                    }
+                });
+            }
+
+            window.cmsAnnouncements = extractedData;
+
+            fetch(baseUrl + '/announcements.html' + cacheBuster)
+                .then(function (response) { return response.text(); })
+                .then(function (html) {
+                    var parser = new DOMParser();
+                    var doc = parser.parseFromString(html, 'text/html');
+                    baslat(doc, true);
+                    if (window.renderAnnouncements) window.renderAnnouncements(extractedData);
+                })
+                .catch(function (err) { console.error("Duyurular yuklenirken hata:", err); });
         }
 
-        window.cmsAnnouncements = extractedData;
-
-        fetch(baseUrl + '/announcements.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-
-                // Template icindeki render fonksiyonunu cagir (Eger baslat hemen bitirdiyse)
-                if (window.renderAnnouncements) window.renderAnnouncements(extractedData);
-            })
-            .catch(function (err) { console.error("Duyurular yuklenirken hata:", err); });
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', extractAndLoad);
+        } else {
+            // Eger CMS tablosu henuz render edilmediyse (jQuery ile geliyorsa), kisa bir gecikme ekleyelim
+            setTimeout(extractAndLoad, 100);
+        }
 
     } else if (isBachelorProgramPage) {
         fetch(baseUrl + '/bachelor_program.html' + cacheBuster)
