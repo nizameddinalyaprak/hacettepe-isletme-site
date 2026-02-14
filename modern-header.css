@@ -159,18 +159,16 @@
 }
 
 /* Logo Setup (Matches legacy_style.css but with external fallback for local preview) */
-/* Logo & Branding - Based on legacy_style.css structure */
-.logo {
-    position: relative;
-    background: url("https://upload.wikimedia.org/wikipedia/tr/b/b2/Hacettepe_%C3%9Cniversitesi_Logosu.png") left center no-repeat;
-    background-size: auto 55px;
-    /* Logo icin soldan bosluk birakiyoruz */
-    padding-left: 65px;
-    min-height: 60px;
-    display: flex;
-    align-items: center;
-    transition: all 0.3s ease;
-    text-decoration: none;
+position: relative;
+background: url("images/logo.png") left center no-repeat;
+background-size: auto 55px;
+/* Logo icin soldan bosluk birakiyoruz */
+padding-left: 65px;
+min-height: 60px;
+display: flex;
+align-items: center;
+transition: all 0.3s ease;
+text-decoration: none;
 }
 
 .logo.logo-scrolled {
@@ -189,7 +187,7 @@
     font-family: 'Open Sans', 'Segoe UI', sans-serif;
     font-weight: 900;
     font-size: 18px;
-    color: #ec1b23;
+    color: #000000;
     /* Hacettepe Kirmizisi */
     line-height: 1.1;
     text-transform: uppercase;
