@@ -78,7 +78,8 @@
     // Anasayfa mi yoksa alt sayfa mi?
     var path = window.location.pathname.toLowerCase().trim();
     // Anasayfa olabilecek URL desenleri:
-    var isHomePage = path === '/tr' || path === '/tr/' || path.endsWith('/index.html') || path.endsWith('/index.php') || path === '/' || path.includes('preview.html');
+    // NOT: 'denemesayfasi' ifadesi test icin eklendi. Canliya alininca kaldirilabilir veya kalabilir.
+    var isHomePage = path === '/tr' || path === '/tr/' || path.endsWith('/index.html') || path.endsWith('/index.php') || path === '/' || path.includes('preview.html') || path.includes('denemesayfasi');
     // Eger URL'de 'preview_subpage' varsa kesinlikle alt sayfadir (Test icin)
     if (path.includes('preview_subpage')) isHomePage = false;
 
