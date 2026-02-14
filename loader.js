@@ -84,15 +84,24 @@
     // --- HTML ICERIGINI CEK ---
     // --- SAYFA TURU TESPITI ---
     // Anasayfa mi yoksa alt sayfa mi?
+    // --- SAYFA TURU TESPITI (Guncellendi: Query Parametreleri Destegi) ---
+    var fullUrl = window.location.href.toLowerCase();
     var path = window.location.pathname.toLowerCase().trim();
-    // Anasayfa olabilecek URL desenleri:
-    // NOT: 'denemesayfasi' ifadesi test icin eklendi. Canliya alininca kaldirilabilir veya kalabilir.
-    var isHomePage = path === '/tr' || path === '/tr/' || path.endsWith('/index.html') || path.endsWith('/index.php') || path === '/' || path.includes('preview.html') || path.includes('denemesayfasi');
 
-    // Bolum Hakkinda Sayfasi Tespiti
-    var isAboutPage = path.includes('bolum_hakkinda-75') || path.includes('about.html');
-    var isManagementPage = path.includes('yonetim-77') || path.includes('management.html');
-    var isAcademicStaffPage = path.includes('ogretim_uyelerigorevlileri-211') || path.includes('academic_staff.html');
+    // Query String kontrolu (Local Preview icin: ?page=yonetim gibi)
+    var search = window.location.search.toLowerCase();
+
+    // 1. Anasayfa Tespiti
+    var isHomePage = path === '/tr' || path === '/tr/' || path === '/' || path.endsWith('/index.html') || path.endsWith('/index.php') || fullUrl.includes('preview.html') || path.includes('denemesayfasi');
+    // Eger spesifik bir sayfa isteniyorsa anasayfa degildir
+    if (search.includes('page=')) isHomePage = false;
+
+    // 2. Ozel Sayfa Tespiti (Hem URL path hem de Query String icinde aranir)
+    var isAboutPage = path.includes('bolum_hakkinda-75') || path.includes('about.html') || search.includes('page=about') || search.includes('page=bolum_hakkinda');
+    var isManagementPage = path.includes('yonetim-77') || path.includes('management.html') || search.includes('page=management') || search.includes('page=yonetim');
+    var isAcademicStaffPage = path.includes('ogretim_uyelerigorevlileri-211') || path.includes('academic_staff.html') || search.includes('page=academic') || search.includes('page=ogretim_uyelerigorevlileri');
+    var isResearchStaffPage = path.includes('arastirma_gorevlileri') || path.includes('research_assistants.html') || search.includes('page=research') || search.includes('page=arastirma_gorevlileri');
+    var isAdminStaffPage = path.includes('idari_personel') || path.includes('administrative_staff.html') || search.includes('page=admin') || search.includes('page=idari_personel');
 
     // Eger URL'de 'preview_subpage' varsa kesinlikle alt sayfadir (Test icin)
     if (path.includes('preview_subpage')) isHomePage = false;
@@ -101,12 +110,26 @@
     //console.log("Anasayfa Tespiti: " + isHomePage);
     //console.log("Hakkinda Sayfasi Tespiti: " + isAboutPage);
 
+    // --- STANDALONE MODE CHECK (Dosyanin kendisi acildiysa fetch yapma) ---
+    // Ornegin: management.html dogrudan acildiysa, kendini fetch etmesin.
+    var isStandalone = false;
+    if (path.endsWith('management.html') && isManagementPage) isStandalone = true;
+    if (path.endsWith('academic_staff.html') && isAcademicStaffPage) isStandalone = true;
+    if (path.endsWith('about.html') && isAboutPage) isStandalone = true;
+    if (path.endsWith('research_assistants.html') && isResearchStaffPage) isStandalone = true;
+    if (path.endsWith('administrative_staff.html') && isAdminStaffPage) isStandalone = true;
+
     // --- HTML ICERIGINI CEK (SADECE ANASAYFA VEYA OZEL SAYFALAR ISE) ---
-    if (window.OFFLINE_MODE) {
-        // console.log("Offline Modu Aktif: HTML cekme atlaniyor.");
-        setTimeout(function () {
-            baslat(document, false); // Offline mod = subpage gibi davran (mevcut body'yi kullan)
-        }, 100);
+    if (window.OFFLINE_MODE || isStandalone) {
+        // console.log("Offline/Standalone Modu Aktif: HTML cekme atlaniyor.");
+        // Loader'in stil ve scriptleri enjekte etmesi icin baslat'i cagiriyoruz.
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () {
+                baslat(document, false);
+            });
+        } else {
+            baslat(document, false);
+        }
     } else if (isHomePage) {
         // ANASAYFA: index.html'i cek ve body'yi degistir
         fetch(baseUrl + '/index.html' + cacheBuster)
@@ -173,6 +196,26 @@
                 document.body.style.visibility = 'visible';
                 document.body.style.opacity = '1';
             });
+    } else if (isResearchStaffPage) {
+        // ARASTIRMA GOREVLILERI SAYFASI
+        fetch(baseUrl + '/research_assistants.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+            .catch(function (err) { console.error("Arastirma gorevlileri yuklenirken hata:", err); });
+    } else if (isAdminStaffPage) {
+        // IDARI PERSONEL SAYFASI
+        fetch(baseUrl + '/administrative_staff.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+            .catch(function (err) { console.error("Idari personel yuklenirken hata:", err); });
     } else {
         // ALT SAYFA: Mevcut icerigi koru, sadece susle
         // console.log("Alt Sayfa Modu: Mevcut icerik korunaraj modernlestirilecek.");
