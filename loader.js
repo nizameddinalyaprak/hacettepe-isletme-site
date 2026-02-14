@@ -142,7 +142,8 @@
             document.body.appendChild(doc.body);
 
             // 3.5 Medya Yollarini Duzelt (GitHub/Local BaseURL ekle)
-            rewriteMediaPaths(document.body, baseUrl);
+            // GEÇİCİ OLARAK KAPATILDI - HATA OLASILIĞI NEDENİYLE
+            // rewriteMediaPaths(document.body, baseUrl);
 
             // Scriptleri yeniden calistir
             var scripts = doc.querySelectorAll('script');
