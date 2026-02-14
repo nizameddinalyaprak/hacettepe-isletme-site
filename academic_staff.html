@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacettepe İşletme - Öğretim Üyeleri</title>
+
+    <style>
+        /* Page Hero */
+        .page-hero {
+            background: linear-gradient(135deg, #ac232d 0%, #7e161d 100%);
+            color: white;
+            padding: 80px 20px 100px;
+            text-align: center;
+            clip-path: ellipse(150% 100% at 50% 0%);
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        /* List Layout */
+        .staff-list {
+            max-width: 1000px;
+            margin: 0 auto 60px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .staff-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 25px 30px;
+            border-radius: 12px;
+            border: 1px solid #f1f5f9;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+            /* Animation Initial State */
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .staff-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .staff-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(172, 35, 45, 0.08);
+            /* Red tint shadow */
+            border-color: #fca5a5;
+        }
+
+        /* Left Side: Info */
+        .staff-info {
+            flex: 2;
+        }
+
+        .staff-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 5px 0;
+        }
+
+        .staff-title {
+            font-size: 0.9rem;
+            color: #64748b;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .staff-dept {
+            font-size: 0.9rem;
+            color: #334155;
+            display: block;
+        }
+
+        .staff-role {
+            display: inline-block;
+            background-color: #fef2f2;
+            color: #ac232d;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Center: Contact */
+        .staff-contact {
+            flex: 1;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #475569;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            background: #f8fafc;
+        }
+
+        .contact-btn:hover {
+            background: #ac232d;
+            color: white;
+        }
+
+        /* Right: Photo */
+        .staff-photo-container {
+            flex: 0 0 100px;
+            /* Fixed width */
+            margin-left: 20px;
+        }
+
+        .staff-photo {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            /* Circle avatar */
+            object-fit: cover;
+            object-position: top center;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .staff-item {
+                flex-direction: column-reverse;
+                /* Photo on top for mobile */
+                text-align: center;
+                gap: 15px;
+            }
+
+            .staff-photo-container {
+                margin: 0;
+                flex: 0 0 auto;
+            }
+
+            .staff-photo {
+                width: 120px;
+                height: 120px;
+            }
+
+            .staff-info {
+                width: 100%;
+            }
+
+            .staff-contact {
+                width: 100%;
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page-hero">
+        <h1 class="page-title">Öğretim Üyeleri</h1>
+        <p>Hacettepe Üniversitesi İşletme Bölümü Akademik Kadrosu</p>
+    </div>
+
+    <div class="container main-content">
+        <div class="staff-list">
+
+            <!-- Prof. Dr. Leyla ÖZER (Bölüm Başkanı) -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Prof. Dr. Leyla ÖZER</h3>
+                    <span class="staff-dept">Pazarlama Ana Bilim Dalı</span>
+                    <span class="staff-role">Bölüm Başkanı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:leyla@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        leyla@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/LO.jpg"
+                        alt="Prof. Dr. Leyla ÖZER" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Prof. Dr. Canan ERYİĞİT (Bölüm Başkan Yardımcısı) -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Prof. Dr. Canan ERYİĞİT</h3>
+                    <span class="staff-dept">Pazarlama Ana Bilim Dalı</span>
+                    <span class="staff-role">Bölüm Başkan Yardımcısı</span>
+                    <span class="staff-role" style="background-color: #f1f5f9; color: #475569;">Uzaktan Eğitim
+                        Koordinatörü</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:canand@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        canand@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/CE.jpg"
+                        alt="Prof. Dr. Canan ERYİĞİT" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Doç. Dr. Hatice ÇALIPINAR (Bölüm Başkan Yardımcısı) -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Doç. Dr. Hatice ÇALIPINAR</h3>
+                    <span class="staff-dept">Üretim Yönetimi Ana Bilim Dalı</span>
+                    <span class="staff-role">Bölüm Başkan Yardımcısı</span>
+                    <span class="staff-role" style="background-color: #f1f5f9; color: #475569;">Farabi Programı
+                        Koordinatörü</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:chatice@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        chatice@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/HC.jpg"
+                        alt="Doç. Dr. Hatice ÇALIPINAR" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Prof. Dr. Kazım Barış ATICI -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Prof. Dr. Kazım Barış ATICI</h3>
+                    <span class="staff-dept">Sayısal Yöntemler Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:kba@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        kba@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/KBA.jpg"
+                        alt="Prof. Dr. Kazım Barış ATICI" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Prof. Dr. Pınar BAŞGÖZE -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Prof. Dr. Pınar BAŞGÖZE</h3>
+                    <span class="staff-dept">Pazarlama Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:pinaran@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        pinaran@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/PB.jpg"
+                        alt="Prof. Dr. Pınar BAŞGÖZE" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Prof. Dr. Selin METİN CAMGÖZ -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Prof. Dr. Selin METİN CAMGÖZ</h3>
+                    <span class="staff-dept">Örgütsel Davranış Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:selinm@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        selinm@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/SMC.jpg"
+                        alt="Prof. Dr. Selin METİN CAMGÖZ" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Prof. Dr. Özge TAYFUR EKMEKCİ -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Prof. Dr. Özge TAYFUR EKMEKCİ</h3>
+                    <span class="staff-dept">Yönetim ve Organizasyon Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:otayfur@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        otayfur@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/OTE.jpg"
+                        alt="Prof. Dr. Özge TAYFUR EKMEKCİ" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Prof. Dr. Azize ERGENELİ -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Prof. Dr. Azize ERGENELİ</h3>
+                    <span class="staff-dept">Örgütsel Davranış Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:ergeneli@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        ergeneli@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/AE.jpg"
+                        alt="Prof. Dr. Azize ERGENELİ" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Prof. Dr. Beyza ÖZYİĞİT GÜLTEKİN -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Prof. Dr. Beyza ÖZYİĞİT GÜLTEKİN</h3>
+                    <span class="staff-dept">Pazarlama Ana Bilim Dalı</span>
+                    <span class="staff-role" style="background-color: #f1f5f9; color: #475569;">Yandal-Çift Anadal
+                        Koordinatörü</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:beyza@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        beyza@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/BG.jpg"
+                        alt="Prof. Dr. Beyza ÖZYİĞİT GÜLTEKİN" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Prof. Dr. Semra GÜNEY -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Prof. Dr. Semra GÜNEY</h3>
+                    <span class="staff-dept">Yönetim ve Organizasyon Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:semguney@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        semguney@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/SGu.jpg"
+                        alt="Prof. Dr. Semra GÜNEY" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Prof. Dr. Semra KARACAER -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Prof. Dr. Semra KARACAER</h3>
+                    <span class="staff-dept">Muhasebe ve Finans Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:semra@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        semra@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/SK.jpg"
+                        alt="Prof. Dr. Semra KARACAER" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Prof. Dr. Pınar BAYHAN KARAPINAR -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Prof. Dr. Pınar BAYHAN KARAPINAR</h3>
+                    <span class="staff-dept">Örgütsel Davranış Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:pbayhan@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        pbayhan@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/PBK.jpg"
+                        alt="Prof. Dr. Pınar BAYHAN KARAPINAR" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Prof. Dr. Mustafa KILIÇ -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Prof. Dr. Mustafa KILIÇ</h3>
+                    <span class="staff-dept">Yönetim ve Organizasyon Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:mkilic@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        mkilic@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/MKi.jpg"
+                        alt="Prof. Dr. Mustafa KILIÇ" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Prof. Dr. Mine ÖMÜRGÖNÜLŞEN -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Prof. Dr. Mine ÖMÜRGÖNÜLŞEN</h3>
+                    <span class="staff-dept">Üretim Yönetimi Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:mergun@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        mergun@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/MO.jpg"
+                        alt="Prof. Dr. Mine ÖMÜRGÖNÜLŞEN" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Prof. Dr. Burak PİRGAİP -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Prof. Dr. Burak PİRGAİP</h3>
+                    <span class="staff-dept">Muhasebe ve Finans Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:burakpirgaip@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        burakpirgaip@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/BP.jpg"
+                        alt="Prof. Dr. Burak PİRGAİP" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Prof. Dr. Mehmet SOYSAL -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Prof. Dr. Mehmet SOYSAL</h3>
+                    <span class="staff-dept">Üretim Yönetimi Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:mehmetsoysal@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        mehmetsoysal@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/MS.jpg"
+                        alt="Prof. Dr. Mehmet SOYSAL" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Prof. Dr. Öznur ÖZKAN TEKTAŞ -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Prof. Dr. Öznur ÖZKAN TEKTAŞ</h3>
+                    <span class="staff-dept">Pazarlama Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:oznuro@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        oznuro@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/OOT.jpg"
+                        alt="Prof. Dr. Öznur ÖZKAN TEKTAŞ" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Prof. Dr. Aydın ULUCAN -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Prof. Dr. Aydın ULUCAN</h3>
+                    <span class="staff-dept">Sayısal Yöntemler Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:aulucan@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        aulucan@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/AU.jpeg"
+                        alt="Prof. Dr. Aydın ULUCAN" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Doç. Dr. Öznur AŞAN -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Doç. Dr. Öznur AŞAN</h3>
+                    <span class="staff-dept">Yönetim ve Organizasyon Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:nur@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        nur@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/OA.jpg"
+                        alt="Doç. Dr. Öznur AŞAN" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Doç. Dr. Göknur BÜYÜKKARA -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Doç. Dr. Göknur BÜYÜKKARA</h3>
+                    <span class="staff-dept">Muhasebe ve Finans Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:goknur@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        goknur@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/GB.jpg"
+                        alt="Doç. Dr. Göknur BÜYÜKKARA" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Doç. Dr. Mustafa ÇİMEN -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Doç. Dr. Mustafa ÇİMEN</h3>
+                    <span class="staff-dept">Sayısal Yöntemler Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:mcimen@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        mcimen@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/MC.jpg"
+                        alt="Doç. Dr. Mustafa ÇİMEN" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Doç. Dr. Arzu İLSEV -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Doç. Dr. Arzu İLSEV</h3>
+                    <span class="staff-dept">Örgütsel Davranış Ana Bilim Dalı</span>
+                    <span class="staff-role" style="background-color: #f1f5f9; color: #475569;">Dış İlişkiler Birim
+                        Koordinatörü</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:ailsev@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        ailsev@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/AI.jpg"
+                        alt="Doç. Dr. Arzu İLSEV" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Doç. Dr. Anıl BOZ SEMERCİ -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Doç. Dr. Anıl BOZ SEMERCİ</h3>
+                    <span class="staff-dept">Örgütsel Davranış Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:anilboz@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        anilboz@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/ABS.jpg"
+                        alt="Doç. Dr. Anıl BOZ SEMERCİ" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Doç. Dr. Niray TUNÇEL -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Doç. Dr. Niray TUNÇEL</h3>
+                    <span class="staff-dept">Pazarlama Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:niraytuncel@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        niraytuncel@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/NT.jpg"
+                        alt="Doç. Dr. Niray TUNÇEL" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Dr. Öğr. Üyesi Bülent ÇEKİÇ -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Dr. Öğr. Üyesi Bülent ÇEKİÇ</h3>
+                    <span class="staff-dept">Üretim Yönetimi Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:bulentc@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        bulentc@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/BC.jpg"
+                        alt="Dr. Öğr. Üyesi Bülent ÇEKİÇ" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Dr. Öğr. Üyesi Onur KOYUNCU -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Dr. Öğr. Üyesi Onur KOYUNCU</h3>
+                    <span class="staff-dept">Üretim Yönetimi Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:okoyuncu@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        okoyuncu@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/OK.jpg"
+                        alt="Dr. Öğr. Üyesi Onur KOYUNCU" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Öğr. Gör. Dr. Eren MİSKİ AYDIN -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Öğr. Gör. Dr. Eren MİSKİ AYDIN</h3>
+                    <span class="staff-dept">Örgütsel Davranış Ana Bilim Dalı</span>
+                    <span class="staff-role" style="background-color: #f1f5f9; color: #475569;">Erasmus Programı
+                        Koordinatörü</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:erenma@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        erenma@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/EMA.jpg"
+                        alt="Öğr. Gör. Dr. Eren MİSKİ AYDIN" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Öğr. Gör. Dr. Mustafa KAYA -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Öğr. Gör. Dr. Mustafa KAYA</h3>
+                    <span class="staff-dept">Ticaret Hukuku Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:mkaya@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        mkaya@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/MK.jpg"
+                        alt="Öğr. Gör. Dr. Mustafa KAYA" class="staff-photo">
+                </div>
+            </div>
+
+            <!-- Öğr. Gör. Şerife GÖKDEMİR GÜRAN -->
+            <div class="staff-item">
+                <div class="staff-info">
+                    <h3 class="staff-name">Öğr. Gör. Şerife GÖKDEMİR GÜRAN</h3>
+                    <span class="staff-dept">Muhasebe ve Finans Ana Bilim Dalı</span>
+                </div>
+                <div class="staff-contact">
+                    <a href="mailto:sguran@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
+                        sguran@hacettepe.edu.tr</a>
+                </div>
+                <div class="staff-photo-container">
+                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/SG.jpg"
+                        alt="Öğr. Gör. Şerife GÖKDEMİR GÜRAN" class="staff-photo">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Scroll Animation Script -->
+    <script>
+        (function () {
+            var observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            var observer = new IntersectionObserver(function (entries, observer) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // Animasyon tek seferlik olsun
+                    }
+                });
+            }, observerOptions);
+
+            var items = document.querySelectorAll('.staff-item');
+            items.forEach(function (item) {
+                observer.observe(item);
+            });
+        })();
+    </script>
+</body>
+
+</html>

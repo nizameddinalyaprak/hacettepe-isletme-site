@@ -92,13 +92,14 @@
     // Bolum Hakkinda Sayfasi Tespiti
     var isAboutPage = path.includes('bolum_hakkinda-75') || path.includes('about.html');
     var isManagementPage = path.includes('yonetim-77') || path.includes('management.html');
+    var isAcademicStaffPage = path.includes('ogretim_uyelerigorevlileri-211') || path.includes('academic_staff.html');
 
     // Eger URL'de 'preview_subpage' varsa kesinlikle alt sayfadir (Test icin)
     if (path.includes('preview_subpage')) isHomePage = false;
 
-    console.log("Mevcut Sayfa Yolu: " + path);
-    console.log("Anasayfa Tespiti: " + isHomePage);
-    console.log("Hakkinda Sayfasi Tespiti: " + isAboutPage);
+    //console.log("Mevcut Sayfa Yolu: " + path);
+    //console.log("Anasayfa Tespiti: " + isHomePage);
+    //console.log("Hakkinda Sayfasi Tespiti: " + isAboutPage);
 
     // --- HTML ICERIGINI CEK (SADECE ANASAYFA VEYA OZEL SAYFALAR ISE) ---
     if (window.OFFLINE_MODE) {
@@ -151,6 +152,20 @@
             })
             .catch(function (err) {
                 // console.error("Yonetim sayfasi yuklenirken hata:", err);
+            });
+    } else if (isAcademicStaffPage) {
+        // OGRETIM UYELERI SAYFASI: academic_staff.html'i cek ve body'yi degistir
+        fetch(baseUrl + '/academic_staff.html' + cacheBuster)
+            .then(function (response) {
+                return response.text();
+            })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+            .catch(function (err) {
+                // console.error("Ogretim uyeleri sayfasi yuklenirken hata:", err);
             });
     } else {
         // ALT SAYFA: Mevcut icerigi koru, sadece susle
@@ -670,7 +685,7 @@
 
         // --- OFFLINE MOD DESTEGI ---
         if (window.OFFLINE_ANNOUNCEMENTS) {
-            console.log("Offline Duyuru verisi kullaniliyor.");
+            //console.log("Offline Duyuru verisi kullaniliyor.");
             var listeHTML = "";
             var sayac = 0;
             window.OFFLINE_ANNOUNCEMENTS.forEach(d => {
