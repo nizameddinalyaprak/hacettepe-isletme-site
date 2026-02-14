@@ -141,9 +141,6 @@
             document.body.innerHTML = '';
             document.body.appendChild(doc.body);
 
-            // 3.5 Medya Yollarini Duzelt (GitHub/Local BaseURL ekle)
-            rewriteMediaPaths(document.body, baseUrl);
-
             // Scriptleri yeniden calistir
             var scripts = doc.querySelectorAll('script');
             scripts.forEach(function (oldScript) {
@@ -944,45 +941,5 @@
     </footer>`;
 
         document.body.insertAdjacentHTML('beforeend', footerHTML);
-    }
-    // --- YOL DUZELTME (Path Rewriting) ---
-    // CMS icine gomuldugunde relative path'leri absolute'a cevirir.
-    function rewriteMediaPaths(container, baseUrl) {
-        try {
-            if (!container) return;
-            // console.log("Medya yollari duzeltiliyor... BaseURL: " + baseUrl);
-
-            // 1. Videolar (source tagleri)
-            var sources = container.querySelectorAll('source');
-            sources.forEach(function (source) {
-                var src = source.getAttribute('src');
-                if (src && !src.startsWith('http') && !src.startsWith('//') && !src.startsWith('data:')) {
-                    if (src.startsWith('/')) src = src.substring(1);
-                    source.src = baseUrl + '/' + src;
-                }
-            });
-
-            // 2. Resimler (img tagleri)
-            var images = container.querySelectorAll('img');
-            images.forEach(function (img) {
-                var src = img.getAttribute('src');
-                if (src && !src.startsWith('http') && !src.startsWith('//') && !src.startsWith('data:')) {
-                    if (src.startsWith('/')) src = src.substring(1);
-                    img.src = baseUrl + '/' + src;
-                }
-            });
-
-            // 3. Videolar (video tag direkt src)
-            var videos = container.querySelectorAll('video');
-            videos.forEach(function (video) {
-                var src = video.getAttribute('src');
-                if (src && !src.startsWith('http') && !src.startsWith('//') && !src.startsWith('data:')) {
-                    if (src.startsWith('/')) src = src.substring(1);
-                    video.src = baseUrl + '/' + src;
-                }
-            });
-        } catch (e) {
-            console.error("Medya yollari duzeltilirken hata:", e);
-        }
     }
 })();
