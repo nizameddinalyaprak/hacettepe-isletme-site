@@ -890,13 +890,9 @@
                                 <a href="https://isletme.hacettepe.edu.tr/tr/menu/etkinlikler-171" class="dropdown-item">Etkinlikler</a>
                             </div>
                         </div>
-                        <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/tr/menu/duyurular-228" class="hi-nav-link">Duyurular</a></div>
-                        <div class="hi-nav-item">
-                            <a href="#" class="hi-nav-link">İLETİŞİM <i class="fas fa-chevron-down"></i></a>
-                            <div class="hi-dropdown-menu">
-                                <a href="https://isletme.hacettepe.edu.tr/tr/menu/iletisim-13" class="dropdown-item">İletişim Bilgileri</a>
-                            </div>
-                        </div>
+                        <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/tr/menu/duyurular-228" class="hi-nav-link">DUYURULAR</a></div>
+                        <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/tr/menu/iletisim-13" class="hi-nav-link">İLETİŞİM</a></div>
+
                     </nav>
                 </div>
             </div>`;
