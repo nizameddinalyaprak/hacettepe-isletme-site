@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <!-- Styles will be injected by loader.js -->
+    <style>
+        .ann-container {
+            max-width: 1200px;
+            margin: 40px auto 80px;
+            padding: 0 20px;
+        }
+
+        .ann-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .ann-header h1 {
+            font-size: 36px;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+
+        .ann-filters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 1px solid #e2e8f0;
+            background: #fff;
+            color: #64748b;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: #ac232d;
+            color: #ac232d;
+        }
+
+        .filter-btn.active {
+            background: #ac232d;
+            border-color: #ac232d;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(172, 35, 45, 0.2);
+        }
+
+        .ann-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .ann-card {
+            background: #fff;
+            border: 1px solid #edf2f9;
+            border-radius: 12px;
+            padding: 20px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .ann-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            border-color: #ac232d;
+        }
+
+        .ann-card-left {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            flex: 1;
+        }
+
+        .ann-card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1.4;
+        }
+
+        .ann-card-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .ann-tag {
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        /* Tag Colors matching the CMS ones or custom */
+        .tag-genel {
+            background: #1e40af;
+            color: #fff;
+        }
+
+        .tag-lisans {
+            background: #7e22ce;
+            color: #fff;
+        }
+
+        .tag-tezli-yl {
+            background: #368f10;
+            color: #fff;
+        }
+
+        .tag-tezsiz-yl {
+            background: #d97706;
+            color: #fff;
+        }
+
+        .tag-doktora {
+            background: #b91c1c;
+            color: #fff;
+        }
+
+        .tag-onemli {
+            background: #b91c1c;
+            color: #fff;
+        }
+
+        .ann-pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 50px;
+        }
+
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background: #fff;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            border-color: #ac232d;
+            color: #ac232d;
+        }
+
+        .page-btn.active {
+            background: #ac232d;
+            color: #fff;
+            border-color: #ac232d;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ann-container">
+        <div class="ann-header">
+            <h1>Duyurular</h1>
+            <p>Hacettepe İşletme Bölümü güncel duyurular ve bilgilendirmeler.</p>
+        </div>
+
+        <div id="ann-filter-bar" class="ann-filters">
+            <button class="filter-btn active" data-filter="all">Tümü</button>
+            <button class="filter-btn" data-filter="LİSANS">Lisans</button>
+            <button class="filter-btn" data-filter="TEZLİ YL">Tezli YL</button>
+            <button class="filter-btn" data-filter="TEZSIZ YL">Tezsiz YL</button>
+            <button class="filter-btn" data-filter="DOKTORA">Doktora</button>
+            <button class="filter-btn" data-filter="ÖNEMLİ">Önemli</button>
+        </div>
+
+        <div id="ann-display-list" class="ann-list">
+            <!-- Loading state -->
+            <div style="text-align:center; padding: 50px;">
+                <i class="fas fa-spinner fa-spin fa-2x" style="color:#ac232d"></i>
+                <p>Duyurular hazırlanıyor...</p>
+            </div>
+        </div>
+
+        <div id="ann-pagination" class="ann-pagination">
+            <!-- Pagination buttons will be injected -->
+        </div>
+    </div>
+
+    <!-- Script to handle rendering -->
+    <script>
+        (function () {
+            var itemsPerPage = 15;
+            var currentPage = 1;
+            var currentFilter = 'all';
+            var allData = [];
+
+            // This function will be called once data is ready
+            window.renderAnnouncements = function (data) {
+                allData = data;
+                updateDisplay();
+            };
+
+            function updateDisplay() {
+                var filtered = allData.filter(function (item) {
+                    if (currentFilter === 'all') return true;
+                    return item.tags.some(function (t) { return t.toUpperCase().includes(currentFilter); });
+                });
+
+                var totalPages = Math.ceil(filtered.length / itemsPerPage);
+                if (currentPage > totalPages) currentPage = Math.max(1, totalPages);
+
+                var start = (currentPage - 1) * itemsPerPage;
+                var end = start + itemsPerPage;
+                var paginated = filtered.slice(start, end);
+
+                var listEl = document.getElementById('ann-display-list');
+                if (paginated.length === 0) {
+                    listEl.innerHTML = '<div style="text-align:center; padding:40px; color:#64748b;">Kriterlere uygun duyuru bulunamadı.</div>';
+                } else {
+                    listEl.innerHTML = paginated.map(renderCard).join('');
+                }
+
+                renderPaginationUI(totalPages);
+            }
+
+            function renderCard(item) {
+                var tagsHTML = item.tags.map(function (tag) {
+                    var cls = 'tag-genel';
+                    var t = tag.toUpperCase();
+                    if (t.includes('ÖNEMLİ')) cls = 'tag-onemli';
+                    else if (t.includes('LİSANS')) cls = 'tag-lisans';
+                    else if (t.includes('TEZLİ')) cls = 'tag-tezli-yl';
+                    else if (t.includes('TEZSİZ')) cls = 'tag-tezsiz-yl';
+                    else if (t.includes('DOKTORA')) cls = 'tag-doktora';
+                    return '<span class="ann-tag ' + cls + '">' + tag + '</span>';
+                }).join('');
+
+                return '<a href="' + item.url + '" class="ann-card">' +
+                    '  <div class="ann-card-left">' +
+                    '    <div class="ann-card-title">' + item.title + '</div>' +
+                    '    <div class="ann-card-meta">' +
+                    '      <span><i class="far fa-calendar-alt"></i> ' + item.date + '</span>' +
+                    '      <div style="display:flex; gap:5px;">' + tagsHTML + '</div>' +
+                    '    </div>' +
+                    '  </div>' +
+                    '  <i class="fas fa-chevron-right" style="color:#cbd5e1;"></i>' +
+                    '</a>';
+            }
+
+            function renderPaginationUI(total) {
+                var pagEl = document.getElementById('ann-pagination');
+                if (total <= 1) {
+                    pagEl.innerHTML = '';
+                    return;
+                }
+
+                var html = '<button class="page-btn" id="prev-page" ' + (currentPage === 1 ? 'disabled' : '') + '><i class="fas fa-chevron-left"></i></button>';
+
+                for (var i = 1; i <= total; i++) {
+                    if (i === 1 || i === total || (i >= currentPage - 2 && i <= currentPage + 2)) {
+                        html += '<button class="page-btn ' + (i === currentPage ? 'active' : '') + '" data-page="' + i + '">' + i + '</button>';
+                    } else if (i === currentPage - 3 || i === currentPage + 3) {
+                        html += '<span style="color:#cbd5e1">...</span>';
+                    }
+                }
+
+                html += '<button class="page-btn" id="next-page" ' + (currentPage === total ? 'disabled' : '') + '><i class="fas fa-chevron-right"></i></button>';
+                pagEl.innerHTML = html;
+
+                // Listeners
+                pagEl.querySelectorAll('[data-page]').forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        currentPage = parseInt(btn.getAttribute('data-page'));
+                        updateDisplay();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    });
+                });
+
+                var prev = document.getElementById('prev-page');
+                if (prev) prev.onclick = function () { currentPage--; updateDisplay(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+
+                var next = document.getElementById('next-page');
+                if (next) next.onclick = function () { currentPage++; updateDisplay(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
+            }
+
+            // Filter logic
+            document.querySelectorAll('.filter-btn').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    document.querySelectorAll('.filter-btn').forEach(function (b) { b.classList.remove('active'); });
+                    btn.classList.add('active');
+                    currentFilter = btn.getAttribute('data-filter');
+                    currentPage = 1;
+                    updateDisplay();
+                });
+            });
+
+            // Initial check if data already available
+            if (window.cmsAnnouncements) {
+                renderAnnouncements(window.cmsAnnouncements);
+            }
+        })();
+    </script>
+</body>
+
+</html>
