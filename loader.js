@@ -232,8 +232,16 @@
                     <a href="https://isletme.hacettepe.edu.tr/tr" class="hi-brand-logo" style="text-decoration: none; margin-right: auto;">
                         <div class="logo">
                             <div class="logo_yazi">
-                                <div class="banner_uni">HACETTEPE ÜNİVERSİTESİ</div>
-                                <div class="banner_uni_bolum">İşletme Bölümü</div>
+                                <!-- Normal Gorunum -->
+                                <div class="brand-normal">
+                                    <div class="banner_uni">HACETTEPE ÜNİVERSİTESİ</div>
+                                    <div class="banner_uni_bolum">İşletme Bölümü</div>
+                                </div>
+                                <!-- Sticky (Asagi Kayinca) Gorunum -->
+                                <div class="brand-sticky" style="display: none;">
+                                    <span class="banner_uni" style="font-size: 20px;">HACETTEPE</span>
+                                    <span class="banner_uni_bolum" style="font-size: 20px; margin-left: 6px; font-weight: 300; margin-top: 0; color: #222;">İŞLETME</span>
+                                </div>
                             </div>
                         </div>
                     </a>
@@ -306,8 +314,8 @@
         <div class="header-right-col" style="display: flex; flex-direction: column; width: 100%;">
             ${menuUstHTML}
             ${calendarHTML}
-            ${menuGenelHTML}
-        </div>`;
+        </div>
+        ${menuGenelHTML}`;
 
         // Varsa eski headeri gizle
         var oldHeader = document.querySelector('.header');
@@ -315,6 +323,20 @@
 
         // Yeni headeri body'nin en basina ekle
         document.body.insertAdjacentHTML('afterbegin', fullHeaderHTML);
+
+        // --- STICKY HEADER LOGIC ---
+        var menuElement = document.querySelector('.menu_genel');
+        if (menuElement) {
+            window.addEventListener('scroll', function () {
+                // Toplam yukseklik (topbar + calendar) yaklasik 60-80px. 
+                // Biraz pay birakarak 60px diyelim.
+                if (window.scrollY > 60) {
+                    menuElement.classList.add('sticky-active');
+                } else {
+                    menuElement.classList.remove('sticky-active');
+                }
+            });
+        }
 
         // --- MOBIL MENU DROPDOWN TIKLAMA MANTIGI ---
         // Mobilde hover sorunlu oldugu icin tiklama ile acilmasini sagliyoruz.

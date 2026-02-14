@@ -34,7 +34,10 @@
 .menu_genel {
     background-color: #fff;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    position: relative;
+    position: -webkit-sticky;
+    /* Safari */
+    position: sticky;
+    top: 0;
     z-index: 1000;
     margin-bottom: -1px;
     /* Remove any sub-pixel gap */
@@ -159,22 +162,44 @@
 }
 
 /* Logo Setup (Matches legacy_style.css but with external fallback for local preview) */
-position: relative;
-background: url("images/logo.png") left center no-repeat;
-background-size: auto 55px;
-/* Logo icin soldan bosluk birakiyoruz */
-padding-left: 65px;
-min-height: 60px;
-display: flex;
-align-items: center;
-transition: all 0.3s ease;
-text-decoration: none;
+.logo {
+    position: relative;
+    background: url("images/logo.svg") left center no-repeat;
+    background-size: auto 55px;
+    /* Logo icin soldan bosluk birakiyoruz */
+    padding-left: 50px;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    text-decoration: none;
 }
 
-.logo.logo-scrolled {
-    background-size: auto 45px !important;
-    padding-left: 55px !important;
-    min-height: 50px !important;
+/* Sticky Active State Enhancements */
+.menu_genel.sticky-active {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    /* Hafif daha basik */
+}
+
+.menu_genel.sticky-active .logo {
+    background-size: auto 40px;
+    padding-left: 50px;
+    min-height: 44px;
+}
+
+.menu_genel.sticky-active .brand-normal {
+    display: none;
+}
+
+.menu_genel.sticky-active .brand-sticky {
+    display: flex !important;
+    align-items: center;
+}
+
+.menu_genel.sticky-active .hi-nav-link {
+    /* Linklerin ust-alt boslugunu azaltarak menuyu basiklastiriyoruz */
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .logo_yazi {
