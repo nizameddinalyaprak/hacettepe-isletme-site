@@ -998,7 +998,7 @@
 
     // DUYURU CEKME FONKSIYONU
     function duyurulariCek() {
-        // console.log("Duyurular cekiliyor...");
+        console.log("duyurulariCek: Baslatildi...");
 
         // --- OFFLINE MOD DESTEGI ---
         if (window.OFFLINE_ANNOUNCEMENTS) {
@@ -1033,8 +1033,12 @@
         var duyuruURL = '/tr/duyurular' + cacheBuster; // Cache buster ekle
 
         fetch(duyuruURL)
-            .then(res => res.text())
+            .then(res => {
+                console.log("duyurulariCek: Fetch sonucu:", res.status);
+                return res.text();
+            })
             .then(html => {
+                console.log("duyurulariCek: HTML alindi (uzunluk):", html.length);
                 var parser = new DOMParser();
                 var doc = parser.parseFromString(html, 'text/html');
 
@@ -1043,6 +1047,9 @@
 
                 if (anaIcerik) {
                     duyuruSatirlari = anaIcerik.querySelectorAll('ul li');
+                    console.log("duyurulariCek: anaIcerik bulundu, LI sayisi:", duyuruSatirlari.length);
+                } else {
+                    console.warn("duyurulariCek: anaIcerik (.col-lg-9 veya .icerik) BULUNAMADI!");
                 }
 
 
@@ -1198,8 +1205,12 @@
                     });
                 }
 
-                if (sayac === 0) listeHTML = '<li>Henüz duyuru bulunmamaktadır.</li>';
+                if (sayac === 0) {
+                    console.warn("duyurulariCek: Hic duyuru bulunamadi veya hepsi filtrelendi.");
+                    listeHTML = '<li>Henüz duyuru bulunmamaktadır.</li>';
+                }
 
+                console.log("duyurulariCek: Toplam eklenen duyuru:", sayac);
                 var hedefListe = document.getElementById('duyuru-listesi');
                 if (hedefListe) hedefListe.innerHTML = listeHTML;
             })
