@@ -151,7 +151,10 @@
                 baslat(doc, true);
             })
             .catch(function (err) {
-                // console.error("Yonetim sayfasi yuklenirken hata:", err);
+                console.error("Yonetim sayfasi yuklenirken hata:", err);
+                document.body.innerHTML = '<div class="container" style="margin-top:150px; text-align:center;"><h3>Yükleme Hatası</h3><p>Yönetim sayfası yüklenemedi.<br><small>' + err + '</small></p></div>';
+                document.body.style.visibility = 'visible';
+                document.body.style.opacity = '1';
             });
     } else if (isAcademicStaffPage) {
         // OGRETIM UYELERI SAYFASI: academic_staff.html'i cek ve body'yi degistir
@@ -165,7 +168,10 @@
                 baslat(doc, true);
             })
             .catch(function (err) {
-                // console.error("Ogretim uyeleri sayfasi yuklenirken hata:", err);
+                console.error("Ogretim uyeleri sayfasi yuklenirken hata:", err);
+                document.body.innerHTML = '<div class="container" style="margin-top:150px; text-align:center;"><h3>Yükleme Hatası</h3><p>İçerik yüklenemedi. Lütfen internet bağlantınızı kontrol edin veya daha sonra tekrar deneyin.<br><small>' + err + '</small></p></div>';
+                document.body.style.visibility = 'visible';
+                document.body.style.opacity = '1';
             });
     } else {
         // ALT SAYFA: Mevcut icerigi koru, sadece susle
