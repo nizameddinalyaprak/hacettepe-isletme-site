@@ -117,6 +117,10 @@
     var isErasmusPage = path.includes('erasmus-103') || path.includes('erasmus_program.html') || search.includes('page=erasmus');
     var isFarabiPage = path.includes('farabi-105') || path.includes('farabi_program.html') || search.includes('page=farabi');
     var isMevlanaPage = path.includes('mevlana-107') || path.includes('mevlana_program.html') || search.includes('page=mevlana');
+    var isInternshipPage = path.includes('staj-111') || path.includes('internship.html') || search.includes('page=internship');
+    var isFAQPage = path.includes('lisans_programi_ogrencileri_icin_si-121') || path.includes('faq.html') || search.includes('page=faq');
+    var isRequiredFormsPage = path.includes('gerekli_formlar_ve_belgeler-173') || path.includes('required_forms.html') || search.includes('page=required_forms');
+    var isEventsPage = path.includes('etkinlikler-171') || path.includes('events.html') || search.includes('page=events');
     var isAcademicCalendarPage = path.includes('akademik_takvimler-119') || path.includes('academic_calendar.html') || search.includes('page=academic_calendar');
     var isAdminStaffPage = path.includes('idari_personel') || path.includes('administrative_staff.html') || search.includes('page=admin') || search.includes('page=idari_personel');
 
@@ -147,6 +151,10 @@
     if (path.endsWith('erasmus_program.html') && isErasmusPage) isStandalone = true;
     if (path.endsWith('farabi_program.html') && isFarabiPage) isStandalone = true;
     if (path.endsWith('mevlana_program.html') && isMevlanaPage) isStandalone = true;
+    if (path.endsWith('internship.html') && isInternshipPage) isStandalone = true;
+    if (path.endsWith('faq.html') && isFAQPage) isStandalone = true;
+    if (path.endsWith('required_forms.html') && isRequiredFormsPage) isStandalone = true;
+    if (path.endsWith('events.html') && isEventsPage) isStandalone = true;
     if (path.endsWith('academic_calendar.html') && isAcademicCalendarPage) isStandalone = true;
 
     // --- HTML ICERIGINI CEK (SADECE ANASAYFA VEYA OZEL SAYFALAR ISE) ---
@@ -354,6 +362,42 @@
                 baslat(doc, true);
             })
             .catch(function (err) { console.error("Mevlana yuklenirken hata:", err); });
+    } else if (isInternshipPage) {
+        fetch(baseUrl + '/internship.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+            .catch(function (err) { console.error("Staj yuklenirken hata:", err); });
+    } else if (isFAQPage) {
+        fetch(baseUrl + '/faq.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+            .catch(function (err) { console.error("SSS yuklenirken hata:", err); });
+    } else if (isRequiredFormsPage) {
+        fetch(baseUrl + '/required_forms.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+            .catch(function (err) { console.error("Gerekli Formlar yuklenirken hata:", err); });
+    } else if (isEventsPage) {
+        fetch(baseUrl + '/events.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+            .catch(function (err) { console.error("Etkinlikler yuklenirken hata:", err); });
     } else if (isBachelorProgramPage) {
         fetch(baseUrl + '/bachelor_program.html' + cacheBuster)
             .then(function (response) { return response.text(); })
