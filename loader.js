@@ -122,6 +122,7 @@
     var isRequiredFormsPage = path.includes('gerekli_formlar_ve_belgeler-173') || path.includes('required_forms.html') || search.includes('page=required_forms');
     var isEventsPage = path.includes('etkinlikler-171') || path.includes('events.html') || search.includes('page=events');
     var isAnnouncementsPage = path.includes('duyurular') || path.includes('duyurudeneme') || path.includes('announcements.html') || search.includes('page=announcements');
+    var isContactPage = path.includes('iletisim-13') || path.includes('contact.html') || search.includes('page=contact');
     var isAcademicCalendarPage = path.includes('akademik_takvimler-119') || path.includes('academic_calendar.html') || search.includes('page=academic_calendar');
     var isAdminStaffPage = path.includes('idari_personel') || path.includes('administrative_staff.html') || search.includes('page=admin') || search.includes('page=idari_personel');
 
@@ -157,6 +158,7 @@
     if (path.endsWith('required_forms.html') && isRequiredFormsPage) isStandalone = true;
     if (path.endsWith('events.html') && isEventsPage) isStandalone = true;
     if (path.endsWith('announcements.html') && isAnnouncementsPage) isStandalone = true;
+    if (path.endsWith('contact.html') && isContactPage) isStandalone = true;
     if (path.endsWith('academic_calendar.html') && isAcademicCalendarPage) isStandalone = true;
 
     // --- HTML ICERIGINI CEK (SADECE ANASAYFA VEYA OZEL SAYFALAR ISE) ---
@@ -558,6 +560,15 @@
         if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadAnnouncementsPage);
         else loadAnnouncementsPage();
 
+    } else if (isContactPage) {
+        fetch(baseUrl + '/contact.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+            .catch(function (err) { console.error("Iletisim sayfasi yuklenirken hata:", err); });
     } else if (isBachelorProgramPage) {
         fetch(baseUrl + '/bachelor_program.html' + cacheBuster)
             .then(function (response) { return response.text(); })
