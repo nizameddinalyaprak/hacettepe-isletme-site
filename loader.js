@@ -76,9 +76,9 @@
     // --- HTML ICERIGINI CEK ---
     // --- SAYFA TURU TESPITI ---
     // Anasayfa mi yoksa alt sayfa mi?
-    var path = window.location.pathname;
+    var path = window.location.pathname.toLowerCase().trim();
     // Anasayfa olabilecek URL desenleri:
-    var isHomePage = path.endsWith('/tr') || path.endsWith('/tr/') || path.endsWith('index.html') || path.endsWith('index.php') || path === '/' || path.includes('preview.html');
+    var isHomePage = path === '/tr' || path === '/tr/' || path.endsWith('/index.html') || path.endsWith('/index.php') || path === '/' || path.includes('preview.html');
     // Eger URL'de 'preview_subpage' varsa kesinlikle alt sayfadir (Test icin)
     if (path.includes('preview_subpage')) isHomePage = false;
 
