@@ -101,6 +101,7 @@
     var isManagementPage = path.includes('yonetim-77') || path.includes('management.html') || search.includes('page=management') || search.includes('page=yonetim');
     var isAcademicStaffPage = path.includes('ogretim_uyelerigorevlileri') || path.includes('academic_staff.html') || search.includes('page=academic') || search.includes('page=ogretim_uyelerigorevlileri') || path.includes('ogretim-uyeleri-ve-gorevlileri') || path.includes('211');
     var isResearchStaffPage = path.includes('arastirma_gorevlileri') || path.includes('research_assistants.html') || search.includes('page=research') || search.includes('page=arastirma_gorevlileri') || path.includes('69');
+    var isUndergraduatePage = path.includes('undergraduate-115') || path.includes('undergraduate.html') || search.includes('page=undergraduate');
     var isAdminStaffPage = path.includes('idari_personel') || path.includes('administrative_staff.html') || search.includes('page=admin') || search.includes('page=idari_personel');
 
     // Eger URL'de 'preview_subpage' varsa kesinlikle alt sayfadir (Test icin)
@@ -118,6 +119,7 @@
     if (path.endsWith('about.html') && isAboutPage) isStandalone = true;
     if (path.endsWith('research_assistants.html') && isResearchStaffPage) isStandalone = true;
     if (path.endsWith('administrative_staff.html') && isAdminStaffPage) isStandalone = true;
+    if (path.endsWith('undergraduate.html') && isUndergraduatePage) isStandalone = true;
 
     // --- HTML ICERIGINI CEK (SADECE ANASAYFA VEYA OZEL SAYFALAR ISE) ---
     if (window.OFFLINE_MODE || isStandalone) {
@@ -216,6 +218,16 @@
                 baslat(doc, true);
             })
             .catch(function (err) { console.error("Idari personel yuklenirken hata:", err); });
+    } else if (isUndergraduatePage) {
+        // LISANS DERS PROGRAMI SAYFASI
+        fetch(baseUrl + '/undergraduate.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+            .catch(function (err) { console.error("Lisans programi yuklenirken hata:", err); });
     } else {
         // ALT SAYFA: Mevcut icerigi koru, sadece susle
         // console.log("Alt Sayfa Modu: Mevcut icerik korunaraj modernlestirilecek.");
