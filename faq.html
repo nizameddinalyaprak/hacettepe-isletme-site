@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <!-- Styles will be injected by loader.js -->
+    <style>
+        .faq-item {
+            margin-bottom: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: #ac232d;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            padding: 20px 25px;
+            background: #fff;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            color: #1e293b;
+            font-size: 1.05rem;
+            transition: background 0.2s;
+        }
+
+        .faq-item.active .faq-question {
+            background: #ac232d;
+            color: #fff;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background: #f8fafc;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            border-top: 1px solid #edf2f9;
+        }
+
+        .faq-content {
+            padding: 20px 25px;
+            color: #475569;
+            line-height: 1.8;
+        }
+
+        .faq-icon {
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container main-content"
+        style="margin-top:40px; margin-bottom:60px; background:#fff; padding:40px; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,0.05); border:1px solid #edf2f9; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.7; color: #333;">
+
+        <div
+            style="text-align:center; padding: 20px; background: #fff1f2; border-radius: 12px; border: 1px solid #fecaca; margin-bottom: 40px;">
+            <h4 style="color: #ac232d; margin-top: 0; letter-spacing: 1px; font-weight: 800;"><i
+                    class="fas fa-exclamation-triangle"></i> YASAL UYARI</h4>
+            <p style="font-size: 0.95rem; color: #881337; margin-bottom: 0;">Öğrencilerimizin Hacettepe Üniversitesi Ön
+                Lisans, Lisans Eğitim-Öğretim Yönetmeliğini incelemesi gereklidir. Sık sorulan sorular başlığında yer
+                alan bilgiler Yönetmelik temel alınarak hazırlanmıştır. Herhangi bir çelişki olması durumunda, güncel
+                Yönetmelik esas alınacaktır. <br><strong>Son Güncelleme: 1 Ekim 2020</strong></p>
+        </div>
+
+        <h2
+            style="font-family: system-ui, -apple-system, sans-serif; font-weight: 800; color: #1e293b; margin-top: 0; margin-bottom: 30px; font-size: 28px; text-align: center;">
+            Sıkça Sorulan Sorular</h2>
+
+        <div class="faq-list">
+
+            <div class="faq-item">
+                <button class="faq-question">1) Bir yarıyılda en fazla kaç AKTS kredi alabilirim? <i
+                        class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer">
+                    <div class="faq-content">Öğrenciler dört yıllık programlarda birinci, ikinci, üçüncü ve dördüncü
+                        yarıyıllarda en fazla 30 AKTS kredili, beşinci yarıyıldan itibaren en fazla 40 AKTS kredili ders
+                        alabilirler. Öğrencilerin başka üniversitelerden aldıkları dersler de bu sınırlamaların
+                        içindedir.</div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">2) Bölümü en fazla kaç yılda tamamlamalıyım? <i
+                        class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer">
+                    <div class="faq-content">Öğrenciler bir yıl süreli yabancı dil hazırlık sınıfı hariç, her yarıyıl
+                        için kayıt yaptırıp yaptırmadığına bakılmaksızın lisans programlarını azami yedi yılda
+                        tamamlamak zorundadırlar.</div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">3) Mezun olabilmek için hangi dersleri tamamlamak durumundayım? <i
+                        class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer">
+                    <div class="faq-content">Öğrencilerin ortak zorunlu dersleri, alan içi zorunlu dersleri, alan içi ve
+                        alan dışı seçmeli dersleri başarı ile tamamlaması gerekir.</div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">4) Ortak Zorunlu dersler hangileridir? <i
+                        class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer">
+                    <div class="faq-content">Türk Dili (TKD104, TKD104), Atatürk İlkeleri ve İnkılap Tarihi (AİT203,
+                        AİT204), Temel Bilgi ve İletişim Teknolojileri Kullanımı (BEB650) dersleri tüm yükseköğretim
+                        programlarında yer alan ortak zorunlu derslerdir.</div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">5) Zorunlu dersler ING111, ING112, ING211 ve ING212 nedir? Muaf olabilir
+                    miyim? <i class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer">
+                    <div class="faq-content">Bu dersler %100 İngilizce programlarda dil becerilerini geliştirmeyi
+                        amaçlar. YDYO tarafından verilir. Önkoşul ve muafiyet detayları için <a
+                            href="https://ydyo.hacettepe.edu.tr/" target="_blank"
+                            style="color:#ac232d">ydyo.hacettepe.edu.tr</a> adresini ziyaret edebilirsiniz.</div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">6) Zorunlu dersler hangileridir? <i
+                        class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer">
+                    <div class="faq-content">İşletme Bölümü lisans öğretim programında "Z" ile belirtilen derslerdir.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">7) Alan içi ve alan dışı seçmeli dersler ne anlama gelmektedir? <i
+                        class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer">
+                    <div class="faq-content">
+                        <strong>Alan içi:</strong> Kendi programınızdaki seçmeli derslerdir. Kontenjan dolması durumunda
+                        başka ders seçebilirsiniz.<br>
+                        <strong>Alan dışı:</strong> Farklı birimlerin açtığı, dili İngilizce veya yabancı dilde olan
+                        derslerdir. Detaylar: <a href="https://secmeli.hacettepe.edu.tr/" target="_blank"
+                            style="color:#ac232d">secmeli.hacettepe.edu.tr</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">8) Mezun olabilmek için kaç AKTS kredisini tamamlamam gerekir? <i
+                        class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer">
+                    <div class="faq-content">Toplam 240 AKTS kazanılmalıdır: 160 AKTS zorunlu, 80 AKTS seçmeli (en fazla
+                        10 AKTS alan dışı olabilir). En az 70 AKTS alan içi seçmeli tamamlanmalıdır.</div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">9) Diğer üniversitelerden nasıl ders alırım? <i
+                        class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer">
+                    <div class="faq-content">Yarıyıl başlamadan önce eşdeğerlik talebiyle bölüme başvurulur. Kurul
+                        kararı ile dersler transkripte işlenir.</div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">10) Bölüme devam zorunluluğu var mıdır? <i
+                        class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer">
+                    <div class="faq-content">Evet, derslerin %70'ine katılım zorunludur. %30'dan fazla devamsızlığı olan
+                        öğrenci sınavlara alınmaz. Tekrarlanan teorik derslerde devam koşulu sağlanmışsa zorunluluk
+                        aranmaz.</div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">11) Final (Genel) sınavının başarı notuna etkisi ne kadardır? <i
+                        class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer">
+                    <div class="faq-content">Genel sınavın etkisi %40 ile %60 arasındadır. Net oran ve sınav şartları
+                        yarıyıl başında öğretim elemanı tarafından duyurulur.</div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">12) Bütünleme sınavı notu nasıl değerlendirilir? <i
+                        class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer">
+                    <div class="faq-content">Bütünleme sınav sonuçları, öğrencinin yarıyıl içi başarısı ile birlikte
+                        değerlendirilir.</div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">13) Başarısız olduğum zorunlu dersi ne zaman tekrar almalıyım? <i
+                        class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer">
+                    <div class="faq-content">Başarısız olunan zorunlu ders, açıldığı ilk yarıyılda tekrar yüklenilmeli
+                        ve mezuniyete kadar başarılmalıdır.</div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">14) Başarısız olduğum seçmeli ders yerine başka ders alabilir miyim? <i
+                        class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer">
+                    <div class="faq-content">Evet, seçmeli dersten vazgeçme hakkı vardır (en fazla 3 ders). Vazgeçilen
+                        ders yerine başka seçmeli alınabilir. Mezun durumundaki öğrenciler için özel kurullar
+                        uygulanabilir.</div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">15) Başarılı olduğum dersleri tekrar alabilir miyim? <i
+                        class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer">
+                    <div class="faq-content">Genel ortalamayı yükseltmek için başarılı dersler (A1 ve A2 hariç) tekrar
+                        edilebilir. En son alınan not geçerlidir.</div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">16) Kaç tür sınav vardır? Ara sınav zorunlu mu? <i
+                        class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer">
+                    <div class="faq-content">Altı tür sınav vardır: Ara, genel, muafiyet, üç ders, bütünleme ve mazeret.
+                        Her ders için en az bir ara sınav zorunludur.</div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">19) Üç ders sınavına girme şartları nelerdir? <i
+                        class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer">
+                    <div class="faq-content">Mezuniyet için en fazla 3 dersi kalan veya ortalaması 2.00 altında olup tüm
+                        dersleri başaran öğrenciler başvurabilir. Sınavlar akademik takvimde belirtilen tarihlerde
+                        yapılır.</div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">20) Mezuniyet koşulları nelerdir? <i
+                        class="fas fa-chevron-down faq-icon"></i></button>
+                <div class="faq-answer">
+                    <div class="faq-content">
+                        1) 240 AKTS'yi tamamlamak (160 zorunlu, 80 seçmeli),<br>
+                        2) En az 2.00 GPA sağlamak,<br>
+                        3) Başarısız ders bırakmamak.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div
+            style="margin-top: 40px; padding: 25px; background: #f1f5f9; border-radius: 12px; display: flex; align-items: center; gap: 20px;">
+            <i class="fas fa-book-open fa-2x" style="color: #475569;"></i>
+            <p style="margin: 0; font-weight: 600; color: #1e293b;">Daha fazla detay için: <a
+                    href="https://fs.hacettepe.edu.tr/oidb/dosyalar/dosyalar/ogrenci_el_kitabi_tr.pdf" target="_blank"
+                    style="color: #ac232d;">Öğrenci El Kitabı</a></p>
+        </div>
+
+    </div>
+
+    <script>
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                item.classList.toggle('active');
+
+                // Close other items
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
