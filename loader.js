@@ -80,13 +80,18 @@
     // Anasayfa olabilecek URL desenleri:
     // NOT: 'denemesayfasi' ifadesi test icin eklendi. Canliya alininca kaldirilabilir veya kalabilir.
     var isHomePage = path === '/tr' || path === '/tr/' || path.endsWith('/index.html') || path.endsWith('/index.php') || path === '/' || path.includes('preview.html') || path.includes('denemesayfasi');
+
+    // Bolum Hakkinda Sayfasi Tespiti
+    var isAboutPage = path.includes('bolum_hakkinda-75') || path.includes('about.html');
+
     // Eger URL'de 'preview_subpage' varsa kesinlikle alt sayfadir (Test icin)
     if (path.includes('preview_subpage')) isHomePage = false;
 
     console.log("Mevcut Sayfa Yolu: " + path);
     console.log("Anasayfa Tespiti: " + isHomePage);
+    console.log("Hakkinda Sayfasi Tespiti: " + isAboutPage);
 
-    // --- HTML ICERIGINI CEK (SADECE ANASAYFA ISE) ---
+    // --- HTML ICERIGINI CEK (SADECE ANASAYFA VEYA OZEL SAYFALAR ISE) ---
     if (window.OFFLINE_MODE) {
         console.log("Offline Modu Aktif: HTML cekme atlaniyor.");
         setTimeout(function () {
@@ -108,6 +113,21 @@
                 if (!window.location.protocol.includes('file')) {
                     document.body.innerHTML = '<h1>Hata Olustu</h1><p>' + err + '</p>';
                 }
+            });
+    } else if (isAboutPage) {
+        // HAKKINDA SAYFASI: about.html'i cek ve body'yi degistir
+        console.log("Hakkinda sayfasi yukleniyor...");
+        fetch(baseUrl + '/about.html' + cacheBuster)
+            .then(function (response) {
+                return response.text();
+            })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true); // true = Disaridan HTML geldi (Ayni anasayfa mantigiyla)
+            })
+            .catch(function (err) {
+                console.error("Hakkinda sayfasi yuklenirken hata:", err);
             });
     } else {
         // ALT SAYFA: Mevcut icerigi koru, sadece susle
