@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacettepe İşletme - Bölüm Hakkında</title>
+    <!-- Styles will be injected by loader.js -->
+    <style>
+        /* Page Specific Styles */
+        .page-hero {
+            background: linear-gradient(135deg, #ac232d 0%, #7e161d 100%);
+            color: white;
+            padding: 80px 20px 100px;
+            text-align: center;
+            clip-path: ellipse(150% 100% at 50% 0%);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            opacity: 0.5;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+            position: relative;
+            z-index: 2;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            margin-bottom: 60px;
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Stats Grid Styles */
+        .about-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .about-stat-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eee;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .about-stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: #ac232d;
+        }
+
+        .stat-header {
+            background: #f8fafc;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(172, 35, 45, 0.1);
+            color: #ac232d;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .stat-header-info {
+            text-align: right;
+        }
+
+        .stat-header-title {
+            font-size: 14px;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .stat-header-count {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1e293b;
+            line-height: 1.2;
+        }
+
+        .stat-list {
+            list-style: none;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .stat-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        .stat-list-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-list-item strong {
+            color: #1e293b;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.2rem;
+            }
+
+            .page-hero {
+                padding: 60px 20px 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Hero Section -->
+    <div class="page-hero">
+        <h1 class="page-title">Bölüm Hakkında</h1>
+        <p class="page-subtitle">Köklü geçmişimiz ve vizyonumuzla geleceğin liderlerini yetiştiriyoruz.</p>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="container main-content" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+
+        <!-- Tanıtım Filmi -->
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/8bN-YdElO38?si=0FtOjXABlfe2FAgI"
+                title="Hacettepe İşletme Tanıtım Filmi" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        </div>
+
+        <!-- İstatistik Grid -->
+        <div class="section-header">
+            <h2 class="section-title">Rakamlarla Bölümümüz</h2>
+        </div>
+
+        <div class="about-stats-grid">
+
+            <!-- 1. Öğretim Programları -->
+            <div class="about-stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="stat-header-info">
+                        <h3 class="stat-header-title">Programlar</h3>
+                        <div class="stat-header-count">12</div>
+                    </div>
+                </div>
+                <ul class="stat-list">
+                    <li class="stat-list-item"><span>Lisans Programı</span> <strong>1</strong></li>
+                    <li class="stat-list-item"><span>Tezli Yüksek Lisans</span> <strong>5</strong></li>
+                    <li class="stat-list-item"><span>Tezsiz Yüksek Lisans</span> <strong>5</strong></li>
+                    <li class="stat-list-item"><span>Doktora Programı</span> <strong>1</strong></li>
+                </ul>
+            </div>
+
+            <!-- 2. Akademik Kadro -->
+            <div class="about-stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon"><i class="fas fa-user-tie"></i></div>
+                    <div class="stat-header-info">
+                        <h3 class="stat-header-title">Akademik Kadro</h3>
+                        <div class="stat-header-count">31</div>
+                    </div>
+                </div>
+                <ul class="stat-list">
+                    <li class="stat-list-item"><span>Profesör</span> <strong>11</strong></li>
+                    <li class="stat-list-item"><span>Doçent</span> <strong>12</strong></li>
+                    <li class="stat-list-item"><span>Dr. Öğr. Üyesi</span> <strong>4</strong></li>
+                    <li class="stat-list-item"><span>Öğretim Görevlisi</span> <strong>4</strong></li>
+                </ul>
+            </div>
+
+            <!-- 3. Aktif Dersler -->
+            <div class="about-stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon"><i class="fas fa-book-open"></i></div>
+                    <div class="stat-header-info">
+                        <h3 class="stat-header-title">Aktif Dersler</h3>
+                        <div class="stat-header-count">246</div>
+                    </div>
+                </div>
+                <ul class="stat-list">
+                    <li class="stat-list-item"><span>Lisans</span> <strong>78</strong></li>
+                    <li class="stat-list-item"><span>Yüksek Lisans</span> <strong>64</strong></li>
+                    <li class="stat-list-item"><span>Tezsiz Yüksek Lisans</span> <strong>70</strong></li>
+                    <li class="stat-list-item"><span>Doktora</span> <strong>34</strong></li>
+                </ul>
+            </div>
+
+            <!-- 4. Aktif Öğrenci -->
+            <div class="about-stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-header-info">
+                        <h3 class="stat-header-title">Aktif Öğrenci</h3>
+                        <div class="stat-header-count">1072</div>
+                    </div>
+                </div>
+                <ul class="stat-list">
+                    <li class="stat-list-item"><span>Lisans</span> <strong>632</strong></li>
+                    <li class="stat-list-item"><span>Yüksek Lisans</span> <strong>101</strong></li>
+                    <li class="stat-list-item"><span>Tezsiz Yüksek Lisans</span> <strong>262</strong></li>
+                    <li class="stat-list-item"><span>Doktora</span> <strong>77</strong></li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
