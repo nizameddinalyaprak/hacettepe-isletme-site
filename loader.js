@@ -142,8 +142,7 @@
             document.body.appendChild(doc.body);
 
             // 3.5 Medya Yollarini Duzelt (GitHub/Local BaseURL ekle)
-            // GEÇİCİ OLARAK KAPATILDI - HATA OLASILIĞI NEDENİYLE
-            // rewriteMediaPaths(document.body, baseUrl);
+            rewriteMediaPaths(document.body, baseUrl);
 
             // Scriptleri yeniden calistir
             var scripts = doc.querySelectorAll('script');
@@ -268,8 +267,13 @@
             }
         });
 
-        // Eski Header/Top Bar Temizligi
-        var elementsToRemove = ['.header', '.top-bar', '#sp-header', '#sp-top-bar'];
+        // Eski Header/Top Bar ve Sidebar Temizligi
+        var elementsToRemove = [
+            '.header', '.top-bar', '#sp-header', '#sp-top-bar',
+            '#sp-left', '#sp-right', '#sp-bottom', '.sidebar', '.sidebar-nav',
+            '.module', '.moduletable', '.sp-module', '.t3-module',
+            '#aside'
+        ];
         elementsToRemove.forEach(sel => {
             var el = doc.querySelector(sel);
             if (el) el.remove();
@@ -942,46 +946,43 @@
         document.body.insertAdjacentHTML('beforeend', footerHTML);
     }
     // --- YOL DUZELTME (Path Rewriting) ---
-    // CMS icine gomuldugunde relative path'leri (orn: "videos/hero.mp4")
-    // GitHub Pages veya Localhost URL'ine cevirir (orn: "https://username.github.io/repo/videos/hero.mp4")
+    // CMS icine gomuldugunde relative path'leri absolute'a cevirir.
     function rewriteMediaPaths(container, baseUrl) {
-        if (!container) return;
+        try {
+            if (!container) return;
+            // console.log("Medya yollari duzeltiliyor... BaseURL: " + baseUrl);
 
-        console.log("Medya yollari duzeltiliyor... BaseURL: " + baseUrl);
+            // 1. Videolar (source tagleri)
+            var sources = container.querySelectorAll('source');
+            sources.forEach(function (source) {
+                var src = source.getAttribute('src');
+                if (src && !src.startsWith('http') && !src.startsWith('//') && !src.startsWith('data:')) {
+                    if (src.startsWith('/')) src = src.substring(1);
+                    source.src = baseUrl + '/' + src;
+                }
+            });
 
-        // 1. Videolar (source tagleri)
-        var sources = container.querySelectorAll('source');
-        sources.forEach(function (source) {
-            var src = source.getAttribute('src');
-            if (src && !src.startsWith('http') && !src.startsWith('//') && !src.startsWith('data:')) {
-                // Eger basinda slash varsa kaldir (baseUrl sonuna ekleyecegiz)
-                if (src.startsWith('/')) src = src.substring(1);
-                source.src = baseUrl + '/' + src;
-                console.log("Video source duzeltildi: " + source.src);
-            }
-        });
+            // 2. Resimler (img tagleri)
+            var images = container.querySelectorAll('img');
+            images.forEach(function (img) {
+                var src = img.getAttribute('src');
+                if (src && !src.startsWith('http') && !src.startsWith('//') && !src.startsWith('data:')) {
+                    if (src.startsWith('/')) src = src.substring(1);
+                    img.src = baseUrl + '/' + src;
+                }
+            });
 
-        // 2. Resimler (img tagleri)
-        var images = container.querySelectorAll('img');
-        images.forEach(function (img) {
-            var src = img.getAttribute('src');
-            // src varsa ve relative ise
-            if (src && !src.startsWith('http') && !src.startsWith('//') && !src.startsWith('data:')) {
-                if (src.startsWith('/')) src = src.substring(1);
-                img.src = baseUrl + '/' + src;
-                // console.log("Img src duzeltildi: " + img.src);
-            }
-        });
-
-        // 3. Videolar (video tag direkt src)
-        var videos = container.querySelectorAll('video');
-        videos.forEach(function (video) {
-            var src = video.getAttribute('src');
-            if (src && !src.startsWith('http') && !src.startsWith('//') && !src.startsWith('data:')) {
-                if (src.startsWith('/')) src = src.substring(1);
-                video.src = baseUrl + '/' + src;
-            }
-        });
+            // 3. Videolar (video tag direkt src)
+            var videos = container.querySelectorAll('video');
+            videos.forEach(function (video) {
+                var src = video.getAttribute('src');
+                if (src && !src.startsWith('http') && !src.startsWith('//') && !src.startsWith('data:')) {
+                    if (src.startsWith('/')) src = src.substring(1);
+                    video.src = baseUrl + '/' + src;
+                }
+            });
+        } catch (e) {
+            console.error("Medya yollari duzeltilirken hata:", e);
+        }
     }
-
 })();
