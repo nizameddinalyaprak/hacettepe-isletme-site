@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        .ann-container {
+            max-width: 1200px;
+            margin: 40px auto 80px;
+            padding: 0 20px;
+        }
+
+        .ann-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .ann-header h1 {
+            font-size: 36px;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+
+        .ann-filters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 1px solid #e2e8f0;
+            background: #fff;
+            color: #64748b;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: #ac232d;
+            color: #ac232d;
+        }
+
+        .filter-btn.active {
+            background: #ac232d;
+            border-color: #ac232d;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(172, 35, 45, 0.2);
+        }
+
+        .ann-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .ann-card {
+            background: #fff;
+            border: 1px solid #edf2f9;
+            border-radius: 12px;
+            padding: 20px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .ann-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            border-color: #ac232d;
+        }
+
+        .ann-card-left {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            flex: 1;
+        }
+
+        .ann-card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1.4;
+        }
+
+        .ann-card-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .ann-tag {
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        .tag-genel {
+            background: #1e40af;
+            color: #fff;
+        }
+
+        .tag-lisans {
+            background: #7e22ce;
+            color: #fff;
+        }
+
+        .tag-tezli-yl {
+            background: #368f10;
+            color: #fff;
+        }
+
+        .tag-tezsiz-yl {
+            background: #d97706;
+            color: #fff;
+        }
+
+        .tag-doktora {
+            background: #b91c1c;
+            color: #fff;
+        }
+
+        .tag-onemli {
+            background: #b91c1c;
+            color: #fff;
+        }
+
+        .ann-pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 50px;
+        }
+
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background: #fff;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            border-color: #ac232d;
+            color: #ac232d;
+        }
+
+        .page-btn.active {
+            background: #ac232d;
+            color: #fff;
+            border-color: #ac232d;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ann-container">
+        <div class="ann-header">
+            <h1>Announcements</h1>
+            <p>Hacettepe Business Administration Department latest announcements and updates.</p>
+        </div>
+        <div id="ann-filter-bar" class="ann-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="LİSANS">Undergraduate</button>
+            <button class="filter-btn" data-filter="TEZLİ YL">Thesis Graduate</button>
+            <button class="filter-btn" data-filter="TEZSİZ YL">Non-Thesis Graduate</button>
+            <button class="filter-btn" data-filter="DOKTORA">PhD</button>
+            <button class="filter-btn" data-filter="ÖNEMLİ">Important</button>
+        </div>
+        <div id="ann-display-list" class="ann-list">
+            <div style="text-align:center; padding: 50px;">
+                <i class="fas fa-spinner fa-spin fa-2x" style="color:#ac232d"></i>
+                <p>Loading...</p>
+            </div>
+        </div>
+        <div id="ann-pagination" class="ann-pagination"></div>
+    </div>
+</body>
+
+</html>

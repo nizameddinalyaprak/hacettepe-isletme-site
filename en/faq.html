@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        .faq-item {
+            margin-bottom: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #fff;
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: #ac232d;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .faq-item summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            cursor: pointer;
+            font-weight: 700;
+            color: #1e293b;
+            font-size: 1.05rem;
+            list-style: none;
+        }
+
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-item[open] summary {
+            background: #ac232d;
+            color: #fff;
+        }
+
+        .faq-content {
+            padding: 20px 25px;
+            color: #475569;
+            line-height: 1.8;
+            background: #f8fafc;
+            border-top: 1px solid #edf2f9;
+        }
+
+        .faq-icon {
+            transition: transform 0.3s;
+        }
+
+        .faq-item[open] .faq-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container main-content"
+        style="margin-top:40px; margin-bottom:60px; background:#fff; padding:40px; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,0.05); border:1px solid #edf2f9; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.7; color: #333;">
+
+        <div
+            style="text-align:center; padding: 20px; background: #fff1f2; border-radius: 12px; border: 1px solid #fecaca; margin-bottom: 40px;">
+            <h4 style="color: #ac232d; margin-top: 0; letter-spacing: 1px; font-weight: 800;"><i
+                    class="fas fa-exclamation-triangle"></i> LEGAL NOTICE</h4>
+            <p style="font-size: 0.95rem; color: #881337; margin-bottom: 0;">Students are required to review the
+                Hacettepe University Associate, Bachelor's Education Regulation. The information under the frequently
+                asked questions section is prepared based on the Regulation. In case of any conflict, the current
+                Regulation shall prevail. <br><strong>Last Updated: October 1, 2020</strong></p>
+        </div>
+
+        <h2
+            style="font-family: system-ui, -apple-system, sans-serif; font-weight: 800; color: #1e293b; margin-top: 0; margin-bottom: 30px; font-size: 28px; text-align: center;">
+            Frequently Asked Questions</h2>
+
+        <div class="faq-list">
+            <details class="faq-item">
+                <summary>1) What is the maximum number of ECTS credits I can take per semester? <i
+                        class="fas fa-chevron-down faq-icon"></i></summary>
+                <div class="faq-content">Students in four-year programs can take up to 30 ECTS credits in the first,
+                    second, third, and fourth semesters, and up to 40 ECTS credits from the fifth semester onwards.
+                    Courses taken from other universities are also included in these limits.</div>
+            </details>
+            <details class="faq-item">
+                <summary>2) What is the maximum duration to complete the program? <i
+                        class="fas fa-chevron-down faq-icon"></i></summary>
+                <div class="faq-content">Students must complete their undergraduate programs within a maximum of seven
+                    years, regardless of whether they registered each semester, excluding the one-year foreign language
+                    preparatory class.</div>
+            </details>
+            <details class="faq-item">
+                <summary>3) Which courses must I complete to graduate? <i class="fas fa-chevron-down faq-icon"></i>
+                </summary>
+                <div class="faq-content">Students must successfully complete common compulsory courses, field-specific
+                    compulsory courses, and both field-specific and non-field elective courses.</div>
+            </details>
+            <details class="faq-item">
+                <summary>4) What are the common compulsory courses? <i class="fas fa-chevron-down faq-icon"></i>
+                </summary>
+                <div class="faq-content">Turkish Language (TKD104), Atatürk's Principles and History of Turkish
+                    Revolution (AİT203, AİT204), and Basic Information and Communication Technologies Usage (BEB650) are
+                    common compulsory courses in all higher education programs.</div>
+            </details>
+            <details class="faq-item">
+                <summary>5) What are the compulsory courses ING111, ING112, ING211 and ING212? Can I be exempted? <i
+                        class="fas fa-chevron-down faq-icon"></i></summary>
+                <div class="faq-content">These courses aim to develop language skills in 100% English programs. They are
+                    offered by the School of Foreign Languages. For prerequisite and exemption details, please visit <a
+                        href="https://ydyo.hacettepe.edu.tr/" target="_blank"
+                        style="color:#ac232d">ydyo.hacettepe.edu.tr</a>.</div>
+            </details>
+            <details class="faq-item">
+                <summary>6) What are the compulsory courses? <i class="fas fa-chevron-down faq-icon"></i></summary>
+                <div class="faq-content">These are courses marked with "Z" (compulsory) in the Business Administration
+                    undergraduate curriculum.</div>
+            </details>
+            <details class="faq-item">
+                <summary>7) What do field-specific and non-field elective courses mean? <i
+                        class="fas fa-chevron-down faq-icon"></i></summary>
+                <div class="faq-content">
+                    <strong>Field-specific:</strong> Elective courses within your own program. If the quota is full, you
+                    may choose another course.<br>
+                    <strong>Non-field:</strong> Courses offered by other departments, taught in English or a foreign
+                    language. Details: <a href="https://secmeli.hacettepe.edu.tr/" target="_blank"
+                        style="color:#ac232d">secmeli.hacettepe.edu.tr</a>
+                </div>
+            </details>
+            <details class="faq-item">
+                <summary>8) How many ECTS credits must I complete to graduate? <i
+                        class="fas fa-chevron-down faq-icon"></i></summary>
+                <div class="faq-content">A total of 240 ECTS must be earned: 160 ECTS compulsory, 80 ECTS elective (up
+                    to 10 ECTS can be non-field). At least 70 ECTS of field-specific electives must be completed.</div>
+            </details>
+            <details class="faq-item">
+                <summary>9) How can I take courses from other universities? <i class="fas fa-chevron-down faq-icon"></i>
+                </summary>
+                <div class="faq-content">You must apply to the department for equivalency before the semester begins.
+                    Courses are recorded on the transcript upon board approval.</div>
+            </details>
+            <details class="faq-item">
+                <summary>10) Is attendance mandatory? <i class="fas fa-chevron-down faq-icon"></i></summary>
+                <div class="faq-content">Yes, 70% attendance is mandatory. Students with more than 30% absenteeism are
+                    not allowed to take exams. For repeated theoretical courses where the attendance requirement was
+                    previously met, attendance is not required.</div>
+            </details>
+            <details class="faq-item">
+                <summary>11) How much does the final exam contribute to the overall grade? <i
+                        class="fas fa-chevron-down faq-icon"></i></summary>
+                <div class="faq-content">The final exam contributes between 40% and 60% of the overall grade. The exact
+                    ratio and exam conditions are announced by the instructor at the beginning of the semester.</div>
+            </details>
+            <details class="faq-item">
+                <summary>12) How is the make-up exam grade evaluated? <i class="fas fa-chevron-down faq-icon"></i>
+                </summary>
+                <div class="faq-content">Make-up exam results are evaluated together with the student's mid-semester
+                    performance.</div>
+            </details>
+            <details class="faq-item">
+                <summary>13) When should I retake a failed compulsory course? <i
+                        class="fas fa-chevron-down faq-icon"></i></summary>
+                <div class="faq-content">A failed compulsory course must be retaken in the first semester it is offered
+                    and must be passed before graduation.</div>
+            </details>
+            <details class="faq-item">
+                <summary>14) Can I take another course instead of a failed elective? <i
+                        class="fas fa-chevron-down faq-icon"></i></summary>
+                <div class="faq-content">Yes, you have the right to withdraw from an elective course (up to 3 courses).
+                    A different elective can be taken in place of the withdrawn course. Special provisions may apply for
+                    graduating students.</div>
+            </details>
+            <details class="faq-item">
+                <summary>15) Can I retake courses I have already passed? <i class="fas fa-chevron-down faq-icon"></i>
+                </summary>
+                <div class="faq-content">Passed courses (except A1 and A2) can be retaken to improve the GPA. The most
+                    recent grade is the effective one.</div>
+            </details>
+            <details class="faq-item">
+                <summary>16) How many types of exams are there? Is the midterm mandatory? <i
+                        class="fas fa-chevron-down faq-icon"></i></summary>
+                <div class="faq-content">There are six types of exams: midterm, final, exemption, three-course, make-up,
+                    and excuse. At least one midterm exam is mandatory for each course.</div>
+            </details>
+            <details class="faq-item">
+                <summary>19) What are the requirements for the three-course exam? <i
+                        class="fas fa-chevron-down faq-icon"></i></summary>
+                <div class="faq-content">Students who have at most 3 remaining courses for graduation or who have passed
+                    all courses but have a GPA below 2.00 can apply. Exams are held on dates specified in the academic
+                    calendar.</div>
+            </details>
+            <details class="faq-item">
+                <summary>20) What are the graduation requirements? <i class="fas fa-chevron-down faq-icon"></i>
+                </summary>
+                <div class="faq-content">
+                    1) Complete 240 ECTS (160 compulsory, 80 elective),<br>
+                    2) Maintain a minimum GPA of 2.00,<br>
+                    3) No failed courses remaining.
+                </div>
+            </details>
+        </div>
+
+        <div
+            style="margin-top: 40px; padding: 25px; background: #f1f5f9; border-radius: 12px; display: flex; align-items: center; gap: 20px;">
+            <i class="fas fa-book-open fa-2x" style="color: #475569;"></i>
+            <p style="margin: 0; font-weight: 600; color: #1e293b;">For more details: <a
+                    href="https://fs.hacettepe.edu.tr/oidb/dosyalar/dosyalar/ogrenci_el_kitabi_tr.pdf" target="_blank"
+                    style="color: #ac232d;">Student Handbook</a></p>
+        </div>
+    </div>
+</body>
+
+</html>
