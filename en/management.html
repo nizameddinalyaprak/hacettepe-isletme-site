@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hacettepe İşletme - Yönetim</title>
+    <title>Hacettepe Business Administration - Management</title>
     <script src="loader.js"></script>
 
     <style>
-        /* Page Hero & Titles */
         .page-hero {
             background: linear-gradient(135deg, #ac232d 0%, #7e161d 100%);
             color: white;
@@ -34,7 +33,6 @@
             margin: 0 auto;
         }
 
-        /* Team Grid */
         .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -47,7 +45,6 @@
             background: white;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            /* Hafif gölge */
             overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             text-align: center;
@@ -57,14 +54,12 @@
         .team-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 20px 40px rgba(172, 35, 45, 0.15);
-            /* Hacettepe Kırmızı Gölge */
             border-color: #ac232d;
         }
 
         .team-photo-container {
             width: 100%;
             height: 350px;
-            /* Sabit yükseklik */
             overflow: hidden;
             position: relative;
         }
@@ -74,7 +69,6 @@
             height: 100%;
             object-fit: cover;
             object-position: top center;
-            /* Yüzler genelde üstte olur */
             transition: transform 0.5s ease;
         }
 
@@ -113,67 +107,56 @@
             font-weight: 500;
         }
 
-        /* Special Styling for Department Chair (Bölüm Başkanı) */
         .team-card.president {
             border-top: 5px solid #ac232d;
-        }
-
-        @media (min-width: 992px) {
-            /* Masaüstünde başkanı ortalamak için grid ayarı (Opsiyonel) */
-            /* Eğer 3 kişi varsa zaten yan yana güzel durur */
         }
     </style>
 </head>
 
 <body>
 
-    
     <div class="page-hero">
-        <h1 class="page-title">Yönetim</h1>
-        <p class="page-subtitle">İşletme Bölümü Yönetim Kadrosu</p>
+        <h1 class="page-title">Management</h1>
+        <p class="page-subtitle">Department of Business Administration Management Team</p>
     </div>
 
-    
     <div class="container main-content" style="max-width: 1100px; margin: 0 auto; padding: 0 20px;">
 
         <div class="team-grid">
 
-            
             <div class="team-card president">
                 <div class="team-photo-container">
                     <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/LO.jpg"
                         alt="Prof. Dr. Leyla Özer" class="team-photo">
                 </div>
                 <div class="team-info">
-                    <div class="team-role">Bölüm Başkanı</div>
+                    <div class="team-role">Department Chair</div>
                     <h3 class="team-name">Prof. Dr. Leyla ÖZER</h3>
-                    <div class="team-dept">Pazarlama Anabilim Dalı</div>
+                    <div class="team-dept">Department of Marketing</div>
                 </div>
             </div>
 
-            
             <div class="team-card">
                 <div class="team-photo-container">
                     <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/CE.jpg"
                         alt="Prof. Dr. Canan Eryiğit" class="team-photo">
                 </div>
                 <div class="team-info">
-                    <div class="team-role">Bölüm Başkan Yardımcısı</div>
+                    <div class="team-role">Vice Department Chair</div>
                     <h3 class="team-name">Prof. Dr. Canan ERYİĞİT</h3>
-                    <div class="team-dept">Pazarlama Anabilim Dalı</div>
+                    <div class="team-dept">Department of Marketing</div>
                 </div>
             </div>
 
-            
             <div class="team-card">
                 <div class="team-photo-container">
                     <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/HC.jpg"
                         alt="Doç. Dr. Hatice Çalıpınar" class="team-photo">
                 </div>
                 <div class="team-info">
-                    <div class="team-role">Bölüm Başkan Yardımcısı</div>
-                    <h3 class="team-name">Doç. Dr. Hatice ÇALIPINAR</h3>
-                    <div class="team-dept">Üretim Yönetimi Anabilim Dalı</div>
+                    <div class="team-role">Vice Department Chair</div>
+                    <h3 class="team-name">Assoc. Prof. Dr. Hatice ÇALIPINAR</h3>
+                    <div class="team-dept">Department of Production Management</div>
                 </div>
             </div>
 
