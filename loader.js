@@ -94,8 +94,12 @@
     // Query String kontrolu (Local Preview icin: ?page=yonetim gibi)
     var search = window.location.search.toLowerCase();
 
+    // --- DIL TESPITI ---
+    var isEnglish = path.startsWith('/en') || path.startsWith('/en/');
+    var contentFolder = isEnglish ? '/en' : '';
+
     // 1. Anasayfa Tespiti
-    var isHomePage = path === '/tr' || path === '/tr/' || path === '/' || path.endsWith('/index.html') || path.endsWith('/index.php') || fullUrl.includes('preview.html') || path.includes('denemesayfasi');
+    var isHomePage = path === '/tr' || path === '/tr/' || path === '/en' || path === '/en/' || path === '/' || path.endsWith('/index.html') || path.endsWith('/index.php') || fullUrl.includes('preview.html') || path.includes('denemesayfasi');
     // Eger spesifik bir sayfa isteniyorsa anasayfa degildir
     if (search.includes('page=')) isHomePage = false;
 
@@ -170,7 +174,7 @@
         }
     } else if (isHomePage) {
         // ANASAYFA: index.html'i cek ve body'yi degistir
-        fetch(baseUrl + '/index.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/index.html' + cacheBuster)
             .then(function (response) {
                 return response.text();
             })
@@ -187,7 +191,7 @@
     } else if (isAboutPage) {
         // HAKKINDA SAYFASI: about.html'i cek ve body'yi degistir
         // ("Hakkinda sayfasi yukleniyor...");
-        fetch(baseUrl + '/about.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/about.html' + cacheBuster)
             .then(function (response) {
                 return response.text();
             })
@@ -200,7 +204,7 @@
             });
     } else if (isManagementPage) {
         // YONETIM SAYFASI: management.html'i cek ve body'yi degistir
-        fetch(baseUrl + '/management.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/management.html' + cacheBuster)
             .then(function (response) {
                 return response.text();
             })
@@ -220,7 +224,7 @@
             });
     } else if (isAcademicStaffPage) {
         // OGRETIM UYELERI SAYFASI: academic_staff.html'i cek ve body'yi degistir
-        fetch(baseUrl + '/academic_staff.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/academic_staff.html' + cacheBuster)
             .then(function (response) {
                 return response.text();
             })
@@ -240,7 +244,7 @@
             });
     } else if (isResearchStaffPage) {
         // ARASTIRMA GOREVLILERI SAYFASI
-        fetch(baseUrl + '/research_assistants.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/research_assistants.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -249,7 +253,7 @@
             })
     } else if (isAdminStaffPage) {
         // IDARI PERSONEL SAYFASI
-        fetch(baseUrl + '/administrative_staff.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/administrative_staff.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -258,7 +262,7 @@
             })
     } else if (isUndergraduatePage) {
         // LISANS DERS PROGRAMI SAYFASI
-        fetch(baseUrl + '/undergraduate.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/undergraduate.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -266,7 +270,7 @@
                 baslat(doc, true);
             })
     } else if (isThesisGraduatePage) {
-        fetch(baseUrl + '/graduate_thesis.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/graduate_thesis.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -274,7 +278,7 @@
                 baslat(doc, true);
             })
     } else if (isNonThesisGraduatePage) {
-        fetch(baseUrl + '/graduate_non_thesis.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/graduate_non_thesis.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -282,7 +286,7 @@
                 baslat(doc, true);
             })
     } else if (isPhDPage) {
-        fetch(baseUrl + '/phd.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/phd.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -290,7 +294,7 @@
                 baslat(doc, true);
             })
     } else if (isPhDProgramPage) {
-        fetch(baseUrl + '/phd_program.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/phd_program.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -298,7 +302,7 @@
                 baslat(doc, true);
             })
     } else if (isMinorProgramPage) {
-        fetch(baseUrl + '/minor_program.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/minor_program.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -306,7 +310,7 @@
                 baslat(doc, true);
             })
     } else if (isGraduateThesisProgramPage) {
-        fetch(baseUrl + '/graduate_thesis_program.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/graduate_thesis_program.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -314,7 +318,7 @@
                 baslat(doc, true);
             })
     } else if (isGraduateNonThesisProgramPage) {
-        fetch(baseUrl + '/graduate_nonthesis_program.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/graduate_nonthesis_program.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -322,7 +326,7 @@
                 baslat(doc, true);
             })
     } else if (isErasmusPage) {
-        fetch(baseUrl + '/erasmus_program.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/erasmus_program.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -330,7 +334,7 @@
                 baslat(doc, true);
             })
     } else if (isFarabiPage) {
-        fetch(baseUrl + '/farabi_program.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/farabi_program.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -338,7 +342,7 @@
                 baslat(doc, true);
             })
     } else if (isMevlanaPage) {
-        fetch(baseUrl + '/mevlana_program.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/mevlana_program.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -346,7 +350,7 @@
                 baslat(doc, true);
             })
     } else if (isInternshipPage) {
-        fetch(baseUrl + '/internship.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/internship.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -354,7 +358,7 @@
                 baslat(doc, true);
             })
     } else if (isFAQPage) {
-        fetch(baseUrl + '/faq.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/faq.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -362,7 +366,7 @@
                 baslat(doc, true);
             })
     } else if (isRequiredFormsPage) {
-        fetch(baseUrl + '/required_forms.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/required_forms.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -370,7 +374,7 @@
                 baslat(doc, true);
             })
     } else if (isEventsPage) {
-        fetch(baseUrl + '/events.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/events.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -440,7 +444,7 @@
                         annState.data.push({ title: title, url: url, date: date, tags: tags });
                     });
 
-                    return fetch(baseUrl + '/announcements.html' + cacheBuster);
+                    return fetch(baseUrl + contentFolder + '/announcements.html' + cacheBuster);
                 })
                 .then(res => res.text())
                 .then(html => {
@@ -535,7 +539,7 @@
         else loadAnnouncementsPage();
 
     } else if (isContactPage) {
-        fetch(baseUrl + '/contact.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/contact.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -543,7 +547,7 @@
                 baslat(doc, true);
             })
     } else if (isBachelorProgramPage) {
-        fetch(baseUrl + '/bachelor_program.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/bachelor_program.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -551,7 +555,7 @@
                 baslat(doc, true);
             })
     } else if (isAcademicCalendarPage) {
-        fetch(baseUrl + '/academic_calendar.html' + cacheBuster)
+        fetch(baseUrl + contentFolder + '/academic_calendar.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -684,11 +688,11 @@
         }
 
         // 4. Header ve Footer (Ortak)
-        headerVeTakvimOlustur();
+        headerVeTakvimOlustur(isEnglish);
         duyurulariCek(); // Duyurular alt sayfalarda da gozuksun mu? Genelde alt sayfalarda sidebar olabilir.
         // Istege bagli: Alt sayfalarda duyuru listesi olmasin derseniz if(isFetchedContent) icine alin.
 
-        footerOlustur();
+        footerOlustur(isEnglish);
 
         // 5. Takvim Verisi
         setTimeout(takvimVerisiniCek, 500);
@@ -751,23 +755,33 @@
     }
 
     // --- HEADER VE TAKVIM OLUSTURMA ---
-    function headerVeTakvimOlustur() {
+    function headerVeTakvimOlustur(isEN) {
         // ("Modern Header ve Takvim olusturuluyor...");
+
+        // --- DİL BAZLI İÇERİK ---
+        var langPrefix = isEN ? '/en' : '/tr';
+        var langToggleHref = isEN ? 'https://isletme.hacettepe.edu.tr/tr' : 'https://isletme.hacettepe.edu.tr/en';
+        var langToggleText = isEN ? 'TR' : 'EN';
+        var universityName = isEN ? 'HACETTEPE UNIVERSITY' : 'HACETTEPE ÜNİVERSİTESİ';
+        var departmentName = isEN ? 'Department of Business Administration' : 'İşletme Bölümü';
+        var stickyUniName = isEN ? 'HACETTEPE' : 'HACETTEPE';
+        var stickyDeptName = isEN ? 'BUSINESS' : 'İŞLETME';
+        var menuBtnText = isEN ? 'MENU' : 'MENÜ';
 
         // 1. Menu Ust (Social & Links) - Mobil uyumluluk icin d-none kaldirildi
         var menuUstHTML = `
             <div class="menu_ust" style="width: 100%; display: flex; justify-content: flex-end; background: #fafafa; border-bottom: none;">
                 <div class="container" style="display: flex; justify-content: flex-end; align-items: center; max-width: 1200px; padding: 3px 30px;">
-                    
+
                     <div class="top-links" style="display: flex; align-items: center;">
                         <a href="https://hacettepe.edu.tr" target="_blank" style="color:#666; text-decoration:none; font-size:13px;">Hacettepe</a>
                         <span style="color:#ddd; margin: 0 10px;">|</span>
                         <a href="https://bilsis.hacettepe.edu.tr" target="_blank" style="color:#666; text-decoration:none; font-size:13px;">BİLSİS</a>
                         <span style="color:#ddd; margin: 0 10px;">|</span>
-                        <a href="https://isletme.hacettepe.edu.tr/en" style="color:#666; text-decoration:none; font-size:13px;">EN</a>
+                        <a href="${langToggleHref}" style="color:#666; text-decoration:none; font-size:13px;">${langToggleText}</a>
                     </div>
 
-                    
+
                     <div class="social-icons" style="display: flex; align-items: center;">
                         <a href="https://www.instagram.com/hacettepe_isletme/" target="_blank" style="margin-left: 20px; color:#ac232d;"><i class="fab fa-instagram"></i></a>
                         <a href="https://www.linkedin.com/company/hacettepe-university-department-of-business-administration/" target="_blank" style="margin-left: 15px; color:#ac232d;"><i class="fab fa-linkedin"></i></a>
@@ -783,22 +797,102 @@
 
         // 3. Menu Genel (Navigasyon) - Mobil icin basit bir stil eklendi
         // 3. Menu Genel (Navigasyon) - Logo ve Bolum Ismi Eklendi
-        var menuGenelHTML = `
+        var menuGenelHTML;
+        if (isEN) {
+            menuGenelHTML = `
+            <div class="menu_genel" style="width: 100%; border-bottom: none;">
+                <div class="hi-nav-container">
+                    <a href="https://isletme.hacettepe.edu.tr/en" class="hi-brand-logo" style="text-decoration: none; margin-right: auto;">
+                        <div class="logo">
+                            <div class="logo_yazi">
+                                <div class="brand-normal">
+                                    <div class="banner_uni">HACETTEPE UNIVERSITY</div>
+                                    <div class="banner_uni_bolum">Department of Business Administration</div>
+                                </div>
+                                <div class="brand-sticky" style="display: none;">
+                                    <span class="banner_uni" style="font-size: 20px;">HACETTEPE</span>
+                                    <span class="banner_uni_bolum" style="font-size: 20px; margin-left: 6px; font-weight: 300; margin-top: 0; color: #222;">BUSINESS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <button class="mobile-menu-toggle d-lg-none" onclick="document.querySelector('.hi-main-nav').classList.toggle('active')">
+                        <i class="fas fa-bars"></i> MENU
+                    </button>
+
+                    <nav class="hi-main-nav">
+                        <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/en" class="hi-nav-link">Home</a></div>
+                        <div class="hi-nav-item">
+                            <a href="#" class="hi-nav-link">DEPARTMENT <i class="fas fa-chevron-down"></i></a>
+                            <div class="hi-dropdown-menu">
+                                <div class="dropdown-header">INSTITUTIONAL</div>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/bolum_hakkinda-75" class="dropdown-item">About the Department</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/yonetim-77" class="dropdown-item">Management</a>
+                                <div class="dropdown-divider"></div>
+                                <div class="dropdown-header">STAFF</div>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/ogretim_uyelerigorevlileri-211" class="dropdown-item">Faculty Members</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/arastirma_gorevlileri-69" class="dropdown-item">Research Assistants</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/idari_personel-71" class="dropdown-item">Administrative Staff</a>
+                            </div>
+                        </div>
+                        <div class="hi-nav-item">
+                            <a href="#" class="hi-nav-link">ACADEMIC <i class="fas fa-chevron-down"></i></a>
+                            <div class="hi-dropdown-menu">
+                                <div class="dropdown-header">COURSE SCHEDULES</div>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/undergraduate-115" class="dropdown-item">Undergraduate</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/tezli_yuksek_lisans-117" class="dropdown-item">Thesis Graduate</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/tezsiz_yuksek_lisans-213" class="dropdown-item">Non-Thesis Graduate</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/doktora-215" class="dropdown-item">PhD</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/akademik_takvimler-119" class="dropdown-header">ACADEMIC CALENDARS</a>
+                                <div class="dropdown-divider"></div>
+                                <div class="dropdown-header">PROGRAMS</div>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/lisans_programi-91" class="dropdown-item">Bachelor's Program</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/tezli_yuksek_lisans_programlari-93" class="dropdown-item">Thesis Graduate Program</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/tezsiz_yuksek_lisans_programlari-95" class="dropdown-item">Non-Thesis Graduate Program</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/doktora_programi-97" class="dropdown-item">PhD Program</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/yan_dal_programi-99" class="dropdown-item">Minor Program</a>
+                            </div>
+                        </div>
+                        <div class="hi-nav-item">
+                            <a href="#" class="hi-nav-link">STUDENT <i class="fas fa-chevron-down"></i></a>
+                            <div class="hi-dropdown-menu">
+                                <div class="dropdown-header">EXCHANGE PROGRAMS</div>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/erasmus-103" class="dropdown-item">ERASMUS</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/farabi-105" class="dropdown-item">FARABI</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/mevlana-107" class="dropdown-item">MEVLANA</a>
+                                <div class="dropdown-divider"></div>
+                                <div class="dropdown-header">PROCEDURES & INFO</div>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/staj-111" class="dropdown-item">Internship</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/gerekli_formlar_ve_belgeler-173" class="dropdown-item">Required Forms</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/lisans_programi_ogrencileri_icin_si-121" class="dropdown-item">FAQ</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/etkinlikler-171" class="dropdown-item">Events</a>
+                            </div>
+                        </div>
+                        <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/en/menu/duyurular-228" class="hi-nav-link">ANNOUNCEMENTS</a></div>
+                        <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/en/menu/iletisim-13" class="hi-nav-link">CONTACT</a></div>
+
+                    </nav>
+                </div>
+            </div>`;
+        } else {
+            menuGenelHTML = `
             <div class="menu_genel" style="width: 100%; border-bottom: none;">
                 <div class="hi-nav-container">
 
-                    
-                    
-                    
+
+
+
                     <a href="https://isletme.hacettepe.edu.tr/tr" class="hi-brand-logo" style="text-decoration: none; margin-right: auto;">
                         <div class="logo">
                             <div class="logo_yazi">
-                                
+
                                 <div class="brand-normal">
                                     <div class="banner_uni">HACETTEPE ÜNİVERSİTESİ</div>
                                     <div class="banner_uni_bolum">İşletme Bölümü</div>
                                 </div>
-                                
+
                                 <div class="brand-sticky" style="display: none;">
                                     <span class="banner_uni" style="font-size: 20px;">HACETTEPE</span>
                                     <span class="banner_uni_bolum" style="font-size: 20px; margin-left: 6px; font-weight: 300; margin-top: 0; color: #222;">İŞLETME</span>
@@ -866,6 +960,7 @@
                     </nav>
                 </div>
             </div>`;
+        }
 
         var fullHeaderHTML = `
         <div class="header-right-col" style="display: flex; flex-direction: column; width: 100%;">
@@ -1330,28 +1425,77 @@
         return html;
     }
 
-    function footerOlustur() {
-        var footerHTML = `
-    
+    function footerOlustur(isEN) {
+        var footerHTML;
+        if (isEN) {
+            footerHTML = `
     <footer id="section_hu_footer">
         <div class="footer-container">
-
-            
             <div class="footer-brand">
-                <h4>HACETTEPE ÜNİVERSİTESİ</h4>
-                <h5>İŞLETME BÖLÜMÜ</h5>
-
+                <h4>HACETTEPE UNIVERSITY</h4>
+                <h5>DEPARTMENT OF BUSINESS ADMINISTRATION</h5>
                 <div class="footer-address">
-                    Beytepe Yerleşkesi, 06800<br>
-                    Çankaya / ANKARA
+                    Beytepe Campus, 06800<br>
+                    Cankaya / ANKARA, TURKEY
                 </div>
-
                 <div class="footer-contact">
                     <a href="tel:+903122976351"><i class="fas fa-phone"></i> +90 (312) 297 63 51 - 112</a>
                 </div>
             </div>
-
-            
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="https://isletme.hacettepe.edu.tr/en/menu/lisans_programi-91">Bachelor's Program</a></li>
+                    <li><a href="https://isletme.hacettepe.edu.tr/en/menu/tezli_yuksek_lisans_programlari-93">Thesis Graduate</a></li>
+                    <li><a href="https://isletme.hacettepe.edu.tr/en/menu/tezsiz_yuksek_lisans_programlari-95">Non-Thesis Graduate</a></li>
+                    <li><a href="https://isletme.hacettepe.edu.tr/en/menu/doktora_programi-97">PhD Program</a></li>
+                    <li><a href="https://bilsis.hacettepe.edu.tr" target="_blank">BILSIS</a></li>
+                    <li><a href="https://isletme.hacettepe.edu.tr/en/menu/akademik_takvimler-119">Academic Calendar</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Links</h3>
+                <ul class="footer-links">
+                    <li><a href="https://hacettepe.edu.tr" target="_blank">Hacettepe University</a></li>
+                    <li><a href="https://sosyalbilimler.hacettepe.edu.tr" target="_blank">Inst. of Social Sciences</a></li>
+                    <li><a href="https://oidb.hacettepe.edu.tr/" target="_blank">Student Affairs</a></li>
+                    <li><a href="https://sksdb.hacettepe.edu.tr/bidbnew/index.php" target="_blank">Student Services</a></li>
+                    <li><a href="https://library.hacettepe.edu.tr/" target="_blank">Library</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Follow Us</h3>
+                <div class="footer-social-icons">
+                    <a href="https://www.instagram.com/hacettepe_isletme/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/hacettepe-university-department-of-business-administration/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://twitter.com/Hacettepe1967" target="_blank"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                 ${new Date().getFullYear()} <strong>Hacettepe University Department of Business Administration</strong>. Designed by Nizameddin Alyaprak.
+            </div>
+            <div class="footer-bottom-links">
+                <a href="https://www.hacettepe.edu.tr/hakkinda/KVKK" target="_blank">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>`;
+        } else {
+            footerHTML = `
+    <footer id="section_hu_footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h4>HACETTEPE ÜNİVERSİTESİ</h4>
+                <h5>İŞLETME BÖLÜMÜ</h5>
+                <div class="footer-address">
+                    Beytepe Yerleşkesi, 06800<br>
+                    Çankaya / ANKARA
+                </div>
+                <div class="footer-contact">
+                    <a href="tel:+903122976351"><i class="fas fa-phone"></i> +90 (312) 297 63 51 - 112</a>
+                </div>
+            </div>
             <div class="footer-col">
                 <h3>Hızlı Erişim</h3>
                 <ul class="footer-links">
@@ -1363,8 +1507,6 @@
                     <li><a href="https://isletme.hacettepe.edu.tr/tr/menu/akademik_takvimler-119">Akademik Takvim</a></li>
                 </ul>
             </div>
-
-            
             <div class="footer-col">
                 <h3>Bağlantılar</h3>
                 <ul class="footer-links">
@@ -1375,8 +1517,6 @@
                     <li><a href="https://library.hacettepe.edu.tr/" target="_blank">Kütüphane</a></li>
                 </ul>
             </div>
-
-            
             <div class="footer-col">
                 <h3>Takip Edin</h3>
                 <div class="footer-social-icons">
@@ -1386,8 +1526,6 @@
                 </div>
             </div>
         </div>
-
-        
         <div class="footer-bottom">
             <div class="footer-copyright">
                  ${new Date().getFullYear()} <strong>Hacettepe Üniversitesi İşletme Bölümü</strong>. Nizameddin Alyaprak Tarafından Tasarlanmıştır.
@@ -1397,7 +1535,10 @@
             </div>
         </div>
     </footer>`;
+        }
 
         document.body.insertAdjacentHTML('beforeend', footerHTML);
     }
 })();
+
+
