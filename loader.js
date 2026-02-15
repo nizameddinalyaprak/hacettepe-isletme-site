@@ -104,30 +104,30 @@
     if (search.includes('page=')) isHomePage = false;
 
     // 2. Ozel Sayfa Tespiti (Hem URL path hem de Query String icinde aranir)
-    var isAboutPage = path.includes('bolum_hakkinda-75') || path.includes('about.html') || search.includes('page=about') || search.includes('page=bolum_hakkinda');
-    var isManagementPage = path.includes('yonetim-77') || path.includes('management.html') || search.includes('page=management') || search.includes('page=yonetim');
-    var isAcademicStaffPage = path.includes('ogretim_uyelerigorevlileri') || path.includes('academic_staff.html') || search.includes('page=academic') || search.includes('page=ogretim_uyelerigorevlileri') || path.includes('ogretim-uyeleri-ve-gorevlileri') || path.includes('211');
-    var isResearchStaffPage = path.includes('arastirma_gorevlileri') || path.includes('research_assistants.html') || search.includes('page=research') || search.includes('page=arastirma_gorevlileri') || path.includes('69');
+    var isAboutPage = path.includes('bolum_hakkinda-75') || path.includes('about_us-145') || path.includes('about.html') || search.includes('page=about') || search.includes('page=bolum_hakkinda');
+    var isManagementPage = path.includes('yonetim-77') || path.includes('administration-147') || path.includes('management.html') || search.includes('page=management') || search.includes('page=yonetim');
+    var isAcademicStaffPage = path.includes('ogretim_uyelerigorevlileri') || path.includes('academic_staff-139') || path.includes('academic_staff.html') || search.includes('page=academic') || search.includes('page=ogretim_uyelerigorevlileri') || path.includes('ogretim-uyeleri-ve-gorevlileri') || path.includes('211');
+    var isResearchStaffPage = path.includes('arastirma_gorevlileri') || path.includes('research_assistants-141') || path.includes('research_assistants.html') || search.includes('page=research') || search.includes('page=arastirma_gorevlileri') || path.includes('69');
     var isUndergraduatePage = path.includes('undergraduate-115') || path.includes('undergraduate.html') || search.includes('page=undergraduate');
     var isThesisGraduatePage = path.includes('tezli_yuksek_lisans-117') || path.includes('graduate_thesis.html') || search.includes('page=graduate_thesis');
     var isNonThesisGraduatePage = path.includes('tezsiz_yuksek_lisans-213') || path.includes('graduate_non_thesis.html') || search.includes('page=graduate_non_thesis');
     var isPhDPage = path.includes('doktora-215') || path.includes('phd.html') || search.includes('page=phd');
-    var isPhDProgramPage = path.includes('doktora_programi-97') || path.includes('phd_program.html') || search.includes('page=phd_program');
-    var isMinorProgramPage = path.includes('yan_dal_programi-99') || path.includes('minor_program.html') || search.includes('page=minor_program');
-    var isGraduateThesisProgramPage = path.includes('tezli_yuksek_lisans_programlari-93') || path.includes('graduate_thesis_program.html') || search.includes('page=graduate_thesis_program');
-    var isGraduateNonThesisProgramPage = path.includes('tezsiz_yuksek_lisans_programlari-95') || path.includes('graduate_nonthesis_program.html') || search.includes('page=graduate_nonthesis_program');
-    var isBachelorProgramPage = path.includes('lisans_programi-91') || path.includes('bachelor_program.html') || search.includes('page=bachelor_program');
-    var isErasmusPage = path.includes('erasmus-103') || path.includes('erasmus_program.html') || search.includes('page=erasmus');
-    var isFarabiPage = path.includes('farabi-105') || path.includes('farabi_program.html') || search.includes('page=farabi');
-    var isMevlanaPage = path.includes('mevlana-107') || path.includes('mevlana_program.html') || search.includes('page=mevlana');
-    var isInternshipPage = path.includes('staj-111') || path.includes('internship.html') || search.includes('page=internship');
-    var isFAQPage = path.includes('lisans_programi_ogrencileri_icin_si-121') || path.includes('faq.html') || search.includes('page=faq');
-    var isRequiredFormsPage = path.includes('gerekli_formlar_ve_belgeler-173') || path.includes('required_forms.html') || search.includes('page=required_forms');
-    var isEventsPage = path.includes('etkinlikler-171') || path.includes('events.html') || search.includes('page=events');
+    var isPhDProgramPage = path.includes('doktora_programi-97') || path.includes('phd_program-135') || path.includes('phd_program.html') || search.includes('page=phd_program');
+    var isMinorProgramPage = path.includes('yan_dal_programi-99') || path.includes('minor_program-189') || path.includes('minor_program.html') || search.includes('page=minor_program');
+    var isGraduateThesisProgramPage = path.includes('tezli_yuksek_lisans_programlari-93') || path.includes('graduate_programs_thesis-131') || path.includes('graduate_thesis_program.html') || search.includes('page=graduate_thesis_program');
+    var isGraduateNonThesisProgramPage = path.includes('tezsiz_yuksek_lisans_programlari-95') || path.includes('graduate_programs_nonthesis-133') || path.includes('graduate_nonthesis_program.html') || search.includes('page=graduate_nonthesis_program');
+    var isBachelorProgramPage = path.includes('lisans_programi-91') || path.includes('undergraduate_program-129') || path.includes('bachelor_program.html') || search.includes('page=bachelor_program');
+    var isErasmusPage = path.includes('erasmus-103') || path.includes('erasmus-193') || path.includes('erasmus_program.html') || search.includes('page=erasmus');
+    var isFarabiPage = path.includes('farabi-105') || path.includes('farabi-195') || path.includes('farabi_program.html') || search.includes('page=farabi');
+    var isMevlanaPage = path.includes('mevlana-107') || path.includes('mevlana-197') || path.includes('mevlana_program.html') || search.includes('page=mevlana');
+    var isInternshipPage = path.includes('staj-111') || path.includes('internship-199') || path.includes('internship.html') || search.includes('page=internship');
+    var isFAQPage = path.includes('lisans_programi_ogrencileri_icin_si-121') || path.includes('frequently_asked_questions_for_unde-179') || path.includes('faq.html') || search.includes('page=faq');
+    var isRequiredFormsPage = path.includes('gerekli_formlar_ve_belgeler-173') || path.includes('required_forms_and_documents-175') || path.includes('required_forms.html') || search.includes('page=required_forms');
+    var isEventsPage = path.includes('etkinlikler-171') || path.includes('events-177') || path.includes('events.html') || search.includes('page=events');
     var isAnnouncementsPage = path.includes('duyurular') || path.includes('duyurudeneme') || path.includes('announcements.html') || search.includes('page=announcements');
-    var isContactPage = path.includes('iletisim-13') || path.includes('contact.html') || search.includes('page=contact');
-    var isAcademicCalendarPage = path.includes('akademik_takvimler-119') || path.includes('academic_calendar.html') || search.includes('page=academic_calendar');
-    var isAdminStaffPage = path.includes('idari_personel') || path.includes('administrative_staff.html') || search.includes('page=admin') || search.includes('page=idari_personel');
+    var isContactPage = path.includes('iletisim-13') || path.includes('contact_us-149') || path.includes('contact.html') || search.includes('page=contact');
+    var isAcademicCalendarPage = path.includes('akademik_takvimler-119') || path.includes('academic_calendar-185') || path.includes('academic_calendar.html') || search.includes('page=academic_calendar');
+    var isAdminStaffPage = path.includes('idari_personel') || path.includes('department_staff-183') || path.includes('administrative_staff.html') || search.includes('page=admin') || search.includes('page=idari_personel');
 
     // Eger URL'de 'preview_subpage' varsa kesinlikle alt sayfadir (Test icin)
     if (path.includes('preview_subpage')) isHomePage = false;
@@ -824,54 +824,49 @@
                     <nav class="hi-main-nav">
                         <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/en" class="hi-nav-link">Home</a></div>
                         <div class="hi-nav-item">
-                            <a href="#" class="hi-nav-link">DEPARTMENT <i class="fas fa-chevron-down"></i></a>
+                            <a href="#" class="hi-nav-link">ABOUT US <i class="fas fa-chevron-down"></i></a>
                             <div class="hi-dropdown-menu">
                                 <div class="dropdown-header">INSTITUTIONAL</div>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/bolum_hakkinda-75" class="dropdown-item">About the Department</a>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/yonetim-77" class="dropdown-item">Management</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/about_us-145" class="dropdown-item">About Us</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/administration-147" class="dropdown-item">Administration</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/promotion_film-181" class="dropdown-item">Promotion Film</a>
                                 <div class="dropdown-divider"></div>
-                                <div class="dropdown-header">STAFF</div>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/ogretim_uyelerigorevlileri-211" class="dropdown-item">Faculty Members</a>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/arastirma_gorevlileri-69" class="dropdown-item">Research Assistants</a>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/idari_personel-71" class="dropdown-item">Administrative Staff</a>
+                                <div class="dropdown-header">PEOPLE</div>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/academic_staff-139" class="dropdown-item">Academic Staff</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/research_assistants-141" class="dropdown-item">Research Assistants</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/department_staff-183" class="dropdown-item">Department Staff</a>
                             </div>
                         </div>
                         <div class="hi-nav-item">
-                            <a href="#" class="hi-nav-link">ACADEMIC <i class="fas fa-chevron-down"></i></a>
+                            <a href="#" class="hi-nav-link">EDUCATION <i class="fas fa-chevron-down"></i></a>
                             <div class="hi-dropdown-menu">
-                                <div class="dropdown-header">COURSE SCHEDULES</div>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/undergraduate-115" class="dropdown-item">Undergraduate</a>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/tezli_yuksek_lisans-117" class="dropdown-item">Thesis Graduate</a>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/tezsiz_yuksek_lisans-213" class="dropdown-item">Non-Thesis Graduate</a>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/doktora-215" class="dropdown-item">PhD</a>
-                                <div class="dropdown-divider"></div>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/akademik_takvimler-119" class="dropdown-header">ACADEMIC CALENDARS</a>
-                                <div class="dropdown-divider"></div>
                                 <div class="dropdown-header">PROGRAMS</div>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/lisans_programi-91" class="dropdown-item">Bachelor's Program</a>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/tezli_yuksek_lisans_programlari-93" class="dropdown-item">Thesis Graduate Program</a>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/tezsiz_yuksek_lisans_programlari-95" class="dropdown-item">Non-Thesis Graduate Program</a>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/doktora_programi-97" class="dropdown-item">PhD Program</a>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/yan_dal_programi-99" class="dropdown-item">Minor Program</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/undergraduate_program-129" class="dropdown-item">Undergraduate Program</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/graduate_programs_thesis-131" class="dropdown-item">Graduate Programs (Thesis)</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/graduate_programs_nonthesis-133" class="dropdown-item">Graduate Programs (Non-Thesis)</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/phd_program-135" class="dropdown-item">PhD Program</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/minor_program-189" class="dropdown-item">Minor Program</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/academic_calendar-185" class="dropdown-header">ACADEMIC CALENDAR</a>
                             </div>
                         </div>
                         <div class="hi-nav-item">
                             <a href="#" class="hi-nav-link">STUDENT <i class="fas fa-chevron-down"></i></a>
                             <div class="hi-dropdown-menu">
                                 <div class="dropdown-header">EXCHANGE PROGRAMS</div>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/erasmus-103" class="dropdown-item">ERASMUS</a>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/farabi-105" class="dropdown-item">FARABI</a>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/mevlana-107" class="dropdown-item">MEVLANA</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/erasmus-193" class="dropdown-item">ERASMUS</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/farabi-195" class="dropdown-item">FARABİ</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/mevlana-197" class="dropdown-item">MEVLANA</a>
                                 <div class="dropdown-divider"></div>
                                 <div class="dropdown-header">PROCEDURES & INFO</div>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/staj-111" class="dropdown-item">Internship</a>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/gerekli_formlar_ve_belgeler-173" class="dropdown-item">Required Forms</a>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/lisans_programi_ogrencileri_icin_si-121" class="dropdown-item">FAQ</a>
-                                <a href="https://isletme.hacettepe.edu.tr/en/menu/etkinlikler-171" class="dropdown-item">Events</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/internship-199" class="dropdown-item">Internship</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/required_forms_and_documents-175" class="dropdown-item">Required Forms and Documents</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/frequently_asked_questions_for_unde-179" class="dropdown-item">FAQ</a>
+                                <a href="https://isletme.hacettepe.edu.tr/en/menu/events-177" class="dropdown-item">Events</a>
                             </div>
                         </div>
-                        <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/en/menu/duyurular-228" class="hi-nav-link">ANNOUNCEMENTS</a></div>
-                        <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/en/menu/iletisim-13" class="hi-nav-link">CONTACT</a></div>
+                        <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/en/announcements" class="hi-nav-link">ANNOUNCEMENTS</a></div>
+                        <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/en/menu/contact_us-149" class="hi-nav-link">CONTACT</a></div>
 
                     </nav>
                 </div>
