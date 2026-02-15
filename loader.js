@@ -712,6 +712,50 @@
     }
 
     function temizleVeModernlestir(doc, isFetchedContent) {
+        // 0. ANINDA GIZLEME (Anti-Flicker & Layout Reset)
+        // CMS'in kendi layout yapisini (sidebar, header, footer vb) CSS ile zorla gizle.
+        // Bu, JS ile element silmekten daha hizli ve guvenilirdir.
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = `
+            /* SKULET VE ESKI YAPIYI GIZLE */
+            .header, .top-bar, #sp-header, #sp-top-bar, #sp-bottom, footer, #footer,
+            #sp-left, #sp-right, .sidebar, .sidebar-nav, .module, .moduletable, .sp-module, .t3-module,
+            #aside, .t3-sidebar, .t3-mainbody, #t3-mainbody, .t3-footer,
+            .breadcrumb, .breadcrumbs, .sp-breadcrumb,
+            /* Ozel: CMS icerik wraperlari (Sadece bizim injected content kalsin) */
+            /* Dikkat: .item-page veya .blog'u gizlersek kendi icerigimiz de gider. */
+            /* O yuzden sadece onlari layouttan kurtarmaya calisiyoruz */
+            
+            /* GLOBAL SIFIRLAMA */
+            body { 
+                background: #fff !important; 
+                padding: 0 !important; 
+                margin: 0 !important; 
+                display: block !important; /* Bazen flex/grid yapisi bozar */
+            }
+            
+            /* Kapsayicilari Etkisizlestir */
+            .t3-wrapper, .body-innerwrapper, #sp-page-builder, .sp-main-body {
+                background: transparent !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                border: none !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                display: block !important;
+            }
+
+            /* Eger sidebar grid seklindeyse (col-md-3 vb) onlari gizle */
+            .col-md-3, .col-lg-3, .col-sm-3, .col-xs-3 {
+                /* Sidebari tahmin etmeye calisiyoruz. */
+                /* Bu cok riskli, icerik de 3 birimlik olabilir. */
+                /* O yuzden ID ve class bazli gidiyoruz yukarida. */
+            }
+        `;
+        document.head.appendChild(style);
+
+
         // CMS'in kendi stil ve scriptlerini engelle
         var blockedCssPatterns = ['templates/template3//css/style.css', 'templates/template3/css/style.css', 'animate.css'];
         var legacyStyles = document.querySelectorAll('link[rel="stylesheet"]');
@@ -729,16 +773,17 @@
             }
         });
 
-        // Eski Header/Top Bar ve Sidebar Temizligi
+        // Eski Header/Top Bar ve Sidebar Temizligi (DOM'dan silme)
         var elementsToRemove = [
             '.header', '.top-bar', '#sp-header', '#sp-top-bar',
             '#sp-left', '#sp-right', '#sp-bottom', '.sidebar', '.sidebar-nav',
             '.module', '.moduletable', '.sp-module', '.t3-module',
-            '#aside'
+            '#aside', '#footer', 'footer',
+            '.breadcrumb', '.breadcrumbs'
         ];
         elementsToRemove.forEach(sel => {
-            var el = doc.querySelector(sel);
-            if (el) el.remove();
+            var els = doc.querySelectorAll(sel);
+            els.forEach(el => el.remove());
         });
 
         // Wrapper temizligi
@@ -749,9 +794,6 @@
             t3Wrapper.style.border = 'none';
             t3Wrapper.style.background = 'transparent';
         }
-
-        document.body.style.padding = "0 !important";
-        document.body.style.margin = "0 !important";
     }
 
     // --- HEADER VE TAKVIM OLUSTURMA ---
