@@ -723,6 +723,10 @@
             #sp-left, #sp-right, .sidebar, .sidebar-nav, .module, .moduletable, .sp-module, .t3-module,
             #aside, .t3-sidebar, .t3-mainbody, #t3-mainbody, .t3-footer,
             .breadcrumb, .breadcrumbs, .sp-breadcrumb,
+            /* User Reported Legacy Elements */
+            .mobile-nav-toggle, .ust, .site_baslangic, .resimler, .mobile-nav, 
+            .mobile-nav-overly, #section_hu_footer, .menu_sol, .mobil_menu_logo, .menu_title_s,
+            
             /* Ozel: CMS icerik wraperlari (Sadece bizim injected content kalsin) */
             /* Dikkat: .item-page veya .blog'u gizlersek kendi icerigimiz de gider. */
             /* O yuzden sadece onlari layouttan kurtarmaya calisiyoruz */
@@ -779,7 +783,10 @@
             '#sp-left', '#sp-right', '#sp-bottom', '.sidebar', '.sidebar-nav',
             '.module', '.moduletable', '.sp-module', '.t3-module',
             '#aside', '#footer', 'footer',
-            '.breadcrumb', '.breadcrumbs'
+            '.breadcrumb', '.breadcrumbs',
+            // New user reported elements
+            '.mobile-nav-toggle', '.ust', '.site_baslangic', '.resimler', '.mobile-nav',
+            '.mobile-nav-overly', '#section_hu_footer', '.menu_sol', '.mobil_menu_logo'
         ];
         elementsToRemove.forEach(sel => {
             var els = doc.querySelectorAll(sel);
