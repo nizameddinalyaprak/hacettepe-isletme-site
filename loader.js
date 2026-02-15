@@ -1440,12 +1440,12 @@
             <div class="footer-col">
                 <h3>Quick Links</h3>
                 <ul class="footer-links">
-                    <li><a href="https://isletme.hacettepe.edu.tr/en/menu/lisans_programi-91">Bachelor's Program</a></li>
-                    <li><a href="https://isletme.hacettepe.edu.tr/en/menu/tezli_yuksek_lisans_programlari-93">Thesis Graduate</a></li>
-                    <li><a href="https://isletme.hacettepe.edu.tr/en/menu/tezsiz_yuksek_lisans_programlari-95">Non-Thesis Graduate</a></li>
-                    <li><a href="https://isletme.hacettepe.edu.tr/en/menu/doktora_programi-97">PhD Program</a></li>
+                    <li><a href="https://isletme.hacettepe.edu.tr/en/menu/undergraduate_program-129">Undergraduate Program</a></li>
+                    <li><a href="https://isletme.hacettepe.edu.tr/en/menu/graduate_programs_thesis-131">Thesis Graduate</a></li>
+                    <li><a href="https://isletme.hacettepe.edu.tr/en/menu/graduate_programs_nonthesis-133">Non-Thesis Graduate</a></li>
+                    <li><a href="https://isletme.hacettepe.edu.tr/en/menu/phd_program-135">PhD Program</a></li>
                     <li><a href="https://bilsis.hacettepe.edu.tr" target="_blank">BILSIS</a></li>
-                    <li><a href="https://isletme.hacettepe.edu.tr/en/menu/akademik_takvimler-119">Academic Calendar</a></li>
+                    <li><a href="https://isletme.hacettepe.edu.tr/en/menu/academic_calendar-185">Academic Calendar</a></li>
                 </ul>
             </div>
             <div class="footer-col">
