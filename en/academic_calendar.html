@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacettepe Business Administration - Academic Calendars</title>
+    <script src="loader.js"></script>
+    <style>
+        :root {
+            --hacettepe-red: #ac232d;
+            --hacettepe-dark: #7e161d;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-600: #475569;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+        }
+
+        body {
+            background-color: var(--slate-50);
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', system-ui, -apple-system, sans-serif;
+        }
+
+        .page-hero {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 100px 20px 140px;
+            text-align: center;
+            clip-path: ellipse(150% 100% at 50% 0%);
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -0.02em;
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .calendar-portal {
+            max-width: 1000px;
+            margin: -80px auto 100px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .card-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .calendar-card {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--slate-100);
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .calendar-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(172, 35, 45, 0.12);
+            border-color: var(--hacettepe-red);
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--slate-50);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: var(--hacettepe-red);
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-card:hover .card-icon {
+            background: var(--hacettepe-red);
+            color: white;
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .calendar-card h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--slate-800);
+            margin: 0 0 15px;
+        }
+
+        .calendar-card p {
+            font-size: 1rem;
+            color: var(--slate-600);
+            line-height: 1.6;
+            margin-bottom: 30px;
+            min-height: 3em;
+        }
+
+        .card-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background: var(--slate-100);
+            color: var(--slate-800);
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .calendar-card:hover .card-btn {
+            background: var(--hacettepe-red);
+            color: white;
+        }
+
+        details.archive-wrapper {
+            width: 100%;
+        }
+
+        summary.archive-toggle {
+            font-size: 0.9rem;
+            color: var(--slate-600);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 12px;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+            list-style: none;
+        }
+
+        summary.archive-toggle::-webkit-details-marker {
+            display: none;
+        }
+
+        summary.archive-toggle:hover {
+            background: var(--slate-100);
+            color: var(--hacettepe-red);
+        }
+
+        details.archive-wrapper[open] summary.archive-toggle i {
+            transform: rotate(180deg);
+        }
+
+        .archive-content {
+            background: white;
+            border-radius: 16px;
+            width: 100%;
+            text-align: left;
+            margin-top: 10px;
+            padding: 20px;
+            border: 1px solid var(--slate-100);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            overflow-y: auto;
+            max-height: 400px;
+        }
+
+        .archive-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .archive-list li {
+            margin-bottom: 10px;
+        }
+
+        .archive-list a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            border-radius: 10px;
+            color: var(--slate-700);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            background: var(--slate-50);
+        }
+
+        .archive-list a:hover {
+            background: white;
+            color: var(--hacettepe-red);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transform: translateX(5px);
+        }
+
+        .archive-list i {
+            color: var(--hacettepe-red);
+            font-size: 0.8rem;
+        }
+
+        .badge-new {
+            background: #22c55e;
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: auto;
+            font-weight: 700;
+        }
+
+        .external-hint {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--slate-600);
+            font-size: 0.9rem;
+            opacity: 0.8;
+            padding: 0 20px 60px;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .calendar-portal {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-hero">
+        <h1 class="page-title">Academic Calendars</h1>
+        <p class="page-subtitle">Hacettepe University Department of Business Administration current academic calendar
+            portal and archive</p>
+    </div>
+    <div class="calendar-portal">
+        <div class="card-wrapper">
+            <div class="calendar-card">
+                <div class="card-icon"><i class="fas fa-user-graduate"></i></div>
+                <h3>Undergraduate Academic Calendar</h3>
+                <p>You can access undergraduate program calendars through the Student Affairs Office (OİDB).</p>
+                <a href="https://oidb.hacettepe.edu.tr/" target="_blank" class="card-btn">Go to Current Calendar <i
+                        class="fas fa-external-link-alt"></i></a>
+                <details class="archive-wrapper">
+                    <summary class="archive-toggle"><i class="fas fa-chevron-down"></i> Undergraduate Archive & Other
+                        Calendars</summary>
+                    <div class="archive-content">
+                        <ul class="archive-list">
+                            <li><a href="https://fs.hacettepe.edu.tr/oidb/dosyalar/akademik_takvimler/25-26/2025-2026_akademik_takvim_24042024_2025_69.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2025-2026 Academic Calendar <span
+                                        class="badge-new">NEW</span></a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/oidb/dosyalar/akademik_takvimler/25-26/2025-2026_Yatay_Gecis_Takvimi.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2025-2026 Lateral Transfer
+                                    Calendar</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/oidb/2025-2026muafiyet_yeni.pdf" target="_blank"><i
+                                        class="fas fa-file-pdf"></i> 2025-2026 Exemption Exam Calendar</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/oidb/dosyalar/akademik_takvimler/24-25/2024-2025_akademik_takvim_24042024_2025_69.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2024-2025 Academic Calendar</a></li>
+                            <li><a href="https://oidb.hacettepe.edu.tr/tr/akademik_takvim_20232024-405"
+                                    target="_blank"><i class="fas fa-link"></i> 2023-2024 Academic Calendar</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/oidb/dosyalar/duyurular/mezuniyet_toren_takvimi_guncel.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2024-2025 Graduation Ceremony
+                                    Calendar</a></li>
+                            <li><a href="https://isletme.hacettepe.edu.tr/tr/menu/akademik_takvim_arsivi-61"
+                                    target="_blank"><i class="fas fa-archive"></i> Full OİDB Archive</a></li>
+                        </ul>
+                    </div>
+                </details>
+            </div>
+        </div>
+        <div class="card-wrapper">
+            <div class="calendar-card">
+                <div class="card-icon"><i class="fas fa-university"></i></div>
+                <h3>Graduate Academic Calendar</h3>
+                <p>For Master's and PhD calendars, please visit the Graduate School of Social Sciences (GSS) page.</p>
+                <a href="https://sosyalbilimler.hacettepe.edu.tr/tr/menu/akademik_takvim-16" target="_blank"
+                    class="card-btn">Go to Current Calendar <i class="fas fa-external-link-alt"></i></a>
+                <details class="archive-wrapper">
+                    <summary class="archive-toggle"><i class="fas fa-chevron-down"></i> Graduate Calendar Archive
+                    </summary>
+                    <div class="archive-content">
+                        <ul class="archive-list">
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/duyurular/2024-2025/bahar-duyurusu/lisanustu-yedek-kay%C4%B1rvekesinkayit/2025-2026%20Guz_ve_Bahar_Akademik_Takvim.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2025-2026 Academic Calendar <span
+                                        class="badge-new">NEW</span></a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/duyurular/2024-2025%20Akademik%20Takvim.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2024-2025 Academic Calendar</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/duyurular/2023-2024%20Akademik%20Takvim.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2023-2024 Academic Calendar</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/duyurular/2022-2023%20Bahar/2022_2023.xlsx"
+                                    target="_blank"><i class="fas fa-file-excel"></i> 2022-2023 Academic Calendar</a>
+                            </li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/duyurular/2020-2021%20G%C3%BCz/2021-2022%20Akademik%20Takvim.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2021-2022 Academic Calendar</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2020-2021OgretimYiliAkademikTakvimi.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2020-2021 Academic Calendar</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2019-2020%20Bahar%20yar%C4%B1y%C4%B1l%C4%B1%20akademik%20takvim%20g%C3%BCncellemesi.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2019-2020 Spring (Updated)</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2019_2020_akademik%20takvim.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2019-2020 Fall-Spring-Summer</a>
+                            </li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/duyurular/2018-19_akademik_takvim.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2018-2019 Academic Calendar</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2017-18_akademiktakvim.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2017-2018 Academic Calendar</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2016_2017_guz_takvim.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2016-2017 Fall Calendar</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2016_2017_bahar_takvim.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2016-2017 Spring Calendar</a></li>
+                            <li><a href="https://fs.hacettepe.edu.tr/sosbil/dosyalar/2016_2017_yaz_takvim.pdf"
+                                    target="_blank"><i class="fas fa-file-pdf"></i> 2016-2017 Summer Calendar</a></li>
+                        </ul>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+    <div class="external-hint">
+        <p><i class="fas fa-info-circle"></i> Since academic calendars are updated university-wide, the official
+            institute and office pages are the most up-to-date sources.</p>
+    </div>
+</body>
+
+</html>

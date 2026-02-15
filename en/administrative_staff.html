@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacettepe Business Administration - Administrative Staff</title>
+    <script src="loader.js"></script>
+    <style>
+        .page-hero {
+            background: linear-gradient(135deg, #ac232d 0%, #7e161d 100%);
+            color: white;
+            padding: 80px 20px 100px;
+            text-align: center;
+            clip-path: ellipse(150% 100% at 50% 0%);
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto 60px;
+            justify-content: center;
+        }
+
+        .admin-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #f1f5f9;
+            text-align: center;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .admin-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(172, 35, 45, 0.1);
+            border-color: #fca5a5;
+        }
+
+        .admin-avatar {
+            width: 120px;
+            height: 120px;
+            background: #f1f5f9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 40px;
+            color: #94a3b8;
+            border: 4px solid white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .admin-role {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ac232d;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: #fef2f2;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .admin-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 10px 0;
+        }
+
+        .admin-contact {
+            color: #64748b;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-hero">
+        <h1 class="page-title">Administrative Staff</h1>
+        <p>Hacettepe University Department of Business Administration Administrative Team</p>
+    </div>
+    <div class="container main-content">
+        <div class="admin-grid">
+            <div class="admin-card">
+                <div class="admin-avatar"><i class="fas fa-user"></i></div>
+                <span class="admin-role">Department Secretary</span>
+                <h3 class="admin-name">Nuray YETİK</h3>
+                <div class="admin-contact"><i class="fas fa-phone-alt"></i> +90 312 297 63 51 - 112</div>
+            </div>
+            <div class="admin-card">
+                <div class="admin-avatar"><i class="fas fa-user"></i></div>
+                <span class="admin-role">Staff</span>
+                <h3 class="admin-name">Mehmet AKGÜN</h3>
+                <div class="admin-contact">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
