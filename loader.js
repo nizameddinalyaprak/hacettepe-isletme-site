@@ -674,6 +674,28 @@
 
             // Eger container zaten body'de degilse (querySelector ile bulduysak)
             if (mainContent.parentNode !== document.body) {
+                // Layout Onarimi: Eger mainContent bir col-lg-9 icindeyse, onu col-lg-12 yap
+                var parentCol = mainContent.closest('.col-lg-9');
+                if (parentCol) {
+                    parentCol.classList.remove('col-lg-9');
+                    parentCol.classList.add('col-lg-12');
+                    parentCol.style.width = '100%';
+                    parentCol.style.flex = '0 0 100%';
+                    parentCol.style.maxWidth = '100%';
+                }
+
+                // Eger mainContent dogrudan bir container icindeyse ve ust bosluk varsa
+                var mainContainer = mainContent.closest('.container');
+                if (mainContainer) {
+                    mainContainer.style.marginTop = '0';
+                    mainContainer.style.paddingTop = '0';
+                }
+
+                // CMS'in verdigi ana container stili varsa onu ez
+                if (mainContent.classList.contains('main-content')) {
+                    mainContent.style.marginTop = '0';
+                }
+
                 // Once body'yi temizle (Header/Footer haric - ama onlar zaten henuz eklenmedi)
                 // document.body.innerHTML = ''; // Tehlikeli olabilir, onceki scriptleri silebilir
 
@@ -751,11 +773,28 @@
             }
 
             /* Eger sidebar grid seklindeyse (col-md-3 vb) onlari gizle */
-            .col-md-3, .col-lg-3, .col-sm-3, .col-xs-3 {
-                /* Sidebari tahmin etmeye calisiyoruz. */
-                /* Bu cok riskli, icerik de 3 birimlik olabilir. */
-                /* O yuzden ID ve class bazli gidiyoruz yukarida. */
+            .col-lg-3.d-none.d-sm-block, .col-lg-3 {
+                display: none !important;
+                width: 0 !important;
+                flex: none !important;
+                max-width: 0 !important;
             }
+
+            /* Main Content genislemesi */
+            .col-lg-9 {
+                width: 100% !important;
+                flex: 0 0 100% !important;
+                max-width: 100% !important;
+            }
+
+            /* Ust bosluk temizligi */
+            .container.main-content, .container.mt-5, .main-content {
+                margin-top: 0 !important;
+                padding-top: 20px !important; /* Hafif bir ic bosluk kalsin */
+            }
+            
+            /* Body background reset (Beyaz yapmistik ama bazen container golgeli olsun istenir) */
+            /* Burada sadece main content card yapisi olsun, arka plan hafif gri olabilir */
         `;
         document.head.appendChild(style);
 
