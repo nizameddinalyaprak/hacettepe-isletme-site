@@ -392,8 +392,9 @@
                 .then(html => {
                     var parser = new DOMParser();
                     var sourceDoc = parser.parseFromString(html, 'text/html');
-                    var anaIcerik = sourceDoc.querySelector('.col-lg-9') || sourceDoc.querySelector('.icerik');
-                    var items = anaIcerik ? (anaIcerik.querySelectorAll('ul li').length > 0 ? anaIcerik.querySelectorAll('ul li') : anaIcerik.querySelectorAll('a')) : [];
+                    var anaIcerik = sourceDoc.querySelector('.col-lg-9') || sourceDoc.querySelector('.icerik') || sourceDoc.body;
+                    var items = anaIcerik.querySelectorAll('tr, li, .announcement-item');
+                    if (items.length === 0) items = anaIcerik.querySelectorAll('a');
 
                     annState.data = [];
                     var blackList = ["duyurular-1", "tezli_yuksek_lisans_programlar-33", "lisans_programi-35", "tezsiz_yuksek_lisans_programla-37", "doktora_programi-39", "/show/"];
@@ -410,10 +411,15 @@
                             if (url.includes(blackList[j])) return;
                         }
 
-                        // Date extraction (Standard + Secondary)
+                        // Date extraction (Standard + Secondary + Span)
                         var date = "";
-                        var m = node.textContent.match(/(\d{4})-(\d{2})-(\d{2})/) || node.textContent.match(/(\d{2})\.(\d{2})\.(\d{4})/);
-                        if (m) date = m[0];
+                        var tarihSpan = node.querySelector('.tarih, .date, .announcement-date');
+                        if (tarihSpan) date = tarihSpan.textContent.trim().split(' ')[0];
+
+                        if (!date) {
+                            var m = node.textContent.match(/(\d{4})-(\d{2})-(\d{2})/) || node.textContent.match(/(\d{2})\.(\d{2})\.(\d{4})/);
+                            if (m) date = m[0];
+                        }
 
                         if (!date && url) { // Try to extract from URL if possible
                             var urlMatch = url.match(/\/(\d{4})\/(\d{1,2})\/(\d{1,2})\//);
@@ -422,24 +428,36 @@
 
                         // Tags & Title Clean up
                         var tags = [];
-                        link.querySelectorAll('span').forEach(function (s) {
-                            var t = s.textContent.trim();
-                            if (t) {
-                                tags.push(t);
-                                title = title.replace(t, "").trim();
+                        var lt = title.toLocaleLowerCase('tr-TR');
+
+                        // Categorization (Priority based to avoid mislabeling)
+                        if (lt.includes('onemli') || lt.includes('önemli')) tags.push('ÖNEMLİ');
+
+                        if (lt.includes('tezsiz')) tags.push('TEZSİZ YL');
+                        else if (lt.includes('tezli') && (lt.includes('yüksek') || lt.includes('yl'))) tags.push('TEZLİ YL');
+                        else if (lt.includes('doktora')) tags.push('DOKTORA');
+                        else if (lt.includes('lisans') && !lt.includes('lisansüstü')) tags.push('LİSANS');
+
+                        if (tags.length === 0) tags.push('Genel');
+
+                        // Clean title from identified tags to avoid redundancy
+                        tags.forEach(t => {
+                            var tagLower = t.toLocaleLowerCase('tr-TR');
+                            // Remove the tag text from the title if it's present
+                            // Using a regex with 'gi' for global and case-insensitive replacement
+                            // and ensuring whole word match if possible to avoid partial replacements.
+                            // For simplicity, a direct replace is used here, but more robust regex could be applied.
+                            if (title.toLocaleLowerCase('tr-TR').includes(tagLower)) {
+                                // Create a regex that matches the tag word, optionally followed by punctuation or space
+                                // and handles Turkish characters.
+                                // This is a basic attempt; a more sophisticated regex might be needed for all cases.
+                                var regex = new RegExp(`\\b${t.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}\\b`, 'gi');
+                                title = title.replace(regex, '').trim();
+                                // Remove common separators left behind
+                                title = title.replace(/^-?\s*[-—–:]?\s*/, '').trim(); // leading dash/colon
+                                title = title.replace(/\s*[-—–:]?\s*$/, '').trim(); // trailing dash/colon
                             }
                         });
-
-                        // Fallback Categorization if no tags found
-                        if (tags.length === 0) {
-                            var lt = title.toLocaleLowerCase('tr-TR');
-                            if (lt.includes('onemli') || lt.includes('önemli')) tags.push('ÖNEMLİ');
-                            else if (lt.includes('lisans') && !lt.includes('lisansüstü')) tags.push('LİSANS');
-                            else if (lt.includes('tezli') && (lt.includes('yüksek') || lt.includes('yl'))) tags.push('TEZLİ YL');
-                            else if (lt.includes('tezsiz')) tags.push('TEZSİZ YL');
-                            else if (lt.includes('doktora')) tags.push('DOKTORA');
-                            else tags.push('Genel');
-                        }
 
                         annState.data.push({ title: title, url: url, date: date, tags: tags });
                     });
@@ -746,21 +764,21 @@
             #aside, .t3-sidebar, .t3-mainbody, #t3-mainbody, .t3-footer,
             .breadcrumb, .breadcrumbs, .sp-breadcrumb,
             /* User Reported Legacy Elements */
-            .mobile-nav-toggle, .ust, .site_baslangic, .resimler, .mobile-nav, 
+            .mobile-nav-toggle, .ust, .site_baslangic, .resimler, .mobile-nav,
             .mobile-nav-overly, #section_hu_footer, .menu_sol, .mobil_menu_logo, .menu_title_s,
-            
+
             /* Ozel: CMS icerik wraperlari (Sadece bizim injected content kalsin) */
             /* Dikkat: .item-page veya .blog'u gizlersek kendi icerigimiz de gider. */
             /* O yuzden sadece onlari layouttan kurtarmaya calisiyoruz */
-            
+
             /* GLOBAL SIFIRLAMA */
-            body { 
-                background: #fff !important; 
-                padding: 0 !important; 
-                margin: 0 !important; 
+            body {
+                background: #fff !important;
+                padding: 0 !important;
+                margin: 0 !important;
                 display: block !important; /* Bazen flex/grid yapisi bozar */
             }
-            
+
             /* Kapsayicilari Etkisizlestir */
             .t3-wrapper, .body-innerwrapper, #sp-page-builder, .sp-main-body {
                 background: transparent !important;
@@ -792,7 +810,7 @@
                 margin-top: 0 !important;
                 padding-top: 20px !important; /* Hafif bir ic bosluk kalsin */
             }
-            
+
             /* Body background reset (Beyaz yapmistik ama bazen container golgeli olsun istenir) */
             /* Burada sadece main content card yapisi olsun, arka plan hafif gri olabilir */
         `;
