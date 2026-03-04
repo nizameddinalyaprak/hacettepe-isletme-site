@@ -29,6 +29,7 @@
                 <div class="float-right d-none d-md-block top-links" style="margin-left: 20px;">
                     <a href="https://hacettepe.edu.tr" target="_blank">Hacettepe Üniversitesi</a> <span style="color:#ddd;">|</span>
                     <a href="https://bilsis.hacettepe.edu.tr" target="_blank">BİLSİS</a> <span style="color:#ddd;">|</span>
+                    <a href="http://huiibfspor.com/" target="_blank" style="color:#ac232d; font-weight:bold;"><i class="fas fa-trophy"></i> Spor Takımları</a> <span style="color:#ddd;">|</span>
                     <a href="https://isletme.hacettepe.edu.tr/en">EN</a>
                 </div>
             </div>
