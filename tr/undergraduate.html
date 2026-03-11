@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hacettepe İşletme - Tezli Yüksek Lisans Ders Programı</title>
-    <script src="loader.js"></script>
+    <title>Hacettepe İşletme - Lisans Ders Programı</title>
+    <script src="../loader.js"></script>
+
     <style>
         :root {
             --hacettepe-red: #ac232d;
@@ -18,8 +19,9 @@
             --slate-800: #1e293b;
         }
 
+        /* Page Hero */
         .page-hero {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            background: linear-gradient(135deg, var(--hacettepe-red) 0%, var(--hacettepe-dark) 100%);
             color: white;
             padding: 80px 20px 100px;
             text-align: center;
@@ -40,6 +42,7 @@
             font-weight: 300;
         }
 
+        /* Action Dashboard */
         .dashboard {
             max-width: 1200px;
             margin: -60px auto 40px;
@@ -102,6 +105,7 @@
             color: var(--slate-600);
         }
 
+        /* Main Schedule Section */
         .schedule-container {
             max-width: 1200px;
             margin: 0 auto 80px;
@@ -172,6 +176,66 @@
             border-color: var(--hacettepe-red);
         }
 
+        /* Info Section */
+        .info-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+        }
+
+        .info-card {
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--slate-100);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+        }
+
+        .info-card h4 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-top: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--slate-800);
+        }
+
+        .info-card h4 i {
+            color: var(--hacettepe-red);
+        }
+
+        .info-card ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .info-card li {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            color: var(--slate-700);
+            line-height: 1.6;
+        }
+
+        .info-card li::before {
+            content: "\f00c";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: #10b981;
+            font-size: 0.8rem;
+        }
+
+        /* Mobile Adjustments */
         @media (max-width: 768px) {
             .page-title {
                 font-size: 2.25rem;
@@ -193,12 +257,13 @@
 <body>
 
     <div class="page-hero">
-        <h1 class="page-title">Tezli Yüksek Lisans</h1>
+        <h1 class="page-title">Lisans Ders Programı</h1>
         <p class="page-subtitle">2025-2026 Akademik Yılı Bahar Dönemi</p>
     </div>
 
+    <!-- Dashboard -->
     <div class="dashboard">
-        <a href="https://fs.hacettepe.edu.tr/isletme/dosyalar/Duyuru%20Dosyalar%C4%B1/DersProgramlari/2526/bahar/010326/Tezli_Ders%20Program%C4%B1_01_03_2026.pdf"
+        <a href="https://fs.hacettepe.edu.tr/isletme/dosyalar/Duyuru%20Dosyalar%C4%B1/DersProgramlari/2526/bahar/010326/Lisans_Ders%20Program%C4%B1_01_03_2026.pdf"
             target="_blank" class="action-card">
             <div class="action-icon">
                 <i class="fas fa-file-pdf"></i>
@@ -219,24 +284,25 @@
             </div>
         </a>
 
-        <a href="https://sosyalbilimler.hacettepe.edu.tr" target="_blank" class="action-card">
+        <a href="https://bilsis.hacettepe.edu.tr" target="_blank" class="action-card">
             <div class="action-icon">
-                <i class="fas fa-university"></i>
+                <i class="fas fa-graduation-cap"></i>
             </div>
             <div class="action-text">
-                <h3>SBE Web Sitesi</h3>
-                <p>Sosyal Bilimler Enstitüsü</p>
+                <h3>BİLSİS Giriş</h3>
+                <p>Ders kayıt ve not sistemi</p>
             </div>
         </a>
     </div>
 
+    <!-- Main Schedule -->
     <div class="schedule-container">
         <div class="schedule-header">
             <div class="schedule-info">
-                <h2>Tezli YL Programı <span>Bahar 2026</span></h2>
+                <h2>Lisans Programı <span>Bahar 2026</span></h2>
             </div>
             <div class="last-update" style="font-size: 0.85rem; color: var(--slate-600);">
-                <i class="fas fa-clock"></i> Son Güncelleme: 01.03.2026
+                <i class="fas fa-clock"></i> Son Güncelleme: 07.03.2026
             </div>
         </div>
 
@@ -246,24 +312,47 @@
                 <div class="mini-btn" title="Yazdır" onclick="window.print()"><i class="fas fa-print"></i></div>
             </div>
             <iframe id="pdfFrame"
-                src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Duyuru%20Dosyalar%C4%B1/DersProgramlari/2526/bahar/010326/Tezli_Ders%20Program%C4%B1_01_03_2026.pdf"
+                src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Duyuru%20Dosyalar%C4%B1/DersProgramlari/2526/bahar/070326/Lisans070326.pdf"
                 class="pdf-frame">
             </iframe>
         </div>
     </div>
+
+    <!-- Info Cards -->
+    <!--<div class="info-section">
+        <div class="info-card">
+            <h4><i class="fas fa-info-circle"></i> Önemli Notlar</h4>
+            <ul>
+                <li>Ders programında meydana gelebilecek anlık değişiklikler için bu sayfayı düzenli olarak kontrol
+                    ediniz.</li>
+                <li>Derslik ve saat çakışmaları durumunda lütfen ilgili Ana Bilim Dalı başkanlığı ile iletişime geçiniz.
+                </li>
+                <li>Haftalık ders programı, BİLSİS üzerindeki kayıtlarınızla uyumlu olmalıdır.</li>
+            </ul>
+        </div>
+        <div class="info-card">
+            <h4><i class="fas fa-exclamation-triangle"></i> Ders Kayıtları</h4>
+            <ul>
+                <li>Ders ekle-sil haftası tarihlerini Akademik Takvim'den takip etmeyi unutmayınız.</li>
+                <li>Kontenjan sorunları için bölüm sekreterliği veya danışman hocalarınızla görüşünüz.</li>
+                <li>Ders seçimlerinde önkoşul kurallarına dikkat etmeniz gerekmektedir.</li>
+            </ul>
+        </div>
+    </div>-->
 
     <script>
         function toggleFullScreen() {
             var el = document.getElementById('pdfFrame');
             if (el.requestFullscreen) {
                 el.requestFullscreen();
-            } else if (el.webkitRequestFullscreen) {
+            } else if (el.webkitRequestFullscreen) { /* Safari */
                 el.webkitRequestFullscreen();
-            } else if (el.msRequestFullscreen) {
+            } else if (el.msRequestFullscreen) { /* IE11 */
                 el.msRequestFullscreen();
             }
         }
     </script>
+
 </body>
 
 </html>
