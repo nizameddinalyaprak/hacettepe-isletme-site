@@ -96,7 +96,8 @@
 
     // --- DIL TESPITI ---
     var isEnglish = path.startsWith('/en') || path.startsWith('/en/');
-    var contentFolder = isEnglish ? '/en' : '';
+    var isTurkish = path.startsWith('/tr') || path.startsWith('/tr/');
+    var contentFolder = isEnglish ? '/en' : (isTurkish ? '/tr' : '');
 
     // 1. Anasayfa Tespiti
     var isHomePage = path === '/tr' || path === '/tr/' || path === '/en' || path === '/en/' || path === '/' || path.endsWith('/index.html') || path.endsWith('/index.php') || fullUrl.includes('preview.html') || path.includes('denemesayfasi');
