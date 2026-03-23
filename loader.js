@@ -91,6 +91,13 @@
     var fullUrl = window.location.href.toLowerCase();
     var path = window.location.pathname.toLowerCase().trim();
 
+    // Kök dizin kontrolü ve /tr klasörüne otomatik yönlendirme
+    if (path === '/' || path === '' || path === '/index.php' || path === '/index.html' || path === '/hacettepe-isletme-site/' || path === '/hacettepe-isletme-site/index.html') {
+        var trPath = path.includes('hacettepe-isletme-site') ? '/hacettepe-isletme-site/tr' : '/tr';
+        window.location.replace(window.location.origin + trPath);
+        return; 
+    }
+
     // Query String kontrolu (Local Preview icin: ?page=yonetim gibi)
     var search = window.location.search.toLowerCase();
 
