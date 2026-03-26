@@ -114,19 +114,23 @@
         .tabs {
             flex-direction: column;
         }
+
         .tab-btn {
             border-bottom: 1px solid var(--border);
             border-left: 4px solid transparent;
             text-align: left;
             padding: 15px 20px;
         }
+
         .tab-btn.active {
             border-bottom-color: var(--border);
             border-left-color: var(--hacettepe-red);
         }
+
         .header-bg {
             padding: 30px 15px;
         }
+
         .header-bg h1 {
             font-size: 22px;
         }
@@ -134,29 +138,43 @@
 
     /* Modal Styles */
     .exam-modal-overlay {
-        display: flex; /* Visible by default on page load */
+        display: flex;
+        /* Visible by default on page load */
         position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.8);
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
         z-index: 99999;
         align-items: center;
         justify-content: center;
         opacity: 1;
         transition: opacity 0.3s ease;
     }
+
     .exam-modal {
         background: #ffffff;
         width: 90%;
         max-width: 600px;
         border-radius: 8px;
         overflow: hidden;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
         animation: examModalFadeIn 0.3s ease;
     }
+
     @keyframes examModalFadeIn {
-        from { transform: translateY(-20px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
+        from {
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
     }
+
     .exam-modal-header {
         background-color: #ac232d;
         color: white;
@@ -167,21 +185,25 @@
         justify-content: space-between;
         align-items: center;
     }
+
     .exam-modal-body {
         padding: 25px 20px;
         font-size: 1rem;
         color: #444;
         line-height: 1.7;
     }
+
     .exam-modal-body strong {
         color: #ac232d;
     }
+
     .exam-modal-footer {
         padding: 15px 20px;
         background-color: #f5f5f5;
         text-align: right;
         border-top: 1px solid #ddd;
     }
+
     .exam-btn-accept {
         background-color: #ac232d;
         color: white;
@@ -195,6 +217,7 @@
         display: inline-block;
         transition: background 0.2s;
     }
+
     .exam-btn-accept:hover {
         background-color: #8a1c24;
         color: white;
@@ -204,7 +227,8 @@
 <div class="exam-page-wrapper">
     <div class="header-bg">
         <h1>2025-2026 Bahar Yarıyılı Ara Sınav Programı</h1>
-        <p class="subtitle">Hacettepe Üniversitesi İşletme Bölümü güncel sınav programı ve bina yerleşim planı aşağıda sunulmuştur. Lütfen sınav saatinden en az 15 dakika önce ilgili salonda hazır bulununuz.</p>
+        <p class="subtitle">Hacettepe Üniversitesi İşletme Bölümü güncel sınav programı ve bina yerleşim planı aşağıda
+            sunulmuştur. Lütfen sınav saatinden en az 15 dakika önce ilgili salonda hazır bulununuz.</p>
     </div>
 
     <div class="exam-container">
@@ -218,11 +242,14 @@
         </div>
 
         <div id="pdf-tab" class="tab-content active">
-            <iframe src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Duyuru%20Dosyalar%C4%B1/SinavProgrami/2526/bahar/vize/2526_Spring_Midterm.pdf#toolbar=0" title="Sınav Programı PDF"></iframe>
+            <iframe
+                src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Duyuru%20Dosyalar%C4%B1/SinavProgrami/2526/bahar/vize/2526_Spring_Midterm.pdf#toolbar=0"
+                title="Sınav Programı PDF"></iframe>
         </div>
 
         <div id="plan-tab" class="tab-content">
-            <iframe src="https://nizameddinalyaprak.github.io/hacettepe-isletme-site/tr/Bina_Yerlesim_Plani.html" title="Bina Yerleşim Planı"></iframe>
+            <iframe src="https://nizameddinalyaprak.github.io/hacettepe-isletme-site/tr/Bina_Yerlesim_Plani.html"
+                title="Bina Yerleşim Planı"></iframe>
         </div>
     </div>
 </div>
@@ -234,9 +261,12 @@
             <span>Önemli Uyarı</span>
         </div>
         <div class="exam-modal-body">
-            <p><strong>DİKKAT:</strong> Öğrencilerimizin sınav günü, saati veya atanmış oldukları sınav salonlarında zorunlu durumlara istinaden değişiklikler yapılabilir.</p>
-            <p>Mağduriyet yaşamamak adına sınav haftası boyunca anlık duyuruları düzenli olarak takip etmeniz önemle rica olunur.</p>
-            <p>Herhangi bir sistemsel veya teknik problem yaşamanız durumunda <br><strong>nizameddin.alyaprak@hacettepe.edu.tr</strong> adresine e-posta gönderebilirsiniz.</p>
+            <p><strong>DİKKAT:</strong> Öğrencilerimizin sınav günü, saati veya atanmış oldukları sınav salonlarında
+                zorunlu durumlara istinaden değişiklikler yapılabilir.</p>
+            <p>Mağduriyet yaşamamak adına sınav haftası boyunca anlık duyuruları düzenli olarak takip etmeniz önemle
+                rica olunur.</p>
+            <p>Sınav programında herhangi bir problem ile karşılaşırsanız
+                <br><strong>nizameddin.alyaprak@hacettepe.edu.tr</strong> adresine e-posta gönderebilirsiniz.</p>
         </div>
         <div class="exam-modal-footer">
             <button type="button" class="exam-btn-accept" id="btnAcceptExam">Okudum, Onaylıyorum</button>
@@ -245,26 +275,26 @@
 </div>
 
 <script>
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         // Modal kapatma
         if (e.target.closest('#btnAcceptExam')) {
             e.preventDefault();
             var modal = document.getElementById('examModalOverlay');
             if (modal) {
                 modal.style.opacity = '0';
-                setTimeout(function() { modal.style.display = 'none'; }, 300);
+                setTimeout(function () { modal.style.display = 'none'; }, 300);
             }
         }
-        
+
         // Sekme değiştirme
         var tabBtn = e.target.closest('.tab-btn');
         if (tabBtn) {
             e.preventDefault();
             var tabId = tabBtn.getAttribute('data-target');
             if (tabId) {
-                document.querySelectorAll('.tab-content').forEach(function(el) { el.classList.remove('active'); });
-                document.querySelectorAll('.tab-btn').forEach(function(el) { el.classList.remove('active'); });
-                
+                document.querySelectorAll('.tab-content').forEach(function (el) { el.classList.remove('active'); });
+                document.querySelectorAll('.tab-btn').forEach(function (el) { el.classList.remove('active'); });
+
                 var targetEl = document.getElementById(tabId);
                 if (targetEl) targetEl.classList.add('active');
                 tabBtn.classList.add('active');
