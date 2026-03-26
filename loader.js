@@ -1660,4 +1660,33 @@
     }
 })();
 
-
+// MIDTERM GLOBAL EVENT DELEGATION (Capture Phase)
+// CMS sistemleri icerige konulan JS kodlarini stopPropagation ile silebilir.
+// Bu yuzden eventleri en ustte (sayfa yuklendikten hemen sonra) document uzerinden,
+// CAPTURE (true) asamasinda dinliyoruz ki CMS araya giremesin.
+document.addEventListener('click', function (e) {
+    if (e.target.closest('#btnAcceptExam')) {
+        e.preventDefault();
+        e.stopPropagation();
+        var modal = document.getElementById('examModalOverlay');
+        if (modal) {
+            modal.style.opacity = '0';
+            setTimeout(function () { modal.style.display = 'none'; }, 300);
+        }
+    }
+    
+    var tabBtn = e.target.closest('.tab-btn');
+    if (tabBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        var tabId = tabBtn.getAttribute('data-target');
+        if (tabId) {
+            document.querySelectorAll('.tab-content').forEach(function (el) { el.classList.remove('active'); });
+            document.querySelectorAll('.tab-btn').forEach(function (el) { el.classList.remove('active'); });
+            
+            var targetEl = document.getElementById(tabId);
+            if (targetEl) targetEl.classList.add('active');
+            tabBtn.classList.add('active');
+        }
+    }
+}, true);
