@@ -25,6 +25,175 @@
         </div>
     </div>
 
+    <!-- SINAV DUYURUSU BANNER VE MODAL BASLANGICI -->
+    <style>
+        .exam-banner-container {
+            background-color: #ac232d;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 4px solid #8a1c24;
+        }
+        .exam-banner-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .exam-banner-text {
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 500;
+            text-align: left;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .exam-banner-text i {
+            font-size: 1.8rem;
+        }
+        .exam-banner-btn {
+            background-color: #ffffff;
+            color: #ac232d;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        .exam-banner-btn:hover {
+            background-color: #f0f0f0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .exam-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        .exam-modal {
+            background: #ffffff;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            animation: examModalFadeIn 0.3s ease;
+        }
+        @keyframes examModalFadeIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .exam-modal-header {
+            background-color: #ac232d;
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.25rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .exam-modal-close {
+            color: white;
+            cursor: pointer;
+            font-size: 1.8rem;
+            line-height: 1;
+            background: none;
+            border: none;
+        }
+        .exam-modal-body {
+            padding: 25px 20px;
+            font-size: 1rem;
+            color: #444;
+            line-height: 1.7;
+        }
+        .exam-modal-body strong {
+            color: #ac232d;
+        }
+        .exam-modal-footer {
+            padding: 15px 20px;
+            background-color: #f5f5f5;
+            text-align: right;
+            border-top: 1px solid #ddd;
+        }
+        .exam-btn-accept {
+            background-color: #ac232d;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.2s;
+        }
+        .exam-btn-accept:hover {
+            background-color: #8a1c24;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .exam-banner-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .exam-banner-text {
+                text-align: center;
+                flex-direction: column;
+            }
+        }
+    </style>
+
+    <div class="exam-banner-container" id="examBanner">
+        <div class="exam-banner-content">
+            <div class="exam-banner-text">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>ÖNEMLİ: 2025-2026 Bahar Yarıyılı Ara Sınav Programı ve Bina Yerleşim Planı Yayımlanmıştır.</span>
+            </div>
+            <button class="exam-banner-btn" onclick="openExamModal()">Sınavları Görüntüle</button>
+        </div>
+    </div>
+
+    <div class="exam-modal-overlay" id="examModalOverlay" onclick="if(event.target === this) closeExamModal()">
+        <div class="exam-modal">
+            <div class="exam-modal-header">
+                <span>Önemli Uyarı</span>
+                <button class="exam-modal-close" onclick="closeExamModal()">&times;</button>
+            </div>
+            <div class="exam-modal-body">
+                <p><strong>DİKKAT:</strong> Öğrencilerimizin sınav günü, saati veya atanmış oldukları sınav salonlarında zorunlu durumlara istinaden değişiklikler yapılabilir.</p>
+                <p>Mağduriyet yaşamamak adına sınav haftası boyunca anlık duyuruları düzenli olarak takip etmeniz önemle rica olunur.</p>
+                <p>Herhangi bir sistemsel veya teknik problem yaşamanız durumunda <br><strong>nizameddin.alyaprak@hacettepe.edu.tr</strong> adresine e-posta gönderebilirsiniz.</p>
+            </div>
+            <div class="exam-modal-footer">
+                <a href="../../Sinav_Duyurusu.html" class="exam-btn-accept" target="_blank" onclick="closeExamModal()">Okudum, Onaylıyorum</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openExamModal() {
+            document.getElementById('examModalOverlay').style.display = 'flex';
+        }
+        function closeExamModal() {
+            document.getElementById('examModalOverlay').style.display = 'none';
+        }
+    </script>
+    <!-- SINAV DUYURUSU MODAL BITISI -->
+
 
 
     <div class="container main-content">
