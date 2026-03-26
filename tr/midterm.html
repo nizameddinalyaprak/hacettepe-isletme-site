@@ -209,10 +209,10 @@
 
     <div class="exam-container">
         <div class="tabs">
-            <button type="button" class="tab-btn active" onclick="window.switchExamTab('pdf-tab', this)">
+            <button type="button" class="tab-btn active" data-target="pdf-tab">
                 1. Sınav Programı Listesi
             </button>
-            <button type="button" class="tab-btn" onclick="window.switchExamTab('plan-tab', this)">
+            <button type="button" class="tab-btn" data-target="plan-tab">
                 2. Bina Yerleşim Planı
             </button>
         </div>
@@ -239,29 +239,36 @@
             <p>Herhangi bir sistemsel veya teknik problem yaşamanız durumunda <br><strong>nizameddin.alyaprak@hacettepe.edu.tr</strong> adresine e-posta gönderebilirsiniz.</p>
         </div>
         <div class="exam-modal-footer">
-            <button type="button" class="exam-btn-accept" onclick="window.closeExamModal(event)">Okudum, Onaylıyorum</button>
+            <button type="button" class="exam-btn-accept" id="btnAcceptExam">Okudum, Onaylıyorum</button>
         </div>
     </div>
 </div>
 
 <script>
-    window.closeExamModal = function(e) {
-        if(e) e.preventDefault();
-        var modal = document.getElementById('examModalOverlay');
-        if (modal) {
-            modal.style.opacity = '0';
-            setTimeout(function() {
-                modal.style.display = 'none';
-            }, 300);
+    document.addEventListener('click', function(e) {
+        // Modal kapatma
+        if (e.target.closest('#btnAcceptExam')) {
+            e.preventDefault();
+            var modal = document.getElementById('examModalOverlay');
+            if (modal) {
+                modal.style.opacity = '0';
+                setTimeout(function() { modal.style.display = 'none'; }, 300);
+            }
         }
-    };
-
-    window.switchExamTab = function(tabId, btnElement) {
-        document.querySelectorAll('.tab-content').forEach(function(el) { el.classList.remove('active'); });
-        document.querySelectorAll('.tab-btn').forEach(function(el) { el.classList.remove('active'); });
         
-        var targetEl = document.getElementById(tabId);
-        if(targetEl) targetEl.classList.add('active');
-        if(btnElement) btnElement.classList.add('active');
-    };
+        // Sekme değiştirme
+        var tabBtn = e.target.closest('.tab-btn');
+        if (tabBtn) {
+            e.preventDefault();
+            var tabId = tabBtn.getAttribute('data-target');
+            if (tabId) {
+                document.querySelectorAll('.tab-content').forEach(function(el) { el.classList.remove('active'); });
+                document.querySelectorAll('.tab-btn').forEach(function(el) { el.classList.remove('active'); });
+                
+                var targetEl = document.getElementById(tabId);
+                if (targetEl) targetEl.classList.add('active');
+                tabBtn.classList.add('active');
+            }
+        }
+    });
 </script>
