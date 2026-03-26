@@ -40,7 +40,7 @@
 
 
 
-    var cacheBuster = '?v=1.2'; // Cache busting icin versiyon guncellendi
+    var cacheBuster = '?v=' + Date.now(); // Cache busting icin versiyon guncel tutuluyor
 
     // --- STIL DOSYALARINI YUKLE ---
 
