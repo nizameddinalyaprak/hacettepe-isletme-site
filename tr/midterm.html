@@ -1,0 +1,263 @@
+<style>
+    :root {
+        --hacettepe-red: #ac232d;
+        --hacettepe-dark-red: #8a1c24;
+        --text-dark: #333333;
+        --text-light: #666666;
+        --bg-body: #f5f5f5;
+        --bg-card: #ffffff;
+        --border: #dddddd;
+    }
+
+    .exam-page-wrapper {
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background-color: transparent;
+        color: var(--text-dark);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .header-bg {
+        width: 100%;
+        background-color: var(--hacettepe-red);
+        padding: 40px 20px 40px 20px;
+        text-align: center;
+        color: white;
+        box-sizing: border-box;
+        border-bottom: 5px solid var(--hacettepe-dark-red);
+        border-radius: 8px 8px 0 0;
+    }
+
+    .header-bg h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+        color: white !important;
+    }
+
+    .header-bg p.subtitle {
+        margin: 15px auto 0 auto;
+        font-size: 16px;
+        max-width: 800px;
+        line-height: 1.5;
+        opacity: 0.95;
+    }
+
+    .exam-container {
+        max-width: 1200px;
+        width: 100%;
+        background: var(--bg-card);
+        border-radius: 0 0 8px 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--border);
+        border-top: none;
+    }
+
+    .tabs {
+        display: flex;
+        border-bottom: 1px solid var(--border);
+        background: #fafafa;
+    }
+
+    .tab-btn {
+        flex: 1;
+        padding: 16px;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--text-light);
+        background: none;
+        border: none;
+        border-bottom: 3px solid transparent;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-transform: uppercase;
+    }
+
+    .tab-btn:hover {
+        color: var(--hacettepe-red);
+        background: #f0f0f0;
+    }
+
+    .tab-btn.active {
+        color: var(--hacettepe-red);
+        border-bottom-color: var(--hacettepe-red);
+        background: var(--bg-card);
+    }
+
+    .tab-content {
+        display: none;
+        padding: 0;
+        height: 800px;
+        background: var(--bg-card);
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+
+    .tab-content iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+    }
+
+    @media (max-width: 768px) {
+        .tabs {
+            flex-direction: column;
+        }
+        .tab-btn {
+            border-bottom: 1px solid var(--border);
+            border-left: 4px solid transparent;
+            text-align: left;
+            padding: 15px 20px;
+        }
+        .tab-btn.active {
+            border-bottom-color: var(--border);
+            border-left-color: var(--hacettepe-red);
+        }
+        .header-bg {
+            padding: 30px 15px;
+        }
+        .header-bg h1 {
+            font-size: 22px;
+        }
+    }
+
+    /* Modal Styles */
+    .exam-modal-overlay {
+        display: flex; /* Visible by default on page load */
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.8);
+        z-index: 99999;
+        align-items: center;
+        justify-content: center;
+        opacity: 1;
+        transition: opacity 0.3s ease;
+    }
+    .exam-modal {
+        background: #ffffff;
+        width: 90%;
+        max-width: 600px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        animation: examModalFadeIn 0.3s ease;
+    }
+    @keyframes examModalFadeIn {
+        from { transform: translateY(-20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+    .exam-modal-header {
+        background-color: #ac232d;
+        color: white;
+        padding: 15px 20px;
+        font-size: 1.25rem;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .exam-modal-body {
+        padding: 25px 20px;
+        font-size: 1rem;
+        color: #444;
+        line-height: 1.7;
+    }
+    .exam-modal-body strong {
+        color: #ac232d;
+    }
+    .exam-modal-footer {
+        padding: 15px 20px;
+        background-color: #f5f5f5;
+        text-align: right;
+        border-top: 1px solid #ddd;
+    }
+    .exam-btn-accept {
+        background-color: #ac232d;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 1rem;
+        font-weight: bold;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: background 0.2s;
+    }
+    .exam-btn-accept:hover {
+        background-color: #8a1c24;
+        color: white;
+    }
+</style>
+
+<div class="exam-page-wrapper">
+    <div class="header-bg">
+        <h1>2025-2026 Bahar Yarıyılı Ara Sınav Programı</h1>
+        <p class="subtitle">Hacettepe Üniversitesi İşletme Bölümü güncel sınav programı ve bina yerleşim planı aşağıda sunulmuştur. Lütfen sınav saatinden en az 15 dakika önce ilgili salonda hazır bulununuz.</p>
+    </div>
+
+    <div class="exam-container">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('pdf-tab', this)">
+                1. Sınav Programı Listesi
+            </button>
+            <button class="tab-btn" onclick="switchTab('plan-tab', this)">
+                2. Bina Yerleşim Planı
+            </button>
+        </div>
+
+        <div id="pdf-tab" class="tab-content active">
+            <iframe src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Duyuru%20Dosyalar%C4%B1/SinavProgrami/2526/bahar/vize/2526_Spring_Midterm.pdf#toolbar=0" title="Sınav Programı PDF"></iframe>
+        </div>
+
+        <div id="plan-tab" class="tab-content">
+            <iframe src="https://nizameddinalyaprak.github.io/hacettepe-isletme-site/tr/Bina_Yerlesim_Plani.html" title="Bina Yerleşim Planı"></iframe>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Overlay that blocks view until accepted -->
+<div class="exam-modal-overlay" id="examModalOverlay">
+    <div class="exam-modal">
+        <div class="exam-modal-header">
+            <span>Önemli Uyarı</span>
+        </div>
+        <div class="exam-modal-body">
+            <p><strong>DİKKAT:</strong> Öğrencilerimizin sınav günü, saati veya atanmış oldukları sınav salonlarında zorunlu durumlara istinaden değişiklikler yapılabilir.</p>
+            <p>Mağduriyet yaşamamak adına sınav haftası boyunca anlık duyuruları düzenli olarak takip etmeniz önemle rica olunur.</p>
+            <p>Herhangi bir sistemsel veya teknik problem yaşamanız durumunda <br><strong>nizameddin.alyaprak@hacettepe.edu.tr</strong> adresine e-posta gönderebilirsiniz.</p>
+        </div>
+        <div class="exam-modal-footer">
+            <button class="exam-btn-accept" onclick="closeExamModal()">Okudum, Onaylıyorum</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function switchTab(tabId, btnElement) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        
+        document.getElementById(tabId).classList.add('active');
+        btnElement.classList.add('active');
+    }
+
+    function closeExamModal() {
+        var modal = document.getElementById('examModalOverlay');
+        modal.style.opacity = '0';
+        setTimeout(function() {
+            modal.style.display = 'none';
+        }, 300);
+    }
+</script>
