@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bina Yerleşim Planı</title>
+    <style>
+        :root {
+            --bg-color: #f1f5f9;
+            --text-color: #1e293b;
+            --border-color: #cbd5e1;
+
+            /* Oda Renkleri */
+            --c-derslik: #bae6fd;
+            /* Açık Mavi */
+            --c-lab: #8b5cf6;
+            /* Mor */
+            --c-koridor: #f1f5f9;
+            /* Açık Gri */
+            --c-islak: #ffedd5;
+            /* Uçuk Turuncu */
+            --c-bosluk: #f8fafc;
+            /* En Açık Gri */
+            --c-asansor: #fbcfe8;
+            /* Pembe */
+            --c-merdiven: #cbd5e1;
+            /* Gri */
+            --c-giris: #dcfce7;
+            /* Açık Yeşil */
+            --c-guvenlik: #fbbf24;
+            /* Sarı */
+            --c-cihazlar: #ef4444;
+            /* Kırmızı */
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 28px;
+            color: #0f172a;
+        }
+
+        p.instructions {
+            max-width: 800px;
+            text-align: center;
+            color: #475569;
+            line-height: 1.5;
+            margin: 0 auto 20px auto;
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            background: #ffffff;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        button {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #334155;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #f8fafc;
+            border-color: #94a3b8;
+        }
+
+        button.active {
+            background-color: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        #blueprint-container {
+            width: 100%;
+            max-width: 1000px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+        }
+
+        #grid-board {
+            display: grid;
+            gap: 4px;
+            /* Odanın arasındaki boşluklar (duvar kalınlığı) */
+            background-color: #334155;
+            /* Duvar Rengi */
+            padding: 4px;
+            border-radius: 6px;
+            width: 100%;
+            min-width: 800px;
+            aspect-ratio: 1.2;
+            /* Planın genel oranı */
+        }
+
+        .room {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            transition: transform 0.1s, box-shadow 0.1s;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+
+        .room:hover {
+            opacity: 0.9;
+            z-index: 10;
+        }
+
+        /* Renk Sınıfları */
+        .type-derslik {
+            background-color: var(--c-derslik);
+            color: #0f172a;
+        }
+
+        .type-lab {
+            background-color: var(--c-lab);
+            color: white;
+        }
+
+        .type-koridor {
+            background-color: var(--c-koridor);
+            color: #0f172a;
+            border: 1px solid #e2e8f0;
+        }
+
+        .type-islak {
+            background-color: var(--c-islak);
+            color: #0f172a;
+        }
+
+        .type-bosluk {
+            background-color: var(--c-bosluk);
+            color: #94a3b8;
+            font-style: italic;
+        }
+
+        .type-bolum {
+            background-color: var(--c-koridor);
+            color: #0f172a;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .type-asansor {
+            background-color: var(--c-asansor);
+            color: #0f172a;
+            font-size: 11px;
+        }
+
+        .type-merdiven {
+            background-color: var(--c-merdiven);
+            background: repeating-linear-gradient(180deg, #e2e8f0, #e2e8f0 10px, #cbd5e1 10px, #cbd5e1 20px);
+            color: #0f172a;
+            font-size: 11px;
+        }
+
+        .type-giris {
+            background-color: var(--c-giris);
+            color: #0f172a;
+        }
+
+        .type-guvenlik {
+            background-color: var(--c-guvenlik);
+            color: #0f172a;
+            font-size: 11px;
+        }
+
+        .type-cihazlar {
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.4);
+            border: 2px dashed #fca5a5;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2), 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+        }
+
+        /* Renk Lejantı */
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            justify-content: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #475569;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>Bina Yerleşim Planı</h1>
+    </div>
+
+    <div class="controls" id="floor-controls">
+        <!-- Butonlar JavaScript ile buraya eklenecek -->
+    </div>
+
+    <div id="blueprint-container">
+        <div id="grid-board">
+            <!-- Odalar JavaScript ile çizilecek -->
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color type-derslik"></div> Derslik
+            </div>
+            <div class="legend-item">
+                <div class="legend-color type-lab"></div> Laboratuvar
+            </div>
+            <div class="legend-item">
+                <div class="legend-color type-koridor"></div> Koridor
+            </div>
+            <div class="legend-item">
+                <div class="legend-color type-islak"></div> WC / Islak Hacim
+            </div>
+            <div class="legend-item">
+                <div class="legend-color type-asansor"></div> Asansör
+            </div>
+            <div class="legend-item">
+                <div class="legend-color type-merdiven"></div> Merdiven
+            </div>
+            <div class="legend-item">
+                <div class="legend-color type-giris"></div> Giriş
+            </div>
+            <div class="legend-item">
+                <div class="legend-color type-guvenlik"></div> Güvenlik
+            </div>
+            <div class="legend-item">
+                <div class="legend-color type-cihazlar"></div> Otomat / Cihazlar
+            </div>
+            <div class="legend-item">
+                <div class="legend-color type-bosluk"></div> Ara Boşluk
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const plans = {
+            "Kat B (Bodrum)": {
+                columns: 12,
+                rows: 10,
+                rooms: [
+                    { id: "B5 Lab", x: 1, w: 2, y: 1, h: 2, type: "lab" },
+                    { id: "FTS", x: 1, w: 2, y: 3, h: 2, type: "derslik" },
+                    { id: "B4", x: 1, w: 2, y: 5, h: 3, type: "derslik" },
+
+                    { id: "Koridor", x: 3, w: 1, y: 1, h: 7, type: "koridor" },
+
+                    { id: "B7 Lab", x: 8, w: 3, y: 1, h: 2, type: "lab" },
+                    { id: "WC", x: 4, w: 1, y: 3, h: 4, type: "islak" },
+                    { id: "Ara Boşluk", x: 5, w: 6, y: 3, h: 5, type: "bosluk" },
+
+                    { id: "Koridor", x: 3, w: 12, y: 7, h: 1, type: "koridor" },
+
+                    { id: "B3", x: 1, w: 3, y: 8, h: 3, type: "derslik" },
+                    { id: "B2", x: 4, w: 2, y: 8, h: 3, type: "derslik" },
+                    { id: "Asansör", x: 7, w: 1, y: 9, h: 2, type: "asansor" },
+                    { id: "Asansör", x: 8, w: 1, y: 9, h: 2, type: "asansor" },
+                    { id: "Merdiven", x: 6, w: 1, y: 8, h: 3, type: "merdiven" },
+                    { id: "B1", x: 9, w: 2, y: 8, h: 3, type: "derslik" },
+                    { id: "B8", x: 11, w: 2, y: 8, h: 3, type: "derslik" }
+                ]
+            },
+            "Kat Z (Zemin)": {
+                columns: 102,
+                rows: 42,
+                rooms: [
+                    { id: "Derslik Z5", x: 1, w: 15, y: 1, h: 12, type: "derslik" },
+                    { id: "Derslik Z4", x: 1, w: 15, y: 13, h: 12, type: "derslik" },
+
+                    { id: "Koridor", x: 16, w: 9, y: 1, h: 26, type: "koridor" },
+                    { id: "WC", x: 35, w: 6, y: 15, h: 10, type: "islak" },
+
+                    { id: "Ara Boşluk", x: 41, w: 20, y: 9, h: 20, type: "bosluk" },
+
+                    { id: "Derslik Z6", x: 25, w: 16, y: 4, h: 10, type: "derslik" },
+                    { id: "Derslik Z7", x: 41, w: 20, y: 1, h: 8, type: "derslik" },
+                    { id: "Derslik Z8", x: 61, w: 17, y: 6, h: 8, type: "derslik" },
+                    { id: "Derslik Z9 LAB", x: 61, w: 17, y: 14, h: 8, type: "lab" },
+                    { id: "Otomatlar", x: 61, w: 10, y: 22, h: 3, type: "cihazlar" },
+
+                    { id: "Koridor", x: 16, w: 70, y: 25, h: 6, type: "koridor" },
+
+                    { id: "Derslik Z3", x: 10, w: 18, y: 31, h: 12, type: "derslik" },
+                    { id: "Derslik Z2", x: 28, w: 18, y: 31, h: 12, type: "derslik" },
+
+                    { id: "Merdiven", x: 46, w: 8, y: 36, h: 7, type: "merdiven" },
+                    { id: "Asansör", x: 54, w: 7, y: 38, h: 5, type: "asansor" },
+                    { id: "Asansör", x: 61, w: 7, y: 38, h: 5, type: "asansor" },
+
+                    { id: "Derslik Z1", x: 68, w: 18, y: 31, h: 12, type: "derslik" },
+
+                    { id: "Giriş", x: 86, w: 16, y: 25, h: 12, type: "giris" },
+                    { id: "Giriş", x: 94, w: 8, y: 37, h: 6, type: "giris" },
+                    { id: "Güvenlik", x: 86, w: 8, y: 37, h: 6, type: "guvenlik" }
+                ]
+            },
+            "1. Kat": {
+                columns: 46,
+                rows: 36,
+                rooms: [
+                    { id: "Derslik K1", x: 4, w: 12, y: 7, h: 6, type: "derslik" },
+                    { id: "WC", x: 13, w: 3, y: 13, h: 5, type: "islak" },
+
+                    { id: "Derslik K2", x: 16, w: 14, y: 1, h: 6, type: "derslik" },
+
+                    { id: "Derslik K3", x: 30, w: 15, y: 5, h: 6, type: "derslik" },
+                    { id: "Derslik K4 LAB", x: 30, w: 15, y: 11, h: 6, type: "lab" },
+                    { id: "Ara Boşluk", x: 16, w: 14, y: 7, h: 12, type: "bosluk" },
+
+                    { id: "SBKY Böl.", x: 1, w: 15, y: 18, h: 5, type: "bolum" },
+                    { id: "Koridor", x: 16, w: 14, y: 18, h: 5, type: "koridor" },
+                    { id: "Maliye Böl.", x: 30, w: 16, y: 18, h: 5, type: "bolum" },
+
+                    { id: "Koridor", x: 16, w: 14, y: 23, h: 14, type: "bosluk" },
+
+                    { id: "Merdiven", x: 16, w: 5, y: 26, h: 8, type: "merdiven" },
+                    { id: "Asansör", x: 21, w: 4, y: 28, h: 6, type: "asansor" },
+                    { id: "Asansör", x: 25, w: 4, y: 28, h: 6, type: "asansor" }
+                ]
+            }
+        };
+
+        const board = document.getElementById('grid-board');
+        const controls = document.getElementById('floor-controls');
+
+        function renderFloor(floorName) {
+            board.innerHTML = '';
+
+            const floorData = plans[floorName];
+
+            // Izgara yapısını veriye göre kur (12 sütun, 10 satır vs.)
+            board.style.gridTemplateColumns = `repeat(${floorData.columns}, 1fr)`;
+            board.style.gridTemplateRows = `repeat(${floorData.rows}, 1fr)`;
+
+            floorData.rooms.forEach(room => {
+                const div = document.createElement('div');
+                div.className = `room type-${room.type}`;
+                div.textContent = room.id;
+
+                // Başlangıç x, Oradan itibaren w kadar genişlik (x / x + w)
+                div.style.gridColumn = `${room.x} / ${room.x + room.w}`;
+                div.style.gridRow = `${room.y} / ${room.y + room.h}`;
+
+                // Tıklanma animasyonu
+                div.addEventListener('click', () => {
+                    div.style.transform = 'scale(0.95)';
+                    setTimeout(() => div.style.transform = 'scale(1)', 150);
+                });
+
+                board.appendChild(div);
+            });
+
+            // Aktif buton rengi güncelleme
+            document.querySelectorAll('#floor-controls button').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent === floorName) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // Kat geçiş Butonlarını oluştur
+        Object.keys(plans).forEach((floorName, index) => {
+            const btn = document.createElement('button');
+            btn.textContent = floorName;
+            btn.onclick = () => renderFloor(floorName);
+            controls.appendChild(btn);
+
+            // İlk katı varsayılan olarak yükle
+            if (index === 0) {
+                renderFloor(floorName);
+            }
+        });
+    </script>
+</body>
+
+</html>
+
