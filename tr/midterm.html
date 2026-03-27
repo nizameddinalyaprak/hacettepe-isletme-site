@@ -112,11 +112,6 @@
     }
 
     /* Bina Yerleşim Styles */
-    :root {
-        --c-derslik: #bae6fd; --c-lab: #8b5cf6; --c-koridor: #f1f5f9; --c-islak: #ffedd5;
-        --c-bosluk: #f8fafc; --c-asansor: #fbcfe8; --c-merdiven: #cbd5e1; --c-giris: #dcfce7;
-        --c-guvenlik: #fbbf24; --c-cihazlar: #ef4444;
-    }
     #floor-controls { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; background: white; padding: 10px; border-radius: 8px; border: 1px solid var(--border); }
     #floor-controls button { background: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; color: #334155; }
     #floor-controls button.active { background: var(--hacettepe-red); color: white; border-color: var(--hacettepe-red); }
@@ -126,16 +121,16 @@
     .plan-room { display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 600; font-size: clamp(6px, 1.5cqw, 14px); cursor: pointer; position: relative; border-radius: 2px; user-select: none; transition: transform 0.1s; }
     .plan-room:hover { opacity: 0.9; z-index: 10; transform: scale(0.95); }
 
-    .type-derslik { background-color: var(--c-derslik); color: #0f172a; }
-    .type-lab { background-color: var(--c-lab); color: white; }
-    .type-koridor { background-color: var(--c-koridor); color: #0f172a; border: 1px solid #e2e8f0; }
-    .type-islak { background-color: var(--c-islak); color: #0f172a; }
-    .type-bosluk { background-color: var(--c-bosluk); color: #94a3b8; font-style: italic; }
-    .type-bolum { background-color: var(--c-koridor); color: #0f172a; font-size: clamp(8px, 1.8cqw, 16px); font-weight: bold; }
-    .type-asansor { background-color: var(--c-asansor); color: #0f172a; font-size: clamp(5px, 1.2cqw, 11px); }
-    .type-merdiven { background-color: var(--c-merdiven); background: repeating-linear-gradient(180deg, #e2e8f0, #e2e8f0 10px, #cbd5e1 10px, #cbd5e1 20px); color: #0f172a; font-size: clamp(5px, 1.2cqw, 11px); }
-    .type-giris { background-color: var(--c-giris); color: #0f172a; }
-    .type-guvenlik { background-color: var(--c-guvenlik); color: #0f172a; font-size: clamp(5px, 1.2cqw, 11px); }
+    .type-derslik { background-color: #bae6fd; color: #0f172a; }
+    .type-lab { background-color: #8b5cf6; color: white; }
+    .type-koridor { background-color: #f1f5f9; color: #0f172a; border: 1px solid #e2e8f0; }
+    .type-islak { background-color: #ffedd5; color: #0f172a; }
+    .type-bosluk { background-color: #f8fafc; color: #94a3b8; font-style: italic; }
+    .type-bolum { background-color: #f1f5f9; color: #0f172a; font-size: clamp(8px, 1.8cqw, 16px); font-weight: bold; }
+    .type-asansor { background-color: #fbcfe8; color: #0f172a; font-size: clamp(5px, 1.2cqw, 11px); }
+    .type-merdiven { background-color: #cbd5e1; background: repeating-linear-gradient(180deg, #e2e8f0, #e2e8f0 10px, #cbd5e1 10px, #cbd5e1 20px); color: #0f172a; font-size: clamp(5px, 1.2cqw, 11px); }
+    .type-giris { background-color: #dcfce7; color: #0f172a; }
+    .type-guvenlik { background-color: #fbbf24; color: #0f172a; font-size: clamp(5px, 1.2cqw, 11px); }
     .type-cihazlar { background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%); color: #ffffff; font-size: clamp(5px, 1.2cqw, 11px); font-weight: 800; border: 2px dashed #fca5a5; border-radius: 6px; }
 
     .plan-legend { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); justify-content: center; }
@@ -357,7 +352,10 @@
                         if (!board || !controls) return;
                         
                         controls.innerHTML = '';
-                        
+                        // get actual rect to prevent rendering 0x0
+                        const rect = board.getBoundingClientRect();
+                        if (rect.width === 0) return; // skip if invisible, we'll catch it on click
+
                         function renderFloor(floorName) {
                             board.innerHTML = '';
                             const floorData = plans[floorName];
@@ -388,6 +386,15 @@
                         });
                     }
                     
+                    // Bind to the click event of the tab button to re-render when visible
+                    document.addEventListener('click', function(e) {
+                        const tabBtn = e.target.closest('.highlight-plan') || e.target.closest('[data-target="plan-tab"]');
+                        if (tabBtn) {
+                            setTimeout(initBuildingPlan, 50); // wait for display:block to apply
+                        }
+                    });
+
+                    // Initial attempt (will skip if container is display: none)
                     setTimeout(initBuildingPlan, 150);
                 })();
             </script>
