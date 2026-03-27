@@ -632,7 +632,8 @@
             document.body.appendChild(doc.body);
 
             // Scriptleri yeniden calistir
-            var scripts = doc.querySelectorAll('script');
+            // doc.body tasindigi icin doc icinde script kalmadi, bu yuzden document.body'de ariyoruz
+            var scripts = document.body.querySelectorAll('script');
             scripts.forEach(function (oldScript) {
                 // Loader.js'i tekrar yukleme (Recursive dongu ve 404 hatasini onle)
                 if (oldScript.src && oldScript.src.includes('loader.js')) return;
@@ -640,6 +641,9 @@
                 var newScript = document.createElement('script');
                 if (oldScript.src) newScript.src = oldScript.src;
                 else newScript.textContent = oldScript.textContent;
+                
+                // Eski scripti temizleyip yenisini ekliyoruz (calismasi icin)
+                oldScript.remove();
                 document.body.appendChild(newScript);
             });
         } else {
