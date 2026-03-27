@@ -95,7 +95,8 @@
     .tab-content {
         display: none;
         padding: 0;
-        height: 800px;
+        height: auto;
+        min-height: 800px;
         background: var(--bg-card);
     }
 
@@ -105,10 +106,45 @@
 
     .tab-content iframe {
         width: 100%;
-        height: 100%;
+        height: 800px;
         border: none;
         display: block;
     }
+
+    /* Bina Yerleşim Styles */
+    :root {
+        --c-derslik: #bae6fd; --c-lab: #8b5cf6; --c-koridor: #f1f5f9; --c-islak: #ffedd5;
+        --c-bosluk: #f8fafc; --c-asansor: #fbcfe8; --c-merdiven: #cbd5e1; --c-giris: #dcfce7;
+        --c-guvenlik: #fbbf24; --c-cihazlar: #ef4444;
+    }
+    #floor-controls { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; background: white; padding: 10px; border-radius: 8px; border: 1px solid var(--border); }
+    #floor-controls button { background: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; color: #334155; }
+    #floor-controls button.active { background: var(--hacettepe-red); color: white; border-color: var(--hacettepe-red); }
+    
+    #blueprint-container { width: 100%; background: white; padding: 10px; box-sizing: border-box; border-radius: 8px; border: 1px solid var(--border); container-type: inline-size; }
+    #grid-board { display: grid; gap: 2px; background-color: #334155; padding: 4px; border-radius: 6px; width: 100%; aspect-ratio: 1.2; }
+    .plan-room { display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 600; font-size: clamp(6px, 1.5cqw, 14px); cursor: pointer; position: relative; border-radius: 2px; user-select: none; transition: transform 0.1s; }
+    .plan-room:hover { opacity: 0.9; z-index: 10; transform: scale(0.95); }
+
+    .type-derslik { background-color: var(--c-derslik); color: #0f172a; }
+    .type-lab { background-color: var(--c-lab); color: white; }
+    .type-koridor { background-color: var(--c-koridor); color: #0f172a; border: 1px solid #e2e8f0; }
+    .type-islak { background-color: var(--c-islak); color: #0f172a; }
+    .type-bosluk { background-color: var(--c-bosluk); color: #94a3b8; font-style: italic; }
+    .type-bolum { background-color: var(--c-koridor); color: #0f172a; font-size: clamp(8px, 1.8cqw, 16px); font-weight: bold; }
+    .type-asansor { background-color: var(--c-asansor); color: #0f172a; font-size: clamp(5px, 1.2cqw, 11px); }
+    .type-merdiven { background-color: var(--c-merdiven); background: repeating-linear-gradient(180deg, #e2e8f0, #e2e8f0 10px, #cbd5e1 10px, #cbd5e1 20px); color: #0f172a; font-size: clamp(5px, 1.2cqw, 11px); }
+    .type-giris { background-color: var(--c-giris); color: #0f172a; }
+    .type-guvenlik { background-color: var(--c-guvenlik); color: #0f172a; font-size: clamp(5px, 1.2cqw, 11px); }
+    .type-cihazlar { background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%); color: #ffffff; font-size: clamp(5px, 1.2cqw, 11px); font-weight: 800; border: 2px dashed #fca5a5; border-radius: 6px; }
+
+    .plan-legend { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); justify-content: center; }
+    .plan-legend-item { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: #475569; }
+    .plan-legend-color { width: 16px; height: 16px; border-radius: 4px; }
+    
+    .tab-btn.highlight-plan { background-color: #fff8e1 !important; color: #d84315 !important; border: 2px solid #ff9800 !important; border-bottom: none !important; animation: pulseTab 1.5s infinite; position: relative; }
+    .tab-btn.highlight-plan.active { background-color: white !important; color: var(--hacettepe-red) !important; border-top: 4px solid var(--hacettepe-red) !important; border-left: 1px solid var(--border) !important; border-right: 1px solid var(--border) !important; border-bottom: 2px solid white !important; animation: none; }
+    @keyframes pulseTab { 0% { box-shadow: inset 0 0 0 0 rgba(255, 152, 0, 0.4); } 70% { box-shadow: inset 0 0 0 10px rgba(255, 152, 0, 0); } 100% { box-shadow: inset 0 0 0 0 rgba(255, 152, 0, 0); } }
 
     @media (max-width: 768px) {
         .tabs {
@@ -233,23 +269,128 @@
 
     <div class="exam-container">
         <div class="tabs">
-            <button type="button" class="tab-btn active" data-target="pdf-tab">
-                1. Sınav Programı Listesi
+            <button type="button" class="tab-btn active" data-target="pdf-tab" style="font-size: 18px;">
+                📄 Sınav Programı Listesi
             </button>
-            <button type="button" class="tab-btn" data-target="plan-tab">
-                2. Bina Yerleşim Planı
+            <button type="button" class="tab-btn highlight-plan" data-target="plan-tab">
+                🏢 BİNA YERLEŞİM PLANI <span style="display:block; font-size: 12px; color:#d84315; margin-top:5px;">(Sınav Salonunuzu Görmek İçin Tıklayın)</span>
             </button>
         </div>
 
         <div id="pdf-tab" class="tab-content active">
             <iframe
-                src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Duyuru%20Dosyalar%C4%B1/SinavProgrami/2526/bahar/vize/2526_Spring_Midterm.pdf#toolbar=0"
+                src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Duyuru%20Dosyalar%C4%B1/SinavProgrami/2526/bahar/vize/2526_Spring_Midterm270326.pdf#toolbar=0"
                 title="Sınav Programı PDF"></iframe>
         </div>
 
-        <div id="plan-tab" class="tab-content">
-            <iframe src="https://nizameddinalyaprak.github.io/hacettepe-isletme-site/tr/Bina_Yerlesim_Plani.html"
-                title="Bina Yerleşim Planı"></iframe>
+        <div id="plan-tab" class="tab-content" style="padding: 20px;">
+            <p style="text-align: center; color: #475569; margin-bottom: 20px;">Kat planını görmek için aşağıdaki düğmeleri kullanabilirsiniz.</p>
+            <div id="floor-controls">
+                <!-- Butonlar JavaScript ile buraya eklenecek -->
+            </div>
+            <div id="blueprint-container">
+                <div id="grid-board">
+                    <!-- Odalar JavaScript ile çizilecek -->
+                </div>
+                <div class="plan-legend">
+                    <div class="plan-legend-item"><div class="plan-legend-color type-derslik"></div> Derslik</div>
+                    <div class="plan-legend-item"><div class="plan-legend-color type-lab"></div> Laboratuvar</div>
+                    <div class="plan-legend-item"><div class="plan-legend-color type-koridor"></div> Koridor</div>
+                    <div class="plan-legend-item"><div class="plan-legend-color type-islak"></div> WC / Islak Hacim</div>
+                    <div class="plan-legend-item"><div class="plan-legend-color type-asansor"></div> Asansör</div>
+                    <div class="plan-legend-item"><div class="plan-legend-color type-merdiven"></div> Merdiven</div>
+                    <div class="plan-legend-item"><div class="plan-legend-color type-giris"></div> Giriş</div>
+                    <div class="plan-legend-item"><div class="plan-legend-color type-guvenlik"></div> Güvenlik</div>
+                    <div class="plan-legend-item"><div class="plan-legend-color type-cihazlar"></div> Otomat...</div>
+                    <div class="plan-legend-item"><div class="plan-legend-color type-bosluk"></div> Ara Boşluk</div>
+                </div>
+            </div>
+            
+            <script>
+                (function() {
+                    const plans = {
+                        "Kat B (Bodrum)": {
+                            columns: 12, rows: 10,
+                            rooms: [
+                                { id: "B5 Lab", x: 1, w: 2, y: 1, h: 2, type: "lab" }, { id: "FTS", x: 1, w: 2, y: 3, h: 2, type: "derslik" },
+                                { id: "B4", x: 1, w: 2, y: 5, h: 3, type: "derslik" }, { id: "Koridor", x: 3, w: 1, y: 1, h: 7, type: "koridor" },
+                                { id: "B7 Lab", x: 8, w: 3, y: 1, h: 2, type: "lab" }, { id: "WC", x: 4, w: 1, y: 3, h: 4, type: "islak" },
+                                { id: "Ara Boşluk", x: 5, w: 6, y: 3, h: 5, type: "bosluk" }, { id: "Koridor", x: 3, w: 12, y: 7, h: 1, type: "koridor" },
+                                { id: "B3", x: 1, w: 3, y: 8, h: 3, type: "derslik" }, { id: "B2", x: 4, w: 2, y: 8, h: 3, type: "derslik" },
+                                { id: "Asansör", x: 7, w: 1, y: 9, h: 2, type: "asansor" }, { id: "Asansör", x: 8, w: 1, y: 9, h: 2, type: "asansor" },
+                                { id: "Merdiven", x: 6, w: 1, y: 8, h: 3, type: "merdiven" }, { id: "B1", x: 9, w: 2, y: 8, h: 3, type: "derslik" },
+                                { id: "B8", x: 11, w: 2, y: 8, h: 3, type: "derslik" }
+                            ]
+                        },
+                        "Kat Z (Zemin)": {
+                            columns: 102, rows: 42,
+                            rooms: [
+                                { id: "Derslik Z5", x: 1, w: 15, y: 1, h: 12, type: "derslik" }, { id: "Derslik Z4", x: 1, w: 15, y: 13, h: 12, type: "derslik" },
+                                { id: "Koridor", x: 16, w: 9, y: 1, h: 26, type: "koridor" }, { id: "WC", x: 35, w: 6, y: 15, h: 10, type: "islak" },
+                                { id: "Ara Boşluk", x: 41, w: 20, y: 9, h: 20, type: "bosluk" }, { id: "Derslik Z6", x: 25, w: 16, y: 4, h: 10, type: "derslik" },
+                                { id: "Derslik Z7", x: 41, w: 20, y: 1, h: 8, type: "derslik" }, { id: "Derslik Z8", x: 61, w: 17, y: 6, h: 8, type: "derslik" },
+                                { id: "Derslik Z9 LAB", x: 61, w: 17, y: 14, h: 8, type: "lab" }, { id: "Otomatlar", x: 61, w: 10, y: 22, h: 3, type: "cihazlar" },
+                                { id: "Koridor", x: 16, w: 70, y: 25, h: 6, type: "koridor" }, { id: "Derslik Z3", x: 10, w: 18, y: 31, h: 12, type: "derslik" },
+                                { id: "Derslik Z2", x: 28, w: 18, y: 31, h: 12, type: "derslik" }, { id: "Merdiven", x: 46, w: 8, y: 36, h: 7, type: "merdiven" },
+                                { id: "Asansör", x: 54, w: 7, y: 38, h: 5, type: "asansor" }, { id: "Asansör", x: 61, w: 7, y: 38, h: 5, type: "asansor" },
+                                { id: "Derslik Z1", x: 68, w: 18, y: 31, h: 12, type: "derslik" }, { id: "Giriş", x: 86, w: 16, y: 25, h: 12, type: "giris" },
+                                { id: "Giriş", x: 94, w: 8, y: 37, h: 6, type: "giris" }, { id: "Güvenlik", x: 86, w: 8, y: 37, h: 6, type: "guvenlik" }
+                            ]
+                        },
+                        "1. Kat": {
+                            columns: 46, rows: 36,
+                            rooms: [
+                                { id: "Derslik K1", x: 4, w: 12, y: 7, h: 6, type: "derslik" }, { id: "WC", x: 13, w: 3, y: 13, h: 5, type: "islak" },
+                                { id: "Derslik K2", x: 16, w: 14, y: 1, h: 6, type: "derslik" }, { id: "Derslik K3", x: 30, w: 15, y: 5, h: 6, type: "derslik" },
+                                { id: "Derslik K4 LAB", x: 30, w: 15, y: 11, h: 6, type: "lab" }, { id: "Ara Boşluk", x: 16, w: 14, y: 7, h: 12, type: "bosluk" },
+                                { id: "SBKY Böl.", x: 1, w: 15, y: 18, h: 5, type: "bolum" }, { id: "Koridor", x: 16, w: 14, y: 18, h: 5, type: "koridor" },
+                                { id: "Maliye Böl.", x: 30, w: 16, y: 18, h: 5, type: "bolum" }, { id: "Koridor", x: 16, w: 14, y: 23, h: 14, type: "bosluk" },
+                                { id: "Merdiven", x: 16, w: 5, y: 26, h: 8, type: "merdiven" }, { id: "Asansör", x: 21, w: 4, y: 28, h: 6, type: "asansor" },
+                                { id: "Asansör", x: 25, w: 4, y: 28, h: 6, type: "asansor" }
+                            ]
+                        }
+                    };
+
+                    function initBuildingPlan() {
+                        const board = document.getElementById('grid-board');
+                        const controls = document.getElementById('floor-controls');
+                        if (!board || !controls) return;
+                        
+                        controls.innerHTML = '';
+                        
+                        function renderFloor(floorName) {
+                            board.innerHTML = '';
+                            const floorData = plans[floorName];
+                            board.style.gridTemplateColumns = `repeat(${floorData.columns}, 1fr)`;
+                            board.style.gridTemplateRows = `repeat(${floorData.rows}, 1fr)`;
+
+                            floorData.rooms.forEach(room => {
+                                const div = document.createElement('div');
+                                div.className = `plan-room type-${room.type}`;
+                                div.textContent = room.id;
+                                div.style.gridColumn = `${room.x} / ${room.x + room.w}`;
+                                div.style.gridRow = `${room.y} / ${room.y + room.h}`;
+                                board.appendChild(div);
+                            });
+
+                            document.querySelectorAll('#floor-controls button').forEach(btn => {
+                                btn.classList.remove('active');
+                                if (btn.textContent === floorName) btn.classList.add('active');
+                            });
+                        }
+
+                        Object.keys(plans).forEach((floorName, index) => {
+                            const btn = document.createElement('button');
+                            btn.textContent = floorName;
+                            btn.onclick = () => renderFloor(floorName);
+                            controls.appendChild(btn);
+                            if (index === 0) renderFloor(floorName);
+                        });
+                    }
+                    
+                    setTimeout(initBuildingPlan, 150);
+                })();
+            </script>
         </div>
     </div>
 </div>
