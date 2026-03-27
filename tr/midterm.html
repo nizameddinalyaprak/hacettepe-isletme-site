@@ -117,8 +117,8 @@
     #floor-controls button.active { background: var(--hacettepe-red); color: white; border-color: var(--hacettepe-red); }
     
     #blueprint-container { width: 100%; background: white; padding: 10px; box-sizing: border-box; border-radius: 8px; border: 1px solid var(--border); container-type: inline-size; }
-    #grid-board { display: grid; gap: 2px; background-color: #334155; padding: 4px; border-radius: 6px; width: 100%; min-height: 600px; aspect-ratio: 1.2; }
-    .plan-room { display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 600; font-size: clamp(6px, 1.5cqw, 14px); cursor: pointer; position: relative; border-radius: 2px; user-select: none; transition: transform 0.1s; }
+    #grid-board { position: relative; background-color: #334155; padding: 0; border: 4px solid #334155; border-radius: 6px; width: 100%; height: 600px; aspect-ratio: auto; overflow: hidden; }
+    .plan-room { position: absolute; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 600; font-size: clamp(6px, 1vw, 12px); cursor: pointer; border-radius: 2px; user-select: none; transition: transform 0.1s; border: 1px solid #334155; box-sizing: border-box; }
     .plan-room:hover { opacity: 0.9; z-index: 10; transform: scale(0.95); }
 
     .type-derslik { background-color: #bae6fd; color: #0f172a; }
@@ -356,18 +356,22 @@
                         function renderFloor(floorName) {
                             board.innerHTML = '';
                             const floorData = plans[floorName];
-                            board.style.gridTemplateColumns = `repeat(${floorData.columns}, 1fr)`;
-                            board.style.gridTemplateRows = `repeat(${floorData.rows}, 1fr)`;
                             
-                            // Prevent Safari 0px height 1fr collapse bug
-                            board.style.minHeight = Math.max(600, floorData.rows * 15) + 'px';
+                            // Adjust container height per architecture to avoid squishing
+                            // Kat Z (42 rows) needs more space than Kat B (10 rows)
+                            board.style.height = Math.max(600, floorData.rows * 15) + 'px';
 
                             floorData.rooms.forEach(room => {
                                 const div = document.createElement('div');
                                 div.className = `plan-room type-${room.type}`;
                                 div.textContent = room.id;
-                                div.style.gridColumn = `${room.x} / ${room.x + room.w}`;
-                                div.style.gridRow = `${room.y} / ${room.y + room.h}`;
+                                
+                                // Absolute positioning based on 1-indexed grid coordinates
+                                div.style.left = ((room.x - 1) / floorData.columns * 100) + '%';
+                                div.style.width = ((room.w) / floorData.columns * 100) + '%';
+                                div.style.top = ((room.y - 1) / floorData.rows * 100) + '%';
+                                div.style.height = ((room.h) / floorData.rows * 100) + '%';
+                                
                                 board.appendChild(div);
                             });
 
@@ -402,9 +406,24 @@
                             });
                             observer.observe(planTab, { attributes: true });
                         }
+                        
+                        setInterval(() => {
+                            if (board.children.length === 0 && board.offsetWidth > 0) {
+                                renderFloor(activeFloor);
+                            }
+                        }, 500);
                     }
                     
-                    setTimeout(initBuildingPlan, 150);
+                    // A loop to eagerly start checking if the board is mounted in the DOM
+                    const initTimer = setInterval(() => {
+                        if (document.getElementById('grid-board')) {
+                            clearInterval(initTimer);
+                            initBuildingPlan();
+                        }
+                    }, 50);
+
+                    // Backup fallback
+                    setTimeout(() => { clearInterval(initTimer); initBuildingPlan(); }, 1500);
                 })();
             </script>
         </div>
