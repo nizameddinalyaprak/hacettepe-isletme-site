@@ -117,7 +117,7 @@
     #floor-controls button.active { background: var(--hacettepe-red); color: white; border-color: var(--hacettepe-red); }
     
     #blueprint-container { width: 100%; background: white; padding: 10px; box-sizing: border-box; border-radius: 8px; border: 1px solid var(--border); container-type: inline-size; }
-    #grid-board { display: grid; gap: 2px; background-color: #334155; padding: 4px; border-radius: 6px; width: 100%; aspect-ratio: 1.2; }
+    #grid-board { display: grid; gap: 2px; background-color: #334155; padding: 4px; border-radius: 6px; width: 100%; min-height: 600px; aspect-ratio: 1.2; }
     .plan-room { display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 600; font-size: clamp(6px, 1.5cqw, 14px); cursor: pointer; position: relative; border-radius: 2px; user-select: none; transition: transform 0.1s; }
     .plan-room:hover { opacity: 0.9; z-index: 10; transform: scale(0.95); }
 
@@ -352,15 +352,15 @@
                         if (!board || !controls) return;
                         
                         controls.innerHTML = '';
-                        // get actual rect to prevent rendering 0x0
-                        const rect = board.getBoundingClientRect();
-                        if (rect.width === 0) return; // skip if invisible, we'll catch it on click
-
+                        
                         function renderFloor(floorName) {
                             board.innerHTML = '';
                             const floorData = plans[floorName];
                             board.style.gridTemplateColumns = `repeat(${floorData.columns}, 1fr)`;
                             board.style.gridTemplateRows = `repeat(${floorData.rows}, 1fr)`;
+                            
+                            // Prevent Safari 0px height 1fr collapse bug
+                            board.style.minHeight = Math.max(600, floorData.rows * 15) + 'px';
 
                             floorData.rooms.forEach(room => {
                                 const div = document.createElement('div');
@@ -377,24 +377,33 @@
                             });
                         }
 
+                        let activeFloor = 'Kat B (Bodrum)';
                         Object.keys(plans).forEach((floorName, index) => {
                             const btn = document.createElement('button');
                             btn.textContent = floorName;
-                            btn.onclick = () => renderFloor(floorName);
+                            btn.onclick = () => {
+                                activeFloor = floorName;
+                                renderFloor(floorName);
+                            };
                             controls.appendChild(btn);
                             if (index === 0) renderFloor(floorName);
                         });
+
+                        // Robustly watch for the tab becoming visible rather than relying on swallowed click events
+                        const planTab = document.getElementById('plan-tab');
+                        if (planTab && window.MutationObserver) {
+                            const observer = new MutationObserver((mutations) => {
+                                mutations.forEach(m => {
+                                    if (m.attributeName === 'class' && planTab.classList.contains('active')) {
+                                        // Re-render when visible to fix height calculation issues
+                                        renderFloor(activeFloor);
+                                    }
+                                });
+                            });
+                            observer.observe(planTab, { attributes: true });
+                        }
                     }
                     
-                    // Bind to the click event of the tab button to re-render when visible
-                    document.addEventListener('click', function(e) {
-                        const tabBtn = e.target.closest('.highlight-plan') || e.target.closest('[data-target="plan-tab"]');
-                        if (tabBtn) {
-                            setTimeout(initBuildingPlan, 50); // wait for display:block to apply
-                        }
-                    });
-
-                    // Initial attempt (will skip if container is display: none)
                     setTimeout(initBuildingPlan, 150);
                 })();
             </script>
