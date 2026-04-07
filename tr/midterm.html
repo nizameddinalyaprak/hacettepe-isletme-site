@@ -112,34 +112,202 @@
     }
 
     /* Bina Yerleşim Styles */
-    #floor-controls { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; background: white; padding: 10px; border-radius: 8px; border: 1px solid var(--border); }
-    #floor-controls button { background: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; color: #334155; }
-    #floor-controls button.active { background: var(--hacettepe-red); color: white; border-color: var(--hacettepe-red); }
-    
-    #blueprint-container { width: 100%; background: white; padding: 10px; box-sizing: border-box; border-radius: 8px; border: 1px solid var(--border); container-type: inline-size; }
-    #grid-board { position: relative; background-color: #334155; padding: 0; border: 4px solid #334155; border-radius: 6px; width: 100%; height: 600px; aspect-ratio: auto; overflow: hidden; }
-    .plan-room { position: absolute; display: flex; align-items: center; justify-content: center; text-align: center; font-weight: 600; font-size: clamp(6px, 1vw, 12px); cursor: pointer; border-radius: 2px; user-select: none; transition: transform 0.1s; border: 1px solid #334155; box-sizing: border-box; }
-    .plan-room:hover { opacity: 0.9; z-index: 10; transform: scale(0.95); }
+    #floor-controls {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+        background: white;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+    }
 
-    .type-derslik { background-color: #bae6fd; color: #0f172a; }
-    .type-lab { background-color: #8b5cf6; color: white; }
-    .type-koridor { background-color: #f1f5f9; color: #0f172a; border: 1px solid #e2e8f0; }
-    .type-islak { background-color: #ffedd5; color: #0f172a; }
-    .type-bosluk { background-color: #f8fafc; color: #94a3b8; font-style: italic; }
-    .type-bolum { background-color: #f1f5f9; color: #0f172a; font-size: clamp(8px, 1.8cqw, 16px); font-weight: bold; }
-    .type-asansor { background-color: #fbcfe8; color: #0f172a; font-size: clamp(5px, 1.2cqw, 11px); }
-    .type-merdiven { background-color: #cbd5e1; background: repeating-linear-gradient(180deg, #e2e8f0, #e2e8f0 10px, #cbd5e1 10px, #cbd5e1 20px); color: #0f172a; font-size: clamp(5px, 1.2cqw, 11px); }
-    .type-giris { background-color: #dcfce7; color: #0f172a; }
-    .type-guvenlik { background-color: #fbbf24; color: #0f172a; font-size: clamp(5px, 1.2cqw, 11px); }
-    .type-cihazlar { background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%); color: #ffffff; font-size: clamp(5px, 1.2cqw, 11px); font-weight: 800; border: 2px dashed #fca5a5; border-radius: 6px; }
+    #floor-controls button {
+        background: #fff;
+        border: 1px solid var(--border);
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        color: #334155;
+    }
 
-    .plan-legend { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); justify-content: center; }
-    .plan-legend-item { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: #475569; }
-    .plan-legend-color { width: 16px; height: 16px; border-radius: 4px; }
-    
-    .tab-btn.highlight-plan { background-color: #fff8e1 !important; color: #d84315 !important; border: 2px solid #ff9800 !important; border-bottom: none !important; animation: pulseTab 1.5s infinite; position: relative; }
-    .tab-btn.highlight-plan.active { background-color: white !important; color: var(--hacettepe-red) !important; border-top: 4px solid var(--hacettepe-red) !important; border-left: 1px solid var(--border) !important; border-right: 1px solid var(--border) !important; border-bottom: 2px solid white !important; animation: none; }
-    @keyframes pulseTab { 0% { box-shadow: inset 0 0 0 0 rgba(255, 152, 0, 0.4); } 70% { box-shadow: inset 0 0 0 10px rgba(255, 152, 0, 0); } 100% { box-shadow: inset 0 0 0 0 rgba(255, 152, 0, 0); } }
+    #floor-controls button.active {
+        background: var(--hacettepe-red);
+        color: white;
+        border-color: var(--hacettepe-red);
+    }
+
+    #blueprint-container {
+        width: 100%;
+        background: white;
+        padding: 10px;
+        box-sizing: border-box;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        container-type: inline-size;
+    }
+
+    #grid-board {
+        position: relative;
+        background-color: #334155;
+        padding: 0;
+        border: 4px solid #334155;
+        border-radius: 6px;
+        width: 100%;
+        height: 600px;
+        aspect-ratio: auto;
+        overflow: hidden;
+    }
+
+    .plan-room {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-weight: 600;
+        font-size: clamp(6px, 1vw, 12px);
+        cursor: pointer;
+        border-radius: 2px;
+        user-select: none;
+        transition: transform 0.1s;
+        border: 1px solid #334155;
+        box-sizing: border-box;
+    }
+
+    .plan-room:hover {
+        opacity: 0.9;
+        z-index: 10;
+        transform: scale(0.95);
+    }
+
+    .type-derslik {
+        background-color: #bae6fd;
+        color: #0f172a;
+    }
+
+    .type-lab {
+        background-color: #8b5cf6;
+        color: white;
+    }
+
+    .type-koridor {
+        background-color: #f1f5f9;
+        color: #0f172a;
+        border: 1px solid #e2e8f0;
+    }
+
+    .type-islak {
+        background-color: #ffedd5;
+        color: #0f172a;
+    }
+
+    .type-bosluk {
+        background-color: #f8fafc;
+        color: #94a3b8;
+        font-style: italic;
+    }
+
+    .type-bolum {
+        background-color: #f1f5f9;
+        color: #0f172a;
+        font-size: clamp(8px, 1.8cqw, 16px);
+        font-weight: bold;
+    }
+
+    .type-asansor {
+        background-color: #fbcfe8;
+        color: #0f172a;
+        font-size: clamp(5px, 1.2cqw, 11px);
+    }
+
+    .type-merdiven {
+        background-color: #cbd5e1;
+        background: repeating-linear-gradient(180deg, #e2e8f0, #e2e8f0 10px, #cbd5e1 10px, #cbd5e1 20px);
+        color: #0f172a;
+        font-size: clamp(5px, 1.2cqw, 11px);
+    }
+
+    .type-giris {
+        background-color: #dcfce7;
+        color: #0f172a;
+    }
+
+    .type-guvenlik {
+        background-color: #fbbf24;
+        color: #0f172a;
+        font-size: clamp(5px, 1.2cqw, 11px);
+    }
+
+    .type-cihazlar {
+        background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+        color: #ffffff;
+        font-size: clamp(5px, 1.2cqw, 11px);
+        font-weight: 800;
+        border: 2px dashed #fca5a5;
+        border-radius: 6px;
+    }
+
+    .plan-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+        justify-content: center;
+    }
+
+    .plan-legend-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #475569;
+    }
+
+    .plan-legend-color {
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+    }
+
+    .tab-btn.highlight-plan {
+        background-color: #fff8e1 !important;
+        color: #d84315 !important;
+        border: 2px solid #ff9800 !important;
+        border-bottom: none !important;
+        animation: pulseTab 1.5s infinite;
+        position: relative;
+    }
+
+    .tab-btn.highlight-plan.active {
+        background-color: white !important;
+        color: var(--hacettepe-red) !important;
+        border-top: 4px solid var(--hacettepe-red) !important;
+        border-left: 1px solid var(--border) !important;
+        border-right: 1px solid var(--border) !important;
+        border-bottom: 2px solid white !important;
+        animation: none;
+    }
+
+    @keyframes pulseTab {
+        0% {
+            box-shadow: inset 0 0 0 0 rgba(255, 152, 0, 0.4);
+        }
+
+        70% {
+            box-shadow: inset 0 0 0 10px rgba(255, 152, 0, 0);
+        }
+
+        100% {
+            box-shadow: inset 0 0 0 0 rgba(255, 152, 0, 0);
+        }
+    }
 
     @media (max-width: 768px) {
         .tabs {
@@ -268,7 +436,9 @@
                 📄 Sınav Programı Listesi
             </button>
             <button type="button" class="tab-btn highlight-plan" data-target="plan-tab">
-                🏢 BİNA YERLEŞİM PLANI <span style="display:block; font-size: 12px; color:#d84315; margin-top:5px;">(Sınav Salonunuzu Görmek İçin Tıklayın)</span>
+                🏢 BİNA YERLEŞİM PLANI <span
+                    style="display:block; font-size: 12px; color:#d84315; margin-top:5px;">(Sınav Salonunuzu Görmek İçin
+                    Tıklayın)</span>
             </button>
         </div>
 
@@ -279,7 +449,8 @@
         </div>
 
         <div id="plan-tab" class="tab-content" style="padding: 20px;">
-            <p style="text-align: center; color: #475569; margin-bottom: 20px;">Kat planını görmek için aşağıdaki düğmeleri kullanabilirsiniz.</p>
+            <p style="text-align: center; color: #475569; margin-bottom: 20px;">Kat planını görmek için aşağıdaki
+                düğmeleri kullanabilirsiniz.</p>
             <div id="floor-controls">
                 <!-- Butonlar JavaScript ile buraya eklenecek -->
             </div>
@@ -288,30 +459,51 @@
                     <!-- Odalar JavaScript ile çizilecek -->
                 </div>
                 <div class="plan-legend">
-                    <div class="plan-legend-item"><div class="plan-legend-color type-derslik"></div> Derslik</div>
-                    <div class="plan-legend-item"><div class="plan-legend-color type-lab"></div> Laboratuvar</div>
-                    <div class="plan-legend-item"><div class="plan-legend-color type-koridor"></div> Koridor</div>
-                    <div class="plan-legend-item"><div class="plan-legend-color type-islak"></div> WC / Islak Hacim</div>
-                    <div class="plan-legend-item"><div class="plan-legend-color type-asansor"></div> Asansör</div>
-                    <div class="plan-legend-item"><div class="plan-legend-color type-merdiven"></div> Merdiven</div>
-                    <div class="plan-legend-item"><div class="plan-legend-color type-giris"></div> Giriş</div>
-                    <div class="plan-legend-item"><div class="plan-legend-color type-guvenlik"></div> Güvenlik</div>
-                    <div class="plan-legend-item"><div class="plan-legend-color type-cihazlar"></div> Otomat...</div>
-                    <div class="plan-legend-item"><div class="plan-legend-color type-bosluk"></div> Ara Boşluk</div>
+                    <div class="plan-legend-item">
+                        <div class="plan-legend-color type-derslik"></div> Derslik
+                    </div>
+                    <div class="plan-legend-item">
+                        <div class="plan-legend-color type-lab"></div> Laboratuvar
+                    </div>
+                    <div class="plan-legend-item">
+                        <div class="plan-legend-color type-koridor"></div> Koridor
+                    </div>
+                    <div class="plan-legend-item">
+                        <div class="plan-legend-color type-islak"></div> WC / Islak Hacim
+                    </div>
+                    <div class="plan-legend-item">
+                        <div class="plan-legend-color type-asansor"></div> Asansör
+                    </div>
+                    <div class="plan-legend-item">
+                        <div class="plan-legend-color type-merdiven"></div> Merdiven
+                    </div>
+                    <div class="plan-legend-item">
+                        <div class="plan-legend-color type-giris"></div> Giriş
+                    </div>
+                    <div class="plan-legend-item">
+                        <div class="plan-legend-color type-guvenlik"></div> Güvenlik
+                    </div>
+                    <div class="plan-legend-item">
+                        <div class="plan-legend-color type-cihazlar"></div> Otomat...
+                    </div>
+                    <div class="plan-legend-item">
+                        <div class="plan-legend-color type-bosluk"></div> Ara Boşluk
+                    </div>
                 </div>
             </div>
-            
+
             <script>
-                (function() {
+                (function () {
                     const plans = {
                         "Kat B (Bodrum)": {
                             columns: 12, rows: 10,
                             rooms: [
-                                { id: "B5 Lab", x: 1, w: 2, y: 1, h: 2, type: "lab" }, { id: "FTS", x: 1, w: 2, y: 3, h: 2, type: "derslik" },
-                                { id: "B4", x: 1, w: 2, y: 5, h: 3, type: "derslik" }, { id: "Koridor", x: 3, w: 1, y: 1, h: 7, type: "koridor" },
+                                { id: "B5 Lab", x: 1, w: 2, y: 1, h: 4, type: "lab" },
+                                { id: "FTS", x: 1, w: 2, y: 5, h: 2, type: "derslik" },
+                                { id: "B4", x: 1, w: 2, y: 8, h: 12, type: "derslik" }, { id: "Koridor", x: 3, w: 1, y: 1, h: 7, type: "koridor" },
                                 { id: "B7 Lab", x: 8, w: 3, y: 1, h: 2, type: "lab" }, { id: "WC", x: 4, w: 1, y: 3, h: 4, type: "islak" },
                                 { id: "Ara Boşluk", x: 5, w: 6, y: 3, h: 5, type: "bosluk" }, { id: "Koridor", x: 3, w: 12, y: 7, h: 1, type: "koridor" },
-                                { id: "B3", x: 1, w: 3, y: 8, h: 3, type: "derslik" }, { id: "B2", x: 4, w: 2, y: 8, h: 3, type: "derslik" },
+                                { id: "B3", x: 2, w: 1, y: 8, h: 3, type: "derslik" }, { id: "B2", x: 4, w: 2, y: 8, h: 3, type: "derslik" },
                                 { id: "Asansör", x: 7, w: 1, y: 9, h: 2, type: "asansor" }, { id: "Asansör", x: 8, w: 1, y: 9, h: 2, type: "asansor" },
                                 { id: "Merdiven", x: 6, w: 1, y: 8, h: 3, type: "merdiven" }, { id: "B1", x: 9, w: 2, y: 8, h: 3, type: "derslik" },
                                 { id: "B8", x: 11, w: 2, y: 8, h: 3, type: "derslik" }
@@ -350,13 +542,13 @@
                         const board = document.getElementById('grid-board');
                         const controls = document.getElementById('floor-controls');
                         if (!board || !controls) return;
-                        
+
                         controls.innerHTML = '';
-                        
+
                         function renderFloor(floorName) {
                             board.innerHTML = '';
                             const floorData = plans[floorName];
-                            
+
                             // Adjust container height per architecture to avoid squishing
                             // Kat Z (42 rows) needs more space than Kat B (10 rows)
                             board.style.height = Math.max(600, floorData.rows * 15) + 'px';
@@ -365,13 +557,13 @@
                                 const div = document.createElement('div');
                                 div.className = `plan-room type-${room.type}`;
                                 div.textContent = room.id;
-                                
+
                                 // Absolute positioning based on 1-indexed grid coordinates
                                 div.style.left = ((room.x - 1) / floorData.columns * 100) + '%';
                                 div.style.width = ((room.w) / floorData.columns * 100) + '%';
                                 div.style.top = ((room.y - 1) / floorData.rows * 100) + '%';
                                 div.style.height = ((room.h) / floorData.rows * 100) + '%';
-                                
+
                                 board.appendChild(div);
                             });
 
@@ -406,14 +598,14 @@
                             });
                             observer.observe(planTab, { attributes: true });
                         }
-                        
+
                         setInterval(() => {
                             if (board.children.length === 0 && board.offsetWidth > 0) {
                                 renderFloor(activeFloor);
                             }
                         }, 500);
                     }
-                    
+
                     // A loop to eagerly start checking if the board is mounted in the DOM
                     const initTimer = setInterval(() => {
                         if (document.getElementById('grid-board')) {
@@ -441,7 +633,8 @@
                 zorunlu durumlara istinaden değişiklikler yapılabilir.</p>
             <p>Mağduriyet yaşamamak adına sınav haftası boyunca anlık duyuruları düzenli olarak takip etmeniz önemle
                 rica olunur.</p>
-            <div style="background-color: #fff3cd; border: 1px solid #ffeeba; border-radius: 4px; padding: 12px; margin-bottom: 15px; color: #856404;">
+            <div
+                style="background-color: #fff3cd; border: 1px solid #ffeeba; border-radius: 4px; padding: 12px; margin-bottom: 15px; color: #856404;">
                 <p style="margin-top: 0; margin-bottom: 5px;"><strong>6 Nisan Güncellemesi:</strong></p>
                 <ul style="margin: 0 0 10px 0; padding-left: 20px; font-size: 0.95em;">
                     <li>MAN302-1 dersinin başlangıç saati 12:40'tan 13:00'e alındı.</li>
@@ -453,7 +646,8 @@
                 </ul>
             </div>
             <p>Sınav programında herhangi bir problem ile karşılaşırsanız
-                <br><strong>nizameddin.alyaprak@hacettepe.edu.tr</strong> adresine e-posta gönderebilirsiniz.</p>
+                <br><strong>nizameddin.alyaprak@hacettepe.edu.tr</strong> adresine e-posta gönderebilirsiniz.
+            </p>
         </div>
         <div class="exam-modal-footer">
             <button type="button" class="exam-btn-accept" id="btnAcceptExam">Okudum, Onaylıyorum</button>
