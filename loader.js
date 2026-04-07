@@ -1552,22 +1552,22 @@
         var footerHTML;
         if (isEN) {
             footerHTML = `
-    <footer id="section_hu_footer">
-        <div class="footer-container">
-            <div class="footer-brand">
+    <footer id="hi-custom-footer">
+        <div class="hi-footer-container">
+            <div class="hi-footer-brand">
                 <h4>HACETTEPE UNIVERSITY</h4>
                 <h5>DEPARTMENT OF BUSINESS ADMINISTRATION</h5>
-                <div class="footer-address">
+                <div class="hi-footer-address">
                     Beytepe Campus, 06800<br>
                     Cankaya / ANKARA, TURKEY
                 </div>
-                <div class="footer-contact">
+                <div class="hi-footer-contact">
                     <a href="tel:+903122976351"><i class="fas fa-phone"></i> +90 (312) 297 63 51 - 112</a>
                 </div>
             </div>
-            <div class="footer-col">
+            <div class="hi-footer-col">
                 <h3>Quick Links</h3>
-                <ul class="footer-links">
+                <ul class="hi-footer-links">
                     <li><a href="https://isletme.hacettepe.edu.tr/en/menu/undergraduate_program-129">Undergraduate Program</a></li>
                     <li><a href="https://isletme.hacettepe.edu.tr/en/menu/graduate_programs_thesis-131">Thesis Graduate</a></li>
                     <li><a href="https://isletme.hacettepe.edu.tr/en/menu/graduate_programs_nonthesis-133">Non-Thesis Graduate</a></li>
@@ -1576,9 +1576,9 @@
                     <li><a href="https://isletme.hacettepe.edu.tr/en/menu/academic_calendar-185">Academic Calendar</a></li>
                 </ul>
             </div>
-            <div class="footer-col">
+            <div class="hi-footer-col">
                 <h3>Links</h3>
-                <ul class="footer-links">
+                <ul class="hi-footer-links">
                     <li><a href="https://hacettepe.edu.tr" target="_blank">Hacettepe University</a></li>
                     <li><a href="https://sosyalbilimler.hacettepe.edu.tr" target="_blank">Inst. of Social Sciences</a></li>
                     <li><a href="https://oidb.hacettepe.edu.tr/" target="_blank">Student Affairs</a></li>
@@ -1586,42 +1586,42 @@
                     <li><a href="https://library.hacettepe.edu.tr/" target="_blank">Library</a></li>
                 </ul>
             </div>
-            <div class="footer-col">
+            <div class="hi-footer-col">
                 <h3>Follow Us</h3>
-                <div class="footer-social-icons">
+                <div class="hi-footer-social-icons">
                     <a href="https://www.instagram.com/hacettepe_isletme/" target="_blank"><i class="fab fa-instagram"></i></a>
                     <a href="https://www.linkedin.com/company/hacettepe-university-department-of-business-administration/" target="_blank"><i class="fab fa-linkedin"></i></a>
                     <a href="https://twitter.com/Hacettepe1967" target="_blank"><i class="fab fa-twitter"></i></a>
                 </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            <div class="footer-copyright">
+        <div class="hi-footer-bottom">
+            <div class="hi-footer-copyright">
                  ${new Date().getFullYear()} <strong>Hacettepe University Department of Business Administration</strong>. Designed by Nizameddin Alyaprak.
             </div>
-            <div class="footer-bottom-links">
+            <div class="hi-footer-bottom-links">
                 <a href="https://www.hacettepe.edu.tr/hakkinda/KVKK" target="_blank">Privacy Policy</a>
             </div>
         </div>
     </footer>`;
         } else {
             footerHTML = `
-    <footer id="section_hu_footer">
-        <div class="footer-container">
-            <div class="footer-brand">
+    <footer id="hi-custom-footer">
+        <div class="hi-footer-container">
+            <div class="hi-footer-brand">
                 <h4>HACETTEPE ÜNİVERSİTESİ</h4>
                 <h5>İŞLETME BÖLÜMÜ</h5>
-                <div class="footer-address">
+                <div class="hi-footer-address">
                     Beytepe Yerleşkesi, 06800<br>
                     Çankaya / ANKARA
                 </div>
-                <div class="footer-contact">
+                <div class="hi-footer-contact">
                     <a href="tel:+903122976351"><i class="fas fa-phone"></i> +90 (312) 297 63 51 - 112</a>
                 </div>
             </div>
-            <div class="footer-col">
+            <div class="hi-footer-col">
                 <h3>Hızlı Erişim</h3>
-                <ul class="footer-links">
+                <ul class="hi-footer-links">
                     <li><a href="https://isletme.hacettepe.edu.tr/tr/menu/lisans_programi-91">Lisans Programı</a></li>
                     <li><a href="https://isletme.hacettepe.edu.tr/tr/menu/tezli_yuksek_lisans_programlari-93">Tezli Yüksek Lisans</a></li>
                     <li><a href="https://isletme.hacettepe.edu.tr/tr/menu/tezsiz_yuksek_lisans_programlari-95">Tezsiz Yüksek Lisans</a></li>
@@ -1630,9 +1630,9 @@
                     <li><a href="https://isletme.hacettepe.edu.tr/tr/menu/akademik_takvimler-119">Akademik Takvim</a></li>
                 </ul>
             </div>
-            <div class="footer-col">
+            <div class="hi-footer-col">
                 <h3>Bağlantılar</h3>
-                <ul class="footer-links">
+                <ul class="hi-footer-links">
                     <li><a href="https://hacettepe.edu.tr" target="_blank">Hacettepe Üniversitesi</a></li>
                     <li><a href="https://sosyalbilimler.hacettepe.edu.tr" target="_blank">Sosyal Bilimler Ens.</a></li>
                     <li><a href="https://oidb.hacettepe.edu.tr/" target="_blank">Öğrenci İşleri</a></li>
@@ -1640,20 +1640,20 @@
                     <li><a href="https://library.hacettepe.edu.tr/" target="_blank">Kütüphane</a></li>
                 </ul>
             </div>
-            <div class="footer-col">
+            <div class="hi-footer-col">
                 <h3>Takip Edin</h3>
-                <div class="footer-social-icons">
+                <div class="hi-footer-social-icons">
                     <a href="https://www.instagram.com/hacettepe_isletme/" target="_blank"><i class="fab fa-instagram"></i></a>
                     <a href="https://www.linkedin.com/company/hacettepe-university-department-of-business-administration/" target="_blank"><i class="fab fa-linkedin"></i></a>
                     <a href="https://twitter.com/Hacettepe1967" target="_blank"><i class="fab fa-twitter"></i></a>
                 </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            <div class="footer-copyright">
+        <div class="hi-footer-bottom">
+            <div class="hi-footer-copyright">
                  ${new Date().getFullYear()} <strong>Hacettepe Üniversitesi İşletme Bölümü</strong>. Nizameddin Alyaprak Tarafından Tasarlanmıştır.
             </div>
-            <div class="footer-bottom-links">
+            <div class="hi-footer-bottom-links">
                 <a href="https://www.hacettepe.edu.tr/hakkinda/KVKK" target="_blank">KVKK ve Gizlilik</a>
             </div>
         </div>
