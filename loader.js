@@ -95,7 +95,7 @@
     if (path === '/' || path === '' || path === '/index.php' || path === '/index.html' || path === '/hacettepe-isletme-site/' || path === '/hacettepe-isletme-site/index.html') {
         var trPath = path.includes('hacettepe-isletme-site') ? '/hacettepe-isletme-site/tr' : '/tr';
         window.location.replace(window.location.origin + trPath);
-        return; 
+        return;
     }
 
     // Query String kontrolu (Local Preview icin: ?page=yonetim gibi)
@@ -641,7 +641,7 @@
                 var newScript = document.createElement('script');
                 if (oldScript.src) newScript.src = oldScript.src;
                 else newScript.textContent = oldScript.textContent;
-                
+
                 // Eski scripti temizleyip yenisini ekliyoruz (calismasi icin)
                 oldScript.remove();
                 document.body.appendChild(newScript);
@@ -1678,7 +1678,7 @@ document.addEventListener('click', function (e) {
             setTimeout(function () { modal.style.display = 'none'; }, 300);
         }
     }
-    
+
     var tabBtn = e.target.closest('.tab-btn');
     if (tabBtn) {
         e.preventDefault();
@@ -1687,7 +1687,7 @@ document.addEventListener('click', function (e) {
         if (tabId) {
             document.querySelectorAll('.tab-content').forEach(function (el) { el.classList.remove('active'); });
             document.querySelectorAll('.tab-btn').forEach(function (el) { el.classList.remove('active'); });
-            
+
             var targetEl = document.getElementById(tabId);
             if (targetEl) targetEl.classList.add('active');
             tabBtn.classList.add('active');
