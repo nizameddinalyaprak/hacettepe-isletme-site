@@ -639,8 +639,8 @@ html_template = f'''<!DOCTYPE html>
     </style>
 </head>
 <body>
-
-    <div class="header-bg">
+    <div class="exam-page-wrapper">
+        <div class="header-bg">
         <h1>2025-2026 Bahar Yarıyılı Genel Sınav (Final) Programı</h1>
         <p class="subtitle">Hacettepe Üniversitesi İşletme Bölümü final sınav programı ve salon yerleşim planı. Lütfen sınav saatinden en az 15 dakika önce ilgili salonda hazır bulununuz.</p>
     </div>
@@ -970,6 +970,7 @@ html_template = f'''<!DOCTYPE html>
             }}, 150);
         }}
     </script>
+    </div>
 </body>
 </html>
 '''
