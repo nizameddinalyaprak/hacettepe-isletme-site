@@ -333,3 +333,39 @@
         display: none !important;
     }
 }
+
+/* Special highlight button for navigation */
+.hi-nav-link.hi-nav-special {
+    background-color: #ac232d !important;
+    color: white !important;
+    border-radius: 4px;
+    padding: 8px 16px !important;
+    margin-left: 10px;
+    border: 1px solid #ac232d;
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+
+.hi-nav-link.hi-nav-special:hover {
+    background-color: #8a1c24 !important;
+    border-color: #8a1c24;
+    color: white !important;
+    box-shadow: 0 4px 10px rgba(172, 35, 45, 0.2);
+}
+
+.menu_genel.sticky-active .hi-nav-link.hi-nav-special {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+}
+
+@media (max-width: 991px) {
+    .hi-nav-link.hi-nav-special {
+        margin-left: 15px !important;
+        margin-right: 15px !important;
+        border-radius: 4px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        display: inline-block;
+        width: auto;
+    }
+}
