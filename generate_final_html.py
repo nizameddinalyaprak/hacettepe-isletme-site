@@ -91,7 +91,10 @@ html_template = f'''<!DOCTYPE html>
             --c-merdiven: #cbd5e1;
             --c-giris: #bbf7d0;
             --c-guvenlik: #fde047;
-            --c-cihazlar:        .exam-page-wrapper {{
+            --c-cihazlar: #ef4444;
+        }}
+
+        .exam-page-wrapper {{
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: transparent;
             color: var(--text-main);
@@ -159,10 +162,7 @@ html_template = f'''<!DOCTYPE html>
             border: none;
             border-bottom: 3px solid transparent;
             cursor: pointer;
-            transition: all 0.2s ease;
             text-transform: uppercase;
-        }}    gap: 8px;
-            font-family: 'Outfit', sans-serif;
         }}
 
         .tab-btn:hover {{
