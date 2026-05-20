@@ -137,6 +137,7 @@
     var isAcademicCalendarPage = path.includes('akademik_takvimler-119') || path.includes('academic_calendar-185') || path.includes('academic_calendar.html') || search.includes('page=academic_calendar');
     var isAdminStaffPage = path.includes('idari_personel') || path.includes('department_staff-183') || path.includes('administrative_staff.html') || search.includes('page=admin') || search.includes('page=idari_personel');
     var isMidtermPage = path.includes('midtermannouncement-1290') || path.includes('midterm.html') || search.includes('page=midterm');
+    var isFinalPage = path.includes('finalannouncement') || path.includes('final.html') || search.includes('page=final');
 
     // Eger URL'de 'preview_subpage' varsa kesinlikle alt sayfadir (Test icin)
     if (path.includes('preview_subpage')) isHomePage = false;
@@ -170,6 +171,7 @@
     if (path.endsWith('contact.html') && isContactPage) isStandalone = true;
     if (path.endsWith('academic_calendar.html') && isAcademicCalendarPage) isStandalone = true;
     if (path.endsWith('midterm.html') && isMidtermPage) isStandalone = true;
+    if (path.endsWith('final.html') && isFinalPage) isStandalone = true;
 
     // --- HTML ICERIGINI CEK (SADECE ANASAYFA VEYA OZEL SAYFALAR ISE) ---
     if (window.OFFLINE_MODE || isStandalone) {
@@ -377,6 +379,14 @@
             })
     } else if (isMidtermPage) {
         fetch(baseUrl + contentFolder + '/midterm.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+    } else if (isFinalPage) {
+        fetch(baseUrl + contentFolder + '/final.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
