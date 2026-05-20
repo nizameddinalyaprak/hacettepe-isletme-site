@@ -753,8 +753,15 @@ html_template = f'''<!DOCTYPE html>
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
             
-            document.getElementById(tabId).classList.add('active');
-            btnElement.classList.add('active');
+            const targetEl = document.getElementById(tabId);
+            if (targetEl) targetEl.classList.add('active');
+            
+            if (btnElement) {{
+                btnElement.classList.add('active');
+            }} else {{
+                const targetBtn = document.querySelector(`.tab-btn[data-target="${{tabId}}"]`);
+                if (targetBtn) targetBtn.classList.add('active');
+            }}
             
             // Trigger redraw of floor plan if switching to plan tab
             if (tabId === 'plan-tab') {{
@@ -936,7 +943,7 @@ html_template = f'''<!DOCTYPE html>
             }}
 
             // Switch to plan tab
-            switchTab('plan-tab', document.getElementById('btn-plan-tab'));
+            switchTab('plan-tab', document.querySelector('.tab-btn[data-target="plan-tab"]'));
             
             // Render the target floor
             renderFloor(floor);
