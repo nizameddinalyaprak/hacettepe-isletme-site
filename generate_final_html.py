@@ -33,9 +33,10 @@ for exam in exams:
         # split by comma
         raw_rooms = [rm.strip() for rm in exam["rooms"].split(",") if rm.strip()]
         for rm in raw_rooms:
-            # Check if it's in our building layout, or outside (e.g. Yıldız Amfi)
-            if any(x in rm.upper() for x in ["YILDIZ", "AMFİ", "DSS"]):
+            if any(x in rm.upper() for x in ["YILDIZ", "AMFİ"]):
                 room_list.append(f'<span class="room-tag tag-external" title="Bina Dışı Sınav Salonu">{rm}</span>')
+            elif "DSS" in rm.upper():
+                room_list.append(f'<span class="room-tag" title="Dekanlık Seminer Salonu (2. Kat)">{rm}</span>')
             else:
                 room_list.append(f'<span class="room-tag tag-interactive" onclick="highlightRoom(\'{rm}\')" title="Kat planında göster">{rm}</span>')
     rooms_html = ", ".join(room_list) if room_list else "-"
