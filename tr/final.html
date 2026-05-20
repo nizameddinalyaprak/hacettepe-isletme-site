@@ -265,6 +265,28 @@
             text-align: center;
         }
 
+        .btn-add-calendar {
+            background-color: #f1f5f9;
+            color: #475569;
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-add-calendar:hover {
+            background-color: var(--primary-light);
+            color: var(--hacettepe-red);
+            border-color: #fca5a5;
+            box-shadow: 0 2px 6px rgba(172, 35, 45, 0.1);
+        }
+
         .cell-code {
             font-family: 'Outfit', sans-serif;
             color: var(--secondary);
@@ -623,6 +645,7 @@
                             <th class="text-center">Sınav Saati</th>
                             <th class="text-center">Öğr. Say.</th>
                             <th>Sınav Salonu</th>
+                            <th class="text-center">Takvim</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -636,6 +659,11 @@
                 <td class="cell-time text-center"><span class="time-badge">09:40-11:30</span></td>
                 <td class="cell-count text-center">171</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('K2')" title="Kat planında göster">K2</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('Z2')" title="Kat planında göster">Z2</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('B4')" title="Kat planında göster">B4</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN106', 'İŞLETME İSTATİSTİĞİ II', 'Dr.Öğretim Üyesi ONUR KOYUNCU', '1 Haziran Pazartesi', '09:40-11:30', 'Z1, K2, Z2, B4')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="4" data-search="man440 uluslararasi muhasebe standartlari prof. dr. burak pi̇rgai̇p 1 haziran pazartesi z1">
                 <td class="cell-code"><strong>MAN440</strong></td>
@@ -647,6 +675,11 @@
                 <td class="cell-time text-center"><span class="time-badge">11:40-13:30</span></td>
                 <td class="cell-count text-center">40</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN440', 'ULUSLARARASI MUHASEBE STANDARTLARI', 'Prof. Dr. BURAK PİRGAİP', '1 Haziran Pazartesi', '11:40-13:30', 'Z1')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="3" data-search="man304 fi̇nansal yoneti̇m ii prof. dr. burak pi̇rgai̇p 1 haziran pazartesi z1, k2, z2">
                 <td class="cell-code"><strong>MAN304</strong></td>
@@ -658,6 +691,11 @@
                 <td class="cell-time text-center"><span class="time-badge">13:40-15:30</span></td>
                 <td class="cell-count text-center">115</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('K2')" title="Kat planında göster">K2</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('Z2')" title="Kat planında göster">Z2</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN304', 'FİNANSAL YÖNETİM II', 'Prof. Dr. BURAK PİRGAİP', '1 Haziran Pazartesi', '13:40-15:30', 'Z1, K2, Z2')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="2" data-search="ai̇t204 ataturk i̇lkeleri̇ ve i̇nkilap tari̇hi̇ ii yunus kobal 1 haziran pazartesi yildiz amfi̇ m10">
                 <td class="cell-code"><strong>AİT204</strong></td>
@@ -669,6 +707,11 @@
                 <td class="cell-time text-center"><span class="time-badge">15:40-17:30</span></td>
                 <td class="cell-count text-center">110</td>
                 <td class="cell-rooms"><span class="room-tag tag-external" title="Bina Dışı Sınav Salonu">YILDIZ AMFİ M10</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('AİT204', 'ATATÜRK İLKELERİ VE İNKILAP TARİHİ II', 'YUNUS KOBAL', '1 Haziran Pazartesi', '15:40-17:30', 'YILDIZ AMFİ M10')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="2" data-search="man202 fi̇nansal muhasebe ii dr.ogretim uyesi gi̇zem ari yilmaz 2 haziran sali z1, z2, b4">
                 <td class="cell-code"><strong>MAN202</strong></td>
@@ -680,6 +723,11 @@
                 <td class="cell-time text-center"><span class="time-badge">09:40-11:30</span></td>
                 <td class="cell-count text-center">139</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('Z2')" title="Kat planında göster">Z2</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('B4')" title="Kat planında göster">B4</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN202', 'FİNANSAL MUHASEBE II', 'Dr.Öğretim Üyesi GİZEM ARI YILMAZ', '2 Haziran Salı', '09:40-11:30', 'Z1, Z2, B4')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="4" data-search="man420 fi̇nansmanda guncel konular prof. dr. burak pi̇rgai̇p 2 haziran sali z1">
                 <td class="cell-code"><strong>MAN420</strong></td>
@@ -691,6 +739,11 @@
                 <td class="cell-time text-center"><span class="time-badge">11:40-13:30</span></td>
                 <td class="cell-count text-center">42</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN420', 'FİNANSMANDA GÜNCEL KONULAR', 'Prof. Dr. BURAK PİRGAİP', '2 Haziran Salı', '11:40-13:30', 'Z1')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="1" data-search="tkd104 turk di̇li̇ ii yasemi̇n di̇nc kurt 2 haziran sali z7, dss">
                 <td class="cell-code"><strong>TKD104</strong></td>
@@ -702,6 +755,11 @@
                 <td class="cell-time text-center"><span class="time-badge">14:40-15:30</span></td>
                 <td class="cell-count text-center">100</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z7')" title="Kat planında göster">Z7</span>, <span class="room-tag" title="Dekanlık Seminer Salonu (2. Kat)">DSS</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('TKD104', 'TÜRK DİLİ II', 'YASEMİN DİNÇ KURT', '2 Haziran Salı', '14:40-15:30', 'Z7, DSS')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="1" data-search="man108 sosyal psi̇koloji̇ prof. dr. ozge tayfur ekmekci̇ 3 haziran carsamba z2, b4">
                 <td class="cell-code"><strong>MAN108</strong></td>
@@ -713,6 +771,11 @@
                 <td class="cell-time text-center"><span class="time-badge">09:40-11:30</span></td>
                 <td class="cell-count text-center">58</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z2')" title="Kat planında göster">Z2</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('B4')" title="Kat planında göster">B4</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN108', 'SOSYAL PSİKOLOJİ', 'Prof. Dr. ÖZGE TAYFUR EKMEKCİ', '3 Haziran Çarşamba', '09:40-11:30', 'Z2, B4')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="1" data-search="man108 sosyal psi̇koloji̇ ogr.gor.dr. eren mi̇ski̇ aydin 3 haziran carsamba z1, k2">
                 <td class="cell-code"><strong>MAN108</strong></td>
@@ -724,6 +787,11 @@
                 <td class="cell-time text-center"><span class="time-badge">09:40-11:30</span></td>
                 <td class="cell-count text-center">60</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('K2')" title="Kat planında göster">K2</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN108', 'SOSYAL PSİKOLOJİ', 'Öğr.Gör.Dr. EREN MİSKİ AYDIN', '3 Haziran Çarşamba', '09:40-11:30', 'Z1, K2')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="4" data-search="man430 yoneti̇mde ci̇nsi̇yet prof. dr. pinar bayhan karapinar 3 haziran carsamba z1, z2">
                 <td class="cell-code"><strong>MAN430</strong></td>
@@ -735,6 +803,11 @@
                 <td class="cell-time text-center"><span class="time-badge">11:40-13:30</span></td>
                 <td class="cell-count text-center">67</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('Z2')" title="Kat planında göster">Z2</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN430', 'YÖNETİMDE CİNSİYET', 'Prof. Dr. PINAR BAYHAN KARAPINAR', '3 Haziran Çarşamba', '11:40-13:30', 'Z1, Z2')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="3" data-search="man314 takim kurma ogr.gor.dr. eren mi̇ski̇ aydin 3 haziran carsamba z1, z2">
                 <td class="cell-code"><strong>MAN314</strong></td>
@@ -746,6 +819,11 @@
                 <td class="cell-time text-center"><span class="time-badge">13:40-15:30</span></td>
                 <td class="cell-count text-center">58</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('Z2')" title="Kat planında göster">Z2</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN314', 'TAKIM KURMA', 'Öğr.Gör.Dr. EREN MİSKİ AYDIN', '3 Haziran Çarşamba', '13:40-15:30', 'Z1, Z2')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="4" data-search="man422 i̇s ve sosyal guvenli̇k hukuku doktor hi̇lmi̇ bolatoglu 3 haziran carsamba z1, z2">
                 <td class="cell-code"><strong>MAN422</strong></td>
@@ -757,6 +835,11 @@
                 <td class="cell-time text-center"><span class="time-badge">15:40-17:30</span></td>
                 <td class="cell-count text-center">57</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('Z2')" title="Kat planında göster">Z2</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN422', 'İŞ ve SOSYAL GÜVENLİK HUKUKU', 'Doktor HİLMİ BOLATOĞLU', '3 Haziran Çarşamba', '15:40-17:30', 'Z1, Z2')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="2" data-search="man210 uluslararasi ekonomi̇ ve i̇sletme akademik meti̇n tektas 4 haziran persembe z1, k2">
                 <td class="cell-code"><strong>MAN210</strong></td>
@@ -768,6 +851,11 @@
                 <td class="cell-time text-center"><span class="time-badge">09:40-11:30</span></td>
                 <td class="cell-count text-center">70</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('K2')" title="Kat planında göster">K2</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN210', 'ULUSLARARASI EKONOMİ ve İŞLETME', 'Akademik METİN TEKTAŞ', '4 Haziran Perşembe', '09:40-11:30', 'Z1, K2')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="2" data-search="man210 uluslararasi ekonomi̇ ve i̇sletme prof. dr. canan eryi̇gi̇t 4 haziran persembe z2, b4">
                 <td class="cell-code"><strong>MAN210</strong></td>
@@ -779,6 +867,11 @@
                 <td class="cell-time text-center"><span class="time-badge">09:40-11:30</span></td>
                 <td class="cell-count text-center">60</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z2')" title="Kat planında göster">Z2</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('B4')" title="Kat planında göster">B4</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN210', 'ULUSLARARASI EKONOMİ ve İŞLETME', 'Prof. Dr. CANAN ERYİĞİT', '4 Haziran Perşembe', '09:40-11:30', 'Z2, B4')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="4" data-search="man434 davranissal fi̇nans prof. dr. seli̇n meti̇n camgoz 4 haziran persembe z1, z2">
                 <td class="cell-code"><strong>MAN434</strong></td>
@@ -790,6 +883,11 @@
                 <td class="cell-time text-center"><span class="time-badge">11:40-13:30</span></td>
                 <td class="cell-count text-center">67</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('Z2')" title="Kat planında göster">Z2</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN434', 'DAVRANIŞSAL FİNANS', 'Prof. Dr. SELİN METİN CAMGÖZ', '4 Haziran Perşembe', '11:40-13:30', 'Z1, Z2')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="4" data-search="man408 kali̇te yoneti̇mi̇ prof. dr. mi̇ne omurgonulsen 4 haziran persembe z1, z2">
                 <td class="cell-code"><strong>MAN408</strong></td>
@@ -801,6 +899,11 @@
                 <td class="cell-time text-center"><span class="time-badge">13:40-15:30</span></td>
                 <td class="cell-count text-center">59</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('Z2')" title="Kat planında göster">Z2</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN408', 'KALİTE YÖNETİMİ', 'Prof. Dr. MİNE ÖMÜRGÖNÜLŞEN', '4 Haziran Perşembe', '13:40-15:30', 'Z1, Z2')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="3" data-search="man401 ureti̇m ve i̇slemler yoneti̇mi̇ ii dr.ogretim uyesi bulent ceki̇c 5 haziran cuma z1, k2, z2">
                 <td class="cell-code"><strong>MAN401</strong></td>
@@ -812,6 +915,11 @@
                 <td class="cell-time text-center"><span class="time-badge">09:40-11:30</span></td>
                 <td class="cell-count text-center">130</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('K2')" title="Kat planında göster">K2</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('Z2')" title="Kat planında göster">Z2</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN401', 'ÜRETİM ve İŞLEMLER YÖNETİMİ II', 'Dr.Öğretim Üyesi BÜLENT ÇEKİÇ', '5 Haziran Cuma', '09:40-11:30', 'Z1, K2, Z2')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="4" data-search="man432 kadin gi̇ri̇si̇mci̇li̇gi̇ dr.ogretim uyesi leyla boy akdag 5 haziran cuma z1, z2">
                 <td class="cell-code"><strong>MAN432</strong></td>
@@ -823,6 +931,11 @@
                 <td class="cell-time text-center"><span class="time-badge">11:40-13:30</span></td>
                 <td class="cell-count text-center">66</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('Z2')" title="Kat planında göster">Z2</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN432', 'KADIN GİRİŞİMCİLİĞİ', 'Dr.Öğretim Üyesi LEYLA BOY AKDAĞ', '5 Haziran Cuma', '11:40-13:30', 'Z1, Z2')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="1" data-search="man110 i̇sletme matemati̇gi̇ ii doc.dr. mustafa ci̇men 5 haziran cuma z1, k2, z2">
                 <td class="cell-code"><strong>MAN110</strong></td>
@@ -834,6 +947,11 @@
                 <td class="cell-time text-center"><span class="time-badge">13:40-15:30</span></td>
                 <td class="cell-count text-center">130</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('K2')" title="Kat planında göster">K2</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('Z2')" title="Kat planında göster">Z2</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN110', 'İŞLETME MATEMATİĞİ II', 'Doç.Dr. MUSTAFA ÇİMEN', '5 Haziran Cuma', '13:40-15:30', 'Z1, K2, Z2')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="4" data-search="man436 ureti̇m ve envanter si̇stemleri̇ni̇n modellenmesi̇ dr.ogretim uyesi onur koyuncu 5 haziran cuma z1">
                 <td class="cell-code"><strong>MAN436</strong></td>
@@ -845,6 +963,11 @@
                 <td class="cell-time text-center"><span class="time-badge">15:40-17:30</span></td>
                 <td class="cell-count text-center">13</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN436', 'ÜRETİM ve ENVANTER SİSTEMLERİNİN MODELLENMESİ', 'Dr.Öğretim Üyesi ONUR KOYUNCU', '5 Haziran Cuma', '15:40-17:30', 'Z1')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="2" data-search="man206 yoneylem arastirmasi i doc.dr. mustafa ci̇men 8 haziran pazartesi z1, k2, z2">
                 <td class="cell-code"><strong>MAN206</strong></td>
@@ -856,6 +979,11 @@
                 <td class="cell-time text-center"><span class="time-badge">09:40-11:30</span></td>
                 <td class="cell-count text-center">127</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('K2')" title="Kat planında göster">K2</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('Z2')" title="Kat planında göster">Z2</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN206', 'YÖNEYLEM ARAŞTIRMASI I', 'Doç.Dr. MUSTAFA ÇİMEN', '8 Haziran Pazartesi', '09:40-11:30', 'Z1, K2, Z2')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="4" data-search="man407 teknoloji̇ ve yeni̇li̇k yoneti̇mi̇ dr.ogretim uyesi bulent ceki̇c 8 haziran pazartesi z1, k2">
                 <td class="cell-code"><strong>MAN407</strong></td>
@@ -867,6 +995,11 @@
                 <td class="cell-time text-center"><span class="time-badge">11:40-13:30</span></td>
                 <td class="cell-count text-center">77</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('K2')" title="Kat planında göster">K2</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN407', 'TEKNOLOJİ ve YENİLİK YÖNETİMİ', 'Dr.Öğretim Üyesi BÜLENT ÇEKİÇ', '8 Haziran Pazartesi', '11:40-13:30', 'Z1, K2')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="3" data-search="man325 i̇nsan kaynaklari yoneti̇mi̇nde guncel konular prof. dr. ozge tayfur ekmekci̇ 8 haziran pazartesi z1">
                 <td class="cell-code"><strong>MAN325</strong></td>
@@ -878,6 +1011,11 @@
                 <td class="cell-time text-center"><span class="time-badge">13:40-15:30</span></td>
                 <td class="cell-count text-center">56</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN325', 'İNSAN KAYNAKLARI YÖNETİMİNDE GÜNCEL KONULAR', 'Prof. Dr. ÖZGE TAYFUR EKMEKCİ', '8 Haziran Pazartesi', '13:40-15:30', 'Z1')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="4" data-search="man426 hi̇zmet pazarlamasi doc.dr. ni̇ray tuncel 8 haziran pazartesi z1">
                 <td class="cell-code"><strong>MAN426</strong></td>
@@ -889,6 +1027,11 @@
                 <td class="cell-time text-center"><span class="time-badge">15:40-17:30</span></td>
                 <td class="cell-count text-center">44</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN426', 'HİZMET PAZARLAMASI', 'Doç.Dr. NİRAY TUNÇEL', '8 Haziran Pazartesi', '15:40-17:30', 'Z1')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="2" data-search="man208 i̇nsan kaynaklari yoneti̇mi̇ doc.dr. arzu i̇lsev 9 haziran sali z1, k2">
                 <td class="cell-code"><strong>MAN208</strong></td>
@@ -900,6 +1043,11 @@
                 <td class="cell-time text-center"><span class="time-badge">09:40-11:30</span></td>
                 <td class="cell-count text-center">65</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('K2')" title="Kat planında göster">K2</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN208', 'İNSAN KAYNAKLARI YÖNETİMİ', 'Doç.Dr. ARZU İLSEV', '9 Haziran Salı', '09:40-11:30', 'Z1, K2')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="2" data-search="man208 i̇nsan kaynaklari yoneti̇mi̇ ars. gor. dr. hurcan kabakci 9 haziran sali z2, b4">
                 <td class="cell-code"><strong>MAN208</strong></td>
@@ -911,6 +1059,11 @@
                 <td class="cell-time text-center"><span class="time-badge">09:40-11:30</span></td>
                 <td class="cell-count text-center">58</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z2')" title="Kat planında göster">Z2</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('B4')" title="Kat planında göster">B4</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN208', 'İNSAN KAYNAKLARI YÖNETİMİ', 'Arş. Gör. Dr. HÜRCAN KABAKCI', '9 Haziran Salı', '09:40-11:30', 'Z2, B4')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="1" data-search="eco136 i̇kti̇sada gi̇ri̇s ii yasemi̇n yalta 9 haziran sali z1, k2, z2">
                 <td class="cell-code"><strong>ECO136</strong></td>
@@ -922,6 +1075,11 @@
                 <td class="cell-time text-center"><span class="time-badge">11:40-13:30</span></td>
                 <td class="cell-count text-center">110</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('K2')" title="Kat planında göster">K2</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('Z2')" title="Kat planında göster">Z2</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('ECO136', 'İKTİSADA GİRİŞ II', 'YASEMİN YALTA', '9 Haziran Salı', '11:40-13:30', 'Z1, K2, Z2')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="3" data-search="man317 fi̇nansal tablolar anali̇zi̇ dr.ogretim uyesi gi̇zem ari yilmaz 9 haziran sali z1">
                 <td class="cell-code"><strong>MAN317</strong></td>
@@ -933,6 +1091,11 @@
                 <td class="cell-time text-center"><span class="time-badge">13:40-15:30</span></td>
                 <td class="cell-count text-center">49</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN317', 'FİNANSAL TABLOLAR ANALİZİ', 'Dr.Öğretim Üyesi GİZEM ARI YILMAZ', '9 Haziran Salı', '13:40-15:30', 'Z1')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="3" data-search="man212 kulturlerarasi yoneti̇m doc.dr. arzu i̇lsev 10 haziran carsamba z1, k2, z2">
                 <td class="cell-code"><strong>MAN212</strong></td>
@@ -944,6 +1107,11 @@
                 <td class="cell-time text-center"><span class="time-badge">09:40-11:30</span></td>
                 <td class="cell-count text-center">123</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('K2')" title="Kat planında göster">K2</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('Z2')" title="Kat planında göster">Z2</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN212', 'KÜLTÜRLERARASI YÖNETİM', 'Doç.Dr. ARZU İLSEV', '10 Haziran Çarşamba', '09:40-11:30', 'Z1, K2, Z2')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="2" data-search="man302 pazarlama yoneti̇mi̇ ii prof. dr. oznur ozkan tektas 10 haziran carsamba b4">
                 <td class="cell-code"><strong>MAN302</strong></td>
@@ -955,6 +1123,11 @@
                 <td class="cell-time text-center"><span class="time-badge">11:40-13:30</span></td>
                 <td class="cell-count text-center">45</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('B4')" title="Kat planında göster">B4</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN302', 'PAZARLAMA YÖNETİMİ II', 'Prof. Dr. ÖZNUR ÖZKAN TEKTAŞ', '10 Haziran Çarşamba', '11:40-13:30', 'B4')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="2" data-search="man302 pazarlama yoneti̇mi̇ ii doc.dr. ni̇ray tuncel 10 haziran carsamba z1, k2">
                 <td class="cell-code"><strong>MAN302</strong></td>
@@ -966,6 +1139,11 @@
                 <td class="cell-time text-center"><span class="time-badge">11:40-13:30</span></td>
                 <td class="cell-count text-center">60</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('K2')" title="Kat planında göster">K2</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN302', 'PAZARLAMA YÖNETİMİ II', 'Doç.Dr. NİRAY TUNÇEL', '10 Haziran Çarşamba', '11:40-13:30', 'Z1, K2')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="4" data-search="man413 turk yoneti̇m kulturu ars. gor. dr. hurcan kabakci 10 haziran carsamba z1">
                 <td class="cell-code"><strong>MAN413</strong></td>
@@ -977,6 +1155,11 @@
                 <td class="cell-time text-center"><span class="time-badge">13:40-15:30</span></td>
                 <td class="cell-count text-center">52</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN413', 'TÜRK YÖNETİM KÜLTÜRÜ', 'Arş. Gör. Dr. HÜRCAN KABAKCI', '10 Haziran Çarşamba', '13:40-15:30', 'Z1')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="1" data-search="man102 yoneti̇mi̇n prensi̇pleri̇ ars. gor. dr. hurcan kabakci 11 haziran persembe z1, k2, z2">
                 <td class="cell-code"><strong>MAN102</strong></td>
@@ -988,6 +1171,11 @@
                 <td class="cell-time text-center"><span class="time-badge">11:40-13:30</span></td>
                 <td class="cell-count text-center">116</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('K2')" title="Kat planında göster">K2</span>, <span class="room-tag tag-interactive" onclick="highlightRoom('Z2')" title="Kat planında göster">Z2</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN102', 'YÖNETİMİN PRENSİPLERİ', 'Arş. Gör. Dr. HÜRCAN KABAKCI', '11 Haziran Perşembe', '11:40-13:30', 'Z1, K2, Z2')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
             <tr data-class="4" data-search="man409 perakende pazarlama yoneti̇mi̇ prof. dr. beyza ozyi̇gi̇t gulteki̇n 11 haziran persembe z1">
                 <td class="cell-code"><strong>MAN409</strong></td>
@@ -999,6 +1187,11 @@
                 <td class="cell-time text-center"><span class="time-badge">13:40-15:30</span></td>
                 <td class="cell-count text-center">43</td>
                 <td class="cell-rooms"><span class="room-tag tag-interactive" onclick="highlightRoom('Z1')" title="Kat planında göster">Z1</span></td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('MAN409', 'PERAKENDE PAZARLAMA YÖNETİMİ', 'Prof. Dr. BEYZA ÖZYİĞİT GÜLTEKİN', '11 Haziran Perşembe', '13:40-15:30', 'Z1')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>
                     </tbody>
                 </table>
@@ -1235,6 +1428,79 @@
                 renderFloor(floorName);
             }
         });
+
+        // Generate and download ICS calendar file
+        function addToCalendar(code, name, instructor, dateStr, timeStr, rooms) {
+            try {
+                const monthMap = {
+                    'OCAK': '01', 'SUBAT': '02', 'MART': '03', 'NISAN': '04',
+                    'MAYIS': '05', 'HAZIRAN': '06', 'TEMMUZ': '07', 'AGUSTOS': '08',
+                    'EYLUL': '09', 'EKIM': '10', 'KASIM': '11', 'ARALIK': '12'
+                };
+                
+                const cleanTurkish = (str) => {
+                    return str.toUpperCase()
+                        .replace(/I/g, 'I')
+                        .replace(/İ/g, 'I')
+                        .replace(/Ş/g, 'S')
+                        .replace(/Ğ/g, 'G')
+                        .replace(/Ç/g, 'C')
+                        .replace(/Ö/g, 'O')
+                        .replace(/Ü/g, 'U');
+                };
+
+                const parts = dateStr.trim().split(/\s+/);
+                if (parts.length < 2) return;
+                
+                const day = parts[0].padStart(2, '0');
+                const monthName = cleanTurkish(parts[1]);
+                const month = monthMap[monthName] || '06';
+                const year = '2026';
+                
+                const datePart = year + month + day;
+                
+                const times = timeStr.trim().split('-');
+                if (times.length < 2) return;
+                
+                const startPart = times[0].replace(':', '') + '00';
+                const endPart = times[1].replace(':', '') + '00';
+                
+                const dtStart = datePart + 'T' + startPart;
+                const dtEnd = datePart + 'T' + endPart;
+                
+                const summary = code + ' - ' + name + ' Sınavı';
+                const description = 'Öğretim Elemanı: ' + instructor + '\nSalonlar: ' + rooms;
+                const location = 'Hacettepe Üniversitesi İİBF Binası, Salonlar: ' + rooms;
+                
+                const icsContent = [
+                    'BEGIN:VCALENDAR',
+                    'VERSION:2.0',
+                    'PRODID:-//Hacettepe Universitesi Isletme//Final Sinavi//TR',
+                    'CALSCALE:GREGORIAN',
+                    'BEGIN:VEVENT',
+                    'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z',
+                    'DTSTART:' + dtStart,
+                    'DTEND:' + dtEnd,
+                    'SUMMARY:' + summary,
+                    'DESCRIPTION:' + description,
+                    'LOCATION:' + location,
+                    'TRANSP:OPAQUE',
+                    'END:VEVENT',
+                    'END:VCALENDAR'
+                ].join('\r\n');
+                
+                const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = code + '_final_sinavi.ics';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } catch (e) {
+                console.error(e);
+                alert('Takvim dosyası oluşturulurken bir hata oluştu.');
+            }
+        }
 
         // Interactive highlight room function
         function highlightRoom(roomName) {

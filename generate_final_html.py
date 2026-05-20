@@ -41,9 +41,16 @@ for exam in exams:
                 room_list.append(f'<span class="room-tag tag-interactive" onclick="highlightRoom(\'{rm}\')" title="Kat planında göster">{rm}</span>')
     rooms_html = ", ".join(room_list) if room_list else "-"
 
+    # Safe escape parameters for inline JS
+    safe_name = exam['name'].replace("'", "\\'")
+    safe_instructor = exam['instructor'].replace("'", "\\'")
+    safe_date = exam['date'].replace("'", "\\'")
+    safe_time = exam['time'].replace("'", "\\'")
+    safe_rooms = exam['rooms'].replace("'", "\\'")
+
     # Search query index (lower case for easier search)
     search_str = f"{exam['code']} {exam['name']} {exam['instructor']} {exam['date']} {exam['rooms']}".lower().replace('ı','i').replace('ö','o').replace('ü','u').replace('ş','s').replace('ç','c').replace('ğ','g')
-    
+
     row_html = f'''            <tr data-class="{exam['class']}" data-search="{search_str}">
                 <td class="cell-code"><strong>{exam['code']}</strong></td>
                 <td class="cell-sec text-center">{exam['section']}</td>
@@ -54,6 +61,11 @@ for exam in exams:
                 <td class="cell-time text-center"><span class="time-badge">{exam['time']}</span></td>
                 <td class="cell-count text-center">{exam['student_count']}</td>
                 <td class="cell-rooms">{rooms_html}</td>
+                <td class="text-center">
+                    <button type="button" class="btn-add-calendar" onclick="addToCalendar('{exam['code']}', '{safe_name}', '{safe_instructor}', '{safe_date}', '{safe_time}', '{safe_rooms}')" title="Google / Apple Takvime Ekle">
+                        <i class="fa-regular fa-calendar-plus"></i> Ekle
+                    </button>
+                </td>
             </tr>'''
     table_rows_html.append(row_html)
 
@@ -325,6 +337,28 @@ html_template = f'''<!DOCTYPE html>
 
         .text-center {{
             text-align: center;
+        }}
+
+        .btn-add-calendar {{
+            background-color: #f1f5f9;
+            color: #475569;
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }}
+
+        .btn-add-calendar:hover {{
+            background-color: var(--primary-light);
+            color: var(--hacettepe-red);
+            border-color: #fca5a5;
+            box-shadow: 0 2px 6px rgba(172, 35, 45, 0.1);
         }}
 
         .cell-code {{
@@ -685,6 +719,7 @@ html_template = f'''<!DOCTYPE html>
                             <th class="text-center">Sınav Saati</th>
                             <th class="text-center">Öğr. Say.</th>
                             <th>Sınav Salonu</th>
+                            <th class="text-center">Takvim</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -924,6 +959,79 @@ html_template = f'''<!DOCTYPE html>
                 renderFloor(floorName);
             }}
         }});
+
+        // Generate and download ICS calendar file
+        function addToCalendar(code, name, instructor, dateStr, timeStr, rooms) {{
+            try {{
+                const monthMap = {{
+                    'OCAK': '01', 'SUBAT': '02', 'MART': '03', 'NISAN': '04',
+                    'MAYIS': '05', 'HAZIRAN': '06', 'TEMMUZ': '07', 'AGUSTOS': '08',
+                    'EYLUL': '09', 'EKIM': '10', 'KASIM': '11', 'ARALIK': '12'
+                }};
+                
+                const cleanTurkish = (str) => {{
+                    return str.toUpperCase()
+                        .replace(/I/g, 'I')
+                        .replace(/İ/g, 'I')
+                        .replace(/Ş/g, 'S')
+                        .replace(/Ğ/g, 'G')
+                        .replace(/Ç/g, 'C')
+                        .replace(/Ö/g, 'O')
+                        .replace(/Ü/g, 'U');
+                }};
+
+                const parts = dateStr.trim().split(/\\s+/);
+                if (parts.length < 2) return;
+                
+                const day = parts[0].padStart(2, '0');
+                const monthName = cleanTurkish(parts[1]);
+                const month = monthMap[monthName] || '06';
+                const year = '2026';
+                
+                const datePart = year + month + day;
+                
+                const times = timeStr.trim().split('-');
+                if (times.length < 2) return;
+                
+                const startPart = times[0].replace(':', '') + '00';
+                const endPart = times[1].replace(':', '') + '00';
+                
+                const dtStart = datePart + 'T' + startPart;
+                const dtEnd = datePart + 'T' + endPart;
+                
+                const summary = code + ' - ' + name + ' Sınavı';
+                const description = 'Öğretim Elemanı: ' + instructor + '\\nSalonlar: ' + rooms;
+                const location = 'Hacettepe Üniversitesi İİBF Binası, Salonlar: ' + rooms;
+                
+                const icsContent = [
+                    'BEGIN:VCALENDAR',
+                    'VERSION:2.0',
+                    'PRODID:-//Hacettepe Universitesi Isletme//Final Sinavi//TR',
+                    'CALSCALE:GREGORIAN',
+                    'BEGIN:VEVENT',
+                    'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z',
+                    'DTSTART:' + dtStart,
+                    'DTEND:' + dtEnd,
+                    'SUMMARY:' + summary,
+                    'DESCRIPTION:' + description,
+                    'LOCATION:' + location,
+                    'TRANSP:OPAQUE',
+                    'END:VEVENT',
+                    'END:VCALENDAR'
+                ].join('\\r\\n');
+                
+                const blob = new Blob([icsContent], {{ type: 'text/calendar;charset=utf-8' }});
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = code + '_final_sinavi.ics';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }} catch (e) {{
+                console.error(e);
+                alert('Takvim dosyası oluşturulurken bir hata oluştu.');
+            }}
+        }}
 
         // Interactive highlight room function
         function highlightRoom(roomName) {{
