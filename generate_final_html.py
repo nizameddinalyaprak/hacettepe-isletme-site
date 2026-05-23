@@ -769,7 +769,10 @@ html_template = f'''<!DOCTYPE html>
                     <h4 style="margin: 0 0 8px 0; color: #b45309; font-weight: 700; font-size: 15px;"><i class="fa-solid fa-rotate"></i> PROGRAM GÜNCELLEMELERİ (23.05.2026)</h4>
                     <ul style="margin: 0; padding-left: 20px; font-size: 13.5px; color: #78350f; line-height: 1.5;">
                         <li style="margin-bottom: 6px;"><strong>MAN208 İnsan Kaynakları Yönetimi (Şb. 1 & 2):</strong> Sınav saati 9 Haziran Salı 09:40-11:30'dan aynı gün <strong>15:40 - 17:30</strong> oturumuna kaydırılmıştır.</li>
-                        <li><strong>MAN212 Kültürlerarası Yönetim (Şb. 1):</strong> Sınav saati 10 Haziran Çarşamba 09:40-11:30'dan aynı gün <strong>15:40 - 17:30</strong> oturumuna kaydırılmıştır.</li>
+                        <li style="margin-bottom: 6px;"><strong>MAN212 Kültürlerarası Yönetim (Şb. 1):</strong> Sınav saati 10 Haziran Çarşamba 09:40-11:30'dan aynı gün <strong>15:40 - 17:30</strong> oturumuna kaydırılmıştır.</li>
+                        <li style="margin-bottom: 6px;"><strong>ECO136 İktisada Giriş II (Şb. 2):</strong> Sınav saati 9 Haziran Salı 11:40-13:30'dan aynı gün <strong>12:00 - 13:30</strong> oturumuna alınmıştır.</li>
+                        <li style="margin-bottom: 6px;"><strong>MAN302 Pazarlama Yönetimi II (Şb. 1 & 2):</strong> Sınav saati 10 Haziran Çarşamba 11:40-13:30'dan aynı gün <strong>12:00 - 13:30</strong> oturumuna alınmıştır.</li>
+                        <li><strong>TKD104 Türk Dili II (Şb. 26):</strong> Sınav saati 2 Haziran Salı 14:40-15:30'dan <strong>14:40 - 15:20</strong> olarak güncellenmiştir (sınav süresi 40 dakika olarak ayarlanmıştır).</li>
                     </ul>
                 </div>
 
