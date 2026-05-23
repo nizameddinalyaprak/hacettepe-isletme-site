@@ -1,14 +1,14 @@
 {
   "headers": [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I"
+    "Ders Kodu",
+    "Şube",
+    "Ders Adı",
+    "Öğretim Elemanı",
+    "Sınıf",
+    "Tarih",
+    "Saat (Blok)",
+    "Öğr. Say",
+    "Atanan Sınıf"
   ],
   "rows": [
     [
@@ -293,7 +293,7 @@
       "Doç.Dr. ARZU İLSEV",
       "2",
       "9 Haziran Salı",
-      "09:40-11:30",
+      "15:40-17:30",
       "65",
       "Z1, K2"
     ],
@@ -304,7 +304,7 @@
       "Arş. Gör. Dr. HÜRCAN KABAKCI",
       "2",
       "9 Haziran Salı",
-      "09:40-11:30",
+      "15:40-17:30",
       "58",
       "Z2, B4"
     ],
@@ -337,7 +337,7 @@
       "Doç.Dr. ARZU İLSEV",
       "3",
       "10 Haziran Çarşamba",
-      "09:40-11:30",
+      "15:40-17:30",
       "123",
       "Z1, K2, Z2"
     ],

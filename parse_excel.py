@@ -9,8 +9,16 @@ try:
     
     # Convert to list of dicts, handle NaN values
     df = df.fillna("")
-    data = df.values.tolist()
+    
+    def clean_val(v):
+        if isinstance(v, (int, float)):
+            if float(v).is_integer():
+                return str(int(v))
+            return str(v)
+        return str(v).strip()
+        
     headers = [str(c) for c in df.columns]
+    data = [headers] + [[clean_val(cell) for cell in row] for row in df.values]
     
     output = {
         "headers": headers,
