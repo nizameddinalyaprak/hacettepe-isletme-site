@@ -59,7 +59,6 @@ for exam in exams:
                 <td class="cell-class text-center"><span class="badge-class class-{exam['class']}">{exam['class']}. Sınıf</span></td>
                 <td class="cell-date">{exam['date']}</td>
                 <td class="cell-time text-center"><span class="time-badge">{exam['time']}</span></td>
-                <td class="cell-count text-center">{exam['student_count']}</td>
                 <td class="cell-rooms">{rooms_html}</td>
                 <td class="text-center">
                     <button type="button" class="btn-add-calendar" onclick="addToCalendar('{exam['code']}', '{safe_name}', '{safe_instructor}', '{safe_date}', '{safe_time}', '{safe_rooms}')" title="Google / Apple Takvime Ekle">
@@ -717,7 +716,6 @@ html_template = f'''<!DOCTYPE html>
                             <th class="text-center">Sınıfı</th>
                             <th>Sınav Tarihi</th>
                             <th class="text-center">Sınav Saati</th>
-                            <th class="text-center">Öğr. Say.</th>
                             <th>Sınav Salonu</th>
                             <th class="text-center">Takvim</th>
                         </tr>
