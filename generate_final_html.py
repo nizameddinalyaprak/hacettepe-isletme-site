@@ -581,6 +581,9 @@ html_template = f'''<!DOCTYPE html>
             background: #ffffff;
             width: 90%;
             max-width: 600px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -610,6 +613,8 @@ html_template = f'''<!DOCTYPE html>
             font-size: 15px;
             color: var(--text-main);
             line-height: 1.7;
+            overflow-y: auto;
+            flex: 1;
         }}
 
         .exam-modal-body strong {{
