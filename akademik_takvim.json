@@ -90,9 +90,9 @@
         "type": "exam"
     },
     {
-        "startDate": "2026-01-05",
+        "startDate": "2026-01-21",
         "endDate": "2026-01-21",
-        "title": "Yarıyıl Genel Sınav Sonuçları Elektronik Ortamda İletilmesi",
+        "title": "Yarıyıl Genel Sınav Sonuçlarının İletilmesi Son Günü",
         "type": "admin"
     },
     {
@@ -114,9 +114,9 @@
         "type": "exam"
     },
     {
-        "startDate": "2026-01-26",
+        "startDate": "2026-02-04",
         "endDate": "2026-02-04",
-        "title": "Bütünleme Sınav Sonuçlarının Elektronik Ortamda İletilmesi",
+        "title": "Bütünleme Sınav Sonuçlarının İletilmesi Son Günü",
         "type": "admin"
     },
     {
@@ -210,9 +210,9 @@
         "type": "exam"
     },
     {
-        "startDate": "2026-06-01",
+        "startDate": "2026-06-17",
         "endDate": "2026-06-17",
-        "title": "Yarıyıl Genel Sınav Sonuçlarının Elektronik Ortamda İletilmesi",
+        "title": "Yarıyıl Genel Sınav Sonuçlarının İletilmesi Son Günü",
         "type": "admin"
     },
     {
@@ -222,9 +222,9 @@
         "type": "exam"
     },
     {
-        "startDate": "2026-06-22",
+        "startDate": "2026-07-01",
         "endDate": "2026-07-01",
-        "title": "Bütünleme Sınav Sonuçlarının Elektronik Ortamda İletilmesi",
+        "title": "Bütünleme Sınav Sonuçlarının İletilmesi Son Günü",
         "type": "admin"
     },
     {
@@ -287,9 +287,9 @@
         "level": "undergraduate"
     },
     {
-        "startDate": "2027-01-04",
+        "startDate": "2027-01-20",
         "endDate": "2027-01-20",
-        "title": "Yarıyıl Genel Sınav Sonuçlarının Elektronik Ortamda İletilmesi",
+        "title": "Yarıyıl Genel Sınav Sonuçlarının İletilmesi Son Günü",
         "type": "admin",
         "level": "undergraduate"
     },
@@ -301,9 +301,9 @@
         "level": "undergraduate"
     },
     {
-        "startDate": "2027-01-25",
+        "startDate": "2027-02-03",
         "endDate": "2027-02-03",
-        "title": "Bütünleme Sınav Sonuçlarının Elektronik Ortamda İletilmesi",
+        "title": "Bütünleme Sınav Sonuçlarının İletilmesi Son Günü",
         "type": "admin",
         "level": "undergraduate"
     },
@@ -392,9 +392,9 @@
         "level": "undergraduate"
     },
     {
-        "startDate": "2027-06-14",
+        "startDate": "2027-06-30",
         "endDate": "2027-06-30",
-        "title": "Yarıyıl Genel Sınav Sonuçlarının Elektronik Ortamda İletilmesi",
+        "title": "Yarıyıl Genel Sınav Sonuçlarının İletilmesi Son Günü",
         "type": "admin",
         "level": "undergraduate"
     },
@@ -406,9 +406,9 @@
         "level": "undergraduate"
     },
     {
-        "startDate": "2027-07-05",
+        "startDate": "2027-07-14",
         "endDate": "2027-07-14",
-        "title": "Bütünleme Sınav Sonuçlarının Elektronik Ortamda İletilmesi",
+        "title": "Bütünleme Sınav Sonuçlarının İletilmesi Son Günü",
         "type": "admin",
         "level": "undergraduate"
     },
@@ -623,9 +623,9 @@
         "level": "graduate"
     },
     {
-        "startDate": "2027-01-04",
+        "startDate": "2027-01-20",
         "endDate": "2027-01-20",
-        "title": "Lisansüstü Genel Sınav Notlarının Elektronik Ortamda İletilmesi",
+        "title": "Lisansüstü Genel Sınav Notlarının İletilmesi Son Günü",
         "type": "admin",
         "level": "graduate"
     },
@@ -756,9 +756,9 @@
         "level": "graduate"
     },
     {
-        "startDate": "2027-06-14",
+        "startDate": "2027-06-30",
         "endDate": "2027-06-30",
-        "title": "Lisansüstü Genel Sınav Notlarının Elektronik Ortamda İletilmesi (Bahar)",
+        "title": "Lisansüstü Genel Sınav Notlarının İletilmesi Son Günü (Bahar)",
         "type": "admin",
         "level": "graduate"
     },
