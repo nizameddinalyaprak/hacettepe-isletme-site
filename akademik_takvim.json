@@ -216,12 +216,6 @@
         "type": "admin"
     },
     {
-        "startDate": "2026-06-15",
-        "endDate": "2026-09-01",
-        "title": "Yaz Tatili",
-        "type": "holiday"
-    },
-    {
         "startDate": "2026-06-22",
         "endDate": "2026-06-28",
         "title": "Bütünleme Sınavları",
