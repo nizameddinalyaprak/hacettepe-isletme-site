@@ -1249,12 +1249,25 @@
                 });
             }
 
+            var hasUg = gununEtkinlikleri.some(e => e.level !== 'graduate');
+            var hasGr = gununEtkinlikleri.some(e => e.level === 'graduate');
+
+            var dotsHTML = '';
+            if (hasUg) {
+                dotsHTML += '<div class="event-dot ug-dot"></div>';
+            }
+            if (hasGr) {
+                dotsHTML += '<div class="event-dot gr-dot"></div>';
+            }
+
             gunlerHTML += `
                 <div id="${dayId}" class="calendar-day ${eventClass} ${monthStartClass}">
                     ${monthLabelHTML}
                     <span class="day-number">${dayDate}</span>
                     <span class="day-name">${gunIsimleriEN[dayIndex]}</span>
-                    <div class="event-dot"></div>
+                    <div class="event-dots-container">
+                        ${dotsHTML}
+                    </div>
                 </div>
             `;
         }
@@ -1267,7 +1280,10 @@
             if (el) {
                 el.addEventListener('mouseenter', function () {
                     var rect = el.getBoundingClientRect();
-                    var eventTitles = data.events.map(function (e) { return e.title; }).join('<br><br>');
+                    var eventTitles = data.events.map(function (e) {
+                        var prefix = e.level === 'graduate' ? '<span class="tooltip-level gr-level">[Lisansüstü]</span> ' : '<span class="tooltip-level ug-level">[Lisans]</span> ';
+                        return prefix + e.title;
+                    }).join('<br><br>');
 
                     globalTooltip.innerHTML = '<span class="tooltip-date">' + data.dateStr + '</span><span class="tooltip-title">' + eventTitles + '</span>';
                     globalTooltip.style.opacity = '1';

@@ -186,3 +186,40 @@
     line-height: 1.4;
     color: #ddd;
 }
+
+/* Multi-level dot support */
+.event-dots-container {
+    display: flex;
+    gap: 3px;
+    justify-content: center;
+    margin-top: 5px;
+    min-height: 6px;
+}
+
+.event-dots-container .event-dot {
+    margin-top: 0;
+    opacity: 1; /* Rendered dynamically, so always visible if present */
+}
+
+.event-dot.ug-dot {
+    background-color: #e74c3c; /* Red for Undergraduate */
+}
+
+.event-dot.gr-dot {
+    background-color: #3498db; /* Blue for Graduate */
+}
+
+/* Tooltip levels */
+.tooltip-level {
+    font-weight: bold;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.tooltip-level.ug-level {
+    color: #e74c3c;
+}
+
+.tooltip-level.gr-level {
+    color: #3498db;
+}
