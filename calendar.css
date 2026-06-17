@@ -223,3 +223,11 @@
 .tooltip-level.gr-level {
     color: #3498db;
 }
+
+/* Graduation Ceremony highlight */
+.calendar-day.has-ceremony {
+    border: 1px dashed #f59e0b !important;
+    border-radius: 8px !important;
+    background-color: rgba(245, 158, 11, 0.15) !important;
+    padding: 2px !important;
+}

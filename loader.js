@@ -1237,7 +1237,11 @@
             });
 
             var hasEvent = gununEtkinlikleri.length > 0;
+            var hasCeremony = gununEtkinlikleri.some(e => e.type === 'ceremony' || e.level === 'ceremony');
             var eventClass = hasEvent ? 'has-event' : '';
+            if (hasCeremony) {
+                eventClass += ' has-ceremony';
+            }
             var dayId = 'day-' + i;
 
             // Veriyi sakla
@@ -1249,10 +1253,13 @@
                 });
             }
 
-            var hasUg = gununEtkinlikleri.some(e => e.level !== 'graduate');
+            var hasUg = gununEtkinlikleri.some(e => e.level !== 'graduate' && e.level !== 'ceremony');
             var hasGr = gununEtkinlikleri.some(e => e.level === 'graduate');
 
             var dotsHTML = '';
+            if (hasCeremony) {
+                dotsHTML += '<i class="fas fa-graduation-cap ceremony-icon" style="color: #f59e0b; font-size: 11px; line-height: 1; transform: translateY(-1px);" title="Mezuniyet Töreni"></i>';
+            }
             if (hasUg) {
                 dotsHTML += '<div class="event-dot ug-dot"></div>';
             }
