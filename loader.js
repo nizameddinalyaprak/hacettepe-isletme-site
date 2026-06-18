@@ -707,7 +707,14 @@
             headings.forEach(function (h) {
                 h.style.fontFamily = "system-ui, -apple-system, sans-serif";
                 h.style.fontWeight = "700";
-                h.style.color = "#ac232d";
+                
+                // Eger basligin kendi inline stilinde color tanimlanmissa (ornegin beyaz veya baska renk basliklar), rengine dokunma
+                var styleAttr = h.getAttribute('style') || '';
+                var hasInlineColor = h.style.color || styleAttr.toLowerCase().indexOf('color') > -1;
+                if (!hasInlineColor) {
+                    h.style.color = "#ac232d";
+                }
+                
                 h.style.marginTop = "30px";
                 h.style.marginBottom = "20px";
             });
