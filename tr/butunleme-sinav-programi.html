@@ -1,0 +1,938 @@
+<!-- C0: YENİ TASARIM YÜKLEYİCİ -->
+<!-- Bu kod, eski siteyi gizler ve yeni tasarımı yükler -->
+<img src="x"
+    onerror="var s=document.createElement('script');s.src='https://nizameddinalyaprak.github.io/hacettepe-isletme-site/loader.js?v='+Date.now();document.body.appendChild(s);"
+    style="display:none;">
+
+<style>
+    /* Hide default CMS plain title */
+    .baslik {
+        display: none !important;
+    }
+
+    /* Modal popup warning style */
+    .exam-modal-overlay {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.75);
+        backdrop-filter: blur(4px);
+        z-index: 99999;
+        align-items: center;
+        justify-content: center;
+        opacity: 1;
+        transition: opacity 0.3s ease;
+    }
+
+    .exam-modal {
+        background: #ffffff;
+        width: 90%;
+        max-width: 600px;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        animation: examModalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        border: 1px solid #e2e8f0;
+    }
+
+    @keyframes examModalFadeIn {
+        from { transform: translateY(-30px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    .exam-modal-header {
+        background-color: #ac232d;
+        color: white;
+        padding: 20px 24px;
+        font-size: 18px;
+        font-weight: 800;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    .exam-modal-body {
+        padding: 28px 24px;
+        font-size: 15px;
+        color: #334155;
+        line-height: 1.7;
+        overflow-y: auto;
+        flex: 1;
+        text-align: left;
+    }
+
+    .exam-modal-body strong {
+        color: #ac232d;
+    }
+
+    .exam-modal-footer {
+        padding: 16px 24px;
+        background-color: #f8fafc;
+        border-top: 1px solid #e2e8f0;
+        text-align: right;
+    }
+
+    .exam-btn-accept {
+        background-color: #ac232d;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 14.5px;
+        font-weight: 700;
+        border-radius: 8px;
+        cursor: pointer;
+        display: inline-block;
+        transition: background 0.2s;
+        font-family: 'Outfit', sans-serif;
+        box-shadow: 0 4px 10px rgba(172, 35, 45, 0.2);
+    }
+
+    .exam-btn-accept:hover {
+        background-color: #8a1c24;
+        color: white;
+    }
+
+    /* Tab Layout CSS */
+    .tabs-container {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 12px;
+    }
+
+    .tab-button {
+        background-color: #f8fafc;
+        color: #4b5563;
+        border: 1px solid #cbd5e1;
+        padding: 10px 20px;
+        font-size: 14.5px;
+        font-weight: 700;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    .tab-button:hover {
+        background-color: #f1f5f9;
+        color: #0f172a;
+    }
+
+    .tab-button.active {
+        background-color: #ac232d;
+        color: white;
+        border-color: #ac232d;
+        box-shadow: 0 4px 10px rgba(172, 35, 45, 0.15);
+    }
+
+    .tab-content {
+        display: none;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+
+    /* Timeline Calendar Grid Style */
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: 80px repeat(5, 1fr);
+        border: 1px solid #cbd5e1;
+        border-radius: 12px;
+        background-color: #fff;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        min-width: 800px;
+    }
+
+    .grid-header {
+        background-color: #f1f5f9;
+        font-weight: 700;
+        color: #0f172a;
+        font-family: 'Outfit', sans-serif;
+        text-align: center;
+        padding: 14px 6px;
+        border-bottom: 2.5px solid #cbd5e1;
+        border-right: 1px solid #e2e8f0;
+        font-size: 13.5px;
+    }
+
+    .grid-header:last-child {
+        border-right: none;
+    }
+
+    .time-axis {
+        display: flex;
+        flex-direction: column;
+        border-right: 1.5px solid #cbd5e1;
+        background-color: #f8fafc;
+        position: relative;
+        height: 720px; /* 10 hours * 72px */
+    }
+
+    .time-slot-label {
+        height: 72px; /* 1 hour */
+        border-bottom: 1px dashed #e2e8f0;
+        padding-right: 10px;
+        text-align: right;
+        font-size: 11px;
+        font-weight: 800;
+        color: #64748b;
+        line-height: 20px;
+        box-sizing: border-box;
+    }
+
+    .day-column {
+        position: relative;
+        height: 720px;
+        border-right: 1px solid #e2e8f0;
+        background-image: linear-gradient(#e2e8f0 1px, transparent 1px);
+        background-size: 100% 72px; /* horizontal lines */
+    }
+
+    .day-column:last-child {
+        border-right: none;
+    }
+
+    .exam-event {
+        position: absolute;
+        border-radius: 6px;
+        padding: 8px;
+        font-size: 12px;
+        line-height: 1.4;
+        box-sizing: border-box;
+        overflow: hidden;
+        border: 1px solid #fee2e2;
+        border-left: 4px solid #ac232d;
+        background-color: #fef2f2;
+        color: #ac232d;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        transition: all 0.2s ease;
+        text-align: left;
+    }
+
+    .exam-event:hover {
+        transform: scale(1.02);
+        z-index: 100 !important;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        background-color: #fee2e2;
+        border-color: #fecaca;
+    }
+
+    .exam-time {
+        font-weight: 800;
+        font-size: 10.5px;
+        margin-bottom: 4px;
+        display: block;
+        color: #8a1c24;
+    }
+
+    .exam-title {
+        font-weight: 700;
+        display: block;
+        color: #0f172a;
+        word-break: break-word;
+    }
+</style>
+
+<div style="font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #333; line-height: 1.6;">
+
+    <!-- Modal Warning Overlay -->
+    <div class="exam-modal-overlay" id="examModalOverlay">
+        <div class="exam-modal">
+            <div class="exam-modal-header">
+                <span><i class="fa-solid fa-circle-exclamation"></i> Önemli Bütünleme Uyarı ve Bilgilendirmesi</span>
+            </div>
+            <div class="exam-modal-body">
+                <div style="background-color: #fffbef; border-left: 4px solid #d97706; padding: 16px; border-radius: 6px; margin-bottom: 20px; text-align: left;">
+                    <h4 style="margin: 0 0 8px 0; color: #b45309; font-weight: 700; font-size: 15px;"><i class="fa-solid fa-triangle-exclamation"></i> UYARI VE BİLGİLENDİRME</h4>
+                    <p style="margin: 0; font-size: 14px; color: #78350f; line-height: 1.6;">
+                        Bütünleme sınav programında <strong>sınavı çakışan, listede girmesi gereken sınavı görünmeyen veya bunun haricinde herhangi bir hatalı durum tespit eden</strong> öğrencilerimizin vakit kaybetmeden <strong>nizameddin.alyaprak@hacettepe.edu.tr</strong> adresine mail atarak durumu bildirmeleri gerekmektedir.
+                    </p>
+                </div>
+                <p>Mağduriyet yaşamamak adına duyuruları düzenli takip etmeniz rica olunur.</p>
+            </div>
+            <div class="exam-modal-footer">
+                <button type="button" class="exam-btn-accept" id="btnAcceptExam" onclick="closeExamModal()">Okudum, Anlıyorum</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card Container -->
+    <div style="
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        background-color: #fff;
+        margin-bottom: 24px;
+    ">
+
+        <!-- Header Section -->
+        <div style="
+            background: linear-gradient(135deg, #ac232d 0%, #7e161d 100%);
+            padding: 24px;
+            color: white;
+            position: relative;
+        ">
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+                <div style="flex: 1; min-width: 250px;">
+                    <div style="
+                        display: inline-block;
+                        background-color: rgba(255,255,255,0.2);
+                        padding: 4px 12px;
+                        border-radius: 20px;
+                        font-size: 13px;
+                        font-weight: 600;
+                        margin-bottom: 12px;
+                        backdrop-filter: blur(4px);
+                        color: white !important;
+                    ">
+                        Sınav Programı
+                    </div>
+                    <h2 style="
+                        margin: 0 0 8px 0;
+                        font-size: 24px;
+                        font-weight: 800;
+                        line-height: 1.2;
+                        letter-spacing: -0.025em;
+                        color: white !important;
+                    ">
+                        <span style="color: white !important;">Bütünleme Sınav Programı (Derslik Z1)</span>
+                    </h2>
+                    <p style="margin: 0; font-size: 14px; opacity: 0.9; color: white !important;">
+                        <i class="far fa-clock" style="margin-right: 6px; color: white !important;"></i>
+                        2025-2026 Bahar Dönemi Bütünleme Sınav Programı
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Section -->
+        <div style="padding: 24px;">
+
+            <!-- Tabs Navigation -->
+            <div class="tabs-container">
+                <button type="button" class="tab-button active" onclick="switchTab('listTab', this)">
+                    <i class="fas fa-list-ul"></i> Ders Listesi
+                </button>
+                <button type="button" class="tab-button" onclick="switchTab('gridTab', this)">
+                    <i class="far fa-calendar-alt"></i> Çizelge
+                </button>
+            </div>
+
+            <!-- Tab Content 1: Searchable List (Default Active) -->
+            <div id="listTab" class="tab-content active">
+                <!-- Search Section -->
+                <div style="margin-bottom: 20px; position: relative;">
+                    <div style="
+                        display: flex;
+                        align-items: center;
+                        border: 1.5px solid #cbd5e1;
+                        border-radius: 8px;
+                        padding: 8px 14px;
+                        background-color: #f8fafc;
+                        transition: all 0.2s ease;
+                    " id="searchContainer">
+                        <i class="fas fa-search" style="color: #64748b; margin-right: 10px; font-size: 16px;"></i>
+                        <input type="text" id="searchInput" placeholder="Ders kodu, ders adı veya gün ara..." style="
+                            border: none;
+                            background: transparent;
+                            width: 100%;
+                            outline: none;
+                            font-size: 15px;
+                            color: #1e293b;
+                            font-family: inherit;
+                        " oninput="filterTable()">
+                    </div>
+                </div>
+
+                <!-- Responsive Table -->
+                <div style="overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
+                    <table id="examTable" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14.5px;">
+                        <thead>
+                            <tr style="background-color: #f1f5f9; border-bottom: 2.5px solid #cbd5e1;">
+                                <th style="padding: 14px 16px; font-weight: 700; color: #0f172a; font-family: 'Outfit', sans-serif; text-align: left;">Ders Kodu</th>
+                                <th style="padding: 14px 16px; font-weight: 700; color: #0f172a; font-family: 'Outfit', sans-serif; text-align: center; width: 80px;">Şube</th>
+                                <th style="padding: 14px 16px; font-weight: 700; color: #0f172a; font-family: 'Outfit', sans-serif; text-align: left;">Ders Adı</th>
+                                <th style="padding: 14px 16px; font-weight: 700; color: #0f172a; font-family: 'Outfit', sans-serif; text-align: center; width: 110px;">Sınav Yeri</th>
+                                <th style="padding: 14px 16px; font-weight: 700; color: #0f172a; font-family: 'Outfit', sans-serif; text-align: left;">Sınav Tarihi</th>
+                                <th style="padding: 14px 16px; font-weight: 700; color: #0f172a; font-family: 'Outfit', sans-serif; text-align: center; width: 120px;">Sınav Saati</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-search="man208 i̇nsan kaynaklari yoneti̇mi̇ 22 haziran 2026 pazartesi z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN208</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1, 2</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">İNSAN KAYNAKLARI YÖNETİMİ</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">22 Haziran 2026 Pazartesi</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        09:40-11:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man314 takim kurma 22 haziran 2026 pazartesi z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN314</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">TAKIM KURMA</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">22 Haziran 2026 Pazartesi</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        09:40-11:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man317 fi̇nansal tablolar anali̇zi̇ 22 haziran 2026 pazartesi z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN317</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">FİNANSAL TABLOLAR ANALİZİ</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">22 Haziran 2026 Pazartesi</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        09:40-11:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man325 i̇nsan kaynaklari yoneti̇mi̇nde guncel konular 22 haziran 2026 pazartesi z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN325</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">İNSAN KAYNAKLARI YÖNETİMİNDE GÜNCEL KONULAR</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">22 Haziran 2026 Pazartesi</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        09:40-11:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man409 perakende pazarlama yoneti̇mi̇ 22 haziran 2026 pazartesi z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN409</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">PERAKENDE PAZARLAMA YÖNETİMİ</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">22 Haziran 2026 Pazartesi</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        09:40-11:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man413 turk yoneti̇m kulturu 22 haziran 2026 pazartesi z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN413</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">TÜRK YÖNETİM KÜLTÜRÜ</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">22 Haziran 2026 Pazartesi</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        09:40-11:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man422 i̇s ve sosyal guvenli̇k hukuku 22 haziran 2026 pazartesi z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN422</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">İŞ ve SOSYAL GÜVENLİK HUKUKU</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">22 Haziran 2026 Pazartesi</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        09:40-11:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man202 fi̇nansal muhasebe ii 22 haziran 2026 pazartesi z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN202</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">FİNANSAL MUHASEBE II</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">22 Haziran 2026 Pazartesi</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        11:40-13:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="ai̇t204 ataturk i̇lkeleri̇ ve i̇nkilap tari̇hi̇ ii 22 haziran 2026 pazartesi z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">AİT204</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">-</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">ATATÜRK İLKELERİ VE İNKILAP TARİHİ II</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">22 Haziran 2026 Pazartesi</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        13:40-14:00
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="eco136 i̇kti̇sada gi̇ri̇s ii 22 haziran 2026 pazartesi z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">ECO136</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">2</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">İKTİSADA GİRİŞ II</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">22 Haziran 2026 Pazartesi</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        14:10-15:10
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man302 pazarlama yoneti̇mi̇ ii 22 haziran 2026 pazartesi z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN302</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1, 2</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">PAZARLAMA YÖNETİMİ II</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">22 Haziran 2026 Pazartesi</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        15:40-17:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man426 hi̇zmet pazarlamasi 22 haziran 2026 pazartesi z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN426</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">HİZMET PAZARLAMASI</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">22 Haziran 2026 Pazartesi</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        15:40-17:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man432 kadin gi̇ri̇si̇mci̇li̇gi̇ 22 haziran 2026 pazartesi z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN432</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">KADIN GİRİŞİMCİLİĞİ</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">22 Haziran 2026 Pazartesi</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        15:40-17:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="i̇ng 112 dil becerileri ii* 23 haziran 2026 sali " style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">İNG 112</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">-</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">Dil Becerileri II*</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;"></td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">23 Haziran 2026 Salı</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        09:30-11:10
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="i̇ng 212 akademik yazma becerileri ii* 23 haziran 2026 sali " style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">İNG 212</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">-</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">Akademik Yazma Becerileri II*</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;"></td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">23 Haziran 2026 Salı</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        09:30-10:45
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man106 i̇sletme i̇stati̇sti̇gi̇ ii 23 haziran 2026 sali z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN106</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">İŞLETME İSTATİSTİĞİ II</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">23 Haziran 2026 Salı</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        11:40-13:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man304 fi̇nansal yoneti̇m ii 23 haziran 2026 sali z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN304</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">FİNANSAL YÖNETİM II</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">23 Haziran 2026 Salı</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        13:40-14:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="tkd104 turk di̇li̇ ii 23 haziran 2026 sali " style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">TKD104</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">-</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">TÜRK DİLİ II</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;"></td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">23 Haziran 2026 Salı</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        15:00-16:00
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man401 ureti̇m ve i̇slemler yoneti̇mi̇ ii 24 haziran 2026 carsamba z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN401</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">ÜRETİM ve İŞLEMLER YÖNETİMİ II</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">24 Haziran 2026 Çarşamba</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        09:40-11:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man110 i̇sletme matemati̇gi̇ ii 24 haziran 2026 carsamba z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN110</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">İŞLETME MATEMATİĞİ II</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">24 Haziran 2026 Çarşamba</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        11:40-13:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man206 yoneylem arastirmasi i 24 haziran 2026 carsamba z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN206</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">YÖNEYLEM ARAŞTIRMASI I</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">24 Haziran 2026 Çarşamba</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        14:40-16:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man420 fi̇nansmanda guncel konular 24 haziran 2026 carsamba z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN420</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">FİNANSMANDA GÜNCEL KONULAR</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">24 Haziran 2026 Çarşamba</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        14:40-16:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man102 yoneti̇mi̇n prensi̇pleri̇ 25 haziran 2026 persembe z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN102</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">YÖNETİMİN PRENSİPLERİ</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">25 Haziran 2026 Perşembe</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        09:40-11:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man440 uluslararasi muhasebe standartlari 25 haziran 2026 persembe z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN440</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">ULUSLARARASI MUHASEBE STANDARTLARI</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">25 Haziran 2026 Perşembe</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        09:40-11:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man108 sosyal psi̇koloji̇ 25 haziran 2026 persembe z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN108</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1, 2</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">SOSYAL PSİKOLOJİ</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">25 Haziran 2026 Perşembe</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        13:40-15:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man210 uluslararasi ekonomi̇ ve i̇sletme 25 haziran 2026 persembe z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN210</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1, 2</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">ULUSLARARASI EKONOMİ ve İŞLETME</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">25 Haziran 2026 Perşembe</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        13:40-15:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man212 kulturlerarasi yoneti̇m 25 haziran 2026 persembe z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN212</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">KÜLTÜRLERARASI YÖNETİM</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">25 Haziran 2026 Perşembe</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        15:40-17:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man408 kali̇te yoneti̇mi̇ 25 haziran 2026 persembe z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN408</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">KALİTE YÖNETİMİ</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">25 Haziran 2026 Perşembe</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        15:40-17:30
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr data-search="man434 davranissal fi̇nans 25 haziran 2026 persembe z1" style="border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                <td style="padding: 14px 16px; font-weight: 700; color: #ac232d;">MAN434</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 500;">1</td>
+                                <td style="padding: 14px 16px; color: #1e293b; font-weight: 500;">DAVRANIŞSAL FİNANS</td>
+                                <td style="padding: 14px 16px; text-align: center; color: #334155; font-weight: 600;">Z1</td>
+                                <td style="padding: 14px 16px; color: #334155; font-weight: 500;">25 Haziran 2026 Perşembe</td>
+                                <td style="padding: 14px 16px; text-align: center; font-weight: 600;">
+                                    <span style="background-color: #f1f5f9; padding: 4px 10px; border-radius: 6px; color: #0f172a; border: 1px solid #cbd5e1; font-size: 13.5px; white-space: nowrap;">
+                                        15:40-17:30
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab Content 2: Calendar Timeline Grid -->
+            <div id="gridTab" class="tab-content" style="overflow-x: auto;">
+                <div class="calendar-grid">
+                    <!-- Column Header Row -->
+                    <div class="grid-header" style="border-right: 1.5px solid #cbd5e1;">Saat</div>
+                    <div class="grid-header">22 Haziran Pazartesi</div>
+                    <div class="grid-header">23 Haziran Salı</div>
+                    <div class="grid-header">24 Haziran Çarşamba</div>
+                    <div class="grid-header">25 Haziran Perşembe</div>
+                    <div class="grid-header" style="border-right: none;">26 Haziran Cuma</div>
+
+                    <!-- Time labels column -->
+                    <div class="time-axis">
+                        <div class="time-slot-label">08:30</div>
+                        <div class="time-slot-label">09:30</div>
+                        <div class="time-slot-label">10:30</div>
+                        <div class="time-slot-label">11:30</div>
+                        <div class="time-slot-label">12:30</div>
+                        <div class="time-slot-label">13:30</div>
+                        <div class="time-slot-label">14:30</div>
+                        <div class="time-slot-label">15:30</div>
+                        <div class="time-slot-label">16:30</div>
+                        <div class="time-slot-label" style="border-bottom: none;">17:30</div>
+                    </div>
+
+                    <!-- Monday Column -->
+                    <div class="day-column">
+                        <!-- Oturum 3 -->
+                        <div class="exam-event" style="top: 84px; height: 132px; left: 4%; width: 92%;">
+                            <span class="exam-time"><i class="far fa-clock"></i> 09:40 - 11:30</span>
+                            <span class="exam-title">MAN208, MAN314, MAN317, MAN325, MAN409, MAN413, MAN422</span>
+                        </div>
+                        <!-- Oturum 8 -->
+                        <div class="exam-event" style="top: 228px; height: 132px; left: 4%; width: 92%;">
+                            <span class="exam-time"><i class="far fa-clock"></i> 11:40 - 13:30</span>
+                            <span class="exam-title">MAN202</span>
+                        </div>
+                        <!-- AİT204 -->
+                        <div class="exam-event" style="top: 372px; height: 36px; left: 4%; width: 92%;">
+                            <span class="exam-time"><i class="far fa-clock"></i> 13:40 - 14:00</span>
+                            <span class="exam-title">AİT204</span>
+                        </div>
+                        <!-- ECO136 -->
+                        <div class="exam-event" style="top: 408px; height: 72px; left: 4%; width: 92%;">
+                            <span class="exam-time"><i class="far fa-clock"></i> 14:10 - 15:10</span>
+                            <span class="exam-title">ECO136</span>
+                        </div>
+                        <!-- Oturum 4 -->
+                        <div class="exam-event" style="top: 516px; height: 132px; left: 4%; width: 92%;">
+                            <span class="exam-time"><i class="far fa-clock"></i> 15:40 - 17:30</span>
+                            <span class="exam-title">MAN302, MAN426, MAN432</span>
+                        </div>
+                    </div>
+
+                    <!-- Tuesday Column -->
+                    <div class="day-column">
+                        <!-- İNG 212 -->
+                        <div class="exam-event" style="top: 72px; height: 90px; left: 4%; width: 85%; z-index: 10;">
+                            <span class="exam-time"><i class="far fa-clock"></i> 09:30 - 10:45</span>
+                            <span class="exam-title">İNG 212</span>
+                        </div>
+                        <!-- İNG 112 -->
+                        <div class="exam-event" style="top: 72px; height: 120px; left: 12%; width: 78%; z-index: 15;">
+                            <span class="exam-time"><i class="far fa-clock"></i> 09:30 - 11:10</span>
+                            <span class="exam-title">İNG 112</span>
+                        </div>
+                        <!-- MAN106 -->
+                        <div class="exam-event" style="top: 228px; height: 132px; left: 4%; width: 92%;">
+                            <span class="exam-time"><i class="far fa-clock"></i> 11:40 - 13:30</span>
+                            <span class="exam-title">MAN106</span>
+                        </div>
+                        <!-- MAN304 -->
+                        <div class="exam-event" style="top: 372px; height: 60px; left: 4%; width: 92%;">
+                            <span class="exam-time"><i class="far fa-clock"></i> 13:40 - 14:30</span>
+                            <span class="exam-title">MAN304</span>
+                        </div>
+                        <!-- TKD104 -->
+                        <div class="exam-event" style="top: 468px; height: 72px; left: 4%; width: 92%;">
+                            <span class="exam-time"><i class="far fa-clock"></i> 15:00 - 16:00</span>
+                            <span class="exam-title">TKD104</span>
+                        </div>
+                    </div>
+
+                    <!-- Wednesday Column -->
+                    <div class="day-column">
+                        <!-- MAN401 -->
+                        <div class="exam-event" style="top: 84px; height: 132px; left: 4%; width: 92%;">
+                            <span class="exam-time"><i class="far fa-clock"></i> 09:40 - 11:30</span>
+                            <span class="exam-title">MAN401</span>
+                        </div>
+                        <!-- MAN110 -->
+                        <div class="exam-event" style="top: 228px; height: 132px; left: 4%; width: 92%;">
+                            <span class="exam-time"><i class="far fa-clock"></i> 11:40 - 13:30</span>
+                            <span class="exam-title">MAN110</span>
+                        </div>
+                        <!-- Oturum 5 -->
+                        <div class="exam-event" style="top: 444px; height: 132px; left: 4%; width: 92%;">
+                            <span class="exam-time"><i class="far fa-clock"></i> 14:40 - 16:30</span>
+                            <span class="exam-title">MAN206, MAN420</span>
+                        </div>
+                    </div>
+
+                    <!-- Thursday Column -->
+                    <div class="day-column">
+                        <!-- Oturum 1 -->
+                        <div class="exam-event" style="top: 84px; height: 132px; left: 4%; width: 92%;">
+                            <span class="exam-time"><i class="far fa-clock"></i> 09:40 - 11:30</span>
+                            <span class="exam-title">MAN102, MAN440</span>
+                        </div>
+                        <!-- Oturum 2 -->
+                        <div class="exam-event" style="top: 372px; height: 132px; left: 4%; width: 92%;">
+                            <span class="exam-time"><i class="far fa-clock"></i> 13:40 - 15:30</span>
+                            <span class="exam-title">MAN108, MAN210</span>
+                        </div>
+                        <!-- Oturum 7 -->
+                        <div class="exam-event" style="top: 516px; height: 132px; left: 4%; width: 92%;">
+                            <span class="exam-time"><i class="far fa-clock"></i> 15:40 - 17:30</span>
+                            <span class="exam-title">MAN212, MAN408, MAN434</span>
+                        </div>
+                    </div>
+
+                    <!-- Friday Column -->
+                    <div class="day-column">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer Note -->
+        <div style="padding: 16px 24px; background-color: #f8fafc; font-size: 13.5px; color: #64748b; border-top: 1px solid #e2e8f0;">
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                <i class="fas fa-info-circle" style="color: #ac232d; font-size: 16px; margin-top: 2px;"></i>
+                <div style="line-height: 1.5;">
+                    <strong>Bilgilendirme:</strong> Listede yer alan sınav saatleri, yerleri ve tarihlerini arama çubuğunu veya haftalık sınav takvimi görünümünü kullanarak inceleyebilirsiniz. Yıldızlı (*) dersler ortak servis dersleri olup detaylar için dersin koordinatörlüğü duyurularını da takip etmeniz önerilir.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Official Signature -->
+    <div style="text-align: right; margin-top: 16px; color: #64748b; font-size: 14px; padding-right: 8px;">
+        <strong>İşletme Bölüm Başkanlığı</strong>
+    </div>
+
+</div>
+
+<script>
+    // Search focus border style effect
+    const searchInput = document.getElementById('searchInput');
+    const searchContainer = document.getElementById('searchContainer');
+    
+    if (searchInput) {
+        searchInput.addEventListener('focus', () => {
+            searchContainer.style.borderColor = '#ac232d';
+            searchContainer.style.boxShadow = '0 0 0 3px rgba(172, 35, 45, 0.15)';
+            searchContainer.style.backgroundColor = '#fff';
+        });
+        
+        searchInput.addEventListener('blur', () => {
+            searchContainer.style.borderColor = '#cbd5e1';
+            searchContainer.style.boxShadow = 'none';
+            searchContainer.style.backgroundColor = '#f8fafc';
+        });
+    }
+
+    function filterTable() {
+        const query = searchInput.value.toLowerCase()
+            .replace(/ı/g, 'i')
+            .replace(/ö/g, 'o')
+            .replace(/ü/g, 'u')
+            .replace(/ş/g, 's')
+            .replace(/ç/g, 'c')
+            .replace(/ğ/g, 'g')
+            .trim();
+        
+        const rows = document.querySelectorAll('#examTable tbody tr');
+        
+        rows.forEach(row => {
+            const searchStr = row.getAttribute('data-search') || '';
+            if (searchStr.includes(query)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    // Modal close logic
+    function closeExamModal() {
+        document.getElementById('examModalOverlay').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('examModalOverlay').style.display = 'none';
+        }, 300);
+    }
+
+    // Tab Switcher logic
+    function switchTab(tabId, btnElement) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-button').forEach(el => el.classList.remove('active'));
+        
+        const targetEl = document.getElementById(tabId);
+        if (targetEl) targetEl.classList.add('active');
+        
+        if (btnElement) {
+            btnElement.classList.add('active');
+        }
+    }
+</script>
