@@ -138,6 +138,7 @@
     var isAdminStaffPage = path.includes('idari_personel') || path.includes('department_staff-183') || path.includes('administrative_staff.html') || search.includes('page=admin') || search.includes('page=idari_personel');
     var isMidtermPage = path.includes('midtermannouncement-1290') || path.includes('midterm.html') || search.includes('page=midterm');
     var isFinalPage = path.includes('finalannouncement') || path.includes('final.html') || search.includes('page=final');
+    var isButunlemePage = path.includes('butunleme') || path.includes('butunleme-sinav-programi.html') || search.includes('page=butunleme');
 
     // Eger URL'de 'preview_subpage' varsa kesinlikle alt sayfadir (Test icin)
     if (path.includes('preview_subpage')) isHomePage = false;
@@ -172,6 +173,7 @@
     if (path.endsWith('academic_calendar.html') && isAcademicCalendarPage) isStandalone = true;
     if (path.endsWith('midterm.html') && isMidtermPage) isStandalone = true;
     if (path.endsWith('final.html') && isFinalPage) isStandalone = true;
+    if (path.endsWith('butunleme-sinav-programi.html') && isButunlemePage) isStandalone = true;
 
     // --- HTML ICERIGINI CEK (SADECE ANASAYFA VEYA OZEL SAYFALAR ISE) ---
     if (window.OFFLINE_MODE || isStandalone) {
@@ -387,6 +389,14 @@
             })
     } else if (isFinalPage) {
         fetch(baseUrl + contentFolder + '/final.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                baslat(doc, true);
+            })
+    } else if (isButunlemePage) {
+        fetch(baseUrl + '/tr/butunleme-sinav-programi.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
@@ -1012,7 +1022,7 @@
                         </div>
                         <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/en/announcements" class="hi-nav-link">ANNOUNCEMENTS</a></div>
                         <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/en/menu/contact_us-149" class="hi-nav-link">CONTACT</a></div>
-                        <div class="hi-nav-item"><a href="/tr/butunleme-sinav-programi.html" class="hi-nav-link hi-nav-special">MAKE-UP EXAMS</a></div>
+                        <div class="hi-nav-item"><a href="?page=butunleme" class="hi-nav-link hi-nav-special">MAKE-UP EXAMS</a></div>
 
 
                     </nav>
@@ -1098,7 +1108,7 @@
                         </div>
                         <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/tr/menu/duyurular-228" class="hi-nav-link">DUYURULAR</a></div>
                         <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/tr/menu/iletisim-13" class="hi-nav-link">İLETİŞİM</a></div>
-                        <div class="hi-nav-item"><a href="/tr/butunleme-sinav-programi.html" class="hi-nav-link hi-nav-special">BÜTÜNLEME PROGRAMI</a></div>
+                        <div class="hi-nav-item"><a href="?page=butunleme" class="hi-nav-link hi-nav-special">BÜTÜNLEME PROGRAMI</a></div>
 
 
                     </nav>
