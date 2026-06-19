@@ -893,7 +893,7 @@
         });
     }
 
-    function filterTable() {
+    window.filterTable = function() {
         const query = searchInput.value.toLowerCase()
             .replace(/ı/g, 'i')
             .replace(/ö/g, 'o')
@@ -916,7 +916,7 @@
     }
 
     // Modal close logic
-    function closeExamModal() {
+    window.closeExamModal = function() {
         document.getElementById('examModalOverlay').style.opacity = '0';
         setTimeout(() => {
             document.getElementById('examModalOverlay').style.display = 'none';
@@ -924,7 +924,7 @@
     }
 
     // Tab Switcher logic
-    function switchTab(tabId, btnElement) {
+    window.switchTab = function(tabId, btnElement) {
         document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.tab-button').forEach(el => el.classList.remove('active'));
         

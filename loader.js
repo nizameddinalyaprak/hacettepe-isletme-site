@@ -1,6 +1,8 @@
 /* loader.js - Site Yükleyici */
 
 (function () {
+    if (window.LOADER_INITIALIZED) return;
+    window.LOADER_INITIALIZED = true;
 
 
     // 0. FAILSAFE: Eger loader bir sebepten cokerse, 2.5 saniye sonra sayfayi zorla goster.
@@ -401,6 +403,11 @@
             .then(function (html) {
                 var parser = new DOMParser();
                 var doc = parser.parseFromString(html, 'text/html');
+                // Remove recursive loader script to prevent infinite loops
+                var imgLoader = doc.querySelector('img[onerror*="loader.js"]');
+                if (imgLoader) {
+                    imgLoader.remove();
+                }
                 baslat(doc, true);
             })
     } else if (isRequiredFormsPage) {
