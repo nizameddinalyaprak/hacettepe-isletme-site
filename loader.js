@@ -1012,6 +1012,7 @@
                         </div>
                         <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/en/announcements" class="hi-nav-link">ANNOUNCEMENTS</a></div>
                         <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/en/menu/contact_us-149" class="hi-nav-link">CONTACT</a></div>
+                        <div class="hi-nav-item"><a href="/Gelistirme_ve_Ek_Materyaller/Duyurular/butunleme-sinav-programi.html" class="hi-nav-link hi-nav-special">MAKE-UP EXAMS</a></div>
 
 
                     </nav>
@@ -1097,6 +1098,7 @@
                         </div>
                         <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/tr/menu/duyurular-228" class="hi-nav-link">DUYURULAR</a></div>
                         <div class="hi-nav-item"><a href="https://isletme.hacettepe.edu.tr/tr/menu/iletisim-13" class="hi-nav-link">İLETİŞİM</a></div>
+                        <div class="hi-nav-item"><a href="/Gelistirme_ve_Ek_Materyaller/Duyurular/butunleme-sinav-programi.html" class="hi-nav-link hi-nav-special">BÜTÜNLEME PROGRAMI</a></div>
 
 
                     </nav>
