@@ -1314,7 +1314,14 @@
                 el.addEventListener('mouseenter', function () {
                     var rect = el.getBoundingClientRect();
                     var eventTitles = data.events.map(function (e) {
-                        var prefix = e.level === 'graduate' ? '<span class="tooltip-level gr-level">[Lisansüstü]</span> ' : '<span class="tooltip-level ug-level">[Lisans]</span> ';
+                        var prefix = '';
+                        if (e.type !== 'holiday' && e.type !== 'ceremony' && e.level !== 'ceremony') {
+                            if (e.level === 'graduate') {
+                                prefix = '<span class="tooltip-level gr-level">[Lisansüstü]</span> ';
+                            } else if (e.level === 'undergraduate') {
+                                prefix = '<span class="tooltip-level ug-level">[Lisans]</span> ';
+                            }
+                        }
                         return prefix + e.title;
                     }).join('<br><br>');
 
