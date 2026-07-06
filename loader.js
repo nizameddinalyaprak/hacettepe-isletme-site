@@ -141,6 +141,7 @@
     var isMidtermPage = path.includes('midtermannouncement-1290') || path.includes('midterm.html') || search.includes('page=midterm');
     var isFinalPage = path.includes('finalannouncement') || path.includes('final.html') || search.includes('page=final');
     var isButunlemePage = path.includes('butunleme') || path.includes('butunleme-sinav-programi.html') || search.includes('page=butunleme');
+    var isLisansustuGirisPage = path.includes('lisansustu-giris-sinavlari') || path.includes('lisansustu-giris-sinavlari.html') || search.includes('page=lisansustu');
 
     // Eger URL'de 'preview_subpage' varsa kesinlikle alt sayfadir (Test icin)
     if (path.includes('preview_subpage')) isHomePage = false;
@@ -176,6 +177,7 @@
     if (path.endsWith('midterm.html') && isMidtermPage) isStandalone = true;
     if (path.endsWith('final.html') && isFinalPage) isStandalone = true;
     if (path.endsWith('butunleme-sinav-programi.html') && isButunlemePage) isStandalone = true;
+    if (path.endsWith('lisansustu-giris-sinavlari.html') && isLisansustuGirisPage) isStandalone = true;
 
     // --- HTML ICERIGINI CEK (SADECE ANASAYFA VEYA OZEL SAYFALAR ISE) ---
     if (window.OFFLINE_MODE || isStandalone) {
@@ -399,6 +401,19 @@
             })
     } else if (isButunlemePage) {
         fetch(baseUrl + '/tr/butunleme-sinav-programi.html' + cacheBuster)
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(html, 'text/html');
+                // Remove recursive loader script to prevent infinite loops
+                var imgLoader = doc.querySelector('img[onerror*="loader.js"]');
+                if (imgLoader) {
+                    imgLoader.remove();
+                }
+                baslat(doc, true);
+            })
+    } else if (isLisansustuGirisPage) {
+        fetch(baseUrl + '/tr/lisansustu-giris-sinavlari.html' + cacheBuster)
             .then(function (response) { return response.text(); })
             .then(function (html) {
                 var parser = new DOMParser();
