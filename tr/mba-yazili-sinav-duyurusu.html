@@ -213,52 +213,6 @@
             display: block;
         }
 
-        /* Search Box styling */
-        .search-box-container {
-            background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 16px 20px;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.01);
-        }
-        .search-input-wrapper {
-            position: relative;
-            flex: 1;
-        }
-        .search-input {
-            width: 100%;
-            padding: 10px 16px 10px 40px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-            font-family: inherit;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-        .search-input:focus {
-            border-color: #ac232d;
-            box-shadow: 0 0 0 3px rgba(172, 35, 45, 0.15);
-        }
-        .search-icon {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #64748b;
-            font-size: 14px;
-        }
-        .search-feedback {
-            font-size: 13px;
-            font-weight: 600;
-            color: #ac232d;
-            min-width: 150px;
-            text-align: right;
-        }
-
         /* Visual Classroom Grid styling */
         .classroom-container {
             background: #ffffff;
@@ -339,15 +293,6 @@
             border-color: #ac232d;
             box-shadow: 0 2px 8px rgba(172, 35, 45, 0.1);
         }
-        .desk.highlight {
-            background-color: #fffbeb !important;
-            border-color: #d97706 !important;
-            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.2) !important;
-            transform: scale(1.02);
-        }
-        .desk.highlight .seat-no {
-            color: #d97706 !important;
-        }
         .seat-no {
             font-weight: 700;
             color: #ac232d;
@@ -408,11 +353,6 @@
         }
         .candidate-table tr:nth-child(even) {
             background-color: #f8fafc;
-        }
-        .candidate-table tr.highlight td {
-            background-color: #fffbeb !important;
-            color: #b45309 !important;
-            font-weight: bold;
         }
 
         .exam-footer {
@@ -505,21 +445,10 @@
                 </div>
             </div>
 
-            <!-- SEARCH AND INTERACTIVE SEATING CHART -->
+            <!-- SEATING CHART -->
             <h3 class="exam-section-title" id="seating-section">
-                <i class="fas fa-search"></i> İnteraktif Aday Arama ve Oturma Düzeni
+                <i class="fas fa-chair"></i> Sınav Salonları Oturma Düzeni ve Aday Listeleri
             </h3>
-            <p class="exam-text">
-                Sınava gireceğiniz salonu ve oturacağınız sıra numarasını bulmak için aday başvuru numaranızı aşağıdaki arama kutusuna yazınız:
-            </p>
-
-            <div class="search-box-container">
-                <div class="search-input-wrapper">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="cand-search-input" class="search-input" placeholder="Aday Numaranızı Giriniz (Örn: 11720)..." oninput="searchCandidate()">
-                </div>
-                <div id="search-feedback" class="search-feedback"></div>
-            </div>
 
             <!-- TABS -->
             <div class="tabs-nav">
@@ -1986,58 +1915,6 @@
         const target = document.getElementById('tab-' + roomCode);
         if (target) {
             target.classList.add('active');
-        }
-    }
-
-    function searchCandidate() {
-        const searchInput = document.getElementById('cand-search-input').value.trim();
-        const feedback = document.getElementById('search-feedback');
-        
-        // Clear previous highlights
-        document.querySelectorAll('.desk.filled').forEach(d => d.classList.remove('highlight'));
-        document.querySelectorAll('.candidate-table tr').forEach(r => r.classList.remove('highlight'));
-        
-        if (searchInput.length < 3) {
-            feedback.innerHTML = "";
-            return;
-        }
-        
-        // Search in all visual desks
-        let foundDesk = null;
-        let foundRoom = "";
-        
-        // Check Z1
-        const deskZ1 = document.querySelector('#tab-z1 .desk[data-candidate-id="' + searchInput + '"]');
-        if (deskZ1) { foundDesk = deskZ1; foundRoom = "z1"; }
-        
-        // Check Z4
-        const deskZ4 = document.querySelector('#tab-z4 .desk[data-candidate-id="' + searchInput + '"]');
-        if (deskZ4) { foundDesk = deskZ4; foundRoom = "z4"; }
-        
-        // Check Z2
-        const deskZ2 = document.querySelector('#tab-z2 .desk[data-candidate-id="' + searchInput + '"]');
-        if (deskZ2) { foundDesk = deskZ2; foundRoom = "z2"; }
-        
-        if (foundDesk) {
-            // Highlight desk
-            foundDesk.classList.add('highlight');
-            
-            // Switch to the correct tab
-            switchTab(foundRoom);
-            
-            // Highlight row in table
-            const row = document.querySelector('tr[data-candidate-id="' + searchInput + '"]');
-            if (row) {
-                row.classList.add('highlight');
-                row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-            
-            const seatNo = foundDesk.querySelector('.seat-no').innerText;
-            feedback.innerHTML = "✓ " + foundRoom.toUpperCase() + " Salonunda Bulundu (" + seatNo + ")";
-            feedback.style.color = "#16a34a";
-        } else {
-            feedback.innerHTML = "✗ Aday No Bulunamadı";
-            feedback.style.color = "#dc2626";
         }
     }
 </script>
