@@ -466,7 +466,7 @@
                         <i class="fas fa-map-marker-alt exam-info-icon"></i>
                     </div>
                     <div class="exam-info-content">
-                        <div class="exam-info-label">Sınav Salonları</div>
+                        <div class="exam-info-label">Sınav Salonu</div>
                         <div class="exam-info-value">İİBF Zemin Kat<br>Z1 - Z4 - Z2 Sınıfları</div>
                     </div>
                 </div>
@@ -523,9 +523,9 @@
 
             <!-- TABS -->
             <div class="tabs-nav">
-                <button class="tab-btn active" onclick="switchTab('z1')">Derslik Z1 (54 Aday)</button>
-                <button class="tab-btn" onclick="switchTab('z4')">Derslik Z4 (54 Aday)</button>
-                <button class="tab-btn" onclick="switchTab('z2')">Derslik Z2 (16 Aday)</button>
+                <button class="tab-btn active" onclick="switchTab('z1', this)">Derslik Z1 (54 Aday)</button>
+                <button class="tab-btn" onclick="switchTab('z4', this)">Derslik Z4 (54 Aday)</button>
+                <button class="tab-btn" onclick="switchTab('z2', this)">Derslik Z2 (16 Aday)</button>
             </div>
 
             <!-- TAB 1: Z1 -->
@@ -1966,15 +1966,27 @@
 </div>
 
 <script>
-    function switchTab(roomCode) {
+    function switchTab(roomCode, btnElement) {
         // Switch buttons
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        // Find correct button based on click
-        event.currentTarget.classList.add('active');
+        if (btnElement) {
+            btnElement.classList.add('active');
+        } else {
+            // Find active tab button by search
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                const onclickAttr = btn.getAttribute('onclick') || '';
+                if (onclickAttr.includes("'" + roomCode + "'") || onclickAttr.includes('"' + roomCode + '"')) {
+                    btn.classList.add('active');
+                }
+            });
+        }
         
         // Switch content
         document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-        document.getElementById('tab-' + roomCode).classList.add('active');
+        const target = document.getElementById('tab-' + roomCode);
+        if (target) {
+            target.classList.add('active');
+        }
     }
 
     function searchCandidate() {
@@ -2012,13 +2024,6 @@
             
             // Switch to the correct tab
             switchTab(foundRoom);
-            // Update tab button active state
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.getAttribute('onclick').includes(foundRoom)) {
-                    btn.classList.add('active');
-                }
-            });
             
             // Highlight row in table
             const row = document.querySelector('tr[data-candidate-id="' + searchInput + '"]');
