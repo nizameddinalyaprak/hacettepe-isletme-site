@@ -945,10 +945,9 @@
         var stickyDeptName = isEN ? 'BUSINESS' : 'İŞLETME';
         var menuBtnText = isEN ? 'MENU' : 'MENÜ';
 
-        // 1. Menu Ust (Social & Links) - Mobil uyumluluk icin d-none kaldirildi
         var menuUstHTML = `
             <div class="menu_ust" style="width: 100%; display: flex; justify-content: flex-end; background: #fafafa; border-bottom: none;">
-                <div class="container" style="display: flex; justify-content: flex-end; align-items: center; max-width: 1200px; padding: 3px 30px;">
+                <div style="display: flex; justify-content: flex-end; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto; padding: 3px 15px;">
 
                     <div class="top-links" style="display: flex; align-items: center;">
                         <a href="https://hacettepe.edu.tr" target="_blank" style="color:#666; text-decoration:none; font-size:13px;">Hacettepe</a>

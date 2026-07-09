@@ -325,3 +325,19 @@
         transform: translate3d(-50%, 0, 0);
     }
 }
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+    .calendar-day {
+        min-width: 42px !important;
+        padding: 5px !important;
+    }
+    
+    .day-number {
+        font-size: 17px !important;
+    }
+    
+    .day-name {
+        font-size: 9px !important;
+    }
+}
