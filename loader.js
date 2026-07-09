@@ -1383,7 +1383,7 @@
             var listeHTML = "";
             var sayac = 0;
             window.OFFLINE_ANNOUNCEMENTS.forEach(d => {
-                if (sayac < 12) {
+                if (sayac < 15) {
                     // Basitce kategori belirle
                     var category = "Genel";
                     var lowerBaslik = d.title.toLowerCase();
@@ -1541,14 +1541,14 @@
                         }
 
                         // JavaScript linklerini ele
-                        if (sayac < 12 && text.length > 5 && link.href && !link.href.includes('javascript')) {
+                        if (sayac < 15 && text.length > 5 && link.href && !link.href.includes('javascript')) {
                             listeHTML += olusturDuyuruHTML(tarih, text, link.href);
                             sayac++;
                         }
                     });
                 } else {
                     duyuruSatirlari.forEach((satir, index) => {
-                        if (sayac >= 12) return;
+                        if (sayac >= 15) return;
 
                         var link = satir.querySelector('a');
                         if (!link) return;
