@@ -1624,7 +1624,7 @@
             var temizBaslik = d.title.replace(/\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}/, '').trim();
             var displayLabel = (d.date ? "[" + d.date + "] " : "") + temizBaslik;
             itemsHTML += `<a href="${d.url}" class="ticker-item" target="_blank">${displayLabel}</a>`;
-            itemsHTML += `<span class="ticker-separator">★</span>`;
+            itemsHTML += `<img src="${baseUrl}/images/logo.svg" class="ticker-logo-sep" alt="Hacettepe Logo">`;
         });
 
         // Cift render yapalim ki kesintisiz donsun

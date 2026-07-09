@@ -305,11 +305,12 @@
     color: #ac232d;
 }
 
-.ticker-separator {
-    color: #ac232d;
+.ticker-logo-sep {
+    height: 14px;
+    width: auto;
     margin: 0 25px;
-    font-weight: bold;
-    font-size: 12px;
+    vertical-align: middle;
+    display: inline-block;
 }
 
 .ticker-loading {
