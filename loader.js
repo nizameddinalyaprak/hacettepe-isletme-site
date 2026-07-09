@@ -970,6 +970,16 @@
         var calendarHTML = `
             <div id="calendar-container">
                 <div id="calendar-strip"></div>
+            </div>
+            <div id="announcement-ticker-container">
+                <div class="ticker-label">
+                    <i class="fas fa-bullhorn"></i> <span id="ticker-label-text">${isEN ? 'ANNOUNCEMENTS' : 'SON 5 DUYURU'}</span>
+                </div>
+                <div class="ticker-content">
+                    <div id="ticker-track" class="ticker-track">
+                        <span class="ticker-loading">${isEN ? 'Loading announcements...' : 'Duyurular yükleniyor...'}</span>
+                    </div>
+                </div>
             </div>`;
 
         // 3. Menu Genel (Navigasyon) - Mobil icin basit bir stil eklendi
@@ -1382,7 +1392,9 @@
         if (window.OFFLINE_ANNOUNCEMENTS) {
             var listeHTML = "";
             var sayac = 0;
+            var offlineList = [];
             window.OFFLINE_ANNOUNCEMENTS.forEach(d => {
+                offlineList.push({ title: d.title, url: d.url, date: d.date });
                 if (sayac < 15) {
                     // Basitce kategori belirle
                     var category = "Genel";
@@ -1404,6 +1416,7 @@
             });
             var hedefListe = document.getElementById('duyuru-listesi');
             if (hedefListe) hedefListe.innerHTML = listeHTML;
+            guncelleKayarBant(offlineList);
             return;
         }
 
@@ -1429,6 +1442,7 @@
 
                 var listeHTML = '';
                 var sayac = 0;
+                var onlineList = [];
 
                 // URL'den Tarih Cikarma (Yedek)
                 function urlTarihBul(url) {
@@ -1543,6 +1557,7 @@
                         // JavaScript linklerini ele
                         if (sayac < 15 && text.length > 5 && link.href && !link.href.includes('javascript')) {
                             listeHTML += olusturDuyuruHTML(tarih, text, link.href);
+                            onlineList.push({ title: text, url: link.href, date: tarih });
                             sayac++;
                         }
                     });
@@ -1574,6 +1589,7 @@
 
                         var baslik = link.innerText.trim();
                         listeHTML += olusturDuyuruHTML(tarih, baslik, url);
+                        onlineList.push({ title: baslik, url: url, date: tarih });
                         sayac++;
                     });
                 }
@@ -1584,11 +1600,36 @@
 
                 var hedefListe = document.getElementById('duyuru-listesi');
                 if (hedefListe) hedefListe.innerHTML = listeHTML;
+                guncelleKayarBant(onlineList);
             })
             .catch(err => {
                 var hedefListe = document.getElementById('duyuru-listesi');
                 if (hedefListe) hedefListe.innerHTML = '<li>Duyurular yüklenirken hata oluştu.</li>';
             });
+    }
+
+    function guncelleKayarBant(duyurular) {
+        var track = document.getElementById('ticker-track');
+        if (!track) return;
+
+        // Ilk 5 duyuruyu al
+        var son5 = duyurular.slice(0, 5);
+        if (son5.length === 0) {
+            track.innerHTML = '<span>Henüz duyuru bulunmamaktadır.</span>';
+            return;
+        }
+
+        // Marquee icin duyurulari olustur
+        var itemsHTML = "";
+        son5.forEach(d => {
+            var temizBaslik = d.title.replace(/\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}/, '').trim();
+            var displayLabel = (d.date ? "[" + d.date + "] " : "") + temizBaslik;
+            itemsHTML += `<a href="${d.url}" class="ticker-item" target="_blank">${displayLabel}</a>`;
+            itemsHTML += `<span class="ticker-separator">★</span>`;
+        });
+
+        // Cift render yapalim ki kesintisiz donsun
+        track.innerHTML = itemsHTML + itemsHTML;
     }
 
     function olusturDuyuruHTML(tarih, baslik, url) {
