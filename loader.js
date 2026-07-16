@@ -723,10 +723,8 @@
             mainContent.style.marginTop = '40px';
             mainContent.style.marginBottom = '60px';
             mainContent.style.backgroundColor = '#fff';
-            mainContent.style.padding = '40px';
-            mainContent.style.borderRadius = '16px';
-            mainContent.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
-            mainContent.style.border = '1px solid #edf2f9';
+            // Removed inline padding and border styles to let CSS handle responsiveness
+            mainContent.classList.add('modern-subpage-container');
 
             // Font ayarlari (CMS'den gelen kalitesiz fontlari ezmek icin)
             mainContent.style.fontFamily = "'Segoe UI', Roboto, Helvetica, Arial, sans-serif";

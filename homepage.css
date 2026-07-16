@@ -114,6 +114,13 @@ body {
     z-index: 10;
 }
 
+.modern-subpage-container {
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: 1px solid #edf2f9;
+}
+
 /* --- NEW SECTIONS --- */
 
 /* 1. Stats Banner */
@@ -356,5 +363,9 @@ body {
     .stat-item:last-child {
         border-bottom: none;
         margin-bottom: 0;
+    }
+
+    .modern-subpage-container {
+        padding: 10px !important;
     }
 }
