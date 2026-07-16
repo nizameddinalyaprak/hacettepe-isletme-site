@@ -9,6 +9,7 @@
 }
 
 #duyuru-listesi li {
+    box-sizing: border-box;
     background: #fff;
     border: 1px solid #eaeaea;
     border-radius: 8px;
@@ -116,5 +117,17 @@
 @media (max-width: 768px) {
     #duyuru-listesi {
         grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 10px 0;
+    }
+
+    #duyuru-listesi li {
+        padding: 15px;
+        min-height: auto;
+    }
+
+    .announcement-title {
+        font-size: 15px;
+        margin-bottom: 10px;
     }
 }

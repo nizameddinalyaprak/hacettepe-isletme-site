@@ -1,11 +1,18 @@
 /* Homepage Specific Styles */
 
 /* Base Reset & Typography */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
     color: #333;
     line-height: 1.6;
     background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent global horizontal overflow */
 }
 
 /* Hero Section */
@@ -39,6 +46,8 @@ body {
     min-height: 100%;
     width: auto;
     height: auto;
+    max-width: 100vw;
+    overflow-x: hidden;
     z-index: -2;
     transform: translate(-50%, -50%);
     object-fit: cover;
@@ -331,6 +340,11 @@ body {
 
     .hero-section {
         padding: 60px 20px 80px;
+    }
+
+    .container.main-content {
+        padding: 15px; /* Reduced mobile padding */
+        margin-top: -20px; /* Pull up less on mobile */
     }
 
     .stat-item {
