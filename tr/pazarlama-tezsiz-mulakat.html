@@ -222,7 +222,39 @@
             color: #334155;
             font-weight: 700;
         }
+    
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .exam-announcement-wrapper * {
+                box-sizing: border-box;
+            }
+            .exam-header {
+                padding: 20px 15px;
+            }
+            .exam-title {
+                font-size: 20px;
+            }
+            .exam-content {
+                padding: 20px 15px;
+            }
+            .exam-info-box {
+                grid-template-columns: 1fr;
+                padding: 15px;
+                gap: 15px;
+            }
+            .candidate-table th, .candidate-table td {
+                padding: 8px 4px;
+                font-size: 13px;
+                word-break: break-word;
+            }
+            .exam-alert {
+                padding: 12px;
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
     </style>
+
 
     <div class="exam-card">
         <!-- HEADER -->
