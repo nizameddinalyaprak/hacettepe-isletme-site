@@ -343,8 +343,8 @@ body {
     }
 
     .container.main-content {
-        padding: 15px; /* Reduced mobile padding */
-        margin-top: -20px; /* Pull up less on mobile */
+        padding: 15px !important; /* Overrides inline loader.js padding */
+        margin-top: 20px !important; /* Give it space from header */
     }
 
     .stat-item {
