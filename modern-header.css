@@ -262,27 +262,15 @@
         padding: 5px 15px;
     }
 
-    /* Hamburger Button */
+    /* Hamburger Button
+       NOT: Boyut/konum/dokunma hedefi ayarlari responsive.css icinde
+       yonetiliyor (bkz. bolum 8). Burada sadece gorunurlugu aciyoruz. */
     .mobile-menu-toggle {
-        display: block !important;
-        width: 100% !important;
+        display: inline-flex !important;
         background-color: #ac232d;
         color: white;
         border: none;
-        padding: 12px 20px;
-        text-align: left;
-        /* Icon ve yazi sola yasli */
-        font-weight: bold;
-        font-size: 16px;
-        margin-top: 15px;
-        /* Logodan ayirmak icin */
-        border-radius: 3px;
         cursor: pointer;
-    }
-
-    .mobile-menu-toggle i {
-        margin-right: 10px;
-        /* Ikon ile metin arasi bosluk */
     }
 
     /* Navigation Links (Hidden by default) */

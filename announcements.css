@@ -113,21 +113,18 @@
     display: none;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+/* Responsive
+   NOT: <=767px kirilimindaki detay ayarlar responsive.css bolum 12'de.
+   Buradaki kural tablet (768-900px) araligini akiskan hale getirir. */
+@media (max-width: 900px) {
     #duyuru-listesi {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        padding: 10px 0;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 18px;
+        padding: 12px 0;
     }
 
     #duyuru-listesi li {
-        padding: 15px;
+        padding: 18px;
         min-height: auto;
-    }
-
-    .announcement-title {
-        font-size: 15px;
-        margin-bottom: 10px;
     }
 }

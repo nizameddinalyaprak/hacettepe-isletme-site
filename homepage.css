@@ -336,24 +336,10 @@ body {
     }
 }
 
+/* NOT: Mobil (<=767px) tipografi, kenar boslugu ve hero olcekleri artik
+   responsive.css icinde akici (clamp) degerlerle yonetiliyor.
+   Burada sadece bu dosyaya ozgu kucuk duzeltmeler kaliyor. */
 @media (max-width: 768px) {
-    .hero-title {
-        font-size: 2.5rem;
-    }
-
-    .hero-subtitle {
-        font-size: 1.1rem;
-    }
-
-    .hero-section {
-        padding: 60px 20px 80px;
-    }
-
-    .container.main-content {
-        padding: 15px !important; /* Overrides inline loader.js padding */
-        margin-top: 20px !important; /* Give it space from header */
-    }
-
     .stat-item {
         border-bottom: 1px solid #eee;
         padding-bottom: 15px;
@@ -363,9 +349,5 @@ body {
     .stat-item:last-child {
         border-bottom: none;
         margin-bottom: 0;
-    }
-
-    .modern-subpage-container {
-        padding: 10px !important;
     }
 }
