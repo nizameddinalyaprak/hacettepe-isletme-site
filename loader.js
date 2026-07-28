@@ -84,6 +84,26 @@
         document.head.appendChild(fa);
     }
 
+    // 6. Responsive / Mobil Katmani — EN SON yuklenmeli ki cakismalarda kazansin.
+    var responsiveCssLink = document.createElement("link");
+    responsiveCssLink.rel = "stylesheet";
+    responsiveCssLink.href = baseUrl + "/responsive.css" + cacheBuster;
+    document.head.appendChild(responsiveCssLink);
+
+    // --- VIEWPORT GUVENCESI ---
+    // CMS sablonu viewport meta'sini veriyor ama bazi alt sayfalarda eksik
+    // veya "user-scalable=no" ile geliyor. Erisilebilirlik icin yakinlastirmayi
+    // kapatmiyoruz ve device-width'i garantiye aliyoruz.
+    (function ayarlaViewport() {
+        var vp = document.querySelector('meta[name="viewport"]');
+        if (!vp) {
+            vp = document.createElement('meta');
+            vp.name = 'viewport';
+            document.head.appendChild(vp);
+        }
+        vp.setAttribute('content', 'width=device-width, initial-scale=1, viewport-fit=cover');
+    })();
+
     // --- HTML ICERIGINI CEK ---
     // --- HTML ICERIGINI CEK ---
     // --- HTML ICERIGINI CEK ---
@@ -671,6 +691,7 @@
         if (isFetchedContent) {
             // --- SENARYO A: ANASAYFA (Body degisimi) ---
             document.body.innerHTML = '';
+            doc.body.classList.add('hi-injected');
             document.body.appendChild(doc.body);
 
             // Scriptleri yeniden calistir
@@ -724,12 +745,13 @@
             mainContent.style.marginBottom = '60px';
             mainContent.style.backgroundColor = '#fff';
             // Removed inline padding and border styles to let CSS handle responsiveness
-            mainContent.classList.add('modern-subpage-container');
+            mainContent.classList.add('modern-subpage-container', 'hi-injected');
 
             // Font ayarlari (CMS'den gelen kalitesiz fontlari ezmek icin)
+            // NOT: font-size/line-height artik responsive.css'teki akici olcek
+            // tarafindan yonetiliyor; burada sabit px vermek mobilde yaziyi
+            // buyuk birakiyordu.
             mainContent.style.fontFamily = "'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
-            mainContent.style.fontSize = "16px";
-            mainContent.style.lineHeight = "1.7";
             mainContent.style.color = "#333";
 
             // H elementlerini duzelt
@@ -796,6 +818,12 @@
             }
         }
 
+        // 3.5. MOBIL NORMALIZASYON
+        // CMS'e yapistirilmis eski duyurular buyuk inline padding/font-size
+        // degerleri iceriyor. Bunlari kaynaginda degistirmeden, sadece kucuk
+        // ekranlarda gecerli olacak sekilde yeniden olcekliyoruz.
+        hiIcerigiNormalize();
+
         // 4. Header ve Footer (Ortak)
         headerVeTakvimOlustur(isEnglish);
         duyurulariCek(); // Duyurular alt sayfalarda da gozuksun mu? Genelde alt sayfalarda sidebar olabilir.
@@ -818,6 +846,236 @@
         document.body.style.visibility = 'visible';
         document.body.style.opacity = '1';
         document.documentElement.classList.remove('hi-loading');
+    }
+
+    /* =====================================================================
+       MOBIL ICERIK NORMALIZASYONU
+       ---------------------------------------------------------------------
+       Sorun: Duyurular CMS'e dev inline stillerle yapistiriliyor
+       (padding: 24px, font-size: 24px, min-width: 250px, width: 700px...).
+       360px'lik bir ekranda ic ice gecmis bu padding'ler 100px'i asiyor,
+       satira 3-4 kelime sigiyor ve sabit genislikler yatay tasma yapiyor.
+
+       Cozum: Inline stilleri BOZMADAN, her sorunlu ogeye benzersiz bir
+       data-hi-m niteligi verip, sadece @media (max-width: 767px) icinde
+       gecerli olan !important kurallari uretiyoruz. Boylece:
+         - Masaustu gorunum birebir korunur,
+         - Ekran genisligi degisince JS'i tekrar calistirmaya gerek kalmaz,
+         - Eski duyurulari CMS'te tek tek duzenlemek gerekmez.
+       ===================================================================== */
+    function hiIcerigiNormalize() {
+        try {
+            var kok = document.querySelector('.hi-injected') || document.body;
+            if (!kok) return;
+
+            // Kendi bilesenlerimiz (header/takvim/footer) zaten responsive.css
+            // ile yonetiliyor; onlara dokunmuyoruz.
+            var haricSecici = '.menu_ust, .menu_genel, #calendar-container, ' +
+                '#announcement-ticker-container, #hi-custom-footer, #global-calendar-tooltip';
+
+            var kurallar = [];
+            var sayac = 0;
+
+            // --- Yardimcilar ---------------------------------------------------
+            function pxOku(deger) {
+                if (!deger) return null;
+                var m = String(deger).trim().match(/^(-?\d*\.?\d+)px$/);
+                return m ? parseFloat(m[1]) : null;
+            }
+
+            // font-size icin px disindaki birimleri de (rem/em/pt/%) hesaba katar.
+            // Inline'da bir font-size TANIMLI ise gercek (computed) degerini
+            // dondurur; tanimli degilse null (kalitimla gelen degere dokunmayiz).
+            function fontPxOku(el) {
+                var ham = el.style.getPropertyValue('font-size');
+                if (!ham) return null;
+                var dogrudan = pxOku(ham);
+                if (dogrudan !== null) return dogrudan;
+                var hesaplanan = parseFloat(getComputedStyle(el).fontSize);
+                return isNaN(hesaplanan) ? null : hesaplanan;
+            }
+
+            // Yatay bosluklar daha agresif, dikey bosluklar daha yumusak kisilir.
+            function kucultYatay(v) {
+                if (v <= 14) return null;          // zaten makul
+                if (v >= 40) return 14;
+                if (v >= 28) return 14;
+                if (v >= 20) return 13;
+                return 12;
+            }
+
+            function kucultDikey(v) {
+                if (v <= 18) return null;
+                if (v >= 40) return 20;
+                if (v >= 28) return 18;
+                return 16;
+            }
+
+            // Yazi boyutu: sadece kucultulur, asla 13.5px altina inilmez.
+            function kucultFont(v) {
+                if (v <= 17) return null;
+                if (v >= 34) return 23;
+                if (v >= 28) return 21;
+                if (v >= 24) return 19;
+                if (v >= 20) return 17.5;
+                return 16;
+            }
+
+            // --- 1) Inline stil tasiyan ogeleri tara ---------------------------
+            var adaylar = kok.querySelectorAll('[style]');
+
+            adaylar.forEach(function (el) {
+                if (el.closest(haricSecici)) return;
+
+                var s = el.style;
+                var ilan = [];
+
+                // padding (kisayol) — "24px" veya "24px 16px" gibi
+                var padKisa = s.getPropertyValue('padding');
+                if (padKisa) {
+                    var parcalar = padKisa.trim().split(/\s+/).map(pxOku);
+                    if (parcalar.length && parcalar.every(function (p) { return p !== null; })) {
+                        var ust, sag, alt, sol;
+                        if (parcalar.length === 1) { ust = alt = parcalar[0]; sag = sol = parcalar[0]; }
+                        else if (parcalar.length === 2) { ust = alt = parcalar[0]; sag = sol = parcalar[1]; }
+                        else if (parcalar.length === 3) { ust = parcalar[0]; sag = sol = parcalar[1]; alt = parcalar[2]; }
+                        else { ust = parcalar[0]; sag = parcalar[1]; alt = parcalar[2]; sol = parcalar[3]; }
+
+                        var yUst = kucultDikey(ust), yAlt = kucultDikey(alt);
+                        var ySag = kucultYatay(sag), ySol = kucultYatay(sol);
+
+                        if (yUst !== null || yAlt !== null || ySag !== null || ySol !== null) {
+                            ilan.push('padding:' +
+                                (yUst !== null ? yUst : ust) + 'px ' +
+                                (ySag !== null ? ySag : sag) + 'px ' +
+                                (yAlt !== null ? yAlt : alt) + 'px ' +
+                                (ySol !== null ? ySol : sol) + 'px !important');
+                        }
+                    }
+                }
+
+                // Tekil padding ozellikleri
+                [['padding-left', kucultYatay], ['padding-right', kucultYatay],
+                 ['padding-top', kucultDikey], ['padding-bottom', kucultDikey]
+                ].forEach(function (ciftt) {
+                    var v = pxOku(s.getPropertyValue(ciftt[0]));
+                    if (v === null) return;
+                    var yeni = ciftt[1](v);
+                    if (yeni !== null) ilan.push(ciftt[0] + ':' + yeni + 'px !important');
+                });
+
+                // Yatay margin — negatif veya buyuk degerler tasma yapiyor
+                ['margin-left', 'margin-right'].forEach(function (ozellik) {
+                    var v = pxOku(s.getPropertyValue(ozellik));
+                    if (v === null) return;
+                    if (v > 12) ilan.push(ozellik + ':8px !important');
+                    else if (v < 0) ilan.push(ozellik + ':0 !important');
+                });
+
+                // font-size (px, rem, em, pt, % — hepsi)
+                var fs = fontPxOku(el);
+                if (fs !== null) {
+                    var yeniFs = kucultFont(fs);
+                    if (yeniFs !== null) ilan.push('font-size:' + yeniFs + 'px !important');
+                }
+
+                // min-width — flex/grid ogelerinde tasmanin bir numarali sebebi
+                var mwHam = s.getPropertyValue('min-width');
+                if (mwHam && mwHam !== '0' && mwHam !== 'auto' && mwHam.indexOf('%') === -1) {
+                    ilan.push('min-width:0 !important');
+                }
+
+                // Sabit piksel genislik
+                var w = pxOku(s.getPropertyValue('width'));
+                if (w !== null && w > 260) ilan.push('width:100% !important');
+
+                // flex-basis sabit px ise akiskanlastir
+                var fb = pxOku(s.getPropertyValue('flex-basis'));
+                if (fb !== null && fb > 200) ilan.push('flex-basis:100% !important');
+
+                // Sabit maks. genislik cok kucukse degil, cok buyukse sorun degil;
+                // ama sabit yukseklikler icerigi kirpiyor.
+                var h = pxOku(s.getPropertyValue('height'));
+                if (h !== null && h > 60 && el.tagName !== 'IMG' && el.tagName !== 'IFRAME') {
+                    ilan.push('height:auto !important');
+                }
+
+                // Tek satira zorlanan metinler
+                if ((s.getPropertyValue('white-space') || '').indexOf('nowrap') > -1) {
+                    ilan.push('white-space:normal !important');
+                }
+
+                // Iki yana yaslama mobilde okunaksiz
+                if ((s.getPropertyValue('text-align') || '') === 'justify') {
+                    ilan.push('text-align:left !important');
+                }
+
+                // Yatay flex → sarmalansin
+                if ((s.getPropertyValue('display') || '').indexOf('flex') > -1) {
+                    var yon = s.getPropertyValue('flex-direction');
+                    if (yon !== 'column') {
+                        ilan.push('flex-wrap:wrap !important');
+                        ilan.push('gap:12px !important');
+                    }
+                }
+
+                // Cok kolonlu grid → tek kolon
+                var gtc = s.getPropertyValue('grid-template-columns');
+                if (gtc && /\s/.test(gtc.trim())) {
+                    ilan.push('grid-template-columns:1fr !important');
+                }
+
+                if (ilan.length) {
+                    sayac++;
+                    var anahtar = 'n' + sayac;
+                    el.setAttribute('data-hi-m', anahtar);
+                    kurallar.push('[data-hi-m="' + anahtar + '"]{' + ilan.join(';') + '}');
+                }
+            });
+
+            // --- 2) Tablolari kaydirilabilir sarmalayiciya al -------------------
+            kok.querySelectorAll('table').forEach(function (tablo) {
+                if (tablo.closest(haricSecici)) return;
+                if (tablo.parentNode && tablo.parentNode.classList &&
+                    tablo.parentNode.classList.contains('hi-table-scroll')) return;
+
+                var sarmal = document.createElement('div');
+                sarmal.className = 'hi-table-scroll';
+                tablo.parentNode.insertBefore(sarmal, tablo);
+                sarmal.appendChild(tablo);
+
+                // Gercekten tasiyorsa kaydirma ipucu golgesini goster
+                requestAnimationFrame(function () {
+                    if (tablo.scrollWidth > sarmal.clientWidth + 2) {
+                        sarmal.classList.add('hi-scrollable');
+                    }
+                });
+            });
+
+            // --- 3) Gorsel ve iframe guvenligi ---------------------------------
+            kok.querySelectorAll('img, iframe, video, embed, object').forEach(function (m) {
+                if (m.closest(haricSecici)) return;
+                m.removeAttribute('width');
+                if (m.tagName === 'IMG') m.removeAttribute('height');
+                if (m.tagName === 'IMG' && !m.getAttribute('loading')) {
+                    m.setAttribute('loading', 'lazy');
+                }
+            });
+
+            // --- 4) Uretilen kurallari sayfaya bas -----------------------------
+            if (kurallar.length) {
+                var stil = document.getElementById('hi-mobil-normalize');
+                if (!stil) {
+                    stil = document.createElement('style');
+                    stil.id = 'hi-mobil-normalize';
+                    document.head.appendChild(stil);
+                }
+                stil.textContent =
+                    '@media (max-width: 767px){\n' + kurallar.join('\n') + '\n}';
+            }
+        } catch (e) {
+            // Normalizasyon asla sayfayi cokertmemeli.
+        }
     }
 
     function temizleVeModernlestir(doc, isFetchedContent) {
@@ -1198,7 +1456,62 @@
             }
         });
 
-        // Mobile menu toggle style (modern-header.css dosyasina tasindi, burasi temizlendi)
+        // --- MOBIL MENU: ERISILEBILIRLIK VE KAPANMA DAVRANISI ---
+        var mobilBtn = document.querySelector('.mobile-menu-toggle');
+        var mobilNav = document.querySelector('.hi-main-nav');
+
+        if (mobilBtn && mobilNav) {
+            mobilBtn.setAttribute('aria-label', isEN ? 'Open menu' : 'Menüyü aç');
+            mobilBtn.setAttribute('aria-expanded', 'false');
+            mobilBtn.setAttribute('type', 'button');
+
+            // Inline onclick yerine kontrollu bir toggle kullaniyoruz
+            mobilBtn.removeAttribute('onclick');
+            mobilBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var acik = mobilNav.classList.toggle('active');
+                mobilBtn.setAttribute('aria-expanded', acik ? 'true' : 'false');
+            });
+
+            // Menuden bir sayfaya gidilince paneli kapat
+            mobilNav.addEventListener('click', function (e) {
+                var link = e.target.closest('a[href]');
+                if (!link) return;
+                var href = link.getAttribute('href');
+                if (href && href !== '#') {
+                    mobilNav.classList.remove('active');
+                    mobilBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // Disari tiklayinca kapat
+            document.addEventListener('click', function (e) {
+                if (window.innerWidth >= 992) return;
+                if (!mobilNav.classList.contains('active')) return;
+                if (e.target.closest('.hi-nav-container')) return;
+                mobilNav.classList.remove('active');
+                mobilBtn.setAttribute('aria-expanded', 'false');
+            });
+
+            // ESC ile kapat
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && mobilNav.classList.contains('active')) {
+                    mobilNav.classList.remove('active');
+                    mobilBtn.setAttribute('aria-expanded', 'false');
+                    mobilBtn.focus();
+                }
+            });
+
+            // Masaustune gecilince acik kalan paneli sifirla
+            window.addEventListener('resize', function () {
+                if (window.innerWidth >= 992) {
+                    mobilNav.classList.remove('active');
+                    mobilBtn.setAttribute('aria-expanded', 'false');
+                    document.querySelectorAll('.hi-nav-item.dropdown-active')
+                        .forEach(function (i) { i.classList.remove('dropdown-active'); });
+                }
+            });
+        }
 
         // --- PRELOADER REMOVAL ---
         // CMS injection kodu ile eklenen 'hi-loading' sinifini kaldirip icerigi gosteriyoruz.
@@ -1327,11 +1640,11 @@
 
         strip.innerHTML = gunlerHTML;
 
-        // Event Listenerlari Ekle (Mouse Over)
+        // Event Listenerlari Ekle (Mouse Over + Dokunmatik)
         daysData.forEach(function (data) {
             var el = document.getElementById(data.id);
             if (el) {
-                el.addEventListener('mouseenter', function () {
+                var gosterTooltip = function () {
                     var rect = el.getBoundingClientRect();
                     var eventTitles = data.events.map(function (e) {
                         var prefix = '';
@@ -1372,14 +1685,53 @@
                     globalTooltip.style.top = topPos + 'px';
                     globalTooltip.style.left = leftPos + 'px';
                     globalTooltip.style.transform = 'none'; // CSS transform'u iptal et
-                });
 
-                el.addEventListener('mouseleave', function () {
+                    // Mobilde tooltip'i ekranin altina sabitle (responsive.css
+                    // genisligi zaten tam ekrana yayiyor, konumu burada duzeltiyoruz)
+                    if (window.innerWidth <= 767) {
+                        globalTooltip.style.left = '';
+                        globalTooltip.style.top = Math.min(
+                            rect.bottom + 10,
+                            window.innerHeight - globalTooltip.offsetHeight - 12
+                        ) + 'px';
+                    }
+                };
+
+                var gizleTooltip = function () {
                     globalTooltip.style.opacity = '0';
                     globalTooltip.style.visibility = 'hidden';
+                };
+
+                el.addEventListener('mouseenter', gosterTooltip);
+                el.addEventListener('mouseleave', gizleTooltip);
+
+                // Dokunmatik cihazlarda hover yok: dokununca ac, disari
+                // dokununca kapat.
+                el.addEventListener('click', function (e) {
+                    if (window.matchMedia('(hover: hover)').matches) return;
+                    e.stopPropagation();
+                    var acikMi = globalTooltip.style.visibility === 'visible' &&
+                        globalTooltip.dataset.hiGun === data.id;
+                    if (acikMi) {
+                        gizleTooltip();
+                    } else {
+                        globalTooltip.dataset.hiGun = data.id;
+                        gosterTooltip();
+                    }
                 });
             }
         });
+
+        if (!window.HI_TAKVIM_DIS_TIKLAMA) {
+            window.HI_TAKVIM_DIS_TIKLAMA = true;
+            document.addEventListener('click', function () {
+                var tt = document.getElementById('global-calendar-tooltip');
+                if (tt && !window.matchMedia('(hover: hover)').matches) {
+                    tt.style.opacity = '0';
+                    tt.style.visibility = 'hidden';
+                }
+            });
+        }
     }
 
     // DUYURU CEKME FONKSIYONU

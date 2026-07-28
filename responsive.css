@@ -1,0 +1,859 @@
+/* =========================================================================
+   responsive.css — Hacettepe İşletme
+   Mobil-öncelikli düzeltme katmanı.
+
+   ÖNEMLİ: Bu dosya loader.js tarafından EN SON yüklenir. Bu sayede
+   diğer CSS dosyalarıyla eşit özgüllükte (specificity) çakışmalarda
+   bu dosya kazanır. Inline stilleri ezmek için gereken yerlerde
+   !important kullanılır (CMS'e yapıştırılmış eski duyurular inline
+   stil kullandığı için başka yolu yok).
+
+   Tasarım dili değişmez: Hacettepe kırmızısı #ac232d, yumuşak gölgeler,
+   8-12px köşe yarıçapı, Open Sans / Segoe UI.
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   1. TASARIM TOKEN'LARI (Akıcı / fluid değerler)
+   clamp(min, tercih, maks) → ekran küçüldükçe değer otomatik küçülür,
+   media query zincirine gerek kalmaz.
+   ------------------------------------------------------------------------- */
+:root {
+    --hi-red: #ac232d;
+    --hi-red-dark: #7e161d;
+    --hi-ink: #333;
+    --hi-ink-soft: #555;
+    --hi-line: #e7e7e7;
+
+    /* Sayfa kenar boşluğu: 360px ekranda ~12px, 1200px ekranda 20px */
+    --hi-gutter: clamp(12px, 3vw, 20px);
+    /* Kart iç boşluğu: mobilde 14px, masaüstünde 28px */
+    --hi-pad-card: clamp(14px, 2.6vw, 28px);
+    /* Bölümler arası dikey boşluk */
+    --hi-gap: clamp(16px, 3vw, 30px);
+
+    /* Tipografi ölçeği */
+    --hi-fs-body: clamp(15px, 0.95rem + 0.15vw, 16.5px);
+    --hi-fs-small: clamp(13px, 0.8rem + 0.1vw, 14px);
+    --hi-fs-h1: clamp(24px, 4.6vw + 12px, 44px);
+    --hi-fs-h2: clamp(20px, 2.4vw + 12px, 30px);
+    --hi-fs-h3: clamp(17px, 1.4vw + 12px, 22px);
+    --hi-fs-h4: clamp(16px, 0.8vw + 12px, 18px);
+}
+
+/* -------------------------------------------------------------------------
+   2. GLOBAL TAŞMA KORUMASI
+   Mobildeki "sağa sola taşma" sorununun kök nedeni: sabit px genişlikler,
+   uzun kırılmayan kelimeler (ders kodları, URL'ler) ve geniş tablolar.
+   ------------------------------------------------------------------------- */
+html {
+    -webkit-text-size-adjust: 100%;
+    /* iOS'ta yatay çevirince yazıların şişmesini engeller */
+    text-size-adjust: 100%;
+}
+
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Uzun kelime / URL / ders kodu zincirleri satır dışına taşmasın */
+body,
+p,
+li,
+td,
+th,
+dd,
+dt,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+span,
+div {
+    overflow-wrap: break-word;
+    word-break: normal;
+}
+
+/* Medya asla kabından taşmaz */
+img,
+video,
+canvas,
+svg,
+iframe,
+embed,
+object {
+    max-width: 100%;
+    height: auto;
+}
+
+iframe {
+    max-width: 100%;
+}
+
+/* -------------------------------------------------------------------------
+   3. İÇERİK KABI (container)
+   Tek bir kenar boşluğu değişkeni ile yönetilir; iç içe geçmiş
+   padding yığılması bu sayede oluşmaz.
+   ------------------------------------------------------------------------- */
+.container.main-content,
+.modern-subpage-container {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1200px;
+    padding-left: var(--hi-gutter);
+    padding-right: var(--hi-gutter);
+}
+
+@media (max-width: 767px) {
+
+    .container.main-content,
+    .modern-subpage-container {
+        padding-left: var(--hi-gutter) !important;
+        padding-right: var(--hi-gutter) !important;
+        padding-top: 14px !important;
+        padding-bottom: 18px !important;
+        margin-top: 14px !important;
+        margin-bottom: 24px !important;
+        border-radius: 10px;
+    }
+
+    /* Enjekte edilen içerikte hiçbir öğe kabından geniş olamaz */
+    .hi-injected>*,
+    .modern-subpage-container>* {
+        max-width: 100% !important;
+    }
+}
+
+/* -------------------------------------------------------------------------
+   4. TİPOGRAFİ — akıcı ölçek
+   "Yazılar mobilde büyük kalıyor" sorununun çözümü.
+   ------------------------------------------------------------------------- */
+.hi-injected,
+.modern-subpage-container {
+    font-size: var(--hi-fs-body);
+    line-height: 1.65;
+}
+
+.hi-injected h1,
+.modern-subpage-container h1 {
+    font-size: var(--hi-fs-h1);
+    line-height: 1.2;
+}
+
+.hi-injected h2,
+.modern-subpage-container h2 {
+    font-size: var(--hi-fs-h2);
+    line-height: 1.25;
+}
+
+.hi-injected h3,
+.modern-subpage-container h3 {
+    font-size: var(--hi-fs-h3);
+    line-height: 1.3;
+}
+
+.hi-injected h4,
+.modern-subpage-container h4 {
+    font-size: var(--hi-fs-h4);
+    line-height: 1.35;
+}
+
+@media (max-width: 767px) {
+
+    /* Mobilde iki yana yaslı metin kelime aralarında çirkin boşluklar
+       oluşturur; sola yasla. Inline style="text-align: justify" kullanan
+       eski duyuruları da ezmek için !important gerekiyor. */
+    .hi-injected p,
+    .hi-injected li,
+    .hi-injected td,
+    .modern-subpage-container p,
+    .modern-subpage-container li,
+    .modern-subpage-container td {
+        text-align: left !important;
+        hyphens: auto;
+    }
+
+    /* Liste girintileri mobilde çok yer kaplıyor */
+    .hi-injected ul,
+    .hi-injected ol,
+    .modern-subpage-container ul,
+    .modern-subpage-container ol {
+        padding-left: 18px !important;
+        margin-left: 0 !important;
+    }
+
+    /* Zorla tek satırda tutulan öğeler taşmanın ana kaynağı */
+    .hi-injected [style*="nowrap"],
+    .modern-subpage-container [style*="nowrap"] {
+        white-space: normal !important;
+    }
+}
+
+/* -------------------------------------------------------------------------
+   5. TABLOLAR — mobilde yatay kaydırılabilir
+   loader.js her tabloyu .hi-table-scroll sarmalayıcısına alır.
+   ------------------------------------------------------------------------- */
+.hi-table-scroll {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 0 16px;
+    border-radius: 8px;
+}
+
+.hi-table-scroll>table {
+    margin-bottom: 0;
+}
+
+/* Kaydırılabilir olduğunu gösteren ince ipucu çizgisi */
+.hi-table-scroll.hi-scrollable {
+    background:
+        linear-gradient(to right, #fff 30%, rgba(255, 255, 255, 0)) left center / 24px 100% no-repeat,
+        linear-gradient(to left, #fff 30%, rgba(255, 255, 255, 0)) right center / 24px 100% no-repeat,
+        radial-gradient(farthest-side at 0 50%, rgba(0, 0, 0, .12), transparent) left center / 10px 100% no-repeat,
+        radial-gradient(farthest-side at 100% 50%, rgba(0, 0, 0, .12), transparent) right center / 10px 100% no-repeat;
+    background-attachment: local, local, scroll, scroll;
+}
+
+@media (max-width: 767px) {
+    .hi-injected table,
+    .modern-subpage-container table {
+        width: 100% !important;
+        min-width: 0;
+        font-size: 13.5px;
+        border-collapse: collapse;
+    }
+
+    .hi-injected th,
+    .hi-injected td,
+    .modern-subpage-container th,
+    .modern-subpage-container td {
+        padding: 8px 10px !important;
+        white-space: normal !important;
+    }
+}
+
+/* -------------------------------------------------------------------------
+   6. DUYURU İÇERİĞİ — inline stil normalizasyonu
+   loader.js her sorunlu öğeye data-hi-m="..." veriyor ve buradaki
+   kurallar sadece mobilde devreye giriyor (bkz. loader.js › hiMobilNormalize).
+   Aşağıdakiler ise JS çalışmasa bile devrede olan güvenlik ağı.
+   ------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+
+    /* Flexbox öğelerinin min-width'i taşmanın klasik sebebidir */
+    .hi-injected [style*="min-width"],
+    .modern-subpage-container [style*="min-width"] {
+        min-width: 0 !important;
+    }
+
+    /* Sabit piksel genişlikler akışkan hale gelsin */
+    .hi-injected [style*="width: 6"],
+    .hi-injected [style*="width: 7"],
+    .hi-injected [style*="width: 8"],
+    .hi-injected [style*="width: 9"],
+    .modern-subpage-container [style*="width: 6"],
+    .modern-subpage-container [style*="width: 7"],
+    .modern-subpage-container [style*="width: 8"],
+    .modern-subpage-container [style*="width: 9"] {
+        width: 100% !important;
+    }
+
+    /* Yan yana kolonlar alt alta insin */
+    .hi-injected [style*="display: flex"],
+    .modern-subpage-container [style*="display: flex"] {
+        flex-wrap: wrap !important;
+    }
+
+    /* Yatay grid'ler tek kolona insin */
+    .hi-injected [style*="grid-template-columns"],
+    .modern-subpage-container [style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* Duyuru şablonu için hazır (yeni duyurularda inline stil yerine bunlar) */
+.hi-duyuru {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.hi-duyuru-kart {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .08), 0 2px 4px -1px rgba(0, 0, 0, .04);
+    background: #fff;
+    margin-bottom: var(--hi-gap);
+}
+
+.hi-duyuru-baslik {
+    background: linear-gradient(135deg, var(--hi-red) 0%, var(--hi-red-dark) 100%);
+    padding: var(--hi-pad-card);
+    color: #fff;
+}
+
+.hi-duyuru-baslik h2,
+.hi-duyuru-baslik h2 span {
+    color: #fff !important;
+    margin: 0 0 8px;
+    font-size: var(--hi-fs-h2);
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+.hi-duyuru-etiket {
+    display: inline-block;
+    background: rgba(255, 255, 255, .2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: var(--hi-fs-small);
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #fff;
+}
+
+.hi-duyuru-govde {
+    padding: var(--hi-pad-card);
+}
+
+.hi-duyuru-blok {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: var(--hi-pad-card);
+    border-radius: 8px;
+    margin-bottom: var(--hi-gap);
+}
+
+.hi-duyuru-blok.uyari {
+    background: #fffbeb;
+    border-color: #fde68a;
+}
+
+.hi-duyuru-blok h3 {
+    margin: 0 0 14px;
+    color: var(--hi-red);
+    font-size: var(--hi-fs-h3);
+    font-weight: 700;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 8px;
+}
+
+.hi-duyuru-blok.uyari h3 {
+    color: #b45309;
+    border-bottom-color: #fde68a;
+}
+
+.hi-duyuru-imza {
+    text-align: right;
+    margin-top: 16px;
+    color: #64748b;
+    font-size: var(--hi-fs-small);
+}
+
+/* -------------------------------------------------------------------------
+   7. ÜST BAR (menu_ust)
+   ------------------------------------------------------------------------- */
+@media (max-width: 991px) {
+
+    /* Sosyal ikonlar mobilde gizlendigi icin kalan linkleri ortala */
+    .menu_ust,
+    .menu_ust>div {
+        justify-content: center !important;
+    }
+
+    .menu_ust>div {
+        padding: 3px 12px !important;
+    }
+
+    .menu_ust a {
+        font-size: 12.5px !important;
+        padding: 6px 0;
+        display: inline-block;
+    }
+
+    .menu_ust .social-icons {
+        display: none !important;
+    }
+}
+
+/* -------------------------------------------------------------------------
+   8. ANA MENÜ — mobil
+   Eski hâlde hamburger butonu %100 genişlikte ayrı bir satırdaydı ve
+   header'ı gereksiz uzatıyordu. Artık logonun sağında kompakt bir buton.
+   ------------------------------------------------------------------------- */
+@media (max-width: 991px) {
+    .hi-nav-container {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 8px var(--hi-gutter) !important;
+        gap: 10px;
+    }
+
+    .hi-brand-logo {
+        flex: 1 1 auto;
+        min-width: 0;
+        margin-right: 0 !important;
+    }
+
+    .logo {
+        background-size: auto 38px !important;
+        padding-left: 44px !important;
+        min-height: 44px !important;
+    }
+
+    .banner_uni {
+        font-size: clamp(12px, 3.4vw, 15px) !important;
+    }
+
+    .banner_uni_bolum {
+        font-size: clamp(10.5px, 2.9vw, 13px) !important;
+    }
+
+    /* Hamburger: kompakt, dokunma hedefi 44px */
+    .mobile-menu-toggle {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: auto !important;
+        min-width: 44px;
+        min-height: 44px;
+        margin: 0 !important;
+        padding: 10px 14px !important;
+        background-color: var(--hi-red);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: .5px;
+        flex: 0 0 auto;
+        cursor: pointer;
+    }
+
+    .mobile-menu-toggle i {
+        margin-right: 0 !important;
+        font-size: 15px;
+    }
+
+    /* Açılır menü paneli */
+    .hi-main-nav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        order: 3;
+        margin-top: 8px !important;
+        background: #fff;
+        border-top: 1px solid var(--hi-line);
+        max-height: calc(100vh - 140px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .hi-main-nav.active {
+        display: flex;
+    }
+
+    .hi-nav-item {
+        width: 100%;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .hi-nav-link {
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 4px !important;
+        font-size: 14px !important;
+        min-height: 48px;
+        /* Dokunma hedefi */
+    }
+
+    .hi-nav-link i {
+        margin-left: auto;
+        font-size: 12px;
+        transition: transform .25s ease;
+    }
+
+    .hi-nav-item.dropdown-active>.hi-nav-link {
+        color: var(--hi-red);
+    }
+
+    .hi-nav-item.dropdown-active>.hi-nav-link i {
+        transform: rotate(180deg);
+    }
+
+    .hi-dropdown-menu {
+        position: static !important;
+        display: none;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        border-top: none;
+        border-left: 3px solid var(--hi-red);
+        background: #fafafa;
+        padding: 6px 0 10px 0 !important;
+        margin-bottom: 8px;
+        min-width: 0 !important;
+        width: 100%;
+    }
+
+    .hi-nav-item.dropdown-active .hi-dropdown-menu {
+        display: block;
+        padding-left: 12px !important;
+    }
+
+    .dropdown-item {
+        padding: 11px 14px !important;
+        font-size: 13.5px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        border-left: none;
+    }
+
+    .dropdown-header {
+        padding: 10px 14px 4px !important;
+        font-size: 10.5px;
+    }
+
+    /* Sticky durumda mobilde marka değişimi yapma, yer kaybı olur */
+    .menu_genel.sticky-active .brand-normal {
+        display: block !important;
+    }
+
+    .menu_genel.sticky-active .brand-sticky {
+        display: none !important;
+    }
+}
+
+/* -------------------------------------------------------------------------
+   9. AKADEMİK TAKVİM ŞERİDİ — mobil
+   30 gün 360px'e sığmaz; yatay kaydırma + snap ile kullanılabilir hale gelir.
+   ------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+    #calendar-container {
+        padding: 16px 0 6px 0 !important;
+        overflow-x: auto !important;
+        scroll-snap-type: x proximity;
+    }
+
+    #calendar-strip {
+        justify-content: flex-start !important;
+        gap: 2px;
+        padding: 0 10px !important;
+        width: max-content;
+        min-width: 100%;
+    }
+
+    .calendar-day {
+        min-width: 40px !important;
+        padding: 4px 2px !important;
+        scroll-snap-align: start;
+    }
+
+    .day-number {
+        font-size: 16px !important;
+    }
+
+    .day-name {
+        font-size: 9px !important;
+    }
+
+    /* Tooltip mobilde ekranın altına sabitlenip tam genişlik kullansın */
+    .event-tooltip {
+        width: auto !important;
+        max-width: calc(100vw - 24px) !important;
+        left: 12px !important;
+        right: 12px !important;
+        font-size: 13px;
+    }
+
+    .event-tooltip::after {
+        display: none;
+    }
+}
+
+/* -------------------------------------------------------------------------
+   10. DUYURU KAYAN BANDI (ticker) — mobil
+   ------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+    #announcement-ticker-container {
+        height: 32px;
+        font-size: 11.5px;
+    }
+
+    .ticker-label {
+        padding: 0 10px;
+        font-size: 9.5px;
+    }
+
+    .ticker-label i {
+        font-size: 11px;
+    }
+
+    .ticker-track {
+        animation-duration: 28s;
+    }
+
+    .ticker-logo-sep {
+        margin: 0 16px;
+        height: 12px;
+    }
+}
+
+@media (max-width: 400px) {
+    .ticker-label span {
+        display: none;
+    }
+
+    .ticker-label {
+        padding: 0 12px;
+    }
+}
+
+/* Hareket azaltma tercihi olan kullanıcılar için */
+@media (prefers-reduced-motion: reduce) {
+    .ticker-track {
+        animation: none !important;
+        overflow-x: auto;
+    }
+
+    * {
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+    }
+}
+
+/* -------------------------------------------------------------------------
+   11. ANASAYFA BİLEŞENLERİ — mobil
+   ------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+    .hero-section {
+        padding: 44px var(--hi-gutter) 56px !important;
+        clip-path: ellipse(160% 100% at 50% 0%);
+    }
+
+    .hero-title {
+        font-size: var(--hi-fs-h1) !important;
+        letter-spacing: -.5px;
+    }
+
+    .hero-subtitle {
+        font-size: clamp(14px, 3.6vw, 17px) !important;
+        margin-bottom: 1.25rem;
+    }
+
+    .hero-btn {
+        padding: 12px 26px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .stats-banner {
+        padding: 18px var(--hi-gutter) !important;
+        gap: 0 !important;
+        margin-bottom: var(--hi-gap) !important;
+    }
+
+    .stat-number {
+        font-size: clamp(1.9rem, 8vw, 2.4rem);
+    }
+
+    .corporate-card,
+    .value-card,
+    .quick-link-card {
+        padding: var(--hi-pad-card) !important;
+    }
+
+    .corporate-grid,
+    .values-grid,
+    .quick-links-grid {
+        grid-template-columns: 1fr !important;
+        gap: var(--hi-gap) !important;
+        margin-bottom: var(--hi-gap) !important;
+    }
+
+    .section-header {
+        margin-top: 32px;
+        margin-bottom: 18px;
+    }
+
+    .section-title {
+        font-size: var(--hi-fs-h2);
+        padding-left: 14px;
+        border-left-width: 4px;
+    }
+
+    .quick-link-icon {
+        font-size: 2.2rem;
+    }
+
+    .quick-link-title {
+        font-size: 1.05rem;
+    }
+
+    /* Mobilde hover-kaldırma efektleri gereksiz, dokunmada takılıyor */
+    .corporate-card:hover,
+    .value-card:hover,
+    .quick-link-card:hover,
+    #duyuru-listesi li:hover {
+        transform: none;
+    }
+}
+
+/* -------------------------------------------------------------------------
+   12. DUYURU LİSTESİ KARTLARI — mobil
+   ------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+    #duyuru-listesi {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+        padding: 6px 0 !important;
+    }
+
+    #duyuru-listesi li {
+        padding: 14px !important;
+        min-height: 0 !important;
+        border-radius: 10px;
+    }
+
+    .announcement-title {
+        font-size: 14.5px !important;
+        line-height: 1.45;
+        margin-bottom: 10px !important;
+    }
+
+    .announcement-footer {
+        padding-top: 10px;
+        font-size: 12px;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .announcement-category {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+}
+
+/* -------------------------------------------------------------------------
+   13. FOOTER — mobil
+   ------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+    #hi-custom-footer {
+        padding-left: var(--hi-gutter);
+        padding-right: var(--hi-gutter);
+    }
+
+    .hi-footer-container {
+        grid-template-columns: 1fr !important;
+        gap: 28px !important;
+    }
+
+    .hi-footer-links a,
+    .hi-footer-contact a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+    }
+
+    .hi-footer-social-icons a {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hi-footer-bottom {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+        font-size: 12px;
+    }
+}
+
+/* -------------------------------------------------------------------------
+   14. DOKUNMA HEDEFLERİ & ERİŞİLEBİLİRLİK
+   ------------------------------------------------------------------------- */
+@media (pointer: coarse) {
+
+    .hi-injected a:not(.hi-nav-link):not(.dropdown-item),
+    .modern-subpage-container a {
+        padding: 2px 0;
+    }
+}
+
+:focus-visible {
+    outline: 3px solid rgba(172, 35, 45, .55);
+    outline-offset: 2px;
+    border-radius: 3px;
+}
+
+/* -------------------------------------------------------------------------
+   15. ÇOK KÜÇÜK EKRANLAR (≤ 380px)
+   ------------------------------------------------------------------------- */
+@media (max-width: 380px) {
+    :root {
+        --hi-gutter: 10px;
+        --hi-pad-card: 12px;
+    }
+
+    .mobile-menu-toggle {
+        padding: 10px 12px !important;
+        font-size: 0 !important;
+        /* "MENÜ" yazısını gizle, ikon kalsın */
+        gap: 0;
+    }
+
+    .mobile-menu-toggle i {
+        font-size: 17px !important;
+    }
+}
+
+/* -------------------------------------------------------------------------
+   16. YAZDIRMA
+   ------------------------------------------------------------------------- */
+@media print {
+
+    .menu_ust,
+    .menu_genel,
+    #calendar-container,
+    #announcement-ticker-container,
+    #hi-custom-footer,
+    .mobile-menu-toggle {
+        display: none !important;
+    }
+
+    .container.main-content,
+    .modern-subpage-container {
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+    }
+
+    a[href]::after {
+        content: " (" attr(href) ")";
+        font-size: 10px;
+        color: #666;
+    }
+}
