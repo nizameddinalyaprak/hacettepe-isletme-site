@@ -1,7 +1,10 @@
 import pandas as pd
 import json
 
-file_path = "/Volumes/T9_Main/onedrive_hacettepe/04_Projeler_ve_Girisimler/Web_Sitesi_Yonetimi/02_Canli_Web_Sitesi/final_programi_2526bahar.xlsx"
+import os
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(os.path.dirname(script_dir), "final_programi_2526bahar.xlsx")
 
 try:
     # Read columns A to I (0 to 8)
