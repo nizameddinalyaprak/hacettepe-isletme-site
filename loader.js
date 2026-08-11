@@ -17,21 +17,45 @@
         // ("Failsafe: Sayfa zorla görünür yapıldı.");
     }, 2500);
 
-    // 1. Hatali Eventleri Engelle (Scroll vs) - HATA SUSTURUCU (Kesin Cozum V2)
+    // 1. HATA SUSTURUCU (V3 - kaynak bazli)
+    //
+    // Amac: HU-IYS'in eski scriptleri (jquery/bootstrap/swiper/template.js) biz
+    // body'yi degistirdigimiz icin cokuyor ve konsolu doldurıyor. Bunlari
+    // susturuyoruz.
+    //
+    // ONEMLI: Eskiden filtre mesaj metnine bakiyordu ("undefined" veya
+    // "SyntaxError" gecen HER hata yutuluyordu) - bu kendi kodumuzun
+    // hatalarini da gizliyordu. Artik once KAYNAK dosyaya bakiyoruz:
+    // hata bizim dosyalarimizdan geliyorsa her zaman gosteriyoruz.
+    var BIZIM_KAYNAKLAR = /loader\.js|github\.io/i;
+    var CMS_KAYNAKLAR = /jquery|bootstrap|swiper|template|legacy|owl|slick|isotope|wow|counterup|waypoint|\/templates?\//i;
+    var GURULTU_KALIPLARI = /reading '(top|offset|style|length)'|calc\(|is not a function|Cannot read propert/i;
+
+    function bizimHatamizMi(source) {
+        return !!(source && BIZIM_KAYNAKLAR.test(source));
+    }
+
     var originalOnError = window.onerror;
     window.onerror = function (message, source, lineno, colno, error) {
-        if (message && (message.includes("reading 'top'") || message.includes("calc") || message.includes("undefined") || message.includes("SyntaxError"))) {
-            return true; // Hatayi konsola basma, yut.
+        // Kendi kodumuzun hatasi -> asla susturma.
+        if (!bizimHatamizMi(source)) {
+            var cmsKaynakli = source && CMS_KAYNAKLAR.test(source);
+            var bilinenGurultu = message && GURULTU_KALIPLARI.test(String(message));
+            if (cmsKaynakli || (!source && bilinenGurultu)) {
+                return true; // Yut
+            }
         }
         if (originalOnError) return originalOnError(message, source, lineno, colno, error);
         return false;
     };
+
     var originalConsoleError = console.error;
     console.error = function () {
         var args = Array.from(arguments);
         var message = args.join(' ');
-        if (message && (message.includes("reading 'top'") || message.includes("undefined"))) {
-            return; // Yut
+        // Sadece bilinen CMS gurultusunu yut; geri kalan her sey konsola dussun.
+        if (message && GURULTU_KALIPLARI.test(message) && !BIZIM_KAYNAKLAR.test(message)) {
+            return;
         }
         originalConsoleError.apply(console, args);
     };
@@ -42,7 +66,18 @@
 
 
 
-    var cacheBuster = '?v=' + Date.now(); // Cache busting icin versiyon guncel tutuluyor
+    // --- SURUM / ONBELLEK ---------------------------------------------------
+    // ONEMLI: Burasi eskiden '?v=' + Date.now() idi. Her istek benzersiz oldugu
+    // icin tarayici HICBIR dosyayi onbellege alamiyordu; her sayfa acilisinda
+    // ~185 KB (loader + 7 CSS + takvim JSON) yeniden iniyordu.
+    //
+    // Artik sabit bir surum etiketi kullaniyoruz:
+    //   - Ayni surumde gezinen kullanici dosyalari onbellekten alir (0 bayt).
+    //   - Yeni yayin yaptiginda ASAGIDAKI DEGERI ARTIR; herkes yeniyi ceker.
+    //
+    // Yayin akisi:  dosyalari duzenle -> SITE_VERSION'i guncelle -> commit & push
+    var SITE_VERSION = '2026-08-11';
+    var cacheBuster = '?v=' + SITE_VERSION;
 
     // --- STIL DOSYALARINI YUKLE ---
 
@@ -128,436 +163,177 @@
     var isTurkish = path.startsWith('/tr') || path.startsWith('/tr/');
     var contentFolder = isEnglish ? '/en' : (isTurkish ? '/tr' : '');
 
-    // 1. Anasayfa Tespiti
-    var isHomePage = path === '/tr' || path === '/tr/' || path === '/en' || path === '/en/' || path === '/' || path.endsWith('/index.html') || path.endsWith('/index.php') || fullUrl.includes('preview.html') || path.includes('denemesayfasi');
-    // Eger spesifik bir sayfa isteniyorsa anasayfa degildir
+    // --- ANASAYFA TESPITI ---
+    var isHomePage = path === '/tr' || path === '/tr/' || path === '/en' || path === '/en/' || path === '/' ||
+        path.endsWith('/index.html') || path.endsWith('/index.php') ||
+        fullUrl.includes('preview.html') || path.includes('denemesayfasi');
+    // Spesifik bir sayfa isteniyorsa anasayfa degildir.
     if (search.includes('page=')) isHomePage = false;
-
-    // 2. Ozel Sayfa Tespiti (Hem URL path hem de Query String icinde aranir)
-    var isAboutPage = path.includes('bolum_hakkinda-75') || path.includes('about_us-145') || path.includes('about.html') || search.includes('page=about') || search.includes('page=bolum_hakkinda');
-    var isManagementPage = path.includes('yonetim-77') || path.includes('administration-147') || path.includes('management.html') || search.includes('page=management') || search.includes('page=yonetim');
-    var isAcademicStaffPage = path.includes('ogretim_uyelerigorevlileri') || path.includes('academic_staff-139') || path.includes('academic_staff.html') || search.includes('page=academic') || search.includes('page=ogretim_uyelerigorevlileri') || path.includes('ogretim-uyeleri-ve-gorevlileri') || path.includes('211');
-    var isResearchStaffPage = path.includes('arastirma_gorevlileri') || path.includes('research_assistants-141') || path.includes('research_assistants.html') || search.includes('page=research') || search.includes('page=arastirma_gorevlileri') || path.includes('69');
-    var isUndergraduatePage = path.includes('undergraduate-115') || path.includes('undergraduate.html') || search.includes('page=undergraduate');
-    var isThesisGraduatePage = path.includes('tezli_yuksek_lisans-117') || path.includes('graduate_thesis.html') || search.includes('page=graduate_thesis');
-    var isNonThesisGraduatePage = path.includes('tezsiz_yuksek_lisans-213') || path.includes('graduate_non_thesis.html') || search.includes('page=graduate_non_thesis');
-    var isPhDPage = path.includes('doktora-215') || path.includes('phd.html') || search.includes('page=phd');
-    var isPhDProgramPage = path.includes('doktora_programi-97') || path.includes('phd_program-135') || path.includes('phd_program.html') || search.includes('page=phd_program');
-    var isMinorProgramPage = path.includes('yan_dal_programi-99') || path.includes('minor_program-189') || path.includes('minor_program.html') || search.includes('page=minor_program');
-    var isGraduateThesisProgramPage = path.includes('tezli_yuksek_lisans_programlari-93') || path.includes('graduate_programs_thesis-131') || path.includes('graduate_thesis_program.html') || search.includes('page=graduate_thesis_program');
-    var isGraduateNonThesisProgramPage = path.includes('tezsiz_yuksek_lisans_programlari-95') || path.includes('graduate_programs_nonthesis-133') || path.includes('graduate_nonthesis_program.html') || search.includes('page=graduate_nonthesis_program');
-    var isBachelorProgramPage = path.includes('lisans_programi-91') || path.includes('undergraduate_program-129') || path.includes('bachelor_program.html') || search.includes('page=bachelor_program');
-    var isErasmusPage = path.includes('erasmus-103') || path.includes('erasmus-193') || path.includes('erasmus_program.html') || search.includes('page=erasmus');
-    var isFarabiPage = path.includes('farabi-105') || path.includes('farabi-195') || path.includes('farabi_program.html') || search.includes('page=farabi');
-    var isMevlanaPage = path.includes('mevlana-107') || path.includes('mevlana-197') || path.includes('mevlana_program.html') || search.includes('page=mevlana');
-    var isInternshipPage = path.includes('staj-111') || path.includes('internship-199') || path.includes('internship.html') || search.includes('page=internship');
-    var isFAQPage = path.includes('lisans_programi_ogrencileri_icin_si-121') || path.includes('frequently_asked_questions_for_unde-179') || path.includes('faq.html') || search.includes('page=faq');
-    var isRequiredFormsPage = path.includes('gerekli_formlar_ve_belgeler-173') || path.includes('required_forms_and_documents-175') || path.includes('required_forms.html') || search.includes('page=required_forms');
-    var isEventsPage = path.includes('etkinlikler-171') || path.includes('events-177') || path.includes('events.html') || search.includes('page=events');
-    var isAnnouncementsPage = path.includes('duyurular') || path.includes('duyurudeneme') || path.includes('announcements.html') || search.includes('page=announcements');
-    var isContactPage = path.includes('iletisim-13') || path.includes('contact_us-149') || path.includes('contact.html') || search.includes('page=contact');
-    var isAcademicCalendarPage = path.includes('akademik_takvimler-119') || path.includes('academic_calendar-185') || path.includes('academic_calendar.html') || search.includes('page=academic_calendar');
-    var isAdminStaffPage = path.includes('idari_personel') || path.includes('department_staff-183') || path.includes('administrative_staff.html') || search.includes('page=admin') || search.includes('page=idari_personel');
-    var isMidtermPage = path.includes('midtermannouncement-1290') || path.includes('midterm.html') || search.includes('page=midterm');
-    var isFinalPage = path.includes('finalannouncement') || path.includes('final.html') || search.includes('page=final');
-    var isButunlemePage = path.includes('butunleme') || path.includes('butunleme-sinav-programi.html') || search.includes('page=butunleme');
-    var isLisansustuGirisPage = path.includes('lisansustu-giris-sinavlari') || path.includes('lisansustu-giris-sinavlari.html') || search.includes('page=lisansustu');
-
-    // Eger URL'de 'preview_subpage' varsa kesinlikle alt sayfadir (Test icin)
     if (path.includes('preview_subpage')) isHomePage = false;
 
+    // --- ROTA TABLOSU ------------------------------------------------------
+    // Eskiden burasi 29 adet birbirinin kopyasi "else if (isXPage) { fetch(...) }"
+    // blogundan olusuyordu (~450 satir). Yeni bir sayfa eklemek icin dosyanin
+    // UC ayri yerine dokunmak gerekiyordu (tespit degiskeni + standalone
+    // kontrolu + fetch blogu); biri unutuldugunda sayfa sessizce bos aciliyordu.
+    //
+    // Artik tek kaynak burasi: yeni sayfa eklemek = tabloya bir satir yazmak.
+    //
+    //   dosya         : contentFolder (/tr veya /en) altindaki HTML dosyasi
+    //   yollar        : URL path'i icinde aranacak parcalar (CMS sayfa kimlikleri)
+    //   sorgu         : yerel onizleme anahtarlari  ->  ?page=<deger>
+    //   sabitTr       : true ise dilden bagimsiz her zaman /tr altindan cekilir
+    //   loaderTemizle : cekilen HTML'deki enjeksiyon <img>'ini sil (sonsuz dongu onlemi)
+    //   ozel          : ozel islem gerektiren sayfalar (ornegin duyuru listesi)
+    //
+    // SIRA ONEMLIDIR: ilk eslesen rota kazanir (eski if/else zinciriyle ayni sira).
+    var ROTALAR = [
+        { dosya: 'about.html', yollar: ['bolum_hakkinda-75', 'about_us-145'], sorgu: ['about', 'bolum_hakkinda'] },
+        { dosya: 'management.html', yollar: ['yonetim-77', 'administration-147'], sorgu: ['management', 'yonetim'] },
+        // NOT: Eskiden burada path.includes('211') vardi. URL'nin HERHANGI bir
+        // yerinde 211 gecen sayfayi (ornegin -2114, -1211) yanlislikla ogretim
+        // uyeleri listesine cevirdigi icin kaldirildi. Asil kimlik zaten
+        // 'ogretim_uyelerigorevlileri' parcasiyla yakalaniyor.
+        { dosya: 'academic_staff.html', yollar: ['ogretim_uyelerigorevlileri', 'ogretim-uyeleri-ve-gorevlileri', 'academic_staff-139'], sorgu: ['academic', 'ogretim_uyelerigorevlileri'] },
+        // NOT: Eskiden burada path.includes('69') vardi; ayni sebeple kaldirildi.
+        { dosya: 'research_assistants.html', yollar: ['arastirma_gorevlileri', 'research_assistants-141'], sorgu: ['research', 'arastirma_gorevlileri'] },
+        { dosya: 'administrative_staff.html', yollar: ['idari_personel', 'department_staff-183'], sorgu: ['admin', 'idari_personel'] },
+        { dosya: 'undergraduate.html', yollar: ['undergraduate-115'], sorgu: ['undergraduate'] },
+        { dosya: 'graduate_thesis.html', yollar: ['tezli_yuksek_lisans-117'], sorgu: ['graduate_thesis'] },
+        { dosya: 'graduate_non_thesis.html', yollar: ['tezsiz_yuksek_lisans-213'], sorgu: ['graduate_non_thesis'] },
+        { dosya: 'phd.html', yollar: ['doktora-215'], sorgu: ['phd'] },
+        { dosya: 'phd_program.html', yollar: ['doktora_programi-97', 'phd_program-135'], sorgu: ['phd_program'] },
+        { dosya: 'minor_program.html', yollar: ['yan_dal_programi-99', 'minor_program-189'], sorgu: ['minor_program'] },
+        { dosya: 'graduate_thesis_program.html', yollar: ['tezli_yuksek_lisans_programlari-93', 'graduate_programs_thesis-131'], sorgu: ['graduate_thesis_program'] },
+        { dosya: 'graduate_nonthesis_program.html', yollar: ['tezsiz_yuksek_lisans_programlari-95', 'graduate_programs_nonthesis-133'], sorgu: ['graduate_nonthesis_program'] },
+        { dosya: 'erasmus_program.html', yollar: ['erasmus-103', 'erasmus-193'], sorgu: ['erasmus'] },
+        { dosya: 'farabi_program.html', yollar: ['farabi-105', 'farabi-195'], sorgu: ['farabi'] },
+        { dosya: 'mevlana_program.html', yollar: ['mevlana-107', 'mevlana-197'], sorgu: ['mevlana'] },
+        { dosya: 'internship.html', yollar: ['staj-111', 'internship-199'], sorgu: ['internship'] },
+        { dosya: 'faq.html', yollar: ['lisans_programi_ogrencileri_icin_si-121', 'frequently_asked_questions_for_unde-179'], sorgu: ['faq'] },
+        { dosya: 'midterm.html', yollar: ['midtermannouncement-1290'], sorgu: ['midterm'] },
+        { dosya: 'final.html', yollar: ['finalannouncement'], sorgu: ['final'] },
+        { dosya: 'butunleme-sinav-programi.html', yollar: ['butunleme'], sorgu: ['butunleme'], sabitTr: true, loaderTemizle: true },
+        { dosya: 'lisansustu-giris-sinavlari.html', yollar: ['lisansustu-giris-sinavlari'], sorgu: ['lisansustu'], sabitTr: true, loaderTemizle: true },
+        { dosya: 'required_forms.html', yollar: ['gerekli_formlar_ve_belgeler-173', 'required_forms_and_documents-175'], sorgu: ['required_forms'] },
+        { dosya: 'events.html', yollar: ['etkinlikler-171', 'events-177'], sorgu: ['events'] },
+        { dosya: 'announcements.html', yollar: ['duyurular', 'duyurudeneme'], sorgu: ['announcements'], ozel: 'duyurular' },
+        { dosya: 'contact.html', yollar: ['iletisim-13', 'contact_us-149'], sorgu: ['contact'] },
+        { dosya: 'bachelor_program.html', yollar: ['lisans_programi-91', 'undergraduate_program-129'], sorgu: ['bachelor_program'] },
+        { dosya: 'academic_calendar.html', yollar: ['akademik_takvimler-119', 'academic_calendar-185'], sorgu: ['academic_calendar'] }
+    ];
 
-    // --- STANDALONE MODE CHECK (Dosyanin kendisi acildiysa fetch yapma) ---
-    // Ornegin: management.html dogrudan acildiysa, kendini fetch etmesin.
-    var isStandalone = false;
-    if (path.endsWith('management.html') && isManagementPage) isStandalone = true;
-    if (path.endsWith('academic_staff.html') && isAcademicStaffPage) isStandalone = true;
-    if (path.endsWith('about.html') && isAboutPage) isStandalone = true;
-    if (path.endsWith('research_assistants.html') && isResearchStaffPage) isStandalone = true;
-    if (path.endsWith('administrative_staff.html') && isAdminStaffPage) isStandalone = true;
-    if (path.endsWith('undergraduate.html') && isUndergraduatePage) isStandalone = true;
-    if (path.endsWith('graduate_thesis.html') && isThesisGraduatePage) isStandalone = true;
-    if (path.endsWith('graduate_non_thesis.html') && isNonThesisGraduatePage) isStandalone = true;
-    if (path.endsWith('phd.html') && isPhDPage) isStandalone = true;
-    if (path.endsWith('phd_program.html') && isPhDProgramPage) isStandalone = true;
-    if (path.endsWith('minor_program.html') && isMinorProgramPage) isStandalone = true;
-    if (path.endsWith('graduate_thesis_program.html') && isGraduateThesisProgramPage) isStandalone = true;
-    if (path.endsWith('graduate_nonthesis_program.html') && isGraduateNonThesisProgramPage) isStandalone = true;
-    if (path.endsWith('bachelor_program.html') && isBachelorProgramPage) isStandalone = true;
-    if (path.endsWith('erasmus_program.html') && isErasmusPage) isStandalone = true;
-    if (path.endsWith('farabi_program.html') && isFarabiPage) isStandalone = true;
-    if (path.endsWith('mevlana_program.html') && isMevlanaPage) isStandalone = true;
-    if (path.endsWith('internship.html') && isInternshipPage) isStandalone = true;
-    if (path.endsWith('faq.html') && isFAQPage) isStandalone = true;
-    if (path.endsWith('required_forms.html') && isRequiredFormsPage) isStandalone = true;
-    if (path.endsWith('events.html') && isEventsPage) isStandalone = true;
-    if (path.endsWith('announcements.html') && isAnnouncementsPage) isStandalone = true;
-    if (path.endsWith('contact.html') && isContactPage) isStandalone = true;
-    if (path.endsWith('academic_calendar.html') && isAcademicCalendarPage) isStandalone = true;
-    if (path.endsWith('midterm.html') && isMidtermPage) isStandalone = true;
-    if (path.endsWith('final.html') && isFinalPage) isStandalone = true;
-    if (path.endsWith('butunleme-sinav-programi.html') && isButunlemePage) isStandalone = true;
-    if (path.endsWith('lisansustu-giris-sinavlari.html') && isLisansustuGirisPage) isStandalone = true;
-
-    // --- HTML ICERIGINI CEK (SADECE ANASAYFA VEYA OZEL SAYFALAR ISE) ---
-    if (window.OFFLINE_MODE || isStandalone) {
-        // ("Offline/Standalone Modu Aktif: HTML cekme atlaniyor.");
-        // Loader'in stil ve scriptleri enjekte etmesi icin baslat'i cagiriyoruz.
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function () {
-                baslat(document, false);
-            });
-        } else {
-            baslat(document, false);
+    function rotaEslesiyorMu(rota) {
+        var i;
+        for (i = 0; i < rota.yollar.length; i++) {
+            if (path.includes(rota.yollar[i])) return true;
         }
+        // Dosyanin kendisi dogrudan acildiysa (yerel onizleme).
+        if (path.includes(rota.dosya)) return true;
+        var sorgular = rota.sorgu || [];
+        for (i = 0; i < sorgular.length; i++) {
+            if (search.includes('page=' + sorgular[i])) return true;
+        }
+        return false;
+    }
+
+    var aktifRota = null;
+    if (!isHomePage) {
+        for (var rIdx = 0; rIdx < ROTALAR.length; rIdx++) {
+            if (rotaEslesiyorMu(ROTALAR[rIdx])) { aktifRota = ROTALAR[rIdx]; break; }
+        }
+    }
+
+    // STANDALONE: dosyanin kendisi acildiysa kendini tekrar fetch etmesin.
+    var isStandalone = !!(aktifRota && path.endsWith(aktifRota.dosya));
+
+    // --- ORTAK YARDIMCILAR -------------------------------------------------
+    function sayfayiGoster() {
+        var antiFlicker = document.getElementById('anti-flicker-style');
+        if (antiFlicker) antiFlicker.remove();
+        document.documentElement.style.visibility = 'visible';
+        document.documentElement.style.opacity = '1';
+        document.body.style.visibility = 'visible';
+        document.body.style.opacity = '1';
+        document.documentElement.classList.remove('hi-loading');
+    }
+
+    function hazirOlunca(fn) {
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn);
+        else fn();
+    }
+
+    // Tek merkezden icerik cekme. Eskiden bu 8 satir 29 kez kopyalanmisti ve
+    // buyuk kismi catch'siz oldugu icin ag hatasinda sayfa sessizce bos kaliyordu.
+    function icerikCek(url, secenekler) {
+        secenekler = secenekler || {};
+        return fetch(url)
+            .then(function (response) {
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+                return response.text();
+            })
+            .then(function (html) {
+                var doc = new DOMParser().parseFromString(html, 'text/html');
+                if (secenekler.loaderTemizle) {
+                    var imgLoader = doc.querySelector('img[onerror*="loader.js"]');
+                    if (imgLoader) imgLoader.remove();
+                }
+                baslat(doc, true);
+            })
+            .catch(function (err) {
+                if (window.location.protocol.includes('file')) return;
+                console.warn('[loader] Icerik cekilemedi:', url, err);
+                document.body.innerHTML =
+                    '<div class="container" style="margin-top:150px; text-align:center;">' +
+                    '<h3>Yükleme Hatası</h3>' +
+                    '<p>Sayfa içeriği yüklenemedi. Lütfen sayfayı yenileyin.<br>' +
+                    '<small>' + err + '</small></p></div>';
+                sayfayiGoster();
+            });
+    }
+
+    // --- YONLENDIRME -------------------------------------------------------
+    if (window.OFFLINE_MODE || isStandalone) {
+        // Offline/Standalone: HTML cekme, mevcut belgeyi susle.
+        hazirOlunca(function () { baslat(document, false); });
     } else if (isHomePage) {
-        // ANASAYFA: index.html'i cek ve body'yi degistir
-        fetch(baseUrl + contentFolder + '/index.html' + cacheBuster)
-            .then(function (response) {
-                return response.text();
-            })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true); // true = Disaridan HTML geldi
-            })
-            .catch(function (err) {
-                if (!window.location.protocol.includes('file')) {
-                    document.body.innerHTML = '<h1>Hata Olustu</h1><p>' + err + '</p>';
-                }
-            });
-    } else if (isAboutPage) {
-        // HAKKINDA SAYFASI: about.html'i cek ve body'yi degistir
-        // ("Hakkinda sayfasi yukleniyor...");
-        fetch(baseUrl + contentFolder + '/about.html' + cacheBuster)
-            .then(function (response) {
-                return response.text();
-            })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true); // true = Disaridan HTML geldi (Ayni anasayfa mantigiyla)
-            })
-            .catch(function (err) {
-            });
-    } else if (isManagementPage) {
-        // YONETIM SAYFASI: management.html'i cek ve body'yi degistir
-        fetch(baseUrl + contentFolder + '/management.html' + cacheBuster)
-            .then(function (response) {
-                return response.text();
-            })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-            .catch(function (err) {
-                document.body.innerHTML = '<div class="container" style="margin-top:150px; text-align:center;"><h3>Yükleme Hatası</h3><p>Yönetim sayfası yüklenemedi.<br><small>' + err + '</small></p></div>';
-                var antiFlicker = document.getElementById('anti-flicker-style');
-                if (antiFlicker) antiFlicker.remove();
-                document.documentElement.style.visibility = 'visible';
-                document.documentElement.style.opacity = '1';
-                document.body.style.visibility = 'visible';
-                document.body.style.opacity = '1';
-            });
-    } else if (isAcademicStaffPage) {
-        // OGRETIM UYELERI SAYFASI: academic_staff.html'i cek ve body'yi degistir
-        fetch(baseUrl + contentFolder + '/academic_staff.html' + cacheBuster)
-            .then(function (response) {
-                return response.text();
-            })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-            .catch(function (err) {
-                document.body.innerHTML = '<div class="container" style="margin-top:150px; text-align:center;"><h3>Yükleme Hatası</h3><p>İçerik yüklenemedi. Lütfen internet bağlantınızı kontrol edin veya daha sonra tekrar deneyin.<br><small>' + err + '</small></p></div>';
-                var antiFlicker = document.getElementById('anti-flicker-style');
-                if (antiFlicker) antiFlicker.remove();
-                document.documentElement.style.visibility = 'visible';
-                document.documentElement.style.opacity = '1';
-                document.body.style.visibility = 'visible';
-                document.body.style.opacity = '1';
-            });
-    } else if (isResearchStaffPage) {
-        // ARASTIRMA GOREVLILERI SAYFASI
-        fetch(baseUrl + contentFolder + '/research_assistants.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-    } else if (isAdminStaffPage) {
-        // IDARI PERSONEL SAYFASI
-        fetch(baseUrl + contentFolder + '/administrative_staff.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-    } else if (isUndergraduatePage) {
-        // LISANS DERS PROGRAMI SAYFASI
-        fetch(baseUrl + contentFolder + '/undergraduate.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-    } else if (isThesisGraduatePage) {
-        fetch(baseUrl + contentFolder + '/graduate_thesis.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-    } else if (isNonThesisGraduatePage) {
-        fetch(baseUrl + contentFolder + '/graduate_non_thesis.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-    } else if (isPhDPage) {
-        fetch(baseUrl + contentFolder + '/phd.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-    } else if (isPhDProgramPage) {
-        fetch(baseUrl + contentFolder + '/phd_program.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-    } else if (isMinorProgramPage) {
-        fetch(baseUrl + contentFolder + '/minor_program.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-    } else if (isGraduateThesisProgramPage) {
-        fetch(baseUrl + contentFolder + '/graduate_thesis_program.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-    } else if (isGraduateNonThesisProgramPage) {
-        fetch(baseUrl + contentFolder + '/graduate_nonthesis_program.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-    } else if (isErasmusPage) {
-        fetch(baseUrl + contentFolder + '/erasmus_program.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-    } else if (isFarabiPage) {
-        fetch(baseUrl + contentFolder + '/farabi_program.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-    } else if (isMevlanaPage) {
-        fetch(baseUrl + contentFolder + '/mevlana_program.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-    } else if (isInternshipPage) {
-        fetch(baseUrl + contentFolder + '/internship.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-    } else if (isFAQPage) {
-        fetch(baseUrl + contentFolder + '/faq.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-    } else if (isMidtermPage) {
-        fetch(baseUrl + contentFolder + '/midterm.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-    } else if (isFinalPage) {
-        fetch(baseUrl + contentFolder + '/final.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-    } else if (isButunlemePage) {
-        fetch(baseUrl + '/tr/butunleme-sinav-programi.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                // Remove recursive loader script to prevent infinite loops
-                var imgLoader = doc.querySelector('img[onerror*="loader.js"]');
-                if (imgLoader) {
-                    imgLoader.remove();
-                }
-                baslat(doc, true);
-            })
-    } else if (isLisansustuGirisPage) {
-        fetch(baseUrl + '/tr/lisansustu-giris-sinavlari.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                // Remove recursive loader script to prevent infinite loops
-                var imgLoader = doc.querySelector('img[onerror*="loader.js"]');
-                if (imgLoader) {
-                    imgLoader.remove();
-                }
-                baslat(doc, true);
-            })
-    } else if (isRequiredFormsPage) {
-        fetch(baseUrl + contentFolder + '/required_forms.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-    } else if (isEventsPage) {
-        fetch(baseUrl + contentFolder + '/events.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-    } else if (isAnnouncementsPage) {
-        // --- OZEL DURUM: Duyurular Sayfasi ---
+        icerikCek(baseUrl + contentFolder + '/index.html' + cacheBuster);
+    } else if (aktifRota && aktifRota.ozel === 'duyurular') {
+        hazirOlunca(duyurularSayfasiniYukle);
+    } else if (aktifRota) {
+        var hedefKlasor = aktifRota.sabitTr ? '/tr' : contentFolder;
+        icerikCek(baseUrl + hedefKlasor + '/' + aktifRota.dosya + cacheBuster,
+            { loaderTemizle: aktifRota.loaderTemizle });
+    } else {
+        // ALT SAYFA: Mevcut CMS icerigini koru, sadece modernlestir.
+        hazirOlunca(function () { baslat(document, false); });
+    }
+
+    // --- OZEL DURUM: DUYURULAR SAYFASI -------------------------------------
+    // Duyuru listesi CMS'in kendi /tr/duyurular sayfasindan kazinarak (scrape)
+    // aliniyor. Universite CMS temasini guncellerse secici tutmaz ve liste
+    // sessizce bosalirdi; bu yuzden birden fazla secici sirayla deneniyor ve
+    // hicbiri tutmazsa konsola GORUNUR bir uyari basiliyor.
+    function duyuruKokBul(doc) {
+        var seciciler = ['.col-lg-9', '.icerik', '.content', 'main', '#content', '.container'];
+        for (var i = 0; i < seciciler.length; i++) {
+            var el = doc.querySelector(seciciler[i]);
+            if (el && el.querySelector('a')) {
+                if (i > 0) console.warn('[loader] Duyuru secicisi degismis; yedek secici kullanildi: ' + seciciler[i]);
+                return el;
+            }
+        }
+        console.warn('[loader] Duyuru listesi bulunamadi. CMS sayfa yapisi degismis olabilir (/tr/duyurular).');
+        return doc.body;
+    }
+
+    function duyurularSayfasiniYukle() {
         var annState = { data: [], currentPage: 1, itemsPerPage: 15, currentFilter: 'all' };
 
-        function loadAnnouncementsPage() {
-            var sourceURL = '/tr/duyurular' + cacheBuster;
-            fetch(sourceURL)
-                .then(res => res.text())
-                .then(html => {
-                    var parser = new DOMParser();
-                    var sourceDoc = parser.parseFromString(html, 'text/html');
-                    var anaIcerik = sourceDoc.querySelector('.col-lg-9') || sourceDoc.querySelector('.icerik') || sourceDoc.body;
-                    var items = anaIcerik.querySelectorAll('tr, li, .announcement-item');
-                    if (items.length === 0) items = anaIcerik.querySelectorAll('a');
-
-                    annState.data = [];
-                    var blackList = ["duyurular-1", "tezli_yuksek_lisans_programlar-33", "lisans_programi-35", "tezsiz_yuksek_lisans_programla-37", "doktora_programi-39", "/show/"];
-
-                    items.forEach(function (node) {
-                        var link = node.tagName === 'A' ? node : node.querySelector('a');
-                        if (!link) return;
-                        var title = link.textContent.trim();
-                        var url = link.getAttribute('href') || "";
-
-                        // Exclusion check
-                        if (!url || url.includes('javascript') || title.length < 5) return;
-                        for (var j = 0; j < blackList.length; j++) {
-                            if (url.includes(blackList[j])) return;
-                        }
-
-                        // Date extraction (Standard + Secondary + Span)
-                        var date = "";
-                        var tarihSpan = node.querySelector('.tarih, .date, .announcement-date');
-                        if (tarihSpan) date = tarihSpan.textContent.trim().split(' ')[0];
-
-                        if (!date) {
-                            var m = node.textContent.match(/(\d{4})-(\d{2})-(\d{2})/) || node.textContent.match(/(\d{2})\.(\d{2})\.(\d{4})/);
-                            if (m) date = m[0];
-                        }
-
-                        if (!date && url) { // Try to extract from URL if possible
-                            var urlMatch = url.match(/\/(\d{4})\/(\d{1,2})\/(\d{1,2})\//);
-                            if (urlMatch) date = urlMatch[3] + "." + urlMatch[2] + "." + urlMatch[1];
-                        }
-
-                        // Tags & Title Clean up
-                        var tags = [];
-                        var lt = title.toLocaleLowerCase('tr-TR');
-
-                        // Categorization (Priority based to avoid mislabeling)
-                        if (lt.includes('onemli') || lt.includes('önemli')) tags.push('ÖNEMLİ');
-
-                        if (lt.includes('tezsiz')) tags.push('TEZSİZ YL');
-                        else if (lt.includes('tezli') && (lt.includes('yüksek') || lt.includes('yl'))) tags.push('TEZLİ YL');
-                        else if (lt.includes('doktora')) tags.push('DOKTORA');
-                        else if (lt.includes('lisans') && !lt.includes('lisansüstü')) tags.push('LİSANS');
-
-                        if (tags.length === 0) tags.push('Genel');
-
-                        // Clean title from identified tags to avoid redundancy
-                        tags.forEach(t => {
-                            var tagLower = t.toLocaleLowerCase('tr-TR');
-                            // Remove the tag text from the title if it's present
-                            // Using a regex with 'gi' for global and case-insensitive replacement
-                            // and ensuring whole word match if possible to avoid partial replacements.
-                            // For simplicity, a direct replace is used here, but more robust regex could be applied.
-                            if (title.toLocaleLowerCase('tr-TR').includes(tagLower)) {
-                                // Create a regex that matches the tag word, optionally followed by punctuation or space
-                                // and handles Turkish characters.
-                                // This is a basic attempt; a more sophisticated regex might be needed for all cases.
-                                var regex = new RegExp(`\\b${t.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}\\b`, 'gi');
-                                title = title.replace(regex, '').trim();
-                                // Remove common separators left behind
-                                title = title.replace(/^-?\s*[-—–:]?\s*/, '').trim(); // leading dash/colon
-                                title = title.replace(/\s*[-—–:]?\s*$/, '').trim(); // trailing dash/colon
-                            }
-                        });
-
-                        annState.data.push({ title: title, url: url, date: date, tags: tags });
-                    });
-
-                    return fetch(baseUrl + contentFolder + '/announcements.html' + cacheBuster);
-                })
-                .then(res => res.text())
-                .then(html => {
-                    var parser = new DOMParser();
-                    var doc = parser.parseFromString(html, 'text/html');
-                    baslat(doc, true);
-                    setupAnnUI();
-                })
-        }
-
         function setupAnnUI() {
-            // Filter listeners
-            document.querySelectorAll('.filter-btn').forEach(btn => {
+            document.querySelectorAll('.filter-btn').forEach(function (btn) {
                 btn.onclick = function () {
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.filter-btn').forEach(function (b) { b.classList.remove('active'); });
                     btn.classList.add('active');
                     annState.currentFilter = btn.getAttribute('data-filter');
                     annState.currentPage = 1;
@@ -568,9 +344,9 @@
         }
 
         function updateAnnDisplay() {
-            var filtered = annState.data.filter(item => {
+            var filtered = annState.data.filter(function (item) {
                 if (annState.currentFilter === 'all') return true;
-                return item.tags.some(t => t.toUpperCase().includes(annState.currentFilter.toUpperCase()));
+                return item.tags.some(function (t) { return t.toUpperCase().includes(annState.currentFilter.toUpperCase()); });
             });
 
             var totalPages = Math.ceil(filtered.length / annState.itemsPerPage);
@@ -583,8 +359,8 @@
             if (paginated.length === 0) {
                 listEl.innerHTML = '<div style="text-align:center; padding:40px; color:#64748b;">Duyuru bulunamadı.</div>';
             } else {
-                listEl.innerHTML = paginated.map(item => {
-                    var tagsHTML = item.tags.map(tag => {
+                listEl.innerHTML = paginated.map(function (item) {
+                    var tagsHTML = item.tags.map(function (tag) {
                         var cls = 'tag-genel';
                         var t = tag.toUpperCase();
                         if (t.includes('ÖNEMLİ')) cls = 'tag-onemli';
@@ -592,19 +368,17 @@
                         else if (t.includes('TEZLİ')) cls = 'tag-tezli-yl';
                         else if (t.includes('TEZSİZ')) cls = 'tag-tezsiz-yl';
                         else if (t.includes('DOKTORA')) cls = 'tag-doktora';
-                        return `<span class="ann-tag ${cls}">${tag}</span>`;
+                        return '<span class="ann-tag ' + cls + '">' + tag + '</span>';
                     }).join('');
 
-                    return `<a href="${item.url}" class="ann-card">
-                        <div class="ann-card-left">
-                            <div class="ann-card-title">${item.title}</div>
-                            <div class="ann-card-meta">
-                                <span><i class="far fa-calendar-alt"></i> ${item.date}</span>
-                                <div style="display:flex; gap:5px;">${tagsHTML}</div>
-                            </div>
-                        </div>
-                        <i class="fas fa-chevron-right" style="color:#cbd5e1;"></i>
-                    </a>`;
+                    return '<a href="' + item.url + '" class="ann-card">' +
+                        '<div class="ann-card-left">' +
+                        '<div class="ann-card-title">' + item.title + '</div>' +
+                        '<div class="ann-card-meta">' +
+                        '<span><i class="far fa-calendar-alt"></i> ' + item.date + '</span>' +
+                        '<div style="display:flex; gap:5px;">' + tagsHTML + '</div>' +
+                        '</div></div>' +
+                        '<i class="fas fa-chevron-right" style="color:#cbd5e1;"></i></a>';
                 }).join('');
             }
             renderAnnPagination(totalPages);
@@ -614,18 +388,18 @@
             var pagEl = document.getElementById('ann-pagination');
             if (!pagEl || total <= 1) { if (pagEl) pagEl.innerHTML = ''; return; }
 
-            var html = `<button class="page-btn" id="ann-prev" ${annState.currentPage === 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i></button>`;
+            var html = '<button class="page-btn" id="ann-prev" ' + (annState.currentPage === 1 ? 'disabled' : '') + '><i class="fas fa-chevron-left"></i></button>';
             for (var i = 1; i <= total; i++) {
                 if (i === 1 || i === total || (i >= annState.currentPage - 2 && i <= annState.currentPage + 2)) {
-                    html += `<button class="page-btn ${i === annState.currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
+                    html += '<button class="page-btn ' + (i === annState.currentPage ? 'active' : '') + '" data-page="' + i + '">' + i + '</button>';
                 } else if (i === annState.currentPage - 3 || i === annState.currentPage + 3) {
-                    html += `<span style="color:#cbd5e1">...</span>`;
+                    html += '<span style="color:#cbd5e1">...</span>';
                 }
             }
-            html += `<button class="page-btn" id="ann-next" ${annState.currentPage === total ? 'disabled' : ''}><i class="fas fa-chevron-right"></i></button>`;
+            html += '<button class="page-btn" id="ann-next" ' + (annState.currentPage === total ? 'disabled' : '') + '><i class="fas fa-chevron-right"></i></button>';
             pagEl.innerHTML = html;
 
-            pagEl.querySelectorAll('[data-page]').forEach(btn => {
+            pagEl.querySelectorAll('[data-page]').forEach(function (btn) {
                 btn.onclick = function () { annState.currentPage = parseInt(btn.dataset.page); updateAnnDisplay(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
             });
             var prev = document.getElementById('ann-prev'), next = document.getElementById('ann-next');
@@ -633,45 +407,83 @@
             if (next) next.onclick = function () { if (annState.currentPage < total) { annState.currentPage++; updateAnnDisplay(); window.scrollTo({ top: 0, behavior: 'smooth' }); } };
         }
 
-        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadAnnouncementsPage);
-        else loadAnnouncementsPage();
+        fetch('/tr/duyurular' + cacheBuster)
+            .then(function (res) { return res.text(); })
+            .then(function (html) {
+                var sourceDoc = new DOMParser().parseFromString(html, 'text/html');
+                var anaIcerik = duyuruKokBul(sourceDoc);
+                var items = anaIcerik.querySelectorAll('tr, li, .announcement-item');
+                if (items.length === 0) items = anaIcerik.querySelectorAll('a');
 
-    } else if (isContactPage) {
-        fetch(baseUrl + contentFolder + '/contact.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
+                annState.data = [];
+                var blackList = ["duyurular-1", "tezli_yuksek_lisans_programlar-33", "lisans_programi-35", "tezsiz_yuksek_lisans_programla-37", "doktora_programi-39", "/show/"];
+
+                items.forEach(function (node) {
+                    var link = node.tagName === 'A' ? node : node.querySelector('a');
+                    if (!link) return;
+                    var title = link.textContent.trim();
+                    var url = link.getAttribute('href') || "";
+
+                    if (!url || url.includes('javascript') || title.length < 5) return;
+                    for (var j = 0; j < blackList.length; j++) {
+                        if (url.includes(blackList[j])) return;
+                    }
+
+                    var date = "";
+                    var tarihSpan = node.querySelector('.tarih, .date, .announcement-date');
+                    if (tarihSpan) date = tarihSpan.textContent.trim().split(' ')[0];
+
+                    if (!date) {
+                        var m = node.textContent.match(/(\d{4})-(\d{2})-(\d{2})/) || node.textContent.match(/(\d{2})\.(\d{2})\.(\d{4})/);
+                        if (m) date = m[0];
+                    }
+
+                    if (!date && url) {
+                        var urlMatch = url.match(/\/(\d{4})\/(\d{1,2})\/(\d{1,2})\//);
+                        if (urlMatch) date = urlMatch[3] + "." + urlMatch[2] + "." + urlMatch[1];
+                    }
+
+                    var tags = [];
+                    var lt = title.toLocaleLowerCase('tr-TR');
+
+                    if (lt.includes('onemli') || lt.includes('önemli')) tags.push('ÖNEMLİ');
+
+                    if (lt.includes('tezsiz')) tags.push('TEZSİZ YL');
+                    else if (lt.includes('tezli') && (lt.includes('yüksek') || lt.includes('yl'))) tags.push('TEZLİ YL');
+                    else if (lt.includes('doktora')) tags.push('DOKTORA');
+                    else if (lt.includes('lisans') && !lt.includes('lisansüstü')) tags.push('LİSANS');
+
+                    if (tags.length === 0) tags.push('Genel');
+
+                    tags.forEach(function (t) {
+                        var tagLower = t.toLocaleLowerCase('tr-TR');
+                        if (title.toLocaleLowerCase('tr-TR').includes(tagLower)) {
+                            var regex = new RegExp('\\b' + t.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '\\b', 'gi');
+                            title = title.replace(regex, '').trim();
+                            title = title.replace(/^-?\s*[-—–:]?\s*/, '').trim();
+                            title = title.replace(/\s*[-—–:]?\s*$/, '').trim();
+                        }
+                    });
+
+                    annState.data.push({ title: title, url: url, date: date, tags: tags });
+                });
+
+                if (annState.data.length === 0) {
+                    console.warn('[loader] CMS duyuru sayfasindan hic kayit cikarilamadi.');
+                }
+
+                return fetch(baseUrl + contentFolder + '/announcements.html' + cacheBuster);
             })
-    } else if (isBachelorProgramPage) {
-        fetch(baseUrl + contentFolder + '/bachelor_program.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
+            .then(function (res) { return res.text(); })
             .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
+                var doc = new DOMParser().parseFromString(html, 'text/html');
                 baslat(doc, true);
+                setupAnnUI();
             })
-    } else if (isAcademicCalendarPage) {
-        fetch(baseUrl + contentFolder + '/academic_calendar.html' + cacheBuster)
-            .then(function (response) { return response.text(); })
-            .then(function (html) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(html, 'text/html');
-                baslat(doc, true);
-            })
-    } else {
-        // ALT SAYFA: Mevcut icerigi koru, sadece susle
-        // ("Alt Sayfa Modu: Mevcut icerik korunaraj modernlestirilecek.");
-        // DOMContentLoaded beklemeye gerek yok, script zaten body sonunda calisiyor varsayiyoruz.
-        // Ama garanti olsun diye:
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function () {
-                baslat(document, false);
+            .catch(function (err) {
+                console.warn('[loader] Duyuru sayfasi yuklenemedi:', err);
+                sayfayiGoster();
             });
-        } else {
-            baslat(document, false); // false = Mevcut document kullaniliyor
-        }
     }
 
     function baslat(doc, isFetchedContent) {
