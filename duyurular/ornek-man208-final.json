@@ -1,0 +1,29 @@
+{
+  "kategori": "sinav",
+  "baslik": "MAN208 Final Sınavı Saat Değişikliği",
+  "ozet": "2025-2026 Bahar Dönemi · Şube 1 ve 2",
+  "meta": [
+    { "etiket": "Tarih", "deger": "9 Haziran 2026, Salı", "ikon": "fa-calendar-alt" },
+    { "etiket": "Saat",  "deger": "15:40 – 17:30",        "ikon": "fa-clock" },
+    { "etiket": "Yer",   "deger": "D-101, D-102",          "ikon": "fa-map-marker-alt" }
+  ],
+  "govde": [
+    { "tip": "metin", "icerik": "MAN208 dersinin final sınavı, ortak İngilizce dersleriyle yaşanan çakışma nedeniyle aynı gün öğleden sonraki oturuma alınmıştır." },
+    { "tip": "uyari", "seviye": "onemli", "baslik": "Dikkat",
+      "icerik": "Sınav saati <strong>değişmiştir</strong>. Sabah oturumuna gelen öğrenciler sınava alınmayacaktır." },
+    { "tip": "baslik", "icerik": "Etkilenen Ek Sınavlar", "ikon": "fa-list" },
+    { "tip": "tablo", "ortala": true,
+      "basliklar": ["Ders Kodu", "Eski Oturum", "Yeni Oturum"],
+      "satirlar": [
+        ["İYB331", "09:40 – 11:30", "15:40 – 17:30"],
+        ["MAN212", "09:40 – 11:30", "15:40 – 17:30"],
+        ["MAN437", "09:40 – 11:30", "15:40 – 17:30"]
+      ]
+    },
+    { "tip": "butonlar", "ogeler": [
+      { "metin": "Tüm Final Programı", "url": "https://isletme.hacettepe.edu.tr/tr/final", "tip": "birincil", "ikon": "fa-table" },
+      { "metin": "Akademik Takvim", "url": "https://isletme.hacettepe.edu.tr/tr/menu/akademik_takvimler-119", "tip": "ikincil", "ikon": "fa-calendar" }
+    ]}
+  ],
+  "alt_bant": "Güncelleme: 11 Ağustos 2026"
+}

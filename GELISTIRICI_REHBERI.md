@@ -33,11 +33,42 @@ Bu klasör (`hacettepe-isletme-site`) içindeki dosyaların ne işe yaradığın
 | **`cms_injection_code.txt`** | 🔴 **ANAHTAR.** CMS paneline yapıştırılan kod. Sadece `loader.js` dosyasını çağırmaya yarar. Nadiren değişir. |
 | **`modern-header.css`** | 🟡 Header, Navigasyon ve Sticky Menu tasarımları. |
 | **`footer.css`** | 🟡 Premium Dark Footer tasarımı. |
-| **`announcements.css`** | 🟡 Duyuru kartlarının tasarımı. |
+| **`announcements.css`** | 🟡 Duyuru **listesinin** (kart/filtre/sayfalama) tasarımı. |
+| **`duyuru.css`** | 🟡 Duyuru **içeriğinin** ortak tasarım sistemi. CMS'e yapıştırılan duyurular bunu kullanır. `loader.js` yüklemez; duyurunun kendi `<link>`'i çeker. |
+| **`duyuru_uret.py`** | 🟡 JSON'dan tutarlı duyuru HTML'i üretir. Elle inline stil yazmaya son verir. |
 | **`calendar.css`** | 🟡 Akademik takvim bileşeninin stilleri. |
 | **`responsive.css`** | 🔴 **MOBİL KATMANI.** Tüm mobil düzeltmeler burada. `loader.js` bunu **en son** yükler, böylece çakışmalarda bu dosya kazanır. Yeni bir mobil sorunu düzelteceksen önce buraya bak. |
 | **`index.html`** | 🟡 Ana sayfanın *içerik* iskeleti. `loader.js` bu dosyayı okuyup body içine yerleştirir. Slider, Misyon, Vizyon metinleri buradadır. |
 | **`akademik_takvim.json`** | 🟡 Takvim verileri burada tutulur. `loader.js` buradaki JSON'ı okuyup takvimi çizer. |
+
+---
+
+## 🗺️ 2b. Yeni Sayfa Eklemek — Rota Tablosu
+
+`loader.js` içinde **`ROTALAR`** adında tek bir tablo var. Yeni sayfa eklemek
+artık tek satır:
+
+```js
+{ dosya: 'yeni_sayfa.html', yollar: ['cms_sayfa_adi-123'], sorgu: ['yeni'] },
+```
+
+| Alan | Ne işe yarar |
+| :--- | :--- |
+| `dosya` | `/tr` veya `/en` altındaki HTML dosyası |
+| `yollar` | URL içinde aranacak CMS sayfa kimlikleri |
+| `sorgu` | Yerel önizleme: `?page=<değer>` |
+| `sabitTr` | `true` ise dilden bağımsız hep `/tr` altından çekilir |
+| `loaderTemizle` | Çekilen HTML'deki enjeksiyon `<img>`'ini siler (sonsuz döngü önlemi) |
+
+**Sıra önemlidir** — ilk eşleşen rota kazanır.
+
+> Eskiden burada 29 adet birbirinin kopyası `else if (isXPage) { fetch(...) }`
+> bloğu vardı (~450 satır) ve yeni sayfa eklemek için dosyanın **üç ayrı**
+> yerine dokunmak gerekiyordu. Biri unutulduğunda sayfa sessizce boş açılıyordu.
+>
+> Ayrıca iki tehlikeli eşleşme kaldırıldı: `path.includes('211')` ve
+> `path.includes('69')`. Bunlar URL'nin herhangi bir yerinde o rakamlar geçen
+> **her** sayfayı (ör. `-2114`, `-1169`) kadro sayfasına çeviriyordu.
 
 ---
 
@@ -46,13 +77,27 @@ Bu klasör (`hacettepe-isletme-site`) içindeki dosyaların ne işe yaradığın
 Projeyi geliştirirken takip etmeniz gereken döngü şudur:
 
 1.  **Düzenle:** Kendi bilgisayarınızda (veya bu ortamda) dosyalarda (`css`, `js`, `html`) değişiklik yapın.
-2.  **Commit & Push:** Değişiklikleri GitHub'a gönderin.
+2.  **🔴 SÜRÜMÜ ARTIR:** `loader.js` içindeki `SITE_VERSION` değerini güncelleyin (örn. `'2026-08-11'` → `'2026-08-12'`).
+    **Bu adım atlanırsa kullanıcılar eski sürümü görmeye devam eder.**
+3.  **Commit & Push:** Değişiklikleri GitHub'a gönderin.
+```
 git add .
 git commit -m "hata duzeltme"
 git push
-3.  **Bekle (30-60sn):** GitHub Pages'in build alması yaklaşık 30-60 saniye sürer.
-4.  **Test Et:** Tarayıcıda siteyi (https://isletme.hacettepe.edu.tr/tr/denemesayfasi-1240) yenileyin.
-    *   *İpucu:* Cache sorunu yaşamamak için URL sonuna `?v=2` gibi parametreler ekleyin veya Gizli Sekme kullanın.
+```
+4.  **Bekle (30-60sn):** GitHub Pages'in build alması yaklaşık 30-60 saniye sürer.
+5.  **Test Et:** Tarayıcıda siteyi (https://isletme.hacettepe.edu.tr/tr/denemesayfasi-1240) yenileyin.
+
+### ⚠️ Önbellek hakkında (2026-08 değişikliği)
+
+Eskiden `cacheBuster = '?v=' + Date.now()` idi. Her istek benzersiz olduğu için
+tarayıcı **hiçbir dosyayı önbelleğe alamıyordu**: her sayfa açılışında loader +
+7 CSS + takvim JSON, yani **~185 KB** yeniden iniyordu. Beş sayfa gezen bir
+ziyaretçi ~1 MB indiriyordu.
+
+Artık sabit bir `SITE_VERSION` kullanılıyor. Aynı sürümde gezinen kullanıcı
+dosyaları önbellekten alır (0 bayt). Bedeli: **yayın yaparken sürümü elle
+artırmayı unutmamak.**
 
 ---
 
@@ -108,8 +153,38 @@ Inline stil **bozulmaz** — masaüstü görünüm birebir korunur, ekran dönd�
 
 Ayrıca her `<table>` otomatik olarak `.hi-table-scroll` sarmalayıcısına alınır (yatay kaydırma + kenarlarda kaydırma ipucu gölgesi).
 
-### Yeni duyuru yazarken
-`responsive.css` içinde hazır sınıflar var: `.hi-duyuru`, `.hi-duyuru-kart`, `.hi-duyuru-baslik`, `.hi-duyuru-etiket`, `.hi-duyuru-govde`, `.hi-duyuru-blok` (+ `.uyari` varyantı), `.hi-duyuru-imza`. Bunları kullanırsan inline stil yazmana ve normalizasyon motoruna hiç ihtiyaç kalmaz.
+### Yeni duyuru yazarken → `duyuru_uret.py` kullan
+
+Elle HTML yazma. `duyurular/` klasörüne bir JSON koy, script HTML'i üretsin:
+
+```bash
+python3 duyuru_uret.py duyurular/man208-final.json
+```
+
+Örnek girdi için `duyurular/ornek-man208-final.json` dosyasına bak. Üretilen
+HTML doğrudan HU-IYS'in HTML alanına yapıştırılabilir.
+
+**Neden:** Mevcut 50 duyuru tarandığında 48'inin aynı iskeletin kopyası olduğu,
+farkların ise bilinçli tasarım kararı değil kopyala-yapıştır sapması olduğu
+görüldü — 15 farklı başlık gradienti, **11 farklı kırmızı tonu**, 12 farklı
+buton stili, 8 farklı tablo başlığı. Duyuru başına ~6.500 karakterin %75-80'i
+tekrar eden inline stildi.
+
+`duyuru.css` bu kalıbı tek yerde topluyor:
+
+| Ne | Sınıf |
+| :--- | :--- |
+| Kategori teması (renk otomatik) | `.hd--sinav` `.hd--ders` `.hd--onemli` `.hd--basvuru` `.hd--etkinlik` `.hd--mezuniyet` `.hd--genel` |
+| Kart / başlık / etiket | `.hd-kart` `.hd-baslik` `.hd-etiket` `.hd-h2` `.hd-ozet` |
+| Tarih-Saat-Yer kutusu | `.hd-meta` `.hd-meta-oge` |
+| Uyarı (4 semantik tip) | `.hd-uyari--bilgi` `--uyari` `--onemli` `--basari` |
+| Tablo | `.hd-tablo-kaydir` + `.hd-tablo` |
+| Buton (2 tip) | `.hd-buton--birincil` `--ikincil` |
+
+**Kurumsal kırmızı tek bir tondur: `#ac232d`.** Başka kırmızı yazma.
+
+> Not: `responsive.css` içindeki eski `.hi-duyuru*` sınıfları hiçbir duyuru
+> tarafından kullanılmamıştı; yerini `duyuru.css` aldı.
 
 ### Mobili test etme
 Chrome DevTools → Toggle device toolbar → 320 / 375 / 414 px.

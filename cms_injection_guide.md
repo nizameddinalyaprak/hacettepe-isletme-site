@@ -8,12 +8,27 @@ Aşağıdaki kodu kopyalayıp CMS panelindeki **"Custom HTML"** modülüne yapı
 
 ```html
 <!-- Hacettepe Isletme Loader (Img Hack) -->
-<img src="x"
-     onerror="var s=document.createElement('script');s.src='https://nizameddinalyaprak.github.io/hacettepe-isletme-site/loader.js?v='+Date.now();document.body.appendChild(s);"
+<img src="x" alt=""
+     onerror="var s=document.createElement('script');s.src='https://nizameddinalyaprak.github.io/hacettepe-isletme-site/loader.js';document.body.appendChild(s);"
      style="display:none;">
 ```
 
-*(Not: `Date.now()` sayesinde her seferinde güncel script çekilir, cache sorunu yaşanmaz.)*
+### ⚠️ `?v=Date.now()` neden kaldırıldı?
+
+Eski kod script adresinin sonuna `?v='+Date.now()` ekliyordu. Bu, adresi her
+seferinde benzersiz yaptığı için tarayıcı `loader.js`'i (**111 KB**) hiçbir
+zaman önbelleğe alamıyordu — her sayfa açılışında baştan iniyordu.
+
+Sorgu parametresi olmadan GitHub Pages `ETag` gönderir: tarayıcı dosyanın
+değişip değişmediğini sorar, değişmediyse **0 bayt** indirir. Dosyayı
+güncellediğinde ise otomatik olarak yenisini alır.
+
+`loader.js`'in kendi içindeki `SITE_VERSION` de CSS/HTML/JSON dosyaları için
+aynı işi yapar (bkz. `GELISTIRICI_REHBERI.md`).
+
+**Geçiş notu:** Bu kod CMS'te sayfa sayfa yapıştırıldığı için hepsini birden
+değiştirmen gerekmez. Bir sayfaya elin değdiğinde yukarıdaki yeni sürümle
+değiştirmen yeterli; eski ve yeni sürüm bir arada sorunsuz çalışır.
 
 ---
 
