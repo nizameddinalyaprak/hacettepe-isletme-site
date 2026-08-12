@@ -8,322 +8,285 @@
     <script src="../loader.js"></script>
 
     <style>
-        /* Page Hero */
-        .page-hero {
-            background: linear-gradient(135deg, #ac232d 0%, #7e161d 100%);
-            color: white;
-            padding: 80px 20px 100px;
-            text-align: center;
-            clip-path: ellipse(150% 100% at 50% 0%);
-            margin-bottom: 40px;
-        }
+    :root {
+      --k-kirmizi:#ac232d; --k-kirmizi-koyu:#7e161d;
+      --k-lacivert:#0f172a; --k-metin:#1e293b; --k-soluk:#64748b;
+      --k-kenar:#e2e8f0; --k-zemin:#f8fafc;
+    }
+    .kadro { font-family:'Open Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      color:var(--k-metin); max-width:1080px; margin:0 auto; padding:0 clamp(14px,3vw,24px) 60px; }
 
-        .page-title {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
+    .kadro-hero { background:var(--k-lacivert); color:#fff; margin:0 0 30px;
+      padding:clamp(34px,6vw,56px) clamp(20px,4vw,44px); border-radius:0 0 14px 14px;
+      position:relative; overflow:hidden; }
+    .kadro-hero::after { content:''; position:absolute; left:0; right:0; bottom:0; height:4px;
+      background:linear-gradient(90deg,var(--k-kirmizi) 0%,var(--k-kirmizi) 42%,transparent 42%); }
+    .kadro-ust { font-size:12px; letter-spacing:1.6px; text-transform:uppercase;
+      color:rgba(255,255,255,.62); margin:0 0 10px; }
+    .kadro-hero h1 { font-family:Georgia,'Times New Roman',serif; font-weight:400;
+      font-size:clamp(28px,3.4vw,42px); line-height:1.15; margin:0 0 10px; color:#fff; }
+    .kadro-hero p { margin:0; color:rgba(255,255,255,.78); font-size:clamp(14px,1.6vw,16px); }
 
-        /* List Layout */
-        .staff-list {
-            max-width: 1000px;
-            margin: 0 auto 60px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+    .kadro-arac { display:flex; flex-wrap:wrap; gap:12px; align-items:center;
+      margin:0 0 26px; padding-bottom:18px; border-bottom:1px solid var(--k-kenar); }
+    .kadro-arama { flex:1 1 260px; position:relative; }
+    .kadro-arama input { width:100%; box-sizing:border-box; padding:11px 14px 11px 40px;
+      border:1px solid var(--k-kenar); border-radius:8px; font-size:14.5px; font-family:inherit;
+      color:var(--k-metin); background:#fff; transition:border-color .2s,box-shadow .2s; }
+    .kadro-arama input:focus { outline:none; border-color:var(--k-kirmizi);
+      box-shadow:0 0 0 3px rgba(172,35,45,.10); }
+    .kadro-arama i { position:absolute; left:14px; top:50%; transform:translateY(-50%);
+      color:var(--k-soluk); font-size:14px; pointer-events:none; }
+    .kadro-sayac { font-size:13.5px; color:var(--k-soluk); white-space:nowrap; }
 
-        .staff-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: white;
-            padding: 25px 30px;
-            border-radius: 12px;
-            border: 1px solid #f1f5f9;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    .kadro-filtre { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 30px; }
+    .kadro-filtre button { font-family:inherit; font-size:13px; padding:7px 15px; min-height:36px;
+      border:1px solid var(--k-kenar); background:#fff; color:var(--k-soluk);
+      border-radius:20px; cursor:pointer; transition:all .2s; }
+    .kadro-filtre button:hover { border-color:#cbd5e1; color:var(--k-metin); }
+    .kadro-filtre button.aktif { background:var(--k-lacivert); border-color:var(--k-lacivert); color:#fff; }
 
-            /* Animation Initial State - SET TO VISIBLE BY DEFAULT */
-            opacity: 1;
-            transform: translateY(0);
-        }
+    .kadro-bolum { margin:0 0 38px; }
+    .kadro-bolum-baslik { display:flex; align-items:baseline; gap:12px; margin:0 0 16px; }
+    .kadro-bolum-baslik h2 { font-family:Georgia,'Times New Roman',serif; font-weight:400;
+      font-size:19px; color:var(--k-lacivert); margin:0; }
+    .kadro-bolum-cizgi { flex:1; height:1px; background:var(--k-kenar); }
+    .kadro-bolum-adet { font-size:12.5px; color:var(--k-soluk); }
 
-        .staff-item:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(172, 35, 45, 0.12);
-            border-color: #ac232d;
-        }
+    .kadro-izgara { display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr)); gap:14px; }
 
-        /* Left Side: Info */
-        .staff-info {
-            flex: 2;
-        }
+    .kisi { display:flex; gap:16px; padding:16px; background:#fff;
+      border:1px solid var(--k-kenar); border-radius:10px; transition:border-color .2s,box-shadow .2s; }
+    .kisi:hover { border-color:#cbd5e1; box-shadow:0 3px 10px rgba(15,23,42,.06); }
 
-        .staff-name {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin: 0 0 5px 0;
-        }
+    .kisi-foto { width:76px; height:96px; flex:0 0 76px; border-radius:8px; overflow:hidden;
+      background:var(--k-zemin); }
+    .kisi-foto img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
+    .kisi-bas { width:100%; height:100%; display:grid; place-items:center;
+      font-family:Georgia,serif; font-size:24px; color:#94a3b8; background:var(--k-zemin); }
 
-        .staff-name a {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
+    .kisi-govde { min-width:0; flex:1; display:flex; flex-direction:column; }
+    .kisi-unvan { font-size:11.5px; letter-spacing:.7px; text-transform:uppercase;
+      color:var(--k-kirmizi); margin:0 0 3px; }
+    .kisi-ad { font-family:Georgia,'Times New Roman',serif; font-size:16.5px; font-weight:400;
+      line-height:1.3; margin:0 0 6px; }
+    .kisi-ad a { color:var(--k-lacivert); text-decoration:none; border-bottom:1px solid transparent; }
+    .kisi-ad a:hover { color:var(--k-kirmizi); border-bottom-color:var(--k-kirmizi); }
+    .kisi-birim { font-size:13px; color:var(--k-soluk); margin:0 0 auto; }
+    .kisi-alt { display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:12px;
+      padding-top:10px; border-top:1px solid #f1f5f9; font-size:12.5px; }
+    .kisi-alt a, .kisi-alt span { color:var(--k-soluk); text-decoration:none;
+      display:inline-flex; align-items:center; gap:6px; }
+    .kisi-alt a:hover { color:var(--k-kirmizi); }
+    .kisi-alt i { font-size:12px; opacity:.75; }
 
-        .staff-name a:hover {
-            color: #ac232d;
-            text-decoration: underline;
-        }
+    .kadro-bos { display:none; text-align:center; padding:50px 20px; color:var(--k-soluk); font-size:15px; }
 
-        .staff-title {
-            font-size: 0.9rem;
-            color: #64748b;
-            font-weight: 500;
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .staff-dept {
-            font-size: 0.9rem;
-            color: #334155;
-            display: block;
-        }
-
-        .staff-role {
-            display: inline-block;
-            background-color: #fef2f2;
-            color: #ac232d;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 4px;
-            margin-top: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Center: Contact */
-        .staff-contact {
-            flex: 1;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .contact-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: #475569;
-            text-decoration: none;
-            font-size: 0.9rem;
-            padding: 6px 12px;
-            border-radius: 6px;
-            transition: all 0.2s;
-            background: #f8fafc;
-        }
-
-        .contact-btn:hover {
-            background: #ac232d;
-            color: white;
-        }
-
-        /* Right: Photo */
-        .staff-photo-container {
-            flex: 0 0 100px;
-            margin-left: 20px;
-        }
-
-        .staff-photo {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            object-fit: cover;
-            object-position: top center;
-            border: 3px solid white;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .staff-item {
-                flex-direction: column-reverse;
-                text-align: center;
-                gap: 15px;
-            }
-
-            .staff-photo-container {
-                margin: 0;
-                flex: 0 0 auto;
-            }
-
-            .staff-photo {
-                width: 120px;
-                height: 120px;
-            }
-
-            .staff-info {
-                width: 100%;
-            }
-
-            .staff-contact {
-                width: 100%;
-                flex-direction: row;
-                justify-content: center;
-            }
-        }
+    @media (max-width:600px) {
+      .kadro-hero { border-radius:0; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw);
+        padding-left:22px; padding-right:22px; }
+      .kisi { padding:14px; gap:13px; }
+      .kisi-foto { width:64px; height:80px; flex-basis:64px; }
+      .kadro-sayac { width:100%; }
+    }
+    @media print {
+      .kadro-arac,.kadro-filtre { display:none; }
+      .kisi { break-inside:avoid; border-color:#bbb; }
+    }
     </style>
 </head>
 
 <body>
 
-    <div class="page-hero">
-        <h1 class="page-title">Araştırma Görevlileri</h1>
-        <p>Hacettepe Üniversitesi İşletme Bölümü Akademik Kadrosu</p>
+  <div class="kadro">
+
+    <header class="kadro-hero">
+      <p class="kadro-ust">Hacettepe Üniversitesi İktisadi ve İdari Bilimler Fakültesi</p>
+      <h1>Araştırma Görevlileri</h1>
+      <p>İşletme Bölümü araştırma kadrosu</p>
+    </header>
+
+    <div class="kadro-arac">
+      <div class="kadro-arama">
+        <i class="fas fa-search" aria-hidden="true"></i>
+        <input type="search" id="kadro-ara" placeholder="Ada, anabilim dalına veya odaya göre ara" aria-label="Ada, anabilim dalına veya odaya göre ara">
+      </div>
+      <span class="kadro-sayac"><strong id="kadro-adet">7</strong> kişi</span>
     </div>
 
-    <div class="container main-content">
-        <div class="staff-list">
+    <nav class="kadro-filtre" aria-label="Tümü">
+      <button class="aktif" data-birim="">Tümü</button>
+      <button data-birim="Yönetim ve Organizasyon ABD">Yönetim ve Organizasyon ABD</button>
+      <button data-birim="Üretim Yönetimi ABD">Üretim Yönetimi ABD</button>
+      <button data-birim="Sayısal Yöntemler ABD">Sayısal Yöntemler ABD</button>
+      <button data-birim="Örgütsel Davranış ABD">Örgütsel Davranış ABD</button>
+      <button data-birim="Pazarlama ABD">Pazarlama ABD</button>
+    </nav>
 
-
-
-            <div class="staff-item">
-                <div class="staff-info">
-                    <h3 class="staff-name"><a href="https://research.hacettepe.edu.tr/tr/persons/h%C3%BCrcan-kabakc%C4%B1-2/" target="_blank" rel="noopener">Dr. Hürcan
-                            KABAKCI</a> <span style="font-size: 0.75em; color: #64748b; font-weight: normal;">(Oda: 1-408)</span></h3>
-                    <span class="staff-dept">Yönetim ve Organizasyon ABD</span>
-                    <span class="staff-role" style="margin-right: 4px;">Mevlana Programı Koordinatörlüğü</span>
-                    <span class="staff-role" style="margin-right: 4px;">Yatay/Dikey Geçiş Danışmanlığı</span>
-                    <span class="staff-role" style="margin-right: 4px;">İntibak İşlemleri</span>
-                </div>
-                <div class="staff-contact">
-                    <a href="mailto:hurcan@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
-                        hurcan@hacettepe.edu.tr</a>
-                </div>
-                <div class="staff-photo-container">
-                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/HK.JPG"
-                        alt="Dr. Hürcan KABAKCI" class="staff-photo">
-                </div>
-            </div>
-
-
-            <div class="staff-item">
-                <div class="staff-info">
-                    <h3 class="staff-name"><a href="https://research.hacettepe.edu.tr/tr/persons/cem-menten-2/" target="_blank" rel="noopener">Dr. Cem MENTEN</a> <span style="font-size: 0.75em; color: #64748b; font-weight: normal;">(Oda: 1-418)</span></h3>
-                    <span class="staff-dept">Üretim Yönetimi ABD</span>
-                    <span class="staff-role" style="margin-right: 4px;">Taşınır Kayıt Yetkilisi</span>
-                    <span class="staff-role" style="margin-right: 4px;">Staj Koordinatörlüğü</span>
-                </div>
-                <div class="staff-contact">
-                    <a href="mailto:cemmenten@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
-                        cemmenten@hacettepe.edu.tr</a>
-                </div>
-                <div class="staff-photo-container">
-                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/CM.jpg"
-                        alt="Dr. Cem MENTEN" class="staff-photo">
-                </div>
-            </div>
-
-
-
-            <div class="staff-item">
-                <div class="staff-info">
-                    <h3 class="staff-name"><a href="https://research.hacettepe.edu.tr/tr/persons/nizameddin-alyaprak-4/" target="_blank" rel="noopener">Arş. Gör.
-                            Nizameddin ALYAPRAK</a> <span style="font-size: 0.75em; color: #64748b; font-weight: normal;">(Oda: 1-404)</span></h3>
-                    <span class="staff-dept">Sayısal Yöntemler ABD</span>
-                    <span class="staff-role" style="margin-right: 4px;">Sınav Programı Koordinatörlüğü</span>
-                    <span class="staff-role" style="margin-right: 4px;">Web Sitesi ve Duyuru Sorumluluğu</span>
-                </div>
-                <div class="staff-contact">
-                    <a href="mailto:nizameddin.alyaprak@hacettepe.edu.tr" class="contact-btn"><i
-                            class="fas fa-envelope"></i> nizameddin.alyaprak@hacettepe.edu.tr</a>
-                </div>
-                <div class="staff-photo-container">
-                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/1001.jpg"
-                        alt="Arş. Gör. Nizameddin ALYAPRAK" class="staff-photo">
-                </div>
-            </div>
-
-
-            <div class="staff-item">
-                <div class="staff-info">
-                    <h3 class="staff-name"><a href="https://research.hacettepe.edu.tr/tr/persons/s%C4%B1la-can-demir-3/" target="_blank" rel="noopener">Arş. Gör. Sıla Can
-                            DEMİR</a> <span style="font-size: 0.75em; color: #64748b; font-weight: normal;">(Oda: 2-318)</span></h3>
-                    <span class="staff-dept">Örgütsel Davranış ABD</span>
-                </div>
-                <div class="staff-contact">
-                    <a href="mailto:silacandemir@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
-                        silacandemir@hacettepe.edu.tr</a>
-                </div>
-                <div class="staff-photo-container">
-                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/SCD.jpg"
-                        alt="Arş. Gör. Sıla Can DEMİR" class="staff-photo">
-                </div>
-            </div>
-
-
-            <div class="staff-item">
-                <div class="staff-info">
-                    <h3 class="staff-name"><a href="https://research.hacettepe.edu.tr/tr/persons/seda-b%C3%BC%C5%9Fra-sara%C3%A7-2/" target="_blank" rel="noopener">Dr. Arş. Gör. Seda Büşra
-                            SARAÇ</a> <span style="font-size: 0.75em; color: #64748b; font-weight: normal;">(Oda: 1-401)</span></h3>
-                    <span class="staff-dept">Sayısal Yöntemler ABD</span>
-                    <span class="staff-role" style="margin-right: 4px;">Erasmus Programı Koordinatörlüğü</span>
-                    <span class="staff-role" style="margin-right: 4px;">Tezsiz Yüksek Lisans Programı Danışmanlığı</span>
-                </div>
-                <div class="staff-contact">
-                    <a href="mailto:sedasarac@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
-                        sedasarac@hacettepe.edu.tr</a>
-                </div>
-                <div class="staff-photo-container">
-                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/SBS1.jpg"
-                        alt="Dr. Arş. Gör. Seda Büşra SARAÇ" class="staff-photo">
-                </div>
-            </div>
-
-
-            <div class="staff-item">
-                <div class="staff-info">
-                    <h3 class="staff-name"><a href="https://research.hacettepe.edu.tr/tr/persons/saadet-nur-karadenizli-sinap-3/" target="_blank" rel="noopener">Arş. Gör. Saadet Nur
-                            Karadenizli SİNAP</a> <span style="font-size: 0.75em; color: #64748b; font-weight: normal;">(Oda: 2-308)</span></h3>
-                    <span class="staff-dept">Yönetim ve Organizasyon ABD</span>
-                    <span class="staff-role" style="margin-right: 4px;">Ders Programı Koordinatörlüğü</span>
-                </div>
-                <div class="staff-contact">
-                    <a href="mailto:saadetsinap@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
-                        saadetsinap@hacettepe.edu.tr</a>
-                </div>
-                <div class="staff-photo-container">
-                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/SNKS.jpg"
-                        alt="Arş. Gör. Saadet Nur Karadenizli SİNAP" class="staff-photo">
-                </div>
-            </div>
-
-
-            <div class="staff-item">
-                <div class="staff-info">
-                    <h3 class="staff-name"><a href="https://research.hacettepe.edu.tr/tr/persons/harun-mirac-g%C3%BCne%C5%9F-2/" target="_blank" rel="noopener">Arş. Gör. H. Mirac
-                            GÜNEŞ</a> <span style="font-size: 0.75em; color: #64748b; font-weight: normal;">(Oda: 1-404)</span></h3>
-                    <span class="staff-dept">Pazarlama ABD</span>
-                </div>
-                <div class="staff-contact">
-                    <a href="mailto:miracgunes@hacettepe.edu.tr" class="contact-btn"><i class="fas fa-envelope"></i>
-                        miracgunes@hacettepe.edu.tr</a>
-                    <a href="tel:+903122976356" class="contact-btn"><i class="fas fa-phone"></i>
-                        0 (312) 297 63 56 - 129</a>
-                </div>
-                <div class="staff-photo-container">
-                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/HMG.jpg"
-                        alt="Arş. Gör. H. Mirac GÜNEŞ" class="staff-photo">
-                </div>
-            </div>
-
+    <section class="kadro-bolum" data-bolum="Yönetim ve Organizasyon ABD">
+      <div class="kadro-bolum-baslik">
+        <h2>Yönetim ve Organizasyon ABD</h2><span class="kadro-bolum-cizgi"></span>
+        <span class="kadro-bolum-adet">2</span>
+      </div>
+      <div class="kadro-izgara">
+      <article class="kisi" data-birim="Yönetim ve Organizasyon ABD" data-ara="dr. hürcan kabakci yönetim ve organizasyon abd 1-408 hurcan@hacettepe.edu.tr">
+        <div class="kisi-foto"><img src="https://research.hacettepe.edu.tr/files-asset/94744110/ff391c8f-dcaa-4cbd-bc9c-2bd0662daef6.jpeg?w=400&amp;f=webp" alt="Dr. Hürcan KABAKCI" loading="lazy" width="76" height="96"></div>
+        <!-- eski fotoğraf adresi: https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/HK.JPG -->
+        <div class="kisi-govde">
+          <p class="kisi-unvan">Dr.</p>
+          <h3 class="kisi-ad"><a href="https://research.hacettepe.edu.tr/tr/persons/h%C3%BCrcan-kabakc%C4%B1-2/" target="_blank" rel="noopener">Hürcan KABAKCI</a></h3>
+          <p class="kisi-birim">Yönetim ve Organizasyon ABD</p>
+          <div class="kisi-alt"><span><i class="fas fa-door-open"></i>Oda 1-408</span><a href="mailto:hurcan@hacettepe.edu.tr"><i class="fas fa-envelope"></i>hurcan@hacettepe.edu.tr</a></div>
         </div>
-    </div>
+      </article>
+      <article class="kisi" data-birim="Yönetim ve Organizasyon ABD" data-ara="arş. gör. saadet nur karadenizli si̇nap yönetim ve organizasyon abd 2-308 saadetsinap@hacettepe.edu.tr">
+        <div class="kisi-foto"><img src="https://research.hacettepe.edu.tr/files-asset/94754003/794ac8f1-1141-430b-bef7-9fdd1d208501.jpeg?w=400&amp;f=webp" alt="Arş. Gör. Saadet Nur Karadenizli SİNAP" loading="lazy" width="76" height="96"></div>
+        <!-- eski fotoğraf adresi: https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/SNKS.jpg -->
+        <div class="kisi-govde">
+          <p class="kisi-unvan">Arş. Gör.</p>
+          <h3 class="kisi-ad"><a href="https://research.hacettepe.edu.tr/tr/persons/saadet-nur-karadenizli-sinap-3/" target="_blank" rel="noopener">Saadet Nur Karadenizli SİNAP</a></h3>
+          <p class="kisi-birim">Yönetim ve Organizasyon ABD</p>
+          <div class="kisi-alt"><span><i class="fas fa-door-open"></i>Oda 2-308</span><a href="mailto:saadetsinap@hacettepe.edu.tr"><i class="fas fa-envelope"></i>saadetsinap@hacettepe.edu.tr</a></div>
+        </div>
+      </article>
+      </div>
+    </section>
+    <section class="kadro-bolum" data-bolum="Üretim Yönetimi ABD">
+      <div class="kadro-bolum-baslik">
+        <h2>Üretim Yönetimi ABD</h2><span class="kadro-bolum-cizgi"></span>
+        <span class="kadro-bolum-adet">1</span>
+      </div>
+      <div class="kadro-izgara">
+      <article class="kisi" data-birim="Üretim Yönetimi ABD" data-ara="dr. cem menten üretim yönetimi abd 1-418 cemmenten@hacettepe.edu.tr">
+        <div class="kisi-foto"><img src="https://research.hacettepe.edu.tr/files-asset/94754390/ddba935a-7bc3-4152-9218-f6831d3618ca.jpeg?w=400&amp;f=webp" alt="Dr. Cem MENTEN" loading="lazy" width="76" height="96"></div>
+        <!-- eski fotoğraf adresi: https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/CM.jpg -->
+        <div class="kisi-govde">
+          <p class="kisi-unvan">Dr.</p>
+          <h3 class="kisi-ad"><a href="https://research.hacettepe.edu.tr/tr/persons/cem-menten-2/" target="_blank" rel="noopener">Cem MENTEN</a></h3>
+          <p class="kisi-birim">Üretim Yönetimi ABD</p>
+          <div class="kisi-alt"><span><i class="fas fa-door-open"></i>Oda 1-418</span><a href="mailto:cemmenten@hacettepe.edu.tr"><i class="fas fa-envelope"></i>cemmenten@hacettepe.edu.tr</a></div>
+        </div>
+      </article>
+      </div>
+    </section>
+    <section class="kadro-bolum" data-bolum="Sayısal Yöntemler ABD">
+      <div class="kadro-bolum-baslik">
+        <h2>Sayısal Yöntemler ABD</h2><span class="kadro-bolum-cizgi"></span>
+        <span class="kadro-bolum-adet">2</span>
+      </div>
+      <div class="kadro-izgara">
+      <article class="kisi" data-birim="Sayısal Yöntemler ABD" data-ara="arş. gör. nizameddin alyaprak sayısal yöntemler abd 1-404 nizameddin.alyaprak@hacettepe.edu.tr">
+        <div class="kisi-foto"><img src="https://research.hacettepe.edu.tr/files-asset/94747663/6b42fc5e-74e0-43fe-8c4b-e74d98690924.jpeg?w=400&amp;f=webp" alt="Arş. Gör. Nizameddin ALYAPRAK" loading="lazy" width="76" height="96"></div>
+        <!-- eski fotoğraf adresi: https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/1001.jpg -->
+        <div class="kisi-govde">
+          <p class="kisi-unvan">Arş. Gör.</p>
+          <h3 class="kisi-ad"><a href="https://research.hacettepe.edu.tr/tr/persons/nizameddin-alyaprak-4/" target="_blank" rel="noopener">Nizameddin ALYAPRAK</a></h3>
+          <p class="kisi-birim">Sayısal Yöntemler ABD</p>
+          <div class="kisi-alt"><span><i class="fas fa-door-open"></i>Oda 1-404</span><a href="mailto:nizameddin.alyaprak@hacettepe.edu.tr"><i class="fas fa-envelope"></i>nizameddin.alyaprak@hacettepe.edu.tr</a></div>
+        </div>
+      </article>
+      <article class="kisi" data-birim="Sayısal Yöntemler ABD" data-ara="dr. arş. gör. seda büşra saraç sayısal yöntemler abd 1-401 sedasarac@hacettepe.edu.tr">
+        <div class="kisi-foto"><img src="https://research.hacettepe.edu.tr/files-asset/94751113/2730984e-d320-4a13-b1d8-c975bbbf68bb.jpeg?w=400&amp;f=webp" alt="Dr. Arş. Gör. Seda Büşra SARAÇ" loading="lazy" width="76" height="96"></div>
+        <!-- eski fotoğraf adresi: https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/SBS1.jpg -->
+        <div class="kisi-govde">
+          <p class="kisi-unvan">Dr. Arş. Gör.</p>
+          <h3 class="kisi-ad"><a href="https://research.hacettepe.edu.tr/tr/persons/seda-b%C3%BC%C5%9Fra-sara%C3%A7-2/" target="_blank" rel="noopener">Seda Büşra SARAÇ</a></h3>
+          <p class="kisi-birim">Sayısal Yöntemler ABD</p>
+          <div class="kisi-alt"><span><i class="fas fa-door-open"></i>Oda 1-401</span><a href="mailto:sedasarac@hacettepe.edu.tr"><i class="fas fa-envelope"></i>sedasarac@hacettepe.edu.tr</a></div>
+        </div>
+      </article>
+      </div>
+    </section>
+    <section class="kadro-bolum" data-bolum="Örgütsel Davranış ABD">
+      <div class="kadro-bolum-baslik">
+        <h2>Örgütsel Davranış ABD</h2><span class="kadro-bolum-cizgi"></span>
+        <span class="kadro-bolum-adet">1</span>
+      </div>
+      <div class="kadro-izgara">
+      <article class="kisi" data-birim="Örgütsel Davranış ABD" data-ara="arş. gör. sıla can demi̇r örgütsel davranış abd 2-318 silacandemir@hacettepe.edu.tr">
+        <div class="kisi-foto"><img src="https://research.hacettepe.edu.tr/files-asset/94741942/6b4b75a5-02cb-4ae1-8070-24de81c5ad1a.jpeg?w=400&amp;f=webp" alt="Arş. Gör. Sıla Can DEMİR" loading="lazy" width="76" height="96"></div>
+        <!-- eski fotoğraf adresi: https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/SCD.jpg -->
+        <div class="kisi-govde">
+          <p class="kisi-unvan">Arş. Gör.</p>
+          <h3 class="kisi-ad"><a href="https://research.hacettepe.edu.tr/tr/persons/s%C4%B1la-can-demir-3/" target="_blank" rel="noopener">Sıla Can DEMİR</a></h3>
+          <p class="kisi-birim">Örgütsel Davranış ABD</p>
+          <div class="kisi-alt"><span><i class="fas fa-door-open"></i>Oda 2-318</span><a href="mailto:silacandemir@hacettepe.edu.tr"><i class="fas fa-envelope"></i>silacandemir@hacettepe.edu.tr</a></div>
+        </div>
+      </article>
+      </div>
+    </section>
+    <section class="kadro-bolum" data-bolum="Pazarlama ABD">
+      <div class="kadro-bolum-baslik">
+        <h2>Pazarlama ABD</h2><span class="kadro-bolum-cizgi"></span>
+        <span class="kadro-bolum-adet">1</span>
+      </div>
+      <div class="kadro-izgara">
+      <article class="kisi" data-birim="Pazarlama ABD" data-ara="arş. gör. h. mirac güneş pazarlama abd 1-404 miracgunes@hacettepe.edu.tr">
+        <div class="kisi-foto"><img src="https://research.hacettepe.edu.tr/files-asset/94742984/afc73cb3-1fe4-41a1-a493-d70a4ab9a51a.jpeg?w=400&amp;f=webp" alt="Arş. Gör. H. Mirac GÜNEŞ" loading="lazy" width="76" height="96"></div>
+        <!-- eski fotoğraf adresi: https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/HMG.jpg -->
+        <div class="kisi-govde">
+          <p class="kisi-unvan">Arş. Gör. H.</p>
+          <h3 class="kisi-ad"><a href="https://research.hacettepe.edu.tr/tr/persons/harun-mirac-g%C3%BCne%C5%9F-2/" target="_blank" rel="noopener">Mirac GÜNEŞ</a></h3>
+          <p class="kisi-birim">Pazarlama ABD</p>
+          <div class="kisi-alt"><span><i class="fas fa-door-open"></i>Oda 1-404</span><a href="mailto:miracgunes@hacettepe.edu.tr"><i class="fas fa-envelope"></i>miracgunes@hacettepe.edu.tr</a></div>
+        </div>
+      </article>
+      </div>
+    </section>
+
+    <p class="kadro-bos" id="kadro-bos">Aramanızla eşleşen kayıt bulunamadı.</p>
+
+  </div>
+
+<script>
+(function () {
+  var kok = document.querySelector('.kadro');
+  if (!kok) return;
+  var ara = kok.querySelector('#kadro-ara');
+  var adet = kok.querySelector('#kadro-adet');
+  var bos = kok.querySelector('#kadro-bos');
+  var kisiler = [].slice.call(kok.querySelectorAll('.kisi'));
+  var bolumler = [].slice.call(kok.querySelectorAll('.kadro-bolum'));
+  var dugmeler = [].slice.call(kok.querySelectorAll('.kadro-filtre button'));
+  var secili = '';
+
+  function normalize(s) {
+    return (s || '').toLocaleLowerCase('tr-TR')
+      .replace(/ı/g, 'i').replace(/İ/g, 'i').replace(/ş/g, 's')
+      .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ö/g, 'o').replace(/ç/g, 'c');
+  }
+
+  function tazele() {
+    var q = normalize(ara.value.trim());
+    var gorunen = 0;
+    kisiler.forEach(function (el) {
+      var birimTamam = !secili || el.getAttribute('data-birim') === secili;
+      var aramaTamam = !q || normalize(el.getAttribute('data-ara')).indexOf(q) !== -1;
+      var goster = birimTamam && aramaTamam;
+      el.style.display = goster ? '' : 'none';
+      if (goster) gorunen++;
+    });
+    bolumler.forEach(function (b) {
+      var acik = b.querySelectorAll('.kisi:not([style*="none"])').length;
+      b.style.display = acik ? '' : 'none';
+      var s = b.querySelector('.kadro-bolum-adet');
+      if (s) s.textContent = acik;
+    });
+    adet.textContent = gorunen;
+    bos.style.display = gorunen ? 'none' : 'block';
+  }
+
+  ara.addEventListener('input', tazele);
+  dugmeler.forEach(function (d) {
+    d.addEventListener('click', function () {
+      dugmeler.forEach(function (x) { x.classList.remove('aktif'); });
+      d.classList.add('aktif');
+      secili = d.getAttribute('data-birim');
+      tazele();
+    });
+  });
+})();
+</script>
 
 </body>
 

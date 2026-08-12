@@ -1,0 +1,691 @@
+{
+  "ogretim_uyeleri": [
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "kba@hacettepe.edu.tr",
+      "oda": "1-319",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/kaz%C4%B1m-bar%C4%B1%C5%9F-at%C4%B1c%C4%B1-3/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/kaz%C4%B1m-bar%C4%B1%C5%9F-at%C4%B1c%C4%B1-3/",
+      "tr": {
+        "ad": "Prof. Dr. Kazım Barış ATICI",
+        "birim": "Sayısal Yöntemler Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Prof. Dr. Kazım Barış ATICI",
+        "birim": "Department of Quantitative Methods"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94738179/0ed93a43-bbc6-4cb4-a8b5-5b9684109dde.jpeg",
+      "foto_dosya": "kazim-baris-atici.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/KBA.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "pinaran@hacettepe.edu.tr",
+      "oda": "1-304",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/p%C4%B1nar-ba%C5%9Fg%C3%B6ze-3/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/p%C4%B1nar-ba%C5%9Fg%C3%B6ze-3/",
+      "tr": {
+        "ad": "Prof. Dr. Pınar BAŞGÖZE",
+        "birim": "Pazarlama Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Prof. Dr. Pınar BAŞGÖZE",
+        "birim": "Department of Marketing"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94739119/3bc57261-9dee-4b66-b9a0-ff8b3081b3f9.jpeg",
+      "foto_dosya": "pinar-basgoze.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/PB.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "selinm@hacettepe.edu.tr",
+      "oda": "1-323",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/selin-metin-camg%C3%B6z-10/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/selin-metin-camg%C3%B6z-10/",
+      "tr": {
+        "ad": "Prof. Dr. Selin METİN CAMGÖZ",
+        "birim": "Örgütsel Davranış Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Prof. Dr. Selin METİN CAMGÖZ",
+        "birim": "Department of Organizational Behavior"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94745370/7add55f0-0ed0-4b99-a655-98d693d9b68c.jpeg",
+      "foto_dosya": "selin-metin-camgoz.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/SMC.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "otayfur@hacettepe.edu.tr",
+      "oda": "2-416",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/%C3%B6zge-tayfur-ekmekci-11/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/%C3%B6zge-tayfur-ekmekci-11/",
+      "tr": {
+        "ad": "Prof. Dr. Özge TAYFUR EKMEKCİ",
+        "birim": "Yönetim ve Organizasyon Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Prof. Dr. Özge TAYFUR EKMEKCİ",
+        "birim": "Department of Management and Organization"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94740374/a493ed52-30ed-4e0e-bd78-e0132d1ebdc7.jpeg",
+      "foto_dosya": "ozge-tayfur-ekmekci.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/OTE.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "ergeneli@hacettepe.edu.tr",
+      "oda": "1-414",
+      "profil_tr": "",
+      "profil_en": "",
+      "tr": {
+        "ad": "Prof. Dr. Azize ERGENELİ",
+        "birim": "Örgütsel Davranış Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Prof. Dr. Azize ERGENELİ",
+        "birim": "Department of Organizational Behavior"
+      },
+      "foto": "",
+      "foto_dosya": "",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/AE.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "canand@hacettepe.edu.tr",
+      "oda": "1-320",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/canan-eryi%C4%9Fit-11/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/canan-eryi%C4%9Fit-11/",
+      "tr": {
+        "ad": "Prof. Dr. Canan ERYİĞİT",
+        "birim": "Pazarlama Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Prof. Dr. Canan ERYİĞİT",
+        "birim": "Department of Marketing"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94742493/3cd75490-eb93-41fa-98e6-44981b6b49eb.jpeg",
+      "foto_dosya": "canan-eryigit.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/CE.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "beyza@hacettepe.edu.tr",
+      "oda": "2-22",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/beyza-%C3%B6zyi%C4%9Fit-g%C3%BCltekin-10/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/beyza-%C3%B6zyi%C4%9Fit-g%C3%BCltekin-10/",
+      "tr": {
+        "ad": "Prof. Dr. Beyza ÖZYİĞİT GÜLTEKİN",
+        "birim": "Pazarlama Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Prof. Dr. Beyza ÖZYİĞİT GÜLTEKİN",
+        "birim": "Department of Marketing"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94736036/03e00ce2-c6b8-409a-aed9-02221804d725.jpeg",
+      "foto_dosya": "beyza-ozyigit-gultekin.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/BG.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "semguney@hacettepe.edu.tr",
+      "oda": "1-414",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/semra-g%C3%BCney-11/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/semra-g%C3%BCney-11/",
+      "tr": {
+        "ad": "Prof. Dr. Semra GÜNEY",
+        "birim": "Yönetim ve Organizasyon Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Prof. Dr. Semra GÜNEY",
+        "birim": "Department of Management and Organization"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94743360/f1b6f716-140b-4387-911d-80a89c304227.jpeg",
+      "foto_dosya": "semra-guney.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/SGu.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "semra@hacettepe.edu.tr",
+      "oda": "1-306",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/semra-karacaer-11/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/semra-karacaer-11/",
+      "tr": {
+        "ad": "Prof. Dr. Semra KARACAER",
+        "birim": "Muhasebe ve Finans Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Prof. Dr. Semra KARACAER",
+        "birim": "Department of Accounting and Finance"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94745286/6f2c4da9-b79d-40cd-a02d-2fe22cb2e084.jpeg",
+      "foto_dosya": "semra-karacaer.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/SK.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "pbayhan@hacettepe.edu.tr",
+      "oda": "1-323",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/p%C4%B1nar-bayhan-karap%C4%B1nar-3/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/p%C4%B1nar-bayhan-karap%C4%B1nar-3/",
+      "tr": {
+        "ad": "Prof. Dr. Pınar BAYHAN KARAPINAR",
+        "birim": "Örgütsel Davranış Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Prof. Dr. Pınar BAYHAN KARAPINAR",
+        "birim": "Department of Organizational Behavior"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94751800/3e466f76-c7a7-45b8-a139-f7e4ae06fa65.jpeg",
+      "foto_dosya": "pinar-bayhan-karapinar.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/PBK.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "mkilic@hacettepe.edu.tr",
+      "oda": "1-416",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/mustafa-k%C4%B1l%C4%B1%C3%A7-3/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/mustafa-k%C4%B1l%C4%B1%C3%A7-3/",
+      "tr": {
+        "ad": "Prof. Dr. Mustafa KILIÇ",
+        "birim": "Yönetim ve Organizasyon Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Prof. Dr. Mustafa KILIÇ",
+        "birim": "Department of Management and Organization"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94744251/8bb957b7-544e-40fa-9481-d951fa5de13c.jpeg",
+      "foto_dosya": "mustafa-kilic.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/MKi.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "mergun@hacettepe.edu.tr",
+      "oda": "1-317",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/mine-%C3%B6m%C3%BCrg%C3%B6n%C3%BCl%C5%9Fen-11/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/mine-%C3%B6m%C3%BCrg%C3%B6n%C3%BCl%C5%9Fen-11/",
+      "tr": {
+        "ad": "Prof. Dr. Mine ÖMÜRGÖNÜLŞEN",
+        "birim": "Üretim Yönetimi Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Prof. Dr. Mine ÖMÜRGÖNÜLŞEN",
+        "birim": "Department of Production Management"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94746132/475531f4-c6df-41c8-85ed-e6c1260a1aaf.jpeg",
+      "foto_dosya": "mine-omurgonulsen.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/MO.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "leyla@hacettepe.edu.tr",
+      "oda": "1-313",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/leyla-%C3%B6zer-11/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/leyla-%C3%B6zer-11/",
+      "tr": {
+        "ad": "Prof. Dr. Leyla ÖZER",
+        "birim": "Pazarlama Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Prof. Dr. Leyla ÖZER",
+        "birim": "Department of Marketing"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94742134/2f672bcb-4c92-4c52-8d5d-86bd7c32416a.jpeg",
+      "foto_dosya": "leyla-ozer.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/LO.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "burakpirgaip@hacettepe.edu.tr",
+      "oda": "1-318",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/burak-pirgaip-10/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/burak-pirgaip-10/",
+      "tr": {
+        "ad": "Prof. Dr. Burak PİRGAİP",
+        "birim": "Muhasebe ve Finans Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Prof. Dr. Burak PİRGAİP",
+        "birim": "Department of Accounting and Finance"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94740286/b25f7274-33a1-4f82-8b83-edbe56dc7fd2.jpeg",
+      "foto_dosya": "burak-pirgaip.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/BP.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "mehmetsoysal@hacettepe.edu.tr",
+      "oda": "1-408",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/mehmet-soysal-11/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/mehmet-soysal-11/",
+      "tr": {
+        "ad": "Prof. Dr. Mehmet SOYSAL",
+        "birim": "Üretim Yönetimi Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Prof. Dr. Mehmet SOYSAL",
+        "birim": "Department of Production Management"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94740488/e46b310d-61f7-4696-9352-99911d84dac1.jpeg",
+      "foto_dosya": "mehmet-soysal.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/MS.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "oznuro@hacettepe.edu.tr",
+      "oda": "1-304",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/%C3%B6znur-%C3%B6zkan-tekta%C5%9F-11/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/%C3%B6znur-%C3%B6zkan-tekta%C5%9F-11/",
+      "tr": {
+        "ad": "Prof. Dr. Öznur ÖZKAN TEKTAŞ",
+        "birim": "Pazarlama Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Prof. Dr. Öznur ÖZKAN TEKTAŞ",
+        "birim": "Department of Marketing"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94749150/3a771cb4-615e-4dbc-8abc-855b316df5c5.jpeg",
+      "foto_dosya": "oznur-ozkan-tektas.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/OOT.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "aulucan@hacettepe.edu.tr",
+      "oda": "1-319",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/ayd%C4%B1n-ulucan-3/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/ayd%C4%B1n-ulucan-3/",
+      "tr": {
+        "ad": "Prof. Dr. Aydın ULUCAN",
+        "birim": "Sayısal Yöntemler Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Prof. Dr. Aydın ULUCAN",
+        "birim": "Department of Quantitative Methods"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94738339/3146eec5-1aa3-4de6-8044-5aac24645211.jpeg",
+      "foto_dosya": "aydin-ulucan.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/AU.jpeg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "nur@hacettepe.edu.tr",
+      "oda": "1-303",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/%C3%B6znur-a%C5%9Fan-5/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/%C3%B6znur-a%C5%9Fan-5/",
+      "tr": {
+        "ad": "Doç. Dr. Öznur AŞAN",
+        "birim": "Yönetim ve Organizasyon Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Assoc. Prof. Dr. Öznur AŞAN",
+        "birim": "Department of Management and Organization"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94739597/93d51a19-5dd4-4278-b4ed-151ee63c4fad.jpeg",
+      "foto_dosya": "oznur-asan.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/OA.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "goknur@hacettepe.edu.tr",
+      "oda": "1-318",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/zarife-g%C3%B6knur-b%C3%BCy%C3%BCkkara-10/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/zarife-g%C3%B6knur-b%C3%BCy%C3%BCkkara-10/",
+      "tr": {
+        "ad": "Doç. Dr. Göknur BÜYÜKKARA",
+        "birim": "Muhasebe ve Finans Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Assoc. Prof. Dr. Göknur BÜYÜKKARA",
+        "birim": "Department of Accounting and Finance"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94746959/d3a433c1-bea8-4a06-a709-59d3693d53f9.jpeg",
+      "foto_dosya": "zarife-goknur-buyukkara.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/GB.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "chatice@hacettepe.edu.tr",
+      "oda": "1-306",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/hatice-%C3%A7al%C4%B1p%C4%B1nar-3/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/hatice-%C3%A7al%C4%B1p%C4%B1nar-3/",
+      "tr": {
+        "ad": "Doç. Dr. Hatice ÇALIPINAR",
+        "birim": "Üretim Yönetimi Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Assoc. Prof. Dr. Hatice ÇALIPINAR",
+        "birim": "Department of Production Management"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94743680/24c41df1-d1d0-478d-90e6-836738c18f74.jpeg",
+      "foto_dosya": "hatice-calipinar.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/HC.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "mcimen@hacettepe.edu.tr",
+      "oda": "2-416",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/mustafa-%C3%A7imen-10/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/mustafa-%C3%A7imen-10/",
+      "tr": {
+        "ad": "Doç. Dr. Mustafa ÇİMEN",
+        "birim": "Sayısal Yöntemler Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Assoc. Prof. Dr. Mustafa ÇİMEN",
+        "birim": "Department of Quantitative Methods"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94744871/a6c999fe-5e6d-4ff4-8a92-9f9840298530.jpeg",
+      "foto_dosya": "mustafa-cimen.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/MC.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "ailsev@hacettepe.edu.tr",
+      "oda": "1-416",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/arzu-ilsev-5/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/arzu-ilsev-5/",
+      "tr": {
+        "ad": "Doç. Dr. Arzu İLSEV",
+        "birim": "Örgütsel Davranış Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Assoc. Prof. Dr. Arzu İLSEV",
+        "birim": "Department of Organizational Behavior"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94754134/49eec81c-1aa7-4c32-8963-477bd7db9c6c.jpeg",
+      "foto_dosya": "arzu-ilsev.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/AI.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "anilboz@hacettepe.edu.tr",
+      "oda": "1-313",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/an%C4%B1l-boz-semerci-3/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/an%C4%B1l-boz-semerci-3/",
+      "tr": {
+        "ad": "Doç. Dr. Anıl BOZ SEMERCİ",
+        "birim": "Örgütsel Davranış Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Assoc. Prof. Dr. Anıl BOZ SEMERCİ",
+        "birim": "Department of Organizational Behavior"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94744199/e6ec7dfe-09c7-4573-b33f-2285c53f0d38.jpeg",
+      "foto_dosya": "anil-boz-semerci.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/ABS.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "niraytuncel@hacettepe.edu.tr",
+      "oda": "1-320",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/niray-tun%C3%A7el-10/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/niray-tun%C3%A7el-10/",
+      "tr": {
+        "ad": "Doç. Dr. Niray TUNÇEL",
+        "birim": "Pazarlama Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Assoc. Prof. Dr. Niray TUNÇEL",
+        "birim": "Department of Marketing"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94742582/91797c3d-d6cd-4652-99f6-37ae7c042010.jpeg",
+      "foto_dosya": "niray-tuncel.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/NT.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "leylaboy@hacettepe.edu.tr",
+      "oda": "2-107",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/leyla-boy-akda%C4%9F-2/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/leyla-boy-akda%C4%9F-2/",
+      "tr": {
+        "ad": "Dr. Öğr. Üyesi Leyla BOY AKDAĞ",
+        "birim": "Yönetim ve Organizasyon Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Asst. Prof. Dr. Leyla BOY AKDAĞ",
+        "birim": "Department of Management and Organization"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94741017/7b7013b1-aada-4a79-aeef-8078c470acc8.jpeg",
+      "foto_dosya": "leyla-boy-akdag.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/LBA.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "bulentc@hacettepe.edu.tr",
+      "oda": "1-418",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/b%C3%BClent-%C3%A7eki%C3%A7-5/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/b%C3%BClent-%C3%A7eki%C3%A7-5/",
+      "tr": {
+        "ad": "Dr. Öğr. Üyesi Bülent ÇEKİÇ",
+        "birim": "Üretim Yönetimi Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Asst. Prof. Dr. Bülent ÇEKİÇ",
+        "birim": "Department of Production Management"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94737937/2957be52-6b9f-45fa-9e40-698dd9e7a1ab.jpeg",
+      "foto_dosya": "bulent-cekic.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/BC.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "okoyuncu@hacettepe.edu.tr",
+      "oda": "1-401",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/onur-koyuncu-5/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/onur-koyuncu-5/",
+      "tr": {
+        "ad": "Dr. Öğr. Üyesi Onur KOYUNCU",
+        "birim": "Üretim Yönetimi Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Asst. Prof. Dr. Onur KOYUNCU",
+        "birim": "Department of Production Management"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94743891/89156c03-f113-45eb-b017-20339dd6d931.jpeg",
+      "foto_dosya": "onur-koyuncu.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/OK.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "gizemari@hacettepe.edu.tr",
+      "oda": "1-316",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/gizem-ar%C4%B1-y%C4%B1lmaz-2/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/gizem-ar%C4%B1-y%C4%B1lmaz-2/",
+      "tr": {
+        "ad": "Dr. Öğr. Üyesi Gizem ARI YILMAZ",
+        "birim": "Muhasebe ve Finans Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Asst. Prof. Dr. Gizem ARI YILMAZ",
+        "birim": "Department of Accounting and Finance"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94743581/81db176e-577e-4dd1-86d3-a81c32cbdaae.jpeg",
+      "foto_dosya": "gizem-ari-yilmaz.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/1004.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "erenma@hacettepe.edu.tr",
+      "oda": "1-303",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/eren-miski-ayd%C4%B1n-2/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/eren-miski-ayd%C4%B1n-2/",
+      "tr": {
+        "ad": "Öğr. Gör. Dr. Eren MİSKİ AYDIN",
+        "birim": "Örgütsel Davranış Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Lecturer Dr. Eren MİSKİ AYDIN",
+        "birim": "Department of Organizational Behavior"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94752892/8e2dffcb-6da6-4513-b25d-28053cd78483.jpeg",
+      "foto_dosya": "eren-miski-aydin.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/EMA.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "sguran@hacettepe.edu.tr",
+      "oda": "1-205",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/%C5%9Ferife-g%C3%BCran-4/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/%C5%9Ferife-g%C3%BCran-4/",
+      "tr": {
+        "ad": "Öğr. Gör. Şerife GÖKDEMİR GÜRAN",
+        "birim": "Muhasebe ve Finans Ana Bilim Dalı"
+      },
+      "en": {
+        "ad": "Lecturer Şerife GÖKDEMİR GÜRAN",
+        "birim": "Department of Accounting and Finance"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/98765893/7520d86a-7f51-43e7-9524-0ddec6db487e.jpeg",
+      "foto_dosya": "serife-guran.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/SG.jpg"
+    },
+    {
+      "rol": "ogretim_uyesi",
+      "eposta": "mkaya@hacettepe.edu.tr",
+      "oda": "",
+      "profil_tr": "",
+      "profil_en": "",
+      "tr": {
+        "ad": "Lecturer Dr. Mustafa KAYA",
+        "birim": ""
+      },
+      "en": {
+        "ad": "Lecturer Dr. Mustafa KAYA",
+        "birim": "Department of Commercial Law"
+      },
+      "foto": "",
+      "foto_dosya": "",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/MK.jpg",
+      "not": "SADECE INGILIZCE SAYFADA VAR — turkce sayfada karsiligi yok"
+    }
+  ],
+  "arastirma_gorevlileri": [
+    {
+      "rol": "arastirma_gorevlisi",
+      "eposta": "hurcan@hacettepe.edu.tr",
+      "oda": "1-408",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/h%C3%BCrcan-kabakc%C4%B1-2/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/h%C3%BCrcan-kabakc%C4%B1-2/",
+      "tr": {
+        "ad": "Dr. Hürcan KABAKCI",
+        "birim": "Yönetim ve Organizasyon ABD"
+      },
+      "en": {
+        "ad": "Dr. Hürcan KABAKCI",
+        "birim": "Dept. of Management and Organization"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94744110/ff391c8f-dcaa-4cbd-bc9c-2bd0662daef6.jpeg",
+      "foto_dosya": "hurcan-kabakci.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/HK.JPG"
+    },
+    {
+      "rol": "arastirma_gorevlisi",
+      "eposta": "cemmenten@hacettepe.edu.tr",
+      "oda": "1-418",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/cem-menten-2/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/cem-menten-2/",
+      "tr": {
+        "ad": "Dr. Cem MENTEN",
+        "birim": "Üretim Yönetimi ABD"
+      },
+      "en": {
+        "ad": "Dr. Cem MENTEN",
+        "birim": "Dept. of Production Management"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94754390/ddba935a-7bc3-4152-9218-f6831d3618ca.jpeg",
+      "foto_dosya": "cem-menten.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/CM.jpg"
+    },
+    {
+      "rol": "arastirma_gorevlisi",
+      "eposta": "nizameddin.alyaprak@hacettepe.edu.tr",
+      "oda": "1-404",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/nizameddin-alyaprak-4/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/nizameddin-alyaprak-4/",
+      "tr": {
+        "ad": "Arş. Gör. Nizameddin ALYAPRAK",
+        "birim": "Sayısal Yöntemler ABD"
+      },
+      "en": {
+        "ad": "Res. Asst. Nizameddin ALYAPRAK",
+        "birim": "Dept. of Quantitative Methods"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94747663/6b42fc5e-74e0-43fe-8c4b-e74d98690924.jpeg",
+      "foto_dosya": "nizameddin-alyaprak.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/1001.jpg"
+    },
+    {
+      "rol": "arastirma_gorevlisi",
+      "eposta": "silacandemir@hacettepe.edu.tr",
+      "oda": "2-318",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/s%C4%B1la-can-demir-3/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/s%C4%B1la-can-demir-3/",
+      "tr": {
+        "ad": "Arş. Gör. Sıla Can DEMİR",
+        "birim": "Örgütsel Davranış ABD"
+      },
+      "en": {
+        "ad": "Res. Asst. Sıla Can DEMİR",
+        "birim": "Dept. of Organizational Behavior"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94741942/6b4b75a5-02cb-4ae1-8070-24de81c5ad1a.jpeg",
+      "foto_dosya": "sila-can-demir.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/SCD.jpg"
+    },
+    {
+      "rol": "arastirma_gorevlisi",
+      "eposta": "sedasarac@hacettepe.edu.tr",
+      "oda": "1-401",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/seda-b%C3%BC%C5%9Fra-sara%C3%A7-2/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/seda-b%C3%BC%C5%9Fra-sara%C3%A7-2/",
+      "tr": {
+        "ad": "Dr. Arş. Gör. Seda Büşra SARAÇ",
+        "birim": "Sayısal Yöntemler ABD"
+      },
+      "en": {
+        "ad": "Dr. Res. Asst. Seda Büşra SARAÇ",
+        "birim": "Dept. of Quantitative Methods"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94751113/2730984e-d320-4a13-b1d8-c975bbbf68bb.jpeg",
+      "foto_dosya": "seda-busra-sarac.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/SBS1.jpg"
+    },
+    {
+      "rol": "arastirma_gorevlisi",
+      "eposta": "saadetsinap@hacettepe.edu.tr",
+      "oda": "2-308",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/saadet-nur-karadenizli-sinap-3/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/saadet-nur-karadenizli-sinap-3/",
+      "tr": {
+        "ad": "Arş. Gör. Saadet Nur Karadenizli SİNAP",
+        "birim": "Yönetim ve Organizasyon ABD"
+      },
+      "en": {
+        "ad": "Res. Asst. Saadet Nur Karadenizli SİNAP",
+        "birim": "Dept. of Management and Organization"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94754003/794ac8f1-1141-430b-bef7-9fdd1d208501.jpeg",
+      "foto_dosya": "saadet-nur-karadenizli-sinap.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/SNKS.jpg"
+    },
+    {
+      "rol": "arastirma_gorevlisi",
+      "eposta": "miracgunes@hacettepe.edu.tr",
+      "oda": "1-404",
+      "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/harun-mirac-g%C3%BCne%C5%9F-2/",
+      "profil_en": "https://research.hacettepe.edu.tr/en/persons/harun-mirac-g%C3%BCne%C5%9F-2/",
+      "tr": {
+        "ad": "Arş. Gör. H. Mirac GÜNEŞ",
+        "birim": "Pazarlama ABD"
+      },
+      "en": {
+        "ad": "Res. Asst. H. Mirac GÜNEŞ",
+        "birim": "Dept. of Marketing"
+      },
+      "foto": "https://research.hacettepe.edu.tr/files-asset/94742984/afc73cb3-1fe4-41a1-a493-d70a4ab9a51a.jpeg",
+      "foto_dosya": "harun-mirac-gunes.jpg",
+      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/HMG.jpg"
+    }
+  ]
+}
