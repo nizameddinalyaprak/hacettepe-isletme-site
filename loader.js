@@ -76,7 +76,7 @@
     //   - Yeni yayin yaptiginda ASAGIDAKI DEGERI ARTIR; herkes yeniyi ceker.
     //
     // Yayin akisi:  dosyalari duzenle -> SITE_VERSION'i guncelle -> commit & push
-    var SITE_VERSION = '2026-08-12b';
+    var SITE_VERSION = '2026-08-12c';
     var cacheBuster = '?v=' + SITE_VERSION;
 
     // --- STIL DOSYALARINI YUKLE ---

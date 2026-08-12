@@ -69,6 +69,100 @@ METIN = {
 }
 
 
+# ============================================================================
+# SIRALAMA
+# ----------------------------------------------------------------------------
+# Sayfada "neden bu sırada?" diye sorulduğunda verilecek cevap burada tanımlı.
+# Önceki sürümde sıra, eski HTML dosyalarındaki diziliş neyse oydu; anabilim
+# dallarının sırası da tesadüfen "alfabetik olarak ilk hocası kim" sorusuna
+# bağlıydı. Artık iki kural açıkça yazılı:
+#
+#   1) Anabilim dalları  : Türkçe alfabeye göre (A B C Ç D E F G Ğ H I İ ...).
+#   2) Kişiler           : önce akademik unvan (aşağıdaki UNVAN_SIRASI),
+#                          aynı unvanda soyadın SON kelimesine göre alfabetik.
+#
+# Çift soyadlılar son kelimeye göre sıralanır: ÖZYİĞİT GÜLTEKİN "G"de,
+# ÖZKAN TEKTAŞ "T"de yer alır. Bu, resmî kadro listelerindeki yerleşik
+# kullanımla uyumludur.
+# ============================================================================
+
+# Türk alfabesi — Python'un varsayılan sıralaması Ç/Ğ/İ/Ö/Ş/Ü'yü yanlış yerleştirir.
+TR_ALFABE = "aâbcçdefgğhıiîjklmnoöpqrsştuüûvwxyz"
+TR_SIRA = {h: i for i, h in enumerate(TR_ALFABE)}
+
+# Sıra ÖNEMLİ: en özgül işaret en üstte olmalı.
+# "Assoc. Prof. Dr." içinde "prof" da geçer; "Res. Asst." içinde "asst" da geçer.
+# Bu yüzden önce "assoc" ve "res"e bakıyoruz, sonra "prof" ve "asst"a.
+UNVAN_KURALLARI = [
+    # Doktoralı araştırma görevlileri, aynı ailedeki diğerlerinden önce gelir.
+    (("dr. arş", "dr. ars", "dr. res"), 3.8),
+    (("arş.", "ars.", "res. asst", "res.asst", "araştırma görevlisi"), 4.0),
+    (("öğr. gör", "ogr. gor", "lecturer"), 3.0),
+    (("dr. öğr", "dr. ogr", "asst. prof", "assist"), 2.0),
+    (("doç", "doc.", "assoc"), 1.0),
+    (("prof",), 0.0),
+]
+UNVANSIZ_DR = 3.5   # sade "Dr." — Öğr. Gör. ile Arş. Gör. arasında
+
+
+def tr_anahtar(s):
+    """Türkçe alfabeye göre sıralama anahtarı."""
+    s = (s or "").casefold()
+    return [TR_SIRA.get(ch, 99) for ch in s]
+
+
+def unvan_puani(ad):
+    d = (ad or "").casefold()
+    for isaretler, puan in UNVAN_KURALLARI:
+        if any(i in d for i in isaretler):
+            return puan
+    if d.startswith("dr.") or d.startswith("dr "):
+        return UNVANSIZ_DR
+    return 9.0
+
+
+# Ünvanı oluşturan kelimeler. "Üyesi" nokta ile bitmediği için ayrıca gerekli;
+# aksi halde "Dr. Öğr. Üyesi Gizem ARI YILMAZ" adı "Üyesi Gizem..." diye başlar.
+UNVAN_KELIMELERI = {
+    "prof", "prof.", "doç", "doç.", "doc", "doc.", "dr", "dr.",
+    "öğr", "öğr.", "ogr", "ogr.", "gör", "gör.", "gor", "gor.",
+    "üyesi", "uyesi", "arş", "arş.", "ars", "ars.",
+    "assoc", "assoc.", "asst", "asst.", "assist", "assist.",
+    "res", "res.", "lecturer", "prof.dr.",
+}
+
+
+def unvan_ayir(ad):
+    """'Dr. Öğr. Üyesi Gizem ARI YILMAZ' -> ('Dr. Öğr. Üyesi', 'Gizem ARI YILMAZ')"""
+    parcalar = (ad or "").split()
+    kesme = 0
+    for i, x in enumerate(parcalar):
+        if x.casefold() in UNVAN_KELIMELERI:
+            kesme = i + 1
+        else:
+            break
+    if kesme >= len(parcalar):      # tamamı ünvan gibi göründüyse dokunma
+        return "", ad
+    return " ".join(parcalar[:kesme]), " ".join(parcalar[kesme:])
+
+
+def soyad_son_kelime(ad):
+    """Ünvanı atıp adın son kelimesini döndürür (soyadın son parçası)."""
+    parcalar = [p for p in (ad or "").split() if p]
+    # Ünvan kısaltmalarını at
+    while parcalar and (parcalar[0].endswith(".") or
+                        parcalar[0].casefold() in
+                        ("üyesi", "uyesi", "gör", "gor", "prof", "dr", "assoc",
+                         "asst", "res", "lecturer", "arş", "ars")):
+        parcalar.pop(0)
+    return parcalar[-1] if parcalar else (ad or "")
+
+
+def kisi_sira_anahtari(p, dil):
+    ad = p[dil]["ad"] or p["tr"]["ad"]
+    return (unvan_puani(ad), tr_anahtar(soyad_son_kelime(ad)))
+
+
 def k(s):
     return html.escape(str(s or ""), quote=True)
 
@@ -178,16 +272,7 @@ def kisi_html(p, dil, t):
     birim = p[dil]["birim"] or p["tr"]["birim"]
     profil = p["profil_en"] if dil == "en" else p["profil_tr"]
 
-    # Ünvanı addan ayır: "Prof. Dr. Ali VELİ" -> ünvan + ad
-    parcalar = ad.split()
-    kesme = 0
-    for i, x in enumerate(parcalar):
-        if x.endswith(".") or x in ("Res", "Asst", "Assoc", "Lecturer", "Prof", "Dr"):
-            kesme = i + 1
-        else:
-            break
-    unvan = " ".join(parcalar[:kesme])
-    sade_ad = " ".join(parcalar[kesme:]) or ad
+    unvan, sade_ad = unvan_ayir(ad)
 
     if p.get("foto"):
         gorsel = (f'<img src="{k(p["foto"] + FOTO_BOYUT)}" alt="{k(ad)}" '
@@ -226,11 +311,15 @@ def sayfa_uret(kisiler, dil, tur):
     baslik = t["uye_baslik"] if tur == "uye" else t["asis_baslik"]
     altbaslik = t["uye_alt"] if tur == "uye" else t["asis_alt"]
 
-    # Anabilim dalına göre grupla, sırayı koru
+    # --- SIRALAMA -----------------------------------------------------------
+    # Anabilim dalları: Türkçe alfabeye göre.
+    # Kişiler: önce akademik unvan, aynı unvanda soyadın SON kelimesine göre.
+    # (Ayrıntılı gerekçe için SIRALAMA bölümüne bak.)
     gruplar = {}
-    for p in kisiler:
+    for p in sorted(kisiler, key=lambda p: kisi_sira_anahtari(p, dil)):
         b = p[dil]["birim"] or p["tr"]["birim"] or "—"
         gruplar.setdefault(b, []).append(p)
+    gruplar = {b: gruplar[b] for b in sorted(gruplar, key=tr_anahtar)}
 
     filtreler = [f'<button class="aktif" data-birim="">{k(t["tumu"])}</button>']
     for b in gruplar:
