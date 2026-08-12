@@ -74,24 +74,6 @@
     },
     {
       "rol": "ogretim_uyesi",
-      "eposta": "ergeneli@hacettepe.edu.tr",
-      "oda": "1-414",
-      "profil_tr": "",
-      "profil_en": "",
-      "tr": {
-        "ad": "Prof. Dr. Azize ERGENELİ",
-        "birim": "Örgütsel Davranış Ana Bilim Dalı"
-      },
-      "en": {
-        "ad": "Prof. Dr. Azize ERGENELİ",
-        "birim": "Department of Organizational Behavior"
-      },
-      "foto": "",
-      "foto_dosya": "",
-      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/AE.jpg"
-    },
-    {
-      "rol": "ogretim_uyesi",
       "eposta": "canand@hacettepe.edu.tr",
       "oda": "1-320",
       "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/canan-eryi%C4%9Fit-11/",
@@ -539,25 +521,6 @@
       "foto": "https://research.hacettepe.edu.tr/files-asset/98765893/7520d86a-7f51-43e7-9524-0ddec6db487e.jpeg",
       "foto_dosya": "serife-guran.jpg",
       "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/SG.jpg"
-    },
-    {
-      "rol": "ogretim_uyesi",
-      "eposta": "mkaya@hacettepe.edu.tr",
-      "oda": "",
-      "profil_tr": "",
-      "profil_en": "",
-      "tr": {
-        "ad": "Lecturer Dr. Mustafa KAYA",
-        "birim": ""
-      },
-      "en": {
-        "ad": "Lecturer Dr. Mustafa KAYA",
-        "birim": "Department of Commercial Law"
-      },
-      "foto": "",
-      "foto_dosya": "",
-      "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/MK.jpg",
-      "not": "SADECE INGILIZCE SAYFADA VAR — turkce sayfada karsiligi yok"
     }
   ],
   "arastirma_gorevlileri": [
