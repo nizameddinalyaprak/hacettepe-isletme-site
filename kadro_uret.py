@@ -77,9 +77,11 @@ METIN = {
 # dallarının sırası da tesadüfen "alfabetik olarak ilk hocası kim" sorusuna
 # bağlıydı. Artık iki kural açıkça yazılı:
 #
-#   1) Anabilim dalları  : Türkçe alfabeye göre (A B C Ç D E F G Ğ H I İ ...).
-#   2) Kişiler           : önce akademik unvan (aşağıdaki UNVAN_SIRASI),
-#                          aynı unvanda soyadın SON kelimesine göre alfabetik.
+#   1) Anabilim dalları  : Türkçe alfabede TERS sırada (Z-A). Bölüm tercihi.
+#   2) Kişiler           : önce akademik unvan (aşağıdaki UNVAN_KURALLARI),
+#                          aynı unvanda soyadın SON kelimesine göre A-Z.
+#
+# Dikkat: yalnızca dal başlıkları Z-A. Dal içindeki kişiler normal A-Z sırada.
 #
 # Çift soyadlılar son kelimeye göre sıralanır: ÖZYİĞİT GÜLTEKİN "G"de,
 # ÖZKAN TEKTAŞ "T"de yer alır. Bu, resmî kadro listelerindeki yerleşik
@@ -319,7 +321,8 @@ def sayfa_uret(kisiler, dil, tur):
     for p in sorted(kisiler, key=lambda p: kisi_sira_anahtari(p, dil)):
         b = p[dil]["birim"] or p["tr"]["birim"] or "—"
         gruplar.setdefault(b, []).append(p)
-    gruplar = {b: gruplar[b] for b in sorted(gruplar, key=tr_anahtar)}
+    # Dallar Z-A (ters alfabetik) — bilinçli tercih, kişiler A-Z kalıyor.
+    gruplar = {b: gruplar[b] for b in sorted(gruplar, key=tr_anahtar, reverse=True)}
 
     filtreler = [f'<button class="aktif" data-birim="">{k(t["tumu"])}</button>']
     for b in gruplar:
