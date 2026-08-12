@@ -8,177 +8,164 @@
     <script src="../loader.js"></script>
 
     <style>
-        /* Page Hero & Titles */
-        .page-hero {
-            background: linear-gradient(135deg, #ac232d 0%, #7e161d 100%);
-            color: white;
-            padding: 80px 20px 100px;
-            text-align: center;
-            clip-path: ellipse(150% 100% at 50% 0%);
-            margin-bottom: 40px;
-            position: relative;
-            overflow: hidden;
-        }
+    :root {
+      --k-kirmizi:#ac232d; --k-kirmizi-koyu:#7e161d;
+      --k-lacivert:#0f172a; --k-metin:#1e293b; --k-soluk:#64748b;
+      --k-kenar:#e2e8f0; --k-zemin:#f8fafc;
+    }
+    .kadro { font-family:'Open Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+      color:var(--k-metin); max-width:1080px; margin:0 auto; padding:0 clamp(14px,3vw,24px) 60px; }
 
-        .page-title {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
+    /* Sitenin yerleşik hero'su — kırmızı gradyan + elips kesim.
+       Diğer sayfalarla uyumlu kalsın diye korunuyor. */
+    .kadro-hero { background:linear-gradient(135deg,#ac232d 0%,#7e161d 100%); color:#fff;
+      padding:clamp(52px,8vw,80px) 20px clamp(66px,10vw,100px); text-align:center;
+      clip-path:ellipse(150% 100% at 50% 0%);
+      margin:0 calc(50% - 50vw) 40px; }
+    .kadro-ust { font-size:12px; letter-spacing:1.6px; text-transform:uppercase;
+      color:rgba(255,255,255,.72); margin:0 0 12px; }
+    .kadro-hero h1 { font-size:clamp(28px,3.4vw,3rem); font-weight:700;
+      line-height:1.15; margin:0 0 10px; color:#fff; }
+    .kadro-hero p { margin:0; color:rgba(255,255,255,.9); font-size:clamp(14px,1.7vw,17px); }
 
-        .page-subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            font-weight: 300;
-            max-width: 700px;
-            margin: 0 auto;
-        }
+    .kadro-arac { display:flex; flex-wrap:wrap; gap:12px; align-items:center;
+      margin:0 0 26px; padding-bottom:18px; border-bottom:1px solid var(--k-kenar); }
+    .kadro-arama { flex:1 1 260px; position:relative; }
+    .kadro-arama input { width:100%; box-sizing:border-box; padding:11px 14px 11px 40px;
+      border:1px solid var(--k-kenar); border-radius:8px; font-size:14.5px; font-family:inherit;
+      color:var(--k-metin); background:#fff; transition:border-color .2s,box-shadow .2s; }
+    .kadro-arama input:focus { outline:none; border-color:var(--k-kirmizi);
+      box-shadow:0 0 0 3px rgba(172,35,45,.10); }
+    .kadro-arama i { position:absolute; left:14px; top:50%; transform:translateY(-50%);
+      color:var(--k-soluk); font-size:14px; pointer-events:none; }
+    .kadro-sayac { font-size:13.5px; color:var(--k-soluk); white-space:nowrap; }
 
-        /* Team Grid */
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin-bottom: 80px;
-            justify-content: center;
-        }
+    .kadro-filtre { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 30px; }
+    .kadro-filtre button { font-family:inherit; font-size:13px; padding:7px 15px; min-height:36px;
+      border:1px solid var(--k-kenar); background:#fff; color:var(--k-soluk);
+      border-radius:20px; cursor:pointer; transition:all .2s; }
+    .kadro-filtre button:hover { border-color:#cbd5e1; color:var(--k-metin); }
+    .kadro-filtre button.aktif { background:var(--k-lacivert); border-color:var(--k-lacivert); color:#fff; }
 
-        .team-card {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            /* Hafif gölge */
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-align: center;
-            border: 1px solid #f1f5f9;
-        }
+    .kadro-bolum { margin:0 0 38px; }
+    .kadro-bolum-baslik { display:flex; align-items:baseline; gap:12px; margin:0 0 16px; }
+    .kadro-bolum-baslik h2 { font-family:Georgia,'Times New Roman',serif; font-weight:400;
+      font-size:19px; color:var(--k-lacivert); margin:0; }
+    .kadro-bolum-cizgi { flex:1; height:1px; background:var(--k-kenar); }
+    .kadro-bolum-adet { font-size:12.5px; color:var(--k-soluk); }
 
-        .team-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(172, 35, 45, 0.15);
-            /* Hacettepe Kırmızı Gölge */
-            border-color: #ac232d;
-        }
+    .kadro-izgara { display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr)); gap:14px; }
 
-        .team-photo-container {
-            width: 100%;
-            height: 350px;
-            /* Sabit yükseklik */
-            overflow: hidden;
-            position: relative;
-        }
+    .kisi { display:flex; gap:16px; padding:16px; background:#fff;
+      border:1px solid var(--k-kenar); border-radius:10px; transition:border-color .2s,box-shadow .2s; }
+    .kisi:hover { border-color:#cbd5e1; box-shadow:0 3px 10px rgba(15,23,42,.06); }
 
-        .team-photo {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: top center;
-            /* Yüzler genelde üstte olur */
-            transition: transform 0.5s ease;
-        }
+    .kisi-foto { width:76px; height:96px; flex:0 0 76px; border-radius:8px; overflow:hidden;
+      background:var(--k-zemin); }
+    .kisi-foto img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
+    .kisi-bas { width:100%; height:100%; display:grid; place-items:center;
+      font-family:Georgia,serif; font-size:24px; color:#94a3b8; background:var(--k-zemin); }
 
-        .team-card:hover .team-photo {
-            transform: scale(1.05);
-        }
+    .kisi-govde { min-width:0; flex:1; display:flex; flex-direction:column; }
+    .kisi-unvan { font-size:11.5px; letter-spacing:.7px; text-transform:uppercase;
+      color:var(--k-kirmizi); margin:0 0 3px; }
+    .kisi-ad { font-family:Georgia,'Times New Roman',serif; font-size:16.5px; font-weight:400;
+      line-height:1.3; margin:0 0 6px; }
+    .kisi-ad a { color:var(--k-lacivert); text-decoration:none; border-bottom:1px solid transparent; }
+    .kisi-ad a:hover { color:var(--k-kirmizi); border-bottom-color:var(--k-kirmizi); }
+    .kisi-birim { font-size:13px; color:var(--k-soluk); margin:0 0 auto; }
+    .kisi-alt { display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:12px;
+      padding-top:10px; border-top:1px solid #f1f5f9; font-size:12.5px; }
+    .kisi-alt a, .kisi-alt span { color:var(--k-soluk); text-decoration:none;
+      display:inline-flex; align-items:center; gap:6px; }
+    .kisi-alt a:hover { color:var(--k-kirmizi); }
+    .kisi-alt i { font-size:12px; opacity:.75; }
 
-        .team-info {
-            padding: 30px;
-        }
+    .kadro-bos { display:none; text-align:center; padding:50px 20px; color:var(--k-soluk); font-size:15px; }
 
-        .team-role {
-            display: inline-block;
-            background: rgba(172, 35, 45, 0.1);
-            color: #ac232d;
-            padding: 6px 12px;
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-        }
+    /* --- Yönetim kartları --- */
+    .kadro-yonetim { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));
+      gap:18px; margin:0 0 20px; }
+    .yon-kart { background:#fff; border:1px solid var(--k-kenar); border-radius:12px;
+      padding:28px 20px; text-align:center; transition:border-color .2s,box-shadow .2s; }
+    .yon-kart:hover { border-color:#cbd5e1; box-shadow:0 6px 18px rgba(15,23,42,.07); }
+    .yon-kart.baskan { border-color:var(--k-kirmizi); }
+    .yon-foto { width:120px; height:150px; margin:0 auto 18px; border-radius:10px;
+      overflow:hidden; background:var(--k-zemin); }
+    .yon-foto img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
+    .yon-rol { display:inline-block; font-size:12px; text-transform:uppercase; letter-spacing:1px;
+      color:var(--k-kirmizi); font-weight:700; background:#fef2f2; padding:4px 12px;
+      border-radius:20px; margin-bottom:10px; }
+    .yon-ad { font-family:Georgia,'Times New Roman',serif; font-weight:400; font-size:17px;
+      line-height:1.35; margin:0 0 6px; }
+    .yon-ad a { color:var(--k-lacivert); text-decoration:none; }
+    .yon-ad a:hover { color:var(--k-kirmizi); }
+    .yon-birim { font-size:13px; color:var(--k-soluk); margin:0; }
 
-        .team-name {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #1e293b;
-            margin-bottom: 5px;
-            font-family: 'Source Sans Pro', system-ui, sans-serif;
-        }
+    /* --- İdari personel kartları --- */
+    .kadro-idari { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr)); gap:18px; }
+    .idari-kart { background:#fff; border:1px solid var(--k-kenar); border-radius:12px;
+      padding:36px 20px; text-align:center; transition:border-color .2s,box-shadow .2s; }
+    .idari-kart:hover { border-color:#cbd5e1; box-shadow:0 6px 18px rgba(15,23,42,.07); }
+    .idari-avatar { width:100px; height:100px; margin:0 auto 18px; border-radius:50%;
+      background:var(--k-zemin); display:grid; place-items:center; font-size:36px; color:#94a3b8; }
+    .idari-rol { display:inline-block; font-size:12px; text-transform:uppercase; letter-spacing:1px;
+      color:var(--k-kirmizi); font-weight:700; background:#fef2f2; padding:4px 12px;
+      border-radius:20px; margin-bottom:10px; }
+    .idari-ad { font-family:Georgia,'Times New Roman',serif; font-weight:400; font-size:17px;
+      color:var(--k-lacivert); margin:0 0 10px; }
+    .idari-iletisim { font-size:13px; color:var(--k-soluk); }
+    .idari-iletisim a { color:var(--k-soluk); text-decoration:none; }
+    .idari-iletisim a:hover { color:var(--k-kirmizi); }
+    .idari-iletisim i { margin-right:6px; opacity:.75; }
 
-        .team-dept {
-            font-size: 1rem;
-            color: #64748b;
-            font-weight: 500;
-        }
-
-        /* Special Styling for Department Chair (Bölüm Başkanı) */
-        .team-card.president {
-            border-top: 5px solid #ac232d;
-        }
-
-        @media (min-width: 992px) {
-            /* Masaüstünde başkanı ortalamak için grid ayarı (Opsiyonel) */
-            /* Eğer 3 kişi varsa zaten yan yana güzel durur */
-        }
+    @media (max-width:600px) {
+      .kisi { padding:14px; gap:13px; }
+      .kisi-foto { width:64px; height:80px; flex-basis:64px; }
+      .kadro-sayac { width:100%; }
+    }
+    @media print {
+      .kadro-arac,.kadro-filtre { display:none; }
+      .kisi { break-inside:avoid; border-color:#bbb; }
+    }
     </style>
 </head>
 
 <body>
 
+  <div class="kadro">
 
-    <div class="page-hero">
-        <h1 class="page-title">Yönetim</h1>
-        <p class="page-subtitle">İşletme Bölümü Yönetim Kadrosu</p>
+    <header class="kadro-hero">
+      <p class="kadro-ust">Hacettepe Üniversitesi İktisadi ve İdari Bilimler Fakültesi</p>
+      <h1>Yönetim</h1>
+      <p>İşletme Bölümü yönetim kadrosu</p>
+    </header>
+
+    <div class="kadro-yonetim">
+      <article class="yon-kart baskan">
+        <div class="yon-foto"><img src="https://research.hacettepe.edu.tr/files-asset/94751800/3e466f76-c7a7-45b8-a139-f7e4ae06fa65.jpeg?w=400&amp;f=webp" alt="Prof. Dr. Pınar BAYHAN KARAPINAR" loading="lazy" width="120" height="150"></div>
+        <!-- eski fotoğraf adresi: https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/PBK.jpg -->
+        <span class="yon-rol">Bölüm Başkanı</span>
+        <h3 class="yon-ad"><a href="https://research.hacettepe.edu.tr/tr/persons/p%C4%B1nar-bayhan-karap%C4%B1nar-3/" target="_blank" rel="noopener">Prof. Dr. Pınar BAYHAN KARAPINAR</a></h3>
+        <p class="yon-birim">Örgütsel Davranış Ana Bilim Dalı</p>
+      </article>
+      <article class="yon-kart">
+        <div class="yon-foto"><img src="https://research.hacettepe.edu.tr/files-asset/94754134/49eec81c-1aa7-4c32-8963-477bd7db9c6c.jpeg?w=400&amp;f=webp" alt="Doç. Dr. Arzu İLSEV" loading="lazy" width="120" height="150"></div>
+        <!-- eski fotoğraf adresi: https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/AI.jpg -->
+        <span class="yon-rol">Bölüm Başkan Yardımcısı</span>
+        <h3 class="yon-ad"><a href="https://research.hacettepe.edu.tr/tr/persons/arzu-ilsev-5/" target="_blank" rel="noopener">Doç. Dr. Arzu İLSEV</a></h3>
+        <p class="yon-birim">Örgütsel Davranış Ana Bilim Dalı</p>
+      </article>
+      <article class="yon-kart">
+        <div class="yon-foto"><img src="https://research.hacettepe.edu.tr/files-asset/94743581/81db176e-577e-4dd1-86d3-a81c32cbdaae.jpeg?w=400&amp;f=webp" alt="Dr. Öğr. Üyesi Gizem ARI YILMAZ" loading="lazy" width="120" height="150"></div>
+        <!-- eski fotoğraf adresi: https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/1004.jpg -->
+        <span class="yon-rol">Bölüm Başkan Yardımcısı</span>
+        <h3 class="yon-ad"><a href="https://research.hacettepe.edu.tr/tr/persons/gizem-ar%C4%B1-y%C4%B1lmaz-2/" target="_blank" rel="noopener">Dr. Öğr. Üyesi Gizem ARI YILMAZ</a></h3>
+        <p class="yon-birim">Muhasebe ve Finans Ana Bilim Dalı</p>
+      </article>
     </div>
 
-
-    <div class="container main-content" style="max-width: 1100px; margin: 0 auto; padding: 0 20px;">
-
-        <div class="team-grid">
-
-
-            <div class="team-card president">
-                <div class="team-photo-container">
-                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/PBK.jpg"
-                        alt="Prof. Dr. Pınar BAYHAN KARAPINAR" class="team-photo">
-                </div>
-                <div class="team-info">
-                    <div class="team-role">Bölüm Başkanı</div>
-                    <h3 class="team-name">Prof. Dr. Pınar BAYHAN KARAPINAR</h3>
-                    <div class="team-dept">Örgütsel Davranış Anabilim Dalı</div>
-                </div>
-            </div>
-
-
-            <div class="team-card">
-                <div class="team-photo-container">
-                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/OgretimUyeleri/AI.jpg"
-                        alt="Doç. Dr. Arzu İLSEV" class="team-photo">
-                </div>
-                <div class="team-info">
-                    <div class="team-role">Bölüm Başkan Yardımcısı</div>
-                    <h3 class="team-name">Doç. Dr. Arzu İLSEV</h3>
-                    <div class="team-dept">Örgütsel Davranış Anabilim Dalı</div>
-                </div>
-            </div>
-
-            <div class="team-card">
-                <div class="team-photo-container">
-                    <img src="https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/1004.jpg"
-                        alt="Öğr. Gör. Dr. Gizem ARI YILMAZ" class="team-photo">
-                </div>
-                <div class="team-info">
-                    <div class="team-role">Bölüm Başkan Yardımcısı</div>
-                    <h3 class="team-name">Dr. Öğr. Üyesi Gizem ARI YILMAZ</h3>
-                    <div class="team-dept">Muhasebe ve Finans Anabilim Dalı</div>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
+  </div>
 
 </body>
 

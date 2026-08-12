@@ -650,5 +650,51 @@
       "foto_dosya": "harun-mirac-gunes.jpg",
       "eski_foto": "https://fs.hacettepe.edu.tr/isletme/dosyalar/Fotograflar/ArastirmaGorevlileri/HMG.jpg"
     }
+  ],
+  "yonetim": [
+    {
+      "eposta": "pbayhan@hacettepe.edu.tr",
+      "rol": {
+        "tr": "Bölüm Başkanı",
+        "en": "Department Chair"
+      },
+      "baskan": true
+    },
+    {
+      "eposta": "ailsev@hacettepe.edu.tr",
+      "rol": {
+        "tr": "Bölüm Başkan Yardımcısı",
+        "en": "Vice Department Chair"
+      }
+    },
+    {
+      "eposta": "gizemari@hacettepe.edu.tr",
+      "rol": {
+        "tr": "Bölüm Başkan Yardımcısı",
+        "en": "Vice Department Chair"
+      }
+    }
+  ],
+  "idari_personel": [
+    {
+      "ad": "Nuray YETİK",
+      "rol": {
+        "tr": "Bölüm Sekreteri",
+        "en": "Department Secretary"
+      },
+      "telefon": "+90 312 297 63 51 - 112",
+      "eposta": "",
+      "ikon": "fa-user-tie"
+    },
+    {
+      "ad": "Mehmet AKGÜN",
+      "rol": {
+        "tr": "Personel",
+        "en": "Staff"
+      },
+      "telefon": "",
+      "eposta": "",
+      "ikon": "fa-user"
+    }
   ]
 }

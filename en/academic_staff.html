@@ -16,16 +16,17 @@
     .kadro { font-family:'Open Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
       color:var(--k-metin); max-width:1080px; margin:0 auto; padding:0 clamp(14px,3vw,24px) 60px; }
 
-    .kadro-hero { background:var(--k-lacivert); color:#fff; margin:0 0 30px;
-      padding:clamp(34px,6vw,56px) clamp(20px,4vw,44px); border-radius:0 0 14px 14px;
-      position:relative; overflow:hidden; }
-    .kadro-hero::after { content:''; position:absolute; left:0; right:0; bottom:0; height:4px;
-      background:linear-gradient(90deg,var(--k-kirmizi) 0%,var(--k-kirmizi) 42%,transparent 42%); }
+    /* Sitenin yerleşik hero'su — kırmızı gradyan + elips kesim.
+       Diğer sayfalarla uyumlu kalsın diye korunuyor. */
+    .kadro-hero { background:linear-gradient(135deg,#ac232d 0%,#7e161d 100%); color:#fff;
+      padding:clamp(52px,8vw,80px) 20px clamp(66px,10vw,100px); text-align:center;
+      clip-path:ellipse(150% 100% at 50% 0%);
+      margin:0 calc(50% - 50vw) 40px; }
     .kadro-ust { font-size:12px; letter-spacing:1.6px; text-transform:uppercase;
-      color:rgba(255,255,255,.62); margin:0 0 10px; }
-    .kadro-hero h1 { font-family:Georgia,'Times New Roman',serif; font-weight:400;
-      font-size:clamp(28px,3.4vw,42px); line-height:1.15; margin:0 0 10px; color:#fff; }
-    .kadro-hero p { margin:0; color:rgba(255,255,255,.78); font-size:clamp(14px,1.6vw,16px); }
+      color:rgba(255,255,255,.72); margin:0 0 12px; }
+    .kadro-hero h1 { font-size:clamp(28px,3.4vw,3rem); font-weight:700;
+      line-height:1.15; margin:0 0 10px; color:#fff; }
+    .kadro-hero p { margin:0; color:rgba(255,255,255,.9); font-size:clamp(14px,1.7vw,17px); }
 
     .kadro-arac { display:flex; flex-wrap:wrap; gap:12px; align-items:center;
       margin:0 0 26px; padding-bottom:18px; border-bottom:1px solid var(--k-kenar); }
@@ -82,9 +83,43 @@
 
     .kadro-bos { display:none; text-align:center; padding:50px 20px; color:var(--k-soluk); font-size:15px; }
 
+    /* --- Yönetim kartları --- */
+    .kadro-yonetim { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));
+      gap:18px; margin:0 0 20px; }
+    .yon-kart { background:#fff; border:1px solid var(--k-kenar); border-radius:12px;
+      padding:28px 20px; text-align:center; transition:border-color .2s,box-shadow .2s; }
+    .yon-kart:hover { border-color:#cbd5e1; box-shadow:0 6px 18px rgba(15,23,42,.07); }
+    .yon-kart.baskan { border-color:var(--k-kirmizi); }
+    .yon-foto { width:120px; height:150px; margin:0 auto 18px; border-radius:10px;
+      overflow:hidden; background:var(--k-zemin); }
+    .yon-foto img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
+    .yon-rol { display:inline-block; font-size:12px; text-transform:uppercase; letter-spacing:1px;
+      color:var(--k-kirmizi); font-weight:700; background:#fef2f2; padding:4px 12px;
+      border-radius:20px; margin-bottom:10px; }
+    .yon-ad { font-family:Georgia,'Times New Roman',serif; font-weight:400; font-size:17px;
+      line-height:1.35; margin:0 0 6px; }
+    .yon-ad a { color:var(--k-lacivert); text-decoration:none; }
+    .yon-ad a:hover { color:var(--k-kirmizi); }
+    .yon-birim { font-size:13px; color:var(--k-soluk); margin:0; }
+
+    /* --- İdari personel kartları --- */
+    .kadro-idari { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr)); gap:18px; }
+    .idari-kart { background:#fff; border:1px solid var(--k-kenar); border-radius:12px;
+      padding:36px 20px; text-align:center; transition:border-color .2s,box-shadow .2s; }
+    .idari-kart:hover { border-color:#cbd5e1; box-shadow:0 6px 18px rgba(15,23,42,.07); }
+    .idari-avatar { width:100px; height:100px; margin:0 auto 18px; border-radius:50%;
+      background:var(--k-zemin); display:grid; place-items:center; font-size:36px; color:#94a3b8; }
+    .idari-rol { display:inline-block; font-size:12px; text-transform:uppercase; letter-spacing:1px;
+      color:var(--k-kirmizi); font-weight:700; background:#fef2f2; padding:4px 12px;
+      border-radius:20px; margin-bottom:10px; }
+    .idari-ad { font-family:Georgia,'Times New Roman',serif; font-weight:400; font-size:17px;
+      color:var(--k-lacivert); margin:0 0 10px; }
+    .idari-iletisim { font-size:13px; color:var(--k-soluk); }
+    .idari-iletisim a { color:var(--k-soluk); text-decoration:none; }
+    .idari-iletisim a:hover { color:var(--k-kirmizi); }
+    .idari-iletisim i { margin-right:6px; opacity:.75; }
+
     @media (max-width:600px) {
-      .kadro-hero { border-radius:0; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw);
-        padding-left:22px; padding-right:22px; }
       .kisi { padding:14px; gap:13px; }
       .kisi-foto { width:64px; height:80px; flex-basis:64px; }
       .kadro-sayac { width:100%; }

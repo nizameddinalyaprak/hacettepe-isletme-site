@@ -42,6 +42,10 @@ METIN = {
         "uye_alt": "İşletme Bölümü akademik kadrosu",
         "asis_baslik": "Araştırma Görevlileri",
         "asis_alt": "İşletme Bölümü araştırma kadrosu",
+        "yon_baslik": "Yönetim",
+        "yon_alt": "İşletme Bölümü yönetim kadrosu",
+        "idari_baslik": "İdari Personel",
+        "idari_alt": "İşletme Bölümü idari kadrosu",
         "ara": "Ada, anabilim dalına veya odaya göre ara",
         "tumu": "Tümü",
         "oda": "Oda",
@@ -57,6 +61,10 @@ METIN = {
         "uye_alt": "Department of Business Administration faculty",
         "asis_baslik": "Research Assistants",
         "asis_alt": "Department of Business Administration research staff",
+        "yon_baslik": "Administration",
+        "yon_alt": "Department of Business Administration management",
+        "idari_baslik": "Administrative Staff",
+        "idari_alt": "Department of Business Administration support staff",
         "ara": "Search by name, division or office",
         "tumu": "All",
         "oda": "Office",
@@ -189,16 +197,17 @@ def stil():
     .kadro { font-family:'Open Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
       color:var(--k-metin); max-width:1080px; margin:0 auto; padding:0 clamp(14px,3vw,24px) 60px; }
 
-    .kadro-hero { background:var(--k-lacivert); color:#fff; margin:0 0 30px;
-      padding:clamp(34px,6vw,56px) clamp(20px,4vw,44px); border-radius:0 0 14px 14px;
-      position:relative; overflow:hidden; }
-    .kadro-hero::after { content:''; position:absolute; left:0; right:0; bottom:0; height:4px;
-      background:linear-gradient(90deg,var(--k-kirmizi) 0%,var(--k-kirmizi) 42%,transparent 42%); }
+    /* Sitenin yerleşik hero'su — kırmızı gradyan + elips kesim.
+       Diğer sayfalarla uyumlu kalsın diye korunuyor. */
+    .kadro-hero { background:linear-gradient(135deg,#ac232d 0%,#7e161d 100%); color:#fff;
+      padding:clamp(52px,8vw,80px) 20px clamp(66px,10vw,100px); text-align:center;
+      clip-path:ellipse(150% 100% at 50% 0%);
+      margin:0 calc(50% - 50vw) 40px; }
     .kadro-ust { font-size:12px; letter-spacing:1.6px; text-transform:uppercase;
-      color:rgba(255,255,255,.62); margin:0 0 10px; }
-    .kadro-hero h1 { font-family:Georgia,'Times New Roman',serif; font-weight:400;
-      font-size:clamp(28px,3.4vw,42px); line-height:1.15; margin:0 0 10px; color:#fff; }
-    .kadro-hero p { margin:0; color:rgba(255,255,255,.78); font-size:clamp(14px,1.6vw,16px); }
+      color:rgba(255,255,255,.72); margin:0 0 12px; }
+    .kadro-hero h1 { font-size:clamp(28px,3.4vw,3rem); font-weight:700;
+      line-height:1.15; margin:0 0 10px; color:#fff; }
+    .kadro-hero p { margin:0; color:rgba(255,255,255,.9); font-size:clamp(14px,1.7vw,17px); }
 
     .kadro-arac { display:flex; flex-wrap:wrap; gap:12px; align-items:center;
       margin:0 0 26px; padding-bottom:18px; border-bottom:1px solid var(--k-kenar); }
@@ -255,9 +264,43 @@ def stil():
 
     .kadro-bos { display:none; text-align:center; padding:50px 20px; color:var(--k-soluk); font-size:15px; }
 
+    /* --- Yönetim kartları --- */
+    .kadro-yonetim { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));
+      gap:18px; margin:0 0 20px; }
+    .yon-kart { background:#fff; border:1px solid var(--k-kenar); border-radius:12px;
+      padding:28px 20px; text-align:center; transition:border-color .2s,box-shadow .2s; }
+    .yon-kart:hover { border-color:#cbd5e1; box-shadow:0 6px 18px rgba(15,23,42,.07); }
+    .yon-kart.baskan { border-color:var(--k-kirmizi); }
+    .yon-foto { width:120px; height:150px; margin:0 auto 18px; border-radius:10px;
+      overflow:hidden; background:var(--k-zemin); }
+    .yon-foto img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
+    .yon-rol { display:inline-block; font-size:12px; text-transform:uppercase; letter-spacing:1px;
+      color:var(--k-kirmizi); font-weight:700; background:#fef2f2; padding:4px 12px;
+      border-radius:20px; margin-bottom:10px; }
+    .yon-ad { font-family:Georgia,'Times New Roman',serif; font-weight:400; font-size:17px;
+      line-height:1.35; margin:0 0 6px; }
+    .yon-ad a { color:var(--k-lacivert); text-decoration:none; }
+    .yon-ad a:hover { color:var(--k-kirmizi); }
+    .yon-birim { font-size:13px; color:var(--k-soluk); margin:0; }
+
+    /* --- İdari personel kartları --- */
+    .kadro-idari { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr)); gap:18px; }
+    .idari-kart { background:#fff; border:1px solid var(--k-kenar); border-radius:12px;
+      padding:36px 20px; text-align:center; transition:border-color .2s,box-shadow .2s; }
+    .idari-kart:hover { border-color:#cbd5e1; box-shadow:0 6px 18px rgba(15,23,42,.07); }
+    .idari-avatar { width:100px; height:100px; margin:0 auto 18px; border-radius:50%;
+      background:var(--k-zemin); display:grid; place-items:center; font-size:36px; color:#94a3b8; }
+    .idari-rol { display:inline-block; font-size:12px; text-transform:uppercase; letter-spacing:1px;
+      color:var(--k-kirmizi); font-weight:700; background:#fef2f2; padding:4px 12px;
+      border-radius:20px; margin-bottom:10px; }
+    .idari-ad { font-family:Georgia,'Times New Roman',serif; font-weight:400; font-size:17px;
+      color:var(--k-lacivert); margin:0 0 10px; }
+    .idari-iletisim { font-size:13px; color:var(--k-soluk); }
+    .idari-iletisim a { color:var(--k-soluk); text-decoration:none; }
+    .idari-iletisim a:hover { color:var(--k-kirmizi); }
+    .idari-iletisim i { margin-right:6px; opacity:.75; }
+
     @media (max-width:600px) {
-      .kadro-hero { border-radius:0; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw);
-        padding-left:22px; padding-right:22px; }
       .kisi { padding:14px; gap:13px; }
       .kisi-foto { width:64px; height:80px; flex-basis:64px; }
       .kadro-sayac { width:100%; }
@@ -340,29 +383,7 @@ def sayfa_uret(kisiler, dil, tur):
       </div>
     </section>""")
 
-    return f"""<!DOCTYPE html>
-<html lang="{t['lang']}">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hacettepe İşletme - {k(baslik)}</title>
-    <script src="../loader.js"></script>
-
-    <style>{stil()}</style>
-</head>
-
-<body>
-
-  <div class="kadro">
-
-    <header class="kadro-hero">
-      <p class="kadro-ust">{k(t['sayfa_basi'])}</p>
-      <h1>{k(baslik)}</h1>
-      <p>{k(altbaslik)}</p>
-    </header>
-
-    <div class="kadro-arac">
+    govde = f"""    <div class="kadro-arac">
       <div class="kadro-arama">
         <i class="fas fa-search" aria-hidden="true"></i>
         <input type="search" id="kadro-ara" placeholder="{k(t['ara'])}" aria-label="{k(t['ara'])}">
@@ -376,11 +397,9 @@ def sayfa_uret(kisiler, dil, tur):
 
 {chr(10).join(bolumler)}
 
-    <p class="kadro-bos" id="kadro-bos">{k(t['sonuc_yok'])}</p>
+    <p class="kadro-bos" id="kadro-bos">{k(t['sonuc_yok'])}</p>"""
 
-  </div>
-
-<script>
+    betik = """
 (function () {{
   var kok = document.querySelector('.kadro');
   if (!kok) return;
@@ -428,12 +447,104 @@ def sayfa_uret(kisiler, dil, tur):
     }});
   }});
 }})();
-</script>
+""".replace("{{", "{").replace("}}", "}")
 
+    return iskelet(baslik, altbaslik, govde, dil, betik)
+
+
+def iskelet(baslik, altbaslik, govde, dil, betik=""):
+    """Tüm kadro sayfalarının ortak kabuğu: hero + gövde (+ betik)."""
+    t = METIN[dil]
+    betik_html = f"\n<script>{betik}</script>\n" if betik else ""
+    return f"""<!DOCTYPE html>
+<html lang="{t['lang']}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacettepe İşletme - {k(baslik)}</title>
+    <script src="../loader.js"></script>
+
+    <style>{stil()}</style>
+</head>
+
+<body>
+
+  <div class="kadro">
+
+    <header class="kadro-hero">
+      <p class="kadro-ust">{k(t['sayfa_basi'])}</p>
+      <h1>{k(baslik)}</h1>
+      <p>{k(altbaslik)}</p>
+    </header>
+
+{govde}
+
+  </div>
+{betik_html}
 </body>
 
 </html>
 """
+
+
+def yonetim_uret(yonetim, kisi_dizini, dil):
+    """Yönetim sayfası — başkan ve yardımcıları, fotoğraflı kartlar."""
+    t = METIN[dil]
+    kartlar = []
+    for y in yonetim:
+        p = kisi_dizini.get(y["eposta"], {})
+        ad = p.get(dil, {}).get("ad") or p.get("tr", {}).get("ad", "")
+        birim = p.get(dil, {}).get("birim") or p.get("tr", {}).get("birim", "")
+        profil = p.get("profil_en" if dil == "en" else "profil_tr", "")
+        unvan, sade_ad = unvan_ayir(ad)
+        tam = f"{unvan} {sade_ad}".strip()
+
+        if p.get("foto"):
+            gorsel = (f'<img src="{k(p["foto"] + FOTO_BOYUT)}" alt="{k(tam)}" '
+                      f'loading="lazy" width="120" height="150">')
+        else:
+            gorsel = f'<div class="kisi-bas" aria-hidden="true">{k(bas_harfler(sade_ad))}</div>'
+
+        eski = f"\n        <!-- eski fotoğraf adresi: {p['eski_foto']} -->" if p.get("eski_foto") else ""
+        ad_html = (f'<a href="{k(profil)}" target="_blank" rel="noopener">{k(tam)}</a>'
+                   if profil else k(tam))
+
+        kartlar.append(f"""      <article class="yon-kart{' baskan' if y.get('baskan') else ''}">
+        <div class="yon-foto">{gorsel}</div>{eski}
+        <span class="yon-rol">{k(y['rol'][dil])}</span>
+        <h3 class="yon-ad">{ad_html}</h3>
+        <p class="yon-birim">{k(birim)}</p>
+      </article>""")
+
+    govde = '    <div class="kadro-yonetim">\n' + "\n".join(kartlar) + "\n    </div>"
+    return iskelet(t["yon_baslik"], t["yon_alt"], govde, dil)
+
+
+def idari_uret(idari, dil):
+    """İdari personel sayfası — fotoğraf yok, avatar ikonu kullanılır."""
+    t = METIN[dil]
+    kartlar = []
+    for kisi in idari:
+        iletisim = []
+        if kisi.get("telefon"):
+            tel = kisi["telefon"]
+            sade = "".join(ch for ch in tel if ch.isdigit() or ch == "+")
+            iletisim.append(f'<a href="tel:{k(sade)}"><i class="fas fa-phone-alt"></i>{k(tel)}</a>')
+        if kisi.get("eposta"):
+            iletisim.append(f'<a href="mailto:{k(kisi["eposta"])}">'
+                            f'<i class="fas fa-envelope"></i>{k(kisi["eposta"])}</a>')
+        iletisim_html = "<br>".join(iletisim) or "&nbsp;"
+
+        kartlar.append(f"""      <article class="idari-kart">
+        <div class="idari-avatar"><i class="fas {k(kisi.get('ikon', 'fa-user'))}"></i></div>
+        <span class="idari-rol">{k(kisi['rol'][dil])}</span>
+        <h3 class="idari-ad">{k(kisi['ad'])}</h3>
+        <div class="idari-iletisim">{iletisim_html}</div>
+      </article>""")
+
+    govde = '    <div class="kadro-idari">\n' + "\n".join(kartlar) + "\n    </div>"
+    return iskelet(t["idari_baslik"], t["idari_alt"], govde, dil)
 
 
 def main():
@@ -446,20 +557,31 @@ def main():
         kadro = json.load(f)
 
     uyari = 0
-    for grup, liste in kadro.items():
-        for p in liste:
+    # Denetim yalnızca akademik kayıtlar için; yönetim ve idari personel
+    # farklı biçimde (fotoğrafsız / referanslı) tutuluyor.
+    for grup in ("ogretim_uyeleri", "arastirma_gorevlileri"):
+        for p in kadro.get(grup, []):
+            ad = p["tr"]["ad"]
             if not p.get("foto"):
-                print(f"  ! fotoğrafsız: {p['tr']['ad']}", file=sys.stderr)
+                print(f"  ! fotoğrafsız: {ad}", file=sys.stderr)
                 uyari += 1
             if p.get("not"):
-                print(f"  ! {p['tr']['ad']}: {p['not']}", file=sys.stderr)
+                print(f"  ! {ad}: {p['not']}", file=sys.stderr)
                 uyari += 1
             if not p.get("eposta"):
-                print(f"  ! e-postasız: {p['tr']['ad']}", file=sys.stderr)
+                print(f"  ! e-postasız: {ad}", file=sys.stderr)
                 uyari += 1
     if args.kontrol:
         print(f"\n{uyari} uyarı. Üretim yapılmadı (--kontrol).")
         return
+
+    # Yönetim sayfası akademik kadrodan besleniyor (fotoğraf, birim, profil linki)
+    dizin = {p["eposta"]: p for grup in ("ogretim_uyeleri", "arastirma_gorevlileri")
+             for p in kadro.get(grup, []) if p.get("eposta")}
+    for y in kadro.get("yonetim", []):
+        if y["eposta"] not in dizin:
+            print(f"  ! yönetim kaydı akademik kadroda bulunamadı: {y['eposta']}", file=sys.stderr)
+            uyari += 1
 
     hedefler = [
         ("tr/academic_staff.html", kadro["ogretim_uyeleri"], "tr", "uye"),
@@ -472,10 +594,22 @@ def main():
         # Türkçe sayfada 'sadece en' notu olanları atla.
         secilen = [p for p in liste if not (dil == "tr" and p.get("not"))]
         icerik = sayfa_uret(secilen, dil, tur)
-        tam = os.path.join(kok, yol)
-        with open(tam, "w", encoding="utf-8") as f:
+        with open(os.path.join(kok, yol), "w", encoding="utf-8") as f:
             f.write(icerik)
         print(f"{yol}  ->  {len(secilen)} kişi, {len(icerik)} karakter")
+
+    for dil in ("tr", "en"):
+        icerik = yonetim_uret(kadro.get("yonetim", []), dizin, dil)
+        yol = f"{dil}/management.html"
+        with open(os.path.join(kok, yol), "w", encoding="utf-8") as f:
+            f.write(icerik)
+        print(f"{yol}  ->  {len(kadro.get('yonetim', []))} kişi, {len(icerik)} karakter")
+
+        icerik = idari_uret(kadro.get("idari_personel", []), dil)
+        yol = f"{dil}/administrative_staff.html"
+        with open(os.path.join(kok, yol), "w", encoding="utf-8") as f:
+            f.write(icerik)
+        print(f"{yol}  ->  {len(kadro.get('idari_personel', []))} kişi, {len(icerik)} karakter")
 
     print(f"\n{uyari} uyarı var (yukarıda).")
 
