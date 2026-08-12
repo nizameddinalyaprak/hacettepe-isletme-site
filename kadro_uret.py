@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 """
-kadro_uret.py — kadro.json'dan öğretim üyeleri ve araştırma görevlileri
-sayfalarını üretir (tr + en, toplam 4 dosya).
+kadro_uret.py — kadro.json'dan kadro sayfalarını üretir (tr + en, 8 dosya):
+
+    academic_staff.html        öğretim üyeleri      (arama + anabilim dalı filtresi)
+    research_assistants.html   araştırma görevlileri (arama + filtre)
+    management.html            yönetim               (akademik kadrodan beslenir)
+    administrative_staff.html  idari personel        (fotoğrafsız, avatar ikonu)
 
 NEDEN VAR?
 ----------
 Kadro sayfaları elle düzenleniyordu: bir hoca eklendiğinde/çıktığında ya da
-oda numarası değiştiğinde dört ayrı HTML dosyasında aynı düzeltmeyi yapmak
+oda numarası değiştiğinde sekiz ayrı HTML dosyasında aynı düzeltmeyi yapmak
 gerekiyordu. Türkçe ve İngilizce sayfaların birbirinden ayrışması da bu yüzden
 oldu (İngilizce sayfada Türkçede olmayan bir kayıt kalmış).
 
@@ -14,7 +18,7 @@ Artık tek kaynak kadro.json. Bir kişiyi güncelle, scripti çalıştır.
 
 KULLANIM
 --------
-    python3 kadro_uret.py            # dört sayfayı da üretir
+    python3 kadro_uret.py            # sekiz sayfayı da üretir
     python3 kadro_uret.py --kontrol  # üretmeden veriyi denetler
 
 FOTOĞRAFLAR
@@ -39,13 +43,9 @@ METIN = {
     "tr": {
         "lang": "tr",
         "uye_baslik": "Öğretim Üyeleri",
-        "uye_alt": "İşletme Bölümü akademik kadrosu",
         "asis_baslik": "Araştırma Görevlileri",
-        "asis_alt": "İşletme Bölümü araştırma kadrosu",
         "yon_baslik": "Yönetim",
-        "yon_alt": "İşletme Bölümü yönetim kadrosu",
         "idari_baslik": "İdari Personel",
-        "idari_alt": "İşletme Bölümü idari kadrosu",
         "ara": "Ada, anabilim dalına veya odaya göre ara",
         "tumu": "Tümü",
         "oda": "Oda",
@@ -53,18 +53,13 @@ METIN = {
         "eposta": "E-posta",
         "sonuc_yok": "Aramanızla eşleşen kayıt bulunamadı.",
         "kisi": "kişi",
-        "sayfa_basi": "Hacettepe Üniversitesi İktisadi ve İdari Bilimler Fakültesi",
     },
     "en": {
         "lang": "en",
         "uye_baslik": "Academic Staff",
-        "uye_alt": "Department of Business Administration faculty",
         "asis_baslik": "Research Assistants",
-        "asis_alt": "Department of Business Administration research staff",
         "yon_baslik": "Administration",
-        "yon_alt": "Department of Business Administration management",
         "idari_baslik": "Administrative Staff",
-        "idari_alt": "Department of Business Administration support staff",
         "ara": "Search by name, division or office",
         "tumu": "All",
         "oda": "Office",
@@ -72,7 +67,6 @@ METIN = {
         "eposta": "E-mail",
         "sonuc_yok": "No records match your search.",
         "kisi": "people",
-        "sayfa_basi": "Hacettepe University Faculty of Economics and Administrative Sciences",
     },
 }
 
@@ -203,11 +197,8 @@ def stil():
       padding:clamp(52px,8vw,80px) 20px clamp(66px,10vw,100px); text-align:center;
       clip-path:ellipse(150% 100% at 50% 0%);
       margin:0 calc(50% - 50vw) 40px; }
-    .kadro-ust { font-size:12px; letter-spacing:1.6px; text-transform:uppercase;
-      color:rgba(255,255,255,.72); margin:0 0 12px; }
     .kadro-hero h1 { font-size:clamp(28px,3.4vw,3rem); font-weight:700;
-      line-height:1.15; margin:0 0 10px; color:#fff; }
-    .kadro-hero p { margin:0; color:rgba(255,255,255,.9); font-size:clamp(14px,1.7vw,17px); }
+      line-height:1.15; margin:0; color:#fff; }
 
     .kadro-arac { display:flex; flex-wrap:wrap; gap:12px; align-items:center;
       margin:0 0 26px; padding-bottom:18px; border-bottom:1px solid var(--k-kenar); }
@@ -354,7 +345,6 @@ def kisi_html(p, dil, t):
 def sayfa_uret(kisiler, dil, tur):
     t = METIN[dil]
     baslik = t["uye_baslik"] if tur == "uye" else t["asis_baslik"]
-    altbaslik = t["uye_alt"] if tur == "uye" else t["asis_alt"]
 
     # --- SIRALAMA -----------------------------------------------------------
     # Anabilim dalları: Türkçe alfabeye göre.
@@ -449,11 +439,17 @@ def sayfa_uret(kisiler, dil, tur):
 }})();
 """.replace("{{", "{").replace("}}", "}")
 
-    return iskelet(baslik, altbaslik, govde, dil, betik)
+    return iskelet(baslik, govde, dil, betik)
 
 
-def iskelet(baslik, altbaslik, govde, dil, betik=""):
-    """Tüm kadro sayfalarının ortak kabuğu: hero + gövde (+ betik)."""
+def iskelet(baslik, govde, dil, betik=""):
+    """Tüm kadro sayfalarının ortak kabuğu: hero + gövde (+ betik).
+
+    Hero'da yalnızca sayfa başlığı var. "Hacettepe Üniversitesi İktisadi ve
+    İdari Bilimler Fakültesi" ve "İşletme Bölümü akademik kadrosu" gibi
+    açıklamalar kaldırıldı: zaten İşletme Bölümü sitesindeyiz, "Öğretim
+    Üyeleri" başlığı tek başına yeterli.
+    """
     t = METIN[dil]
     betik_html = f"\n<script>{betik}</script>\n" if betik else ""
     return f"""<!DOCTYPE html>
@@ -473,9 +469,7 @@ def iskelet(baslik, altbaslik, govde, dil, betik=""):
   <div class="kadro">
 
     <header class="kadro-hero">
-      <p class="kadro-ust">{k(t['sayfa_basi'])}</p>
       <h1>{k(baslik)}</h1>
-      <p>{k(altbaslik)}</p>
     </header>
 
 {govde}
@@ -518,7 +512,7 @@ def yonetim_uret(yonetim, kisi_dizini, dil):
       </article>""")
 
     govde = '    <div class="kadro-yonetim">\n' + "\n".join(kartlar) + "\n    </div>"
-    return iskelet(t["yon_baslik"], t["yon_alt"], govde, dil)
+    return iskelet(t["yon_baslik"], govde, dil)
 
 
 def idari_uret(idari, dil):
@@ -544,7 +538,7 @@ def idari_uret(idari, dil):
       </article>""")
 
     govde = '    <div class="kadro-idari">\n' + "\n".join(kartlar) + "\n    </div>"
-    return iskelet(t["idari_baslik"], t["idari_alt"], govde, dil)
+    return iskelet(t["idari_baslik"], govde, dil)
 
 
 def main():
