@@ -38,6 +38,7 @@
     },
     {
       "rol": "ogretim_uyesi",
+      "abd_baskani": true,
       "eposta": "selinm@hacettepe.edu.tr",
       "oda": "1-323",
       "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/selin-metin-camg%C3%B6z-10/",
@@ -110,6 +111,7 @@
     },
     {
       "rol": "ogretim_uyesi",
+      "abd_baskani": true,
       "eposta": "semguney@hacettepe.edu.tr",
       "oda": "1-414",
       "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/semra-g%C3%BCney-11/",
@@ -128,6 +130,7 @@
     },
     {
       "rol": "ogretim_uyesi",
+      "abd_baskani": true,
       "eposta": "semra@hacettepe.edu.tr",
       "oda": "1-306",
       "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/semra-karacaer-11/",
@@ -182,6 +185,7 @@
     },
     {
       "rol": "ogretim_uyesi",
+      "abd_baskani": true,
       "eposta": "mergun@hacettepe.edu.tr",
       "oda": "1-317",
       "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/mine-%C3%B6m%C3%BCrg%C3%B6n%C3%BCl%C5%9Fen-11/",
@@ -200,6 +204,7 @@
     },
     {
       "rol": "ogretim_uyesi",
+      "abd_baskani": true,
       "eposta": "leyla@hacettepe.edu.tr",
       "oda": "1-313",
       "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/leyla-%C3%B6zer-11/",
@@ -272,6 +277,7 @@
     },
     {
       "rol": "ogretim_uyesi",
+      "abd_baskani": true,
       "eposta": "aulucan@hacettepe.edu.tr",
       "oda": "1-319",
       "profil_tr": "https://research.hacettepe.edu.tr/tr/persons/ayd%C4%B1n-ulucan-3/",

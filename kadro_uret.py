@@ -164,7 +164,8 @@ def soyad_son_kelime(ad):
 
 def kisi_sira_anahtari(p, dil):
     ad = p[dil]["ad"] or p["tr"]["ad"]
-    return (unvan_puani(ad), tr_anahtar(soyad_son_kelime(ad)))
+    baskan_oncelik = 0 if p.get("abd_baskani") else 1
+    return (baskan_oncelik, unvan_puani(ad), tr_anahtar(soyad_son_kelime(ad)))
 
 
 def k(s):
@@ -241,6 +242,9 @@ def stil():
     .kisi-govde { min-width:0; flex:1; display:flex; flex-direction:column; }
     .kisi-unvan { font-size:11.5px; letter-spacing:.7px; text-transform:uppercase;
       color:var(--k-kirmizi); margin:0 0 3px; }
+    .kisi-gorev { font-size:11px; font-weight:700; color:var(--k-kirmizi); background:#fef2f2;
+      padding:2px 8px; border-radius:12px; margin-left:4px; vertical-align:middle;
+      display:inline-block; letter-spacing:0; text-transform:none; }
     .kisi-ad { font-family:Georgia,'Times New Roman',serif; font-size:16.5px; font-weight:400;
       line-height:1.3; margin:0 0 6px; }
     .kisi-ad a { color:var(--k-lacivert); text-decoration:none; border-bottom:1px solid transparent; }
@@ -310,6 +314,16 @@ def kisi_html(p, dil, t):
 
     unvan, sade_ad = unvan_ayir(ad)
 
+    baskan_ifade = ""
+    baskan_arama = ""
+    if p.get("abd_baskani"):
+        if dil == "en":
+            baskan_ifade = ' <span class="kisi-gorev">(Head of Department)</span>'
+            baskan_arama = " head of department baskan anabilim dali baskani"
+        else:
+            baskan_ifade = ' <span class="kisi-gorev">(Anabilim Dalı Başkanı)</span>'
+            baskan_arama = " anabilim dali baskani baskan head of department"
+
     if p.get("foto"):
         gorsel = (f'<img src="{k(p["foto"] + FOTO_BOYUT)}" alt="{k(ad)}" '
                   f'loading="lazy" width="76" height="96">')
@@ -329,12 +343,12 @@ def kisi_html(p, dil, t):
     if p.get("eposta"):
         alt.append(f'<a href="mailto:{k(p["eposta"])}"><i class="fas fa-envelope"></i>{k(p["eposta"])}</a>')
 
-    arama = " ".join([ad, birim, p.get("oda", ""), p.get("eposta", "")]).lower()
+    arama = " ".join([ad, birim, p.get("oda", ""), p.get("eposta", ""), baskan_arama]).lower()
 
     return f"""      <article class="kisi" data-birim="{k(birim)}" data-ara="{k(arama)}">
         <div class="kisi-foto">{gorsel}</div>{eski}
         <div class="kisi-govde">
-          {'<p class="kisi-unvan">' + k(unvan) + '</p>' if unvan else ''}
+          {'<p class="kisi-unvan">' + k(unvan) + baskan_ifade + '</p>' if (unvan or baskan_ifade) else ''}
           <h3 class="kisi-ad">{ad_html}</h3>
           <p class="kisi-birim">{k(birim)}</p>
           <div class="kisi-alt">{''.join(alt)}</div>
