@@ -535,8 +535,11 @@ def idari_uret(idari, dil):
     kartlar = []
     for kisi in idari:
         iletisim = []
-        if kisi.get("telefon"):
-            tel = kisi["telefon"]
+        # "telefon" tek numara ya da numara listesi olabilir; her biri ayrı satırda gösterilir.
+        telefonlar = kisi.get("telefon") or []
+        if isinstance(telefonlar, str):
+            telefonlar = [telefonlar]
+        for tel in telefonlar:
             sade = "".join(ch for ch in tel if ch.isdigit() or ch == "+")
             iletisim.append(f'<a href="tel:{k(sade)}"><i class="fas fa-phone-alt"></i>{k(tel)}</a>')
         if kisi.get("eposta"):

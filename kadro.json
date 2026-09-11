@@ -688,7 +688,10 @@
         "tr": "Bölüm Sekreteri",
         "en": "Department Secretary"
       },
-      "telefon": "+90 312 297 63 51 - 112",
+      "telefon": [
+        "+90 312 311 60 15",
+        "+90 312 297 69 83 - 136"
+      ],
       "eposta": "",
       "ikon": "fa-user-tie"
     },
