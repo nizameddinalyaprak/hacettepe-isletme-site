@@ -1844,8 +1844,8 @@
                     Cankaya / ANKARA, TURKEY
                 </div>
                 <div class="hi-footer-contact">
-                    <a href="tel:+903123116015"><i class="fas fa-phone"></i> +90 (312) 311 60 15 - 136</a>
-                    <a href="tel:+903122976983"><i class="fas fa-phone"></i> +90 (312) 297 69 83 - 136</a>
+                    <a href="tel:+903123116015,136"><i class="fas fa-phone"></i> +90 (312) 311 60 15 - 136</a>
+                    <a href="tel:+903122976983,136"><i class="fas fa-phone"></i> +90 (312) 297 69 83 - 136</a>
                 </div>
             </div>
             <div class="hi-footer-col">
@@ -1899,8 +1899,8 @@
                     Çankaya / ANKARA
                 </div>
                 <div class="hi-footer-contact">
-                    <a href="tel:+903123116015"><i class="fas fa-phone"></i> +90 (312) 311 60 15 - 136</a>
-                    <a href="tel:+903122976983"><i class="fas fa-phone"></i> +90 (312) 297 69 83 - 136</a>
+                    <a href="tel:+903123116015,136"><i class="fas fa-phone"></i> +90 (312) 311 60 15 - 136</a>
+                    <a href="tel:+903122976983,136"><i class="fas fa-phone"></i> +90 (312) 297 69 83 - 136</a>
                 </div>
             </div>
             <div class="hi-footer-col">

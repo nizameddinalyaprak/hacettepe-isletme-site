@@ -540,7 +540,12 @@ def idari_uret(idari, dil):
         if isinstance(telefonlar, str):
             telefonlar = [telefonlar]
         for tel in telefonlar:
-            sade = "".join(ch for ch in tel if ch.isdigit() or ch == "+")
+            # "+90 312 297 69 83 - 136" -> tel:+903122976983,136 (virgül = çevirmede bekleme)
+            ana, _, dahili = tel.partition("-")
+            sade = "".join(ch for ch in ana if ch.isdigit() or ch == "+")
+            dahili = "".join(ch for ch in dahili if ch.isdigit())
+            if dahili:
+                sade += "," + dahili
             iletisim.append(f'<a href="tel:{k(sade)}"><i class="fas fa-phone-alt"></i>{k(tel)}</a>')
         if kisi.get("eposta"):
             iletisim.append(f'<a href="mailto:{k(kisi["eposta"])}">'
