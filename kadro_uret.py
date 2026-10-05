@@ -540,7 +540,7 @@ def idari_uret(idari, dil):
         if isinstance(telefonlar, str):
             telefonlar = [telefonlar]
         for tel in telefonlar:
-            # "+90 312 297 69 83 - 136" -> tel:+903122976983,136 (virgül = çevirmede bekleme)
+            # "+90 312 297 63 51 - 112" -> tel:+903122976351,112 (virgül = çevirmede bekleme)
             ana, _, dahili = tel.partition("-")
             sade = "".join(ch for ch in ana if ch.isdigit() or ch == "+")
             dahili = "".join(ch for ch in dahili if ch.isdigit())
